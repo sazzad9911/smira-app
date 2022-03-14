@@ -20,6 +20,7 @@ const Language = () => {
                 title='Marathi'
             />
         </View>
+        
     );
 };
 
