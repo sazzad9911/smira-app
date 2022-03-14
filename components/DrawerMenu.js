@@ -45,7 +45,7 @@ const DrawerMenu = ({ navigation }) => {
                     <Ionicons style={[styles.tabIco]} name='briefcase-outline' size={22} />
                     <Text style={[styles.navTabText]}>Business with us</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Home')}>
+                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Settings')}>
                     <Ionicons style={[styles.tabIco]} name='settings-outline' size={22} />
                     <Text style={[styles.navTabText]}>Setting</Text>
                 </TouchableOpacity>

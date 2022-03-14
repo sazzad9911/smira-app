@@ -14,6 +14,8 @@ import MemberShipOnboarding from "../screens/MembershipOnboarding";
 import Search from "../screens/Search";
 import Home from "../screens/Home";
 import Coupons from "../screens/Coupons";
+import Settings from "../screens/Settings"
+import SettingsHeader from '../components/SettingsHeader'
 
 // const Drawer =
 //     createAppContainer(
@@ -98,6 +100,7 @@ export default function DrawerApp() {
         <Drawer.Screen options={{headerShown:false}} name="RoomDetail" component={RoomDetail} />
         <Drawer.Screen options={{headerShown:false}} name="WishList" component={WishList} />
         <Drawer.Screen options={{headerShown:false}} name="Rooms" component={Rooms} />
+        <Drawer.Screen options={{header:()=><SettingsHeader/>}} name="Settings" component={Settings}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
