@@ -1,33 +1,24 @@
 import React from 'react';
-<<<<<<< Updated upstream
-import { View, StyleSheet, 
-    Dimensions, ScrollView,Text,TouchableOpacity, Platform } from 'react-native';
-=======
 import {
     View, StyleSheet,
     Dimensions, ScrollView, Text,
     TouchableOpacity, TextInput
 } from 'react-native';
->>>>>>> Stashed changes
 import { AntDesign } from '@expo/vector-icons';
 const window = Dimensions.get('window')
 
 const BookingHistory = (props) => {
+    const [CheckIn,setCheckIn]=React.useState('')
+    const [CheckOut,setCheckOut]=React.useState('')
 
     return (
-<<<<<<< Updated upstream
+
         <ScrollView>
-            <View style={[style.container,{
-                marginTop: Platform.OS == 'ios' ? 45 :5
+            <View style={[style.container, {
+                marginTop: Platform.OS == 'ios' ? 45 : 5
             }]}>
-                <TouchableOpacity onPress={() =>props.close(false)} style={{flex: 1, justifyContent: 'center',alignItems: 'center'}}>
-=======
-        <View style={{
-            marginTop: 40
-        }}>
-            <View style={style.container}>
                 <TouchableOpacity onPress={() => props.close(false)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
->>>>>>> Stashed changes
+
                     <AntDesign name="left" size={24} color="black" />
                 </TouchableOpacity>
                 <View style={{ flex: 6, alignItems: 'center' }}>
@@ -64,12 +55,14 @@ const BookingHistory = (props) => {
                     <Text style={{
                         fontSize: 15,
                         color: 'rgb(100,100,100)',
-                        marginTop:50,
-                        marginLeft:40,
+                        marginTop: 50,
+                        marginLeft: 40,
                     }}>Check-in</Text>
                     <TextInput
                         style={style.input}
-                        value={Text}
+                        value={CheckIn}
+                        onChangeText={(val)=>
+                        setCheckIn(val)}
                     />
                 </View>
 
@@ -77,17 +70,19 @@ const BookingHistory = (props) => {
                     <Text style={{
                         fontSize: 15,
                         color: 'rgb(100,100,100)',
-                        marginTop:20,
-                        marginLeft:40,
+                        marginTop: 20,
+                        marginLeft: 40,
                     }}>Check-out</Text>
                     <TextInput
                         style={style.input}
-                        value={Text}
+                        value={CheckOut}
+                        onChangeText={(val)=>
+                        setCheckOut(val)}
                     />
                 </View>
 
             </ScrollView>
-        </View>
+        </ScrollView>
     );
 };
 
