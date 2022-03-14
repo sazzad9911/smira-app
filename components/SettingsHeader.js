@@ -1,10 +1,14 @@
 import React from 'react';
-import {View,Text} from 'react-native'
+import { View, Text,Button } from 'react-native'
 
-const Header = () => {
+const Header = (props) => {
+    const name = props.route.name;
+    const navigation=props.navigation;
+
     return (
-        <View>
-            <Text>Header</Text>
+        <View style={{ flexDirection: 'row',justifyContent:'center',alignItems: 'center'}}>
+            <Button title="Back" onPress={()=>navigation.navigate('Home')}/>
+            <Text>{name}</Text>
         </View>
     );
 };

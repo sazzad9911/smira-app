@@ -61,8 +61,8 @@ import SettingsHeader from '../components/SettingsHeader'
 //                 contentComponent: ({ navigation }) => <DrawerMenu navigation={navigation} />, --
 //                 drawerWidth: Dimensions.get('screen').width - 40,
 //                 drawerType:'slide',
-                
-                
+
+
 //             }
 //         )
 //     )
@@ -80,27 +80,27 @@ const Drawer = createDrawerNavigator();
 export default function DrawerApp() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator 
-      screenOptions={{
-          drawerStyle:{
-              width:'90%',
+      <Drawer.Navigator
+        screenOptions={{
+          drawerStyle: {
+            width: '90%',
           },
-          drawerType:'slide'
-      }}
-      drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}
-      initialRouteName="Home">
-        <Drawer.Screen options={{headerShown:false}} name="Search" component={Search} />
-        <Drawer.Screen options={{headerShown:false}} name="PopularHotels" component={PopularHotels} />
-        <Drawer.Screen options={{headerShown:false}} name="Coupons" component={Coupons} />
-        <Drawer.Screen options={{headerShown:false}} name="Account" component={Account} />
-        <Drawer.Screen options={{headerShown:false}} name="Home" component={Home} />
-        <Drawer.Screen options={{headerShown:false}} name="MemberShipOnboarding" component={MemberShipOnboarding} />
-        <Drawer.Screen options={{headerShown:false}} name="MemberShipInfo" component={MemberShipInfo} />
-        <Drawer.Screen options={{headerShown:false}} name="PlansList" component={PlansList} />
-        <Drawer.Screen options={{headerShown:false}} name="RoomDetail" component={RoomDetail} />
-        <Drawer.Screen options={{headerShown:false}} name="WishList" component={WishList} />
-        <Drawer.Screen options={{headerShown:false}} name="Rooms" component={Rooms} />
-        <Drawer.Screen options={{header:()=><SettingsHeader/>}} name="Settings" component={Settings}/>
+          drawerType: 'slide'
+        }}
+        drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}
+        initialRouteName="Home">
+        <Drawer.Screen options={{ headerShown: false }} name="Home" component={Home} />
+        <Drawer.Screen options={{ headerShown: false }} name="Search" component={Search} />
+        <Drawer.Screen options={{ headerShown: false }} name="PopularHotels" component={PopularHotels} />
+        <Drawer.Screen options={{ headerShown: false }} name="Coupons" component={Coupons} />
+        <Drawer.Screen options={{ headerShown: false }} name="Account" component={Account} />
+        <Drawer.Screen options={{ headerShown: false }} name="MemberShipOnboarding" component={MemberShipOnboarding} />
+        <Drawer.Screen options={{ headerShown: false }} name="MemberShipInfo" component={MemberShipInfo} />
+        <Drawer.Screen options={{ headerShown: false }} name="PlansList" component={PlansList} />
+        <Drawer.Screen options={{ headerShown: false }} name="RoomDetail" component={RoomDetail} />
+        <Drawer.Screen options={{ headerShown: false }} name="WishList" component={WishList} />
+        <Drawer.Screen options={{ headerShown: false }} name="Rooms" component={Rooms} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Settings" component={Settings} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
