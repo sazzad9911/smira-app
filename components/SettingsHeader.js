@@ -1,14 +1,35 @@
 import React from 'react';
-import { View, Text,Button } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { AntDesign } from '@expo/vector-icons';
 
 const Header = (props) => {
     const name = props.route.name;
-    const navigation=props.navigation;
+    const navigation = props.navigation;
 
     return (
-        <View style={{ flexDirection: 'row',justifyContent:'center',alignItems: 'center'}}>
-            <Button title="Back" onPress={()=>navigation.navigate('Home')}/>
-            <Text>{name}</Text>
+        <View style={{
+            height: 50,
+            flexDirection:'row'
+        }}>
+            <TouchableOpacity onPress={() =>{
+                navigation.goBack()
+            }} style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}>
+                <AntDesign name="left" size={24} color="black" />
+            </TouchableOpacity>
+            <View style={{
+                flex: 8,
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}>
+                <Text style={{
+                    fontSize:20,
+                    marginLeft:-40
+                }}>{name}</Text>
+            </View>
         </View>
     );
 };
