@@ -1,12 +1,23 @@
 import React from 'react';
-import { View ,Text} from 'react-native';
+import { View ,Text,ScrollView, StyleSheet} from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
-const DealCoupon = () => {
+const DealCoupon = (props) => {
     return (
         <View>
-            <Text>Deal Coupon</Text>
+            <AntDesign onPress={()=>props.close(false)} style={styles.icon} name="leftcircle" size={30} color="black" />
+            <ScrollView>
+
+            </ScrollView>
         </View>
     );
 };
 
 export default DealCoupon;
+const styles = StyleSheet.create({
+    icon:{
+        position: 'absolute',
+        top:20,
+        left:20,
+    }
+})
