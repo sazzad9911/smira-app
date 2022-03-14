@@ -51,7 +51,10 @@ const Settings = ({navigation}) => {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25 }}>
+                <TouchableOpacity onPress={() =>{
+                    navigation.navigate('Forget Password');
+
+                }} style={{ flexDirection: 'row', marginTop: 25 }}>
                     <View style={{ flex: 1 }}>
                         <MaterialIcons name="redeem" size={24} color="black" style={{ color: 'rgb(200,200,200)' }} />
                     </View>
@@ -69,7 +72,9 @@ const Settings = ({navigation}) => {
                     <Text style={{ fontSize: 25, }}>Settings</Text>
                 </View>
 
-                <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25 }}>
+                <TouchableOpacity onPress={() =>{
+                    navigation.navigate('Language');
+                }} style={{ flexDirection: 'row', marginTop: 25 }}>
                     <View style={{ flex: 1 }}>
                         <Entypo name="language" size={24} color="black" style={{ color: 'rgb(200,200,200)' }} />
                     </View>
@@ -110,7 +115,9 @@ const Settings = ({navigation}) => {
                     </View>
                 </View>
 
-                <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25 }}>
+                <TouchableOpacity onPress={()=>{
+                    navigation.navigate('Talk To Us');
+                }} style={{ flexDirection: 'row', marginTop: 25 }}>
                     <View style={{ flex: 1 }}>
                         <Feather name="phone" size={24} color="black" style={{ color: 'rgb(200,200,200)' }} />
                     </View>
