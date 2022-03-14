@@ -13,17 +13,34 @@ const DrawerMenu = ({ navigation }) => {
     return (
         <ScrollView>
             <View style={[styles.container]}>
-                <TouchableOpacity style={[styles.metaContainer]} onPress={() => onNavigate('Account')}>
-                    <Image source={profilePicture} style={[styles.profilePicture]} />
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '70%' }}>
+                <TouchableOpacity style={[styles.metaContainer]}
+                    onPress={() => onNavigate('Account')}>
+                    <Image source={profilePicture}
+                        style={[styles.profilePicture]} />
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        width: '70%'
+                    }}>
                         <View style={[styles.horiContainer]}>
-                            <Text style={{ fontWeight: '600', fontSize: 20 }}>Nirmiti Gaitonde</Text>
-                            <Text style={[styles.membership]}><Text style={{ color: '#FFB92E' }}>Gold</Text> Member</Text>
+                            <Text style={{
+                                fontWeight: '600',
+                                fontSize: 20
+                            }}>Nirmiti Gaitonde</Text>
+                            <Text style={[styles.membership]}>
+                                <Text style={{ color: '#FFB92E' }}>Gold</Text>
+                                Member</Text>
                         </View>
                         <MaterialIcons style={[styles.tabIco3]} name='navigate-next' size={35} />
                     </View>
                 </TouchableOpacity>
-                <View style={{ borderBottomColor: 'rgb(230,230,230)', borderBottomWidth: 1, marginTop: 10, marginBottom: 10 }}></View>
+                <View style={{
+                    borderBottomColor: 'rgb(230,230,230)',
+                    borderBottomWidth: 1,
+                    marginTop: 10,
+                    marginBottom: 10
+                }}></View>
                 <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('MemberShipOnboarding')}>
                     <Feather style={[styles.tabIco]} name='pocket' size={22} />
                     <Text style={[styles.navTabText]}>Your Membership</Text>
@@ -32,7 +49,7 @@ const DrawerMenu = ({ navigation }) => {
                     <EvilIcons style={[styles.tabIco]} name='heart' size={22} />
                     <Text style={[styles.navTabText]}>Your Wishlist</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Home')}>
+                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Redeem History')}>
                     <AntDesign style={[styles.tabIco]} name='linechart' size={22} />
                     <Text style={[styles.navTabText]}>Redeem History</Text>
                 </TouchableOpacity>
@@ -57,7 +74,7 @@ const DrawerMenu = ({ navigation }) => {
                     <AntDesign style={[styles.tabIco]} name='checksquareo' size={22} />
                     <Text style={[styles.navTabText]}>Privacy Policy</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Home')}>
+                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Talk To Us')}>
                     <Ionicons style={[styles.tabIco]} name='chatbubble-ellipses-outline' size={22} />
                     <Text style={[styles.navTabText]}>Talk to us</Text>
                 </TouchableOpacity>
@@ -87,7 +104,7 @@ export default DrawerMenu;
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        paddingBottom:50
+        paddingBottom: 50
     },
     profilePicture: {
         height: 65,
@@ -99,7 +116,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingBottom: 15,
-        marginTop:30
+        marginTop: 30
     },
     horiContainer: {
         flexDirection: 'column',
