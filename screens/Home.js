@@ -1,9 +1,11 @@
-import { Image, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import {
+  Image, ScrollView, StyleSheet, Text,
+  TouchableOpacity, View, StatusBar
+} from 'react-native'
 import React, { useState } from 'react'
-import { AntDesign, Feather, FontAwesome5, Ionicons, MaterialIcons } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
 import testImage from '../assets/favicon.png';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Dimensions } from 'react-native';
 
 const Home = ({ navigation }) => {
   const [Options, setOptions] = useState([
@@ -12,93 +14,10 @@ const Home = ({ navigation }) => {
   const [TopBrands, setTopBrands] = useState([
     1, 2, 3, 4, 5
   ]);
-  const [Notifications, setNotifications] = useState([
 
-  ])
-  /**
-   *  {
-      title: () => <Text>Merry Christmas! Get <Text style={{ color: 'red' }}>50% Off</Text> on Pizza</Text>,
-      visibleText: 'Oven Story is offering discount on all ranges of pizza.'
-    }
-   */
-  const [ShowNotifications, setShowNotifications] = useState(false);
-  const { height, width } = Dimensions.get('screen');
   return (
     <ScrollView>
-      <View style={{
-        minHeight: 50, backgroundColor: '#FA454B', justifyContent: 'space-between',
-        flexDirection: 'row', alignItems: 'center', paddingLeft: 15, paddingRight: 15
-      }}>
-        <TouchableOpacity onPress={() => {
-          navigation.openDrawer()
-        }}>
-          <Feather name="menu" size={24} color="white" />
-        </TouchableOpacity>
-        <Ionicons name='logo-apple' size={25} color="white" />
-        <TouchableOpacity onPress={() => {
-          setShowNotifications(true)
-        }}>
-          <Ionicons name="ios-notifications-outline" size={24} color="white" />
-        </TouchableOpacity>
-
-      </View>
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={ShowNotifications}
-        onRequestClose={() => {
-          setShowNotifications(false)
-        }}
-      >
-        <View style={{
-          height: height / 2.3, padding: 20, backgroundColor: 'white', marginTop: 120,
-          marginLeft: 15, marginRight: 15, borderRadius: 20, shadowColor: 'gray', shadowOffset: {
-            height: 3, width: 0
-          }, shadowOpacity: '0.5', shadowRadius: 50, elevation: 40,
-        }}>
-          <View style={{ alignItems: 'flex-end' }}>
-            <TouchableOpacity onPress={() => {
-              setShowNotifications(false)
-            }}>
-              <MaterialIcons name='close' size={24} />
-            </TouchableOpacity>
-          </View>
-          <View style={{ alignItems: 'center', }}>
-            <View style={{
-              flexDirection: 'row', justifyContent: 'space-between', width: '100%',
-              paddingLeft: 10, paddingRight: 10, alignItems: 'center'
-            }}>
-              <Text style={{ margin: 10, fontSize: 18, fontWeight: 'bold' }}>Notifications</Text>
-              <TouchableOpacity><Text style={{ margin: 10, fontSize: 12, color: 'red' }}>Mark as all read</Text></TouchableOpacity>
-            </View>
-            <View style={{ borderWidth: 0.5, borderColor: 'rgb(220,220,220)', width: '90%' }}></View>
-          </View>
-          {
-            Notifications.length > 0 &&
-            <ScrollView>
-              {
-                Notifications.map(notification => {
-                  return (
-                    <View style={{ padding: 10, alignItems: 'center' }}>
-                      <Text style={{ fontWeight: 'bold', margin: 2, width: '100%' }}>{notification.title()}</Text>
-                      <Text style={{ color: 'gray', margin: 2, width: '100%' }}>{notification.visibleText}</Text>
-                      <View style={{ borderWidth: 0.5, width: '100%', borderColor: 'rgb(220,220,220)', marginTop: 10 }}></View>
-                    </View>
-                  );
-                })
-              }
-            </ScrollView>
-          }
-          {
-            Notifications.length <= 0 &&
-            <View style={{ justifyContent: 'center', alignItems: 'center', height: '70%' }}>
-              <FontAwesome5 name="smile" size={35} color="rgb(200,200,200)" />
-              <Text style={{ color: 'rgb(200,200,200)', marginTop: 10 }}>No Notifications</Text>
-            </View>
-          }
-
-        </View>
-      </Modal>
+      <StatusBar animated={true} backgroundColor='#FA454B' />
       <TouchableOpacity style={{
         borderWidth: 1, borderColor: 'rgb(220,220,220)',
         justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row',

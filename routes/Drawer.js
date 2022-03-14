@@ -28,6 +28,7 @@ import RedeemHistory from "../screens/RedeemHistory";
 import ForgetPassword from "../screens/ForgetPassword";
 import Language from './../screens/Language';
 import TellToUs from "../screens/TellToUs";
+import HomeHeader from "../components/HomeHeader";
 
 
 const Drawer = createDrawerNavigator();
@@ -41,9 +42,8 @@ export default function DrawerApp() {
           },
           drawerType: 'slide'
         }}
-        drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}
-        initialRouteName="Home">
-        <Drawer.Screen options={{ headerShown: false }} name="Home" component={Home} />
+        drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}>
+        <Drawer.Screen options={{ header:(props)=><HomeHeader {...props}/> }} name="Home" component={Home} />
         <Drawer.Screen options={{ headerShown: false }} name="Search" component={Search} />
         <Drawer.Screen options={{ headerShown: false }} name="PopularHotels" component={PopularHotels} />
         <Drawer.Screen options={{ headerShown: false }} name="Coupons" component={Coupons} />
