@@ -3,13 +3,16 @@ import React from 'react'
 import testImage from '../assets/favicon.png';
 import tub from '../assets/tub.png';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons'
+import Cards from '../components/Cards'
 
-const WishList = () => {
+const WishList = ({ navigation }) => {
     return (
         <ScrollView>
             <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        navigation.goBack();
+                    }}>
                         <Ionicons name='chevron-back-sharp' size={24} style={{ color: 'rgb(100,100,100)' }} />
                     </TouchableOpacity>
                     <Text style={{ fontWeight: 'bold', fontSize: 17, marginLeft: 10 }}>Wishlist</Text>
@@ -34,157 +37,22 @@ const WishList = () => {
                 <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Deals</Text>
                 <ScrollView horizontal={true} >
                     <View style={{ width: 10 }}></View>
-                    <View style={{
-                        height: 130, width: 200, backgroundColor: 'white', borderRadius: 10,
-                        shadowColor: 'gray',
-                        shadowOffset: {
-                            width: 2,
-                            height: 2
-                        },
-                        shadowOpacity: 0.5,
-                        shadowRadius: 5,
-                        elevation: 10,
-                        marginBottom: 15,
-                        marginTop: 5,
-                        marginLeft: 3,
-                        marginRight: 3
-                    }}>
-                        <View style={{ height: 70, width: 200, backgroundColor: 'red', borderRadius: 10 }}>
-
-                        </View>
-                        <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-                            <Image source={testImage} style={{ height: 50, width: 50, borderRadius: 25, backgroundColor: 'red' }} />
-                            <Text style={{ width: 100, fontWeight: 'bold' }}>Flat 35% OFF On All Orders</Text>
-                        </View>
-                    </View>
-                    <View style={{
-                        height: 130, width: 200, backgroundColor: 'white', borderRadius: 10,
-                        shadowColor: 'gray',
-                        shadowOffset: {
-                            width: 2,
-                            height: 2
-                        },
-                        shadowOpacity: 0.5,
-                        shadowRadius: 5,
-                        elevation: 10,
-                        marginBottom: 15,
-                        marginTop: 5,
-                        marginLeft: 3,
-                        marginRight: 3
-                    }}>
-                        <View style={{ height: 70, width: 200, backgroundColor: 'red', borderRadius: 10 }}>
-
-                        </View>
-                        <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-                            <Image source={testImage} style={{ height: 50, width: 50, borderRadius: 25, backgroundColor: 'red' }} />
-                            <Text style={{ width: 100, fontWeight: 'bold' }}>Flat 35% OFF On All Orders</Text>
-                        </View>
-                    </View>
-                    <View style={{
-                        height: 130, width: 200, backgroundColor: 'white', borderRadius: 10,
-                        shadowColor: 'gray',
-                        shadowOffset: {
-                            width: 2,
-                            height: 2
-                        },
-                        shadowOpacity: 0.5,
-                        shadowRadius: 5,
-                        elevation: 10,
-                        marginBottom: 15,
-                        marginTop: 5,
-                        marginLeft: 3,
-                        marginRight: 3
-                    }}>
-                        <View style={{ height: 70, width: 200, backgroundColor: 'red', borderRadius: 10 }}>
-
-                        </View>
-                        <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-                            <Image source={testImage} style={{ height: 50, width: 50, borderRadius: 25, backgroundColor: 'red' }} />
-                            <Text style={{ width: 100, fontWeight: 'bold' }}>Flat 35% OFF On All Orders</Text>
-                        </View>
-                    </View>
+                    {
+                        //repeat the deals slide here --------------
+                    }
+                    <Deals title="Flat 35% OFF On All Orders" />
+                    <Deals title="Flat 35% OFF On All Orders" />
+                    <Deals title="Flat 35% OFF On All Orders" />
+                    <Deals title="Flat 35% OFF On All Orders" />
                 </ScrollView>
                 <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Hotels</Text>
                 <View>
-                    <View style={{ alignItems: 'center', paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-                        <ImageBackground source={tub} imageStyle={{ borderRadius: 10 }} style={{ width: '100%', height: 170, borderRadius: 10, justifyContent: 'space-between', alignItems: 'flex-end' }} >
-
-                            <MaterialCommunityIcons name='heart' size={24} style={{ color: 'red', margin: 15 }} />
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center', backgroundColor: '#64B657', padding: 10,
-                                justifyContent: 'space-between', borderRadius: 20, width: 70, margin: 10
-                            }}>
-                                <MaterialCommunityIcons size={20} style={{ color: 'white' }} name="star" />
-                                <Text style={{ color: 'white', marginLeft: 5 }}>4.3</Text>
-                            </View>
-
-                        </ImageBackground>
-
-                        <View style={{ width: '93%', padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <View>
-                                <Text style={{ fontWeight: '600', fontSize: 17 }}>On the Go</Text>
-                                <Text style={{ fontWeight: '400', fontSize: 15, color: 'gray', marginTop: 5 }}>Alibaug, Maharashtra</Text>
-                            </View>
-                            <TouchableOpacity style={{ backgroundColor: 'rgb(220,220,220)', height: 40, width: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
-                                <MaterialIcons name='navigate-next' size={22} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                    <View style={{ alignItems: 'center', paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-                        <ImageBackground source={tub} imageStyle={{ borderRadius: 10 }} style={{ width: '100%', height: 170, borderRadius: 10, justifyContent: 'space-between', alignItems: 'flex-end' }} >
-
-                            <MaterialCommunityIcons name='heart' size={24} style={{ color: 'red', margin: 15 }} />
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center', backgroundColor: '#64B657', padding: 10,
-                                justifyContent: 'space-between', borderRadius: 20, width: 70, margin: 10
-                            }}>
-                                <MaterialCommunityIcons size={20} style={{ color: 'white' }} name="star" />
-                                <Text style={{ color: 'white', marginLeft: 5 }}>4.3</Text>
-                            </View>
-
-                        </ImageBackground>
-
-                        <View style={{ width: '93%', padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <View>
-                                <Text style={{ fontWeight: '600', fontSize: 17 }}>On the Go</Text>
-                                <Text style={{ fontWeight: '400', fontSize: 15, color: 'gray', marginTop: 5 }}>Alibaug, Maharashtra</Text>
-                            </View>
-                            <TouchableOpacity style={{ backgroundColor: 'rgb(220,220,220)', height: 40, width: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
-                                <MaterialIcons name='navigate-next' size={22} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                    <View style={{ alignItems: 'center', paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-                        <ImageBackground source={tub} imageStyle={{ borderRadius: 10 }} style={{ width: '100%', height: 170, borderRadius: 10, justifyContent: 'space-between', alignItems: 'flex-end' }} >
-
-                            <MaterialCommunityIcons name='heart' size={24} style={{ color: 'red', margin: 15 }} />
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center', backgroundColor: '#64B657', padding: 10,
-                                justifyContent: 'space-between', borderRadius: 20, width: 70, margin: 10
-                            }}>
-                                <MaterialCommunityIcons size={20} style={{ color: 'white' }} name="star" />
-                                <Text style={{ color: 'white', marginLeft: 5 }}>4.3</Text>
-                            </View>
-
-                        </ImageBackground>
-
-                        <View style={{ width: '93%', padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <View>
-                                <Text style={{ fontWeight: '600', fontSize: 17 }}>On the Go</Text>
-                                <Text style={{ fontWeight: '400', fontSize: 15, color: 'gray', marginTop: 5 }}>Alibaug, Maharashtra</Text>
-                            </View>
-                            <TouchableOpacity style={{ backgroundColor: 'rgb(220,220,220)', height: 40, width: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
-                                <MaterialIcons name='navigate-next' size={22} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-
-
-
-
+                    {
+                        //repeat the image card here -------------
+                    }
+                    <Cards img={tub} title="On the go" address="Alibaug, Maharashtra" />
+                    <Cards img={tub} title="On the go" address="Alibaug, Maharashtra" />
+                    <Cards img={tub} title="On the go" address="Alibaug, Maharashtra" />
                 </View>
             </View>
         </ScrollView>
@@ -222,3 +90,30 @@ const styles = StyleSheet.create({
         color: '#FB444B',
     }
 })
+const Deals = (props) => {
+    return (
+        <View style={{
+            height: 130, width: 200, backgroundColor: 'white', borderRadius: 10,
+            shadowColor: 'gray',
+            shadowOffset: {
+                width: 2,
+                height: 2
+            },
+            shadowOpacity: 0.5,
+            shadowRadius: 5,
+            elevation: 10,
+            marginBottom: 15,
+            marginTop: 5,
+            marginLeft: 3,
+            marginRight: 3
+        }}>
+            <View style={{ height: 70, width: 200, backgroundColor: 'red', borderRadius: 10 }}>
+
+            </View>
+            <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+                <Image source={testImage} style={{ height: 50, width: 50, borderRadius: 25, backgroundColor: 'red' }} />
+                <Text style={{ width: 100, fontWeight: 'bold' }}>{props.title}</Text>
+            </View>
+        </View>
+    )
+}

@@ -95,14 +95,11 @@ function Account({ navigation }) {
           </View>
         </View>
       </Modal>
-
-
-
       <View style={{ backgroundColor: 'rgb(255,70,70)', height: 70 }}>
         <TouchableOpacity onPress={() => {
           navigation.navigate('Home')
         }}>
-          <MaterialCommunityIcons name='close' 
+          <MaterialCommunityIcons name='close'
           style={{ position: 'absolute', right: 0, top: 10, marginRight: 10, color: 'white' }} size={26} />
         </TouchableOpacity>
       </View>

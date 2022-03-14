@@ -15,7 +15,9 @@ import Search from "../screens/Search";
 import Home from "../screens/Home";
 import Coupons from "../screens/Coupons";
 import Settings from "../screens/Settings"
-import SettingsHeader from '../components/SettingsHeader'
+import SettingsHeader from '../components/SettingsHeader';
+import Membership from "../screens/Membership";
+import CheckOut from "../screens/CheckOut";
 
 // const Drawer =
 //     createAppContainer(
@@ -74,6 +76,7 @@ import SettingsHeader from '../components/SettingsHeader'
 import * as React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
+import Hotel from './../screens/Hotel';
 
 
 const Drawer = createDrawerNavigator();
@@ -101,6 +104,9 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ headerShown: false }} name="WishList" component={WishList} />
         <Drawer.Screen options={{ headerShown: false }} name="Rooms" component={Rooms} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Settings" component={Settings} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Choose Your Membership" component={Membership}/>
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Checkout" component={CheckOut}/>
+        <Drawer.Screen options={{headerShown: false }} name="Hotel" component={Hotel}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );

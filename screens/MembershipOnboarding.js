@@ -39,6 +39,8 @@ const MembershipOnboarding = ({navigation}) => {
                     <TouchableOpacity style={{
                         backgroundColor: 'white', width: '90%', flex: 1, borderRadius: 7,
                         justifyContent: 'center', alignItems: 'center'
+                    }} onPress={() =>{
+                        navigation.navigate('Choose Your Membership')
                     }}>
                         <Text style={{ fontSize: 15 }}>Claim your free month</Text>
                     </TouchableOpacity>
@@ -49,27 +51,70 @@ const MembershipOnboarding = ({navigation}) => {
                         navigation.navigate('MemberShipInfo')
                     }}>Apply it there</Text>
                 </View>
-                <View style={{ marginTop: 15, marginBottom: 5, borderWidth: 0.5, borderColor: 'rgb(220,220,220)', width: '90%' }}></View>
-                <View style={{ justifyContent: 'flex-start', width: '100%', padding: 15 }}>
-                    <Text style={{ fontWeight: '500', fontSize: 17, marginBottom: 5 }}>Save on top brands</Text>
+                <View style={{ 
+                    marginTop: 15, 
+                    marginBottom: 5, 
+                    borderWidth: 0.5, 
+                    borderColor: 'rgb(220,220,220)', 
+                    width: '90%' 
+                    }}></View>
+                <View style={{ 
+                    justifyContent: 'flex-start', 
+                    width: '100%', 
+                    padding: 15 
+                    }}>
+                    <Text style={{ 
+                        fontWeight: '500',
+                        fontSize: 17, 
+                        marginBottom: 5 
+                        }}>Save on top brands</Text>
                     <Text style={{ fontSize: 13 }}>Save big on most popular brands with us</Text>
                 </View>
                 <ScrollView horizontal={true} style={{ width: '100%', padding: 5 }}>
                     <View style={{
                         height: 80, width: 80, backgroundColor: 'red', borderRadius: 10, shadowColor: 'gray',
-                        shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.6, shadowRadius: 5, marginLeft: 5, marginRight: 5
+                        shadowOffset: { 
+                            width: 5, 
+                            height: 5 
+                            }, 
+                            shadowOpacity: 0.6, 
+                            shadowRadius: 5, 
+                            marginLeft: 5, 
+                            marginRight: 5
                     }}>
 
                     </View>
                     <View style={{
-                        height: 80, width: 80, backgroundColor: 'red', borderRadius: 10, shadowColor: 'gray',
-                        shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.6, shadowRadius: 5, marginLeft: 5, marginRight: 5
+                        height: 80, 
+                        width: 80, 
+                        backgroundColor: 'red', 
+                        borderRadius: 10, 
+                        shadowColor: 'gray',
+                        shadowOffset: { 
+                            width: 5, 
+                            height: 5 
+                            }, 
+                        shadowOpacity: 0.6, 
+                        shadowRadius: 5, 
+                        marginLeft: 5, 
+                        marginRight: 5
                     }}>
 
                     </View>
                     <View style={{
-                        height: 80, width: 80, backgroundColor: 'red', borderRadius: 10, shadowColor: 'gray',
-                        shadowOffset: { width: 5, height: 5 }, shadowOpacity: 0.6, shadowRadius: 5, marginLeft: 5, marginRight: 5
+                        height: 80, 
+                        width: 80, 
+                        backgroundColor: 'red', 
+                        borderRadius: 10, 
+                        shadowColor: 'gray',
+                        shadowOffset: { 
+                            width: 5, 
+                            height: 5 
+                            }, 
+                        shadowOpacity: 0.6, 
+                        shadowRadius: 5, 
+                        marginLeft: 5, 
+                        marginRight: 5
                     }}>
 
                     </View>
