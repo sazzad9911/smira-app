@@ -19,11 +19,11 @@ const Membership = () => {
             <Text style={{
                 marginTop: 10
             }}>Have a family code?</Text>
-            <TouchableOpacity>
+            <TouchableOpacity> 
                 <Text style={{
-                    color: 'red',
-                    marginBottom: 10
-                }}>Apply it here</Text>
+                color: 'red',
+                marginBottom: 10
+            }}>Apply it here</Text>
             </TouchableOpacity>
 
         </View>
@@ -37,14 +37,14 @@ const MembershipSlide = (props) => {
     return (
         <View style={style.slideView}>
             <View style={style.slideContent}>
-                <Text style={style.slideContentHead}><Text style={{ color: props.headcolor }}>Silver</Text> Membership</Text>
+                <Text style={style.slideContentHead}><Text style={{color:props.headcolor}}>Silver</Text> Membership</Text>
                 <Text style={style.textMargin}>Hotel stays of up to {props.night} nights</Text>
                 <Text style={style.textMargin}>Valid on any {props.hotel} hotels</Text>
                 <Text style={style.textMargin}>Family access upto {props.account} accounts</Text>
                 <Text style={style.textMargin}>Benefits worth of ₹{props.amount}</Text>
 
                 <TouchableOpacity>
-                    <View style={[style.bottomButton, {
+                    <View style={[style.bottomButton,{
                         backgroundColor: props.Buttoncolor
                     }]}>
                         <Text style={{
@@ -85,7 +85,7 @@ const style = StyleSheet.create({
         },
         shadowOpacity: 0.3,
         shadowRadius: 5,
-        elevation: 3
+        elevation:3
     },
     slideContent: {
         padding: '5%',
