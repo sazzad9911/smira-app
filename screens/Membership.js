@@ -68,6 +68,7 @@ const style = StyleSheet.create({
     },
     textMargin: {
         marginBottom: 15,
+        color: 'rgb(100,100,100)'
     },
     slideView: {
         justifyContent: 'center',
