@@ -13,7 +13,7 @@ const Home = ({ navigation }) => {
     1, 2, 3, 4, 5
   ]);
   const [Notifications, setNotifications] = useState([
-   
+
   ])
   /**
    *  {
@@ -91,9 +91,9 @@ const Home = ({ navigation }) => {
           }
           {
             Notifications.length <= 0 &&
-            <View style={{justifyContent:'center',alignItems:'center',height:'70%'}}>
-              <FontAwesome5 name="smile" size={35} color="rgb(200,200,200)"/> 
-              <Text style={{color:'rgb(200,200,200)',marginTop:10}}>No Notifications</Text>
+            <View style={{ justifyContent: 'center', alignItems: 'center', height: '70%' }}>
+              <FontAwesome5 name="smile" size={35} color="rgb(200,200,200)" />
+              <Text style={{ color: 'rgb(200,200,200)', marginTop: 10 }}>No Notifications</Text>
             </View>
           }
 
@@ -107,11 +107,12 @@ const Home = ({ navigation }) => {
         navigation.navigate('Search')
       }}>
         <AntDesign name='search1' size={25} style={{ flex: 1 }} />
-        <Text style={{ flex: 6,color:'rgb(130,130,130)' }} 
+        <Text style={{ flex: 6, color: 'rgb(130,130,130)' }}
           placeholderTextColor={'rgb(130,130,130)'} >Hotels, Deals, Restaurants, etc</Text>
       </TouchableOpacity>
       <View style={{ width: '100%', paddingLeft: 15, paddingRight: 15 }}>
-        <View style={{ minHeight: 200, backgroundColor: 'black', borderRadius: 10 }}>
+        <View style={{ minHeight: 200, backgroundColor: 'blue', borderRadius: 10 }}>
+          {/*slider*/}
         </View>
       </View>
       <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
