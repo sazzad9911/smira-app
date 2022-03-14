@@ -1,4 +1,7 @@
-import { Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+    Image, ImageBackground, ScrollView, StyleSheet, Text,
+    TouchableOpacity, View, Platform, StatusBar
+} from 'react-native'
 import React from 'react'
 import testImage from '../assets/favicon.png';
 import tub from '../assets/tub.png';
@@ -8,7 +11,14 @@ import Cards from '../components/Cards'
 const WishList = ({ navigation }) => {
     return (
         <ScrollView>
-            <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <StatusBar barStyle='dark-content' />
+            <View style={{
+                padding: 10,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingTop: Platform.OS == 'ios' ? 60 : 10,
+            }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
                     <TouchableOpacity onPress={() => {
                         navigation.goBack();

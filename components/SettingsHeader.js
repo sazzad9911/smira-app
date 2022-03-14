@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity,Platform } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 
 const Header = (props) => {
@@ -8,7 +8,7 @@ const Header = (props) => {
 
     return (
         <View style={{
-            height: 50,
+            height: Platform.OS=='ios'?120: 50,
             flexDirection:'row'
         }}>
             <TouchableOpacity onPress={() =>{

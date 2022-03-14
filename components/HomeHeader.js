@@ -1,16 +1,18 @@
 import React,{ useState} from 'react';
-import { View, TouchableOpacity, Modal} from 'react-native';
+import { View, TouchableOpacity, Modal,Platform} from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons'
 import NotificationBar from './NotificationBar';
 
 const HomeHeader = (props) => {
     const [ShowNotifications, setShowNotifications] = useState(false);
-    
+
     const navigation = props.navigation;
+   
     return (
         <View style={{
-            minHeight: 50, backgroundColor: '#FA454B', justifyContent: 'space-between',
-            flexDirection: 'row', alignItems: 'center', paddingLeft: 15, paddingRight: 15
+             backgroundColor: '#FA454B', justifyContent: 'space-between',
+            flexDirection: 'row', alignItems: 'center', paddingLeft: 15, paddingRight: 15,
+            height:Platform.OS=='ios'? 100: 50,paddingTop:Platform.OS=='ios'?30:0
         }}>
             <TouchableOpacity onPress={() => {
                 navigation.openDrawer()

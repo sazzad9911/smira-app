@@ -1,11 +1,13 @@
 import React from 'react';
-import { View ,Text,ScrollView, StyleSheet} from 'react-native';
+import { View ,Text,ScrollView, StyleSheet, Platform} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
 const DealCoupon = (props) => {
     return (
         <View>
-            <AntDesign onPress={()=>props.close(false)} style={styles.icon} name="leftcircle" size={30} color="black" />
+            <AntDesign onPress={()=>props.close(false)} style={[styles.icon,{
+                top:Platform.OS=='ios'?60:20
+            }]} name="leftcircle" size={30} color="black" />
             <ScrollView>
 
             </ScrollView>

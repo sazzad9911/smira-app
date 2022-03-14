@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, 
-    Dimensions, ScrollView,Text,TouchableOpacity } from 'react-native';
+    Dimensions, ScrollView,Text,TouchableOpacity, Platform } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 const window = Dimensions.get('window')
 
@@ -8,7 +8,9 @@ const BookingHistory = (props) => {
 
     return (
         <ScrollView>
-            <View style={style.container}>
+            <View style={[style.container,{
+                marginTop: Platform.OS == 'ios' ? 45 :5
+            }]}>
                 <TouchableOpacity onPress={() =>props.close(false)} style={{flex: 1, justifyContent: 'center',alignItems: 'center'}}>
                     <AntDesign name="left" size={24} color="black" />
                 </TouchableOpacity>
