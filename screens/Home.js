@@ -1,20 +1,31 @@
 import {
   Image, ScrollView, StyleSheet, Text,
-  TouchableOpacity, View, StatusBar
+  TouchableOpacity, View, StatusBar, Dimensions
 } from 'react-native'
 import React, { useState } from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import testImage from '../assets/favicon.png';
 import { LinearGradient } from 'expo-linear-gradient';
+import { SliderBox } from "react-native-image-slider-box";
+//------------------------------------------------------------------------------
+import Hotels from '../assets/Icons/Hotels.svg'
 
+const window = Dimensions.get('window')
 const Home = ({ navigation }) => {
   const [Options, setOptions] = useState([
-    1, 2, 3, 4, 5, 6, 7, 8
+    {
+      id: 1,
+      img: Hotels
+    },
+
   ]);
   const [TopBrands, setTopBrands] = useState([
     1, 2, 3, 4, 5
   ]);
-
+  const images = [
+    "https://d2eohwa6gpdg50.cloudfront.net/wp-content/uploads/sites/4/2021/12/28134738/sam-moqadam-yxZSAjyToP4-unsplash-scaled-1-1275x900.jpg",
+    "https://121clicks.com/wp-content/uploads/2021/05/food_photography_tips_01.jpg"
+  ]
   return (
     <ScrollView>
       <StatusBar animated={true} backgroundColor='#FA454B' />
@@ -29,9 +40,14 @@ const Home = ({ navigation }) => {
         <Text style={{ flex: 6, color: 'rgb(130,130,130)' }}
           placeholderTextColor={'rgb(130,130,130)'} >Hotels, Deals, Restaurants, etc</Text>
       </TouchableOpacity>
-      <View style={{ width: '100%', paddingLeft: 15, paddingRight: 15 }}>
-        <View style={{ minHeight: 200, backgroundColor: 'blue', borderRadius: 10 }}>
-          {/*slider*/}
+      <View style={{ width: '100%' }}>
+        <View style={{ minHeight: 200, borderRadius: 10, marginLeft: 15 }}>
+          <SliderBox images={images}
+            paginationBoxVerticalPadding={10}
+            autoplay
+            circleLoop
+            parentWidth={window.width - 30}
+          />
         </View>
       </View>
       <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
@@ -45,11 +61,11 @@ const Home = ({ navigation }) => {
           {
             Options.map(opt => {
               return (
-                <View key={opt} style={{
+                <View key={opt.id} style={{
                   borderWidth: 1, borderColor: 'rgb(220,220,220)', height: 80,
                   width: 80, borderRadius: 10, margin: 5,
                 }}>
-
+                  
                 </View>
               );
             })
