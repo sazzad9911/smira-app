@@ -8,7 +8,6 @@ const DealCoupon = (props) => {
             <AntDesign onPress={()=>props.close(false)} style={[styles.icon,{
                 top:Platform.OS=='ios'?60:20
             }]} name="leftcircle" size={30} color="black" />
-            <AntDesign onPress={() => props.close(false)} style={styles.icon} name="leftcircle" size={30} color="black" />
             <ScrollView>
                 <View style={styles.body}>
                     <Image
