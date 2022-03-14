@@ -8,7 +8,7 @@ import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
-const Settings = () => {
+const Settings = ({navigation}) => {
     const [checked, setChecked] = useState(false);
     const [checked1, setChecked1] = useState(false);
 
@@ -37,7 +37,9 @@ const Settings = () => {
                 <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
                 </View>
 
-                <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25 }}>
+                <TouchableOpacity onPress={() =>{
+                    navigation.navigate('Redeem History')
+                }} style={{ flexDirection: 'row', marginTop: 25 }}>
                     <View style={{ flex: 1 }}>
                         <MaterialIcons name="redeem" size={24} color="black" style={{ color: 'rgb(200,200,200)' }} />
                     </View>

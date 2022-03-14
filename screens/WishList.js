@@ -50,9 +50,12 @@ const WishList = ({ navigation }) => {
                     {
                         //repeat the image card here -------------
                     }
-                    <Cards img={tub} title="On the go" address="Alibaug, Maharashtra" />
-                    <Cards img={tub} title="On the go" address="Alibaug, Maharashtra" />
-                    <Cards img={tub} title="On the go" address="Alibaug, Maharashtra" />
+                    <Cards navigation={navigation} img={tub} title="On the go"
+                        address="Alibaug, Maharashtra" />
+                    <Cards navigation={navigation} img={tub} title="On the go"
+                        address="Alibaug, Maharashtra" />
+                    <Cards navigation={navigation} img={tub} title="On the go"
+                        address="Alibaug, Maharashtra" />
                 </View>
             </View>
         </ScrollView>

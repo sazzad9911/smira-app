@@ -20,63 +20,11 @@ import Membership from "../screens/Membership";
 import CheckOut from "../screens/CheckOut";
 
 // const Drawer =
-//     createAppContainer(
-//         createDrawerNavigator(
-//             {
-//                 Search: {
-//                     screen: Search,
-//                 },
-//                 PopularHotels: {
-//                     screen: PopularHotels,
-//                 },
-//                 Coupons: {
-//                     screen: Coupons,
-//                 },
-//                 Account: {
-//                     screen: Account,
-//                 },
-//                 Home: {
-//                     screen: Home,
-//                 },
-//                 MemberShipOnboarding: {
-//                     screen: MemberShipOnboarding,
-//                 },
-//                 MemberShipInfo: {
-//                     screen: MemberShipInfo,
-//                 },
-//                 PlansList: {
-//                     screen: PlansList,
-//                 },
-//                 RoomDetail: {
-//                     screen: RoomDetail,
-//                 },
-//                 WishList: {
-//                     screen: WishList,
-//                 },
-//                 Rooms: {
-//                     screen: Rooms,
-//                 },
-
-//             }
-//             ,
-//             {
-//                 contentComponent: ({ navigation }) => <DrawerMenu navigation={navigation} />, --
-//                 drawerWidth: Dimensions.get('screen').width - 40,
-//                 drawerType:'slide',
-
-
-//             }
-//         )
-//     )
-
-// export { Drawer }
-
-
-
 import * as React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import Hotel from './../screens/Hotel';
+import RedeemHistory from "../screens/RedeemHistory";
 
 
 const Drawer = createDrawerNavigator();
@@ -106,6 +54,7 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Settings" component={Settings} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Choose Your Membership" component={Membership}/>
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Checkout" component={CheckOut}/>
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory}/>
         <Drawer.Screen options={{headerShown: false }} name="Hotel" component={Hotel}/>
       </Drawer.Navigator>
     </NavigationContainer>

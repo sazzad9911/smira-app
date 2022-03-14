@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, ImageBackground } from 'react-native'
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 
 const Cards = (props) => {
+    const navigation = props.navigation;
+
     return (
         <View style={{
             alignItems: 'center',
@@ -36,7 +38,16 @@ const Cards = (props) => {
                     <Text style={{ fontWeight: '600', fontSize: 17 }}>{props.title}</Text>
                     <Text style={{ fontWeight: '400', fontSize: 15, color: 'gray', marginTop: 5 }}>{props.address}</Text>
                 </View>
-                <TouchableOpacity style={{ backgroundColor: 'rgb(220,220,220)', height: 40, width: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() =>navigation.navigate('Hotel',{
+                    title: props.title
+                })} style={{
+                    backgroundColor: 'rgb(220,220,220)',
+                    height: 40,
+                    width: 40,
+                    borderRadius: 20,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
                     <MaterialIcons name='navigate-next' size={22} />
                 </TouchableOpacity>
             </View>
