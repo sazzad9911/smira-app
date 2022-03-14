@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, Button, TouchableOpacity, Switch } from 'react-native'
+import { View, Text, Image, ScrollView } from 'react-native'
 import Picture from '../assets/10.jpg'
-import { AntDesign } from '@expo/vector-icons';
+import RedeemHistoryCart from '../components/RedeemHistoryCart';
+
 
 const RedeemHistory = () => {
     return (
@@ -28,20 +29,35 @@ const RedeemHistory = () => {
             </View>
             <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
             </View>
-            <Cart title='Flat 35% OFF On All Orders'
-                date='24 Febroary 2022' img={Picture} />
+            {
+                //must be include the props types,title,date and image
+            }
+            <RedeemHistoryCart
+                type="coupon"
+                title='Flat 35% OFF On All Orders'
+                date='24 Febroary 2022'
+                img="https://media.istockphoto.com/vectors/red-limited-offer-with-clock-for-promotion-banner-price-label-of-vector-id1172999527?k=20&m=1172999527&s=612x612&w=0&h=MiiTdF9N6n0gysXDjHUtxPdTpARjww_XCeJZukTEZdw=" />
             <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
             </View>
-            <Cart title='Any 2 Or More Pizza For ₹199*'
-                date='24 Febroary 2022' img={Picture} />
+            <RedeemHistoryCart
+                type="hotel"
+                title='Any 2 Or More Pizza For ₹199*'
+                date='24 Febroary 2022'
+                img="https://media.hrs.com/media/image/01/99/b7/hotel-dummy.png" />
             <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
             </View>
-            <Cart title='On The Go'
-                date='21 Febroary 2022' img={Picture} />
+            <RedeemHistoryCart
+                type="coupon"
+                title='On The Go'
+                date='21 Febroary 2022'
+                img="https://st2.depositphotos.com/1435425/6338/v/950/depositphotos_63384005-stock-illustration-special-offer-icon-design.jpg" />
             <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
             </View>
-            <Cart title='Special Offer @Just ₹199'
-                date='16 Febroary 2022' img={Picture} />
+            <RedeemHistoryCart
+                type="hotel"
+                title='Special Offer @Just ₹199'
+                date='16 Febroary 2022'
+                img="https://media.hrs.com/media/image/01/99/b7/hotel-dummy.png" />
             <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
             </View>
         </ScrollView>
@@ -49,38 +65,3 @@ const RedeemHistory = () => {
 };
 
 export default RedeemHistory;
-const Cart = (props) => {
-
-    return (
-        <View style={{ marginLeft: 20 }}>
-            <TouchableOpacity style={{ flexDirection: 'row', marginTop: 5, }}>
-                <View style={{ flex: 1 }}>
-                    <Image
-                        style={{
-                            height: 70,
-                            width: 70,
-                            borderRadius: 50,
-                        }}
-                        source={props.img}
-                    />
-                </View>
-                <View style={{ flex: 3, marginTop: 10 }}>
-                    <Text style={{ fontSize: 15, color: 'black' }}>{props.title}</Text>
-                    <Text
-                        style={{
-                            fontSize: 15,
-                            color: 'rgb(100,100,100)',
-                            marginTop: 10
-                        }}>{props.date}</Text>
-                </View>
-                <View style={{ flex: 1, marginTop: 20 }}>
-                    <AntDesign name="right" size={20} color="black"
-                        style={{
-                            marginLeft: 30,
-                            color: 'rgb(200,200,200)'
-                        }} />
-                </View>
-            </TouchableOpacity>
-        </View>
-    )
-}
