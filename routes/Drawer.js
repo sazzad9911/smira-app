@@ -15,7 +15,8 @@ import Search from "../screens/Search";
 import Home from "../screens/Home";
 import Coupons from "../screens/Coupons";
 import Settings from "../screens/Settings"
-import SettingsHeader from '../components/SettingsHeader'
+import SettingsHeader from '../components/SettingsHeader';
+import Membership from "../screens/Membership";
 
 // const Drawer =
 //     createAppContainer(
@@ -101,6 +102,7 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ headerShown: false }} name="WishList" component={WishList} />
         <Drawer.Screen options={{ headerShown: false }} name="Rooms" component={Rooms} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Settings" component={Settings} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Choose Your Membership" component={Membership}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
