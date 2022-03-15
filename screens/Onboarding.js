@@ -1,8 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet ,Image} from 'react-native'
 import { Dimensions } from 'react-native';
 import SideSwipe from 'react-native-sideswipe';
 import { AntDesign } from '@expo/vector-icons';
+import Screen from '../assets/Screen.png'
+
 const window = Dimensions.get('window')
 const Onboarding = (props) => {
     
@@ -15,21 +17,26 @@ const Onboarding = (props) => {
         {
             name: 'dewsd',
             id: 2
+        },
+        {
+            name:'dsf',
+            id: 3
         }
     ])
 
     return (
         <ScrollView>
             <View style={{
+                width:window.width,
                 height: window.height / 2 + 100,
                 backgroundColor: 'black'
             }}>
                 <SideSwipe
-                    index={0}
+                    index={1}
                     itemWidth={window.width}
                     style={{ width: window.width }}
                     data={data}
-                    contentOffset={window.width/2}
+                    contentOffset={window.width}
                     onIndexChange={index => { }
                         //this.setState(() => ({ currentIndex: index }))
                     }
@@ -104,16 +111,11 @@ const styles = StyleSheet.create({
 })
 const Slider = ({ item }) => {
     return (
-        <View style={{
+        <Image source={Screen} style={{
             backgroundColor: 'red',
             width: window.width,
-            height: 400,
+            height: window.height / 2 + 100,
             margin:10,
-        }}>
-            <Text style={{
-                fontSize:30,
-                color: 'white'
-            }}>sdhskhd</Text>
-        </View>
+        }}/>
     )
 }
