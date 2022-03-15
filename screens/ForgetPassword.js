@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, Button, TouchableOpacity, Switch, TextIn
 import RedeemHistory from './RedeemHistory';
 import { AntDesign } from '@expo/vector-icons';
 
-const ForgetPassword = () => {
+const ForgetPassword = (props) => {
     const [text, onChangeText] = React.useState(null);
     const [Confirm, setConfirm] = React.useState(false);
 
@@ -11,7 +11,7 @@ const ForgetPassword = () => {
         <ScrollView>
             {
                 Confirm ? (
-                    <ConfirmMessage />
+                    <ConfirmMessage navigation={props.navigation} />
                 ) : (
                     <GetInstruction value={text}
                         onChange={onChangeText}
@@ -94,7 +94,7 @@ const GetInstruction = (props) => {
     )
 }
 
-const ConfirmMessage = () => {
+const ConfirmMessage = ({ navigation }) => {
     return (
         <View>
             <ScrollView>
@@ -124,13 +124,15 @@ const ConfirmMessage = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
+                    <Text style={{
+                        fontSize: 20,
+                    }}>Did not receive the email?</Text>
+                    <TouchableOpacity onPress={() =>navigation.navigate('Reset Password')}>
                         <Text style={{
-                            fontSize:20,
-                        }}>Did not receive the email?</Text>
-                        <Text style={{
-                            fontSize:20,
-                            color:'red',
+                            fontSize: 20,
+                            color: 'red',
                         }}>Check your spam folder.</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
 
