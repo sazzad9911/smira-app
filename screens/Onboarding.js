@@ -3,9 +3,9 @@ import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-nati
 import { Dimensions } from 'react-native';
 import SideSwipe from 'react-native-sideswipe';
 import { AntDesign } from '@expo/vector-icons';
-
+const window = Dimensions.get('window')
 const Onboarding = (props) => {
-    const window = Dimensions.get('window')
+    
     const navigation = props.navigation
     const [data, setData] = React.useState([
         {
@@ -104,7 +104,12 @@ const styles = StyleSheet.create({
 })
 const Slider = ({ item }) => {
     return (
-        <View>
+        <View style={{
+            backgroundColor: 'red',
+            width: window.width,
+            height: 400,
+            margin:10,
+        }}>
             <Text style={{
                 fontSize:30,
                 color: 'white'
