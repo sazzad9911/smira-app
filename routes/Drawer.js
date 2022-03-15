@@ -33,6 +33,9 @@ import ConfirmMessage from "../screens/ConfirmMessage";
 import HotelGallaryHeader from './../components/HotelGallaryHeader';
 import HotelGallery from "../screens/HotelGallery";
 import ResetPassword from "../screens/ResetPassword";
+import Onboarding from "../screens/Onboarding";
+import SignIn from './../screens/SignIn';
+import SignUp from "../screens/SignUp";
 
 
 const Drawer = createDrawerNavigator();
@@ -46,6 +49,7 @@ export default function DrawerApp() {
           },
           drawerType: 'slide'
         }}
+        initialRouteName='Onboarding'
         drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}>
         <Drawer.Screen options={{ header:(props)=><HomeHeader {...props}/> }} name="Home" component={Home} />
         <Drawer.Screen options={{ headerShown: false }} name="Search" component={Search} />
@@ -69,6 +73,9 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ header: (props) => <HotelGallaryHeader {...props} /> }} name="Hotel Gallery" component={HotelGallery}/>
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword}/>
         <Drawer.Screen options={{headerShown: false }} name="Hotel" component={Hotel}/>
+        <Drawer.Screen options={{headerShown: false }} name="Onboarding" component={Onboarding}/>
+        <Drawer.Screen options={{headerShown: false }} name="SignUp" component={SignUp}/>
+        <Drawer.Screen options={{headerShown: false }} name="SignIn" component={SignIn}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
