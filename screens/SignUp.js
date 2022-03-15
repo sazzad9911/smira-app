@@ -126,7 +126,7 @@ const SignUp = () => {
                     visible={modalVisible}
                     onRequestClose={() => setModalVisible(!modalVisible)}>
                     <View>
-                        <SignUpWithOtp />
+                        <SignUpWithOtp close={setModalVisible} />
                     </View>
                 </Modal>
             </ScrollView>
@@ -135,16 +135,21 @@ const SignUp = () => {
 };
 
 export default SignUp;
-const SignUpWithOtp = () => {
-    return (
-        <View style={{
-            marginTop: 40,
-        }}>
+const SignUpWithOtp = (props) => {
+    const [next, setNext] = React.useState(false)
+
+    if (next) {
+        return (
+            <View style={{
+                marginTop: 40,
+            }}>
                 <View style={{
                     marginTop: '15%',
                     marginLeft: '85%'
                 }}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        props.close(false)
+                    }}>
                         <Fontisto name="close-a" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
@@ -159,21 +164,72 @@ const SignUpWithOtp = () => {
                     }}>SignUp with OTP</Text>
                     <Text style={{
                         fontSize: 15,
+                        marginTop:20,
                     }}>Register your new account</Text>
                 </View>
 
                 <View >
-                    <TextInput
-                        style={{
-                            height: 75,
-                            margin: 12,
-                            padding: 10,
-                            borderRadius: 50,
-                            marginTop: 50,
-                            backgroundColor: '#F5F5F5'
-                        }}
-                        placeholder="Mobile Number"
-                    />
+                    <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                    }}>
+                        <TextInput keyboardType='numeric'
+                            style={{
+                                height: 75,
+                                margin: 12,
+                                padding: 10,
+                                width: 75,
+                                borderRadius: 50,
+                                marginTop: 50,
+                                backgroundColor: '#F5F5F5',
+                                fontSize: 20,
+                            }}
+                        />
+
+
+                        <TextInput keyboardType='numeric'
+                            style={{
+                                height: 75,
+                                margin: 12,
+                                padding: 10,
+                                width: 75,
+                                borderRadius: 50,
+                                marginTop: 50,
+                                backgroundColor: '#F5F5F5',
+                                fontSize: 20,
+                            }}
+                        />
+
+
+                        <TextInput keyboardType='numeric'
+                            style={{
+                                height: 75,
+                                margin: 12,
+                                padding: 10,
+                                width: 75,
+                                borderRadius: 50,
+                                marginTop: 50,
+                                backgroundColor: '#F5F5F5',
+                                fontSize: 20,
+                            }}
+                        />
+
+
+                        <TextInput keyboardType='numeric'
+                            style={{
+                                height: 75,
+                                margin: 12,
+                                padding: 10,
+                                width: 75,
+                                borderRadius: 50,
+                                marginTop: 50,
+                                backgroundColor: '#F5F5F5',
+                                fontSize: 20,
+                            }}
+                        />
+                    </View>
+
 
                     <TouchableOpacity >
                         <View style={{
@@ -184,16 +240,83 @@ const SignUpWithOtp = () => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             flexDirection: 'row',
-                            backgroundColor:'#FC444B'
+                            backgroundColor: '#FC444B'
                         }}>
-                        <Text style={{
-                            color:'white',
-                            fontSize:30,
-                        }}>NEXT</Text>
+                            <Text style={{
+                                color: 'white',
+                                fontSize: 30,
+                            }}>SUBMIT</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
-        </View>
-    )
+            </View>
+        )
+    } else {
+        return (
+            <View style={{
+                marginTop: 40,
+            }}>
+                <View style={{
+                    marginTop: '15%',
+                    marginLeft: '85%'
+                }}>
+                    <TouchableOpacity onPress={() => props.close(false)}>
+                        <Fontisto name="close-a" size={24} color="black" />
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: '20%',
+                }}>
+                    <Text style={{
+                        fontSize: 35,
+                    }}>SignUp with OTP</Text>
+                    <Text style={{
+                        fontSize: 15,
+                        marginTop:20,
+                    }}>Register your new account</Text>
+                </View>
+
+                <View >
+                    <TextInput keyboardType='numeric'
+                        style={{
+                            height: 75,
+                            margin: 12,
+                            padding: 10,
+                            borderRadius: 50,
+                            marginTop: 50,
+                            backgroundColor: '#F5F5F5',
+                            fontSize: 20
+                        }}
+                        placeholder="Mobile Number"
+                    />
+
+                    <TouchableOpacity onPress={() => {
+                        setNext(true)
+                    }}>
+                        <View style={{
+                            height: 75,
+                            margin: 12,
+                            padding: 10,
+                            borderRadius: 40,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            backgroundColor: '#FC444B'
+                        }}>
+                            <Text style={{
+                                color: 'white',
+                                fontSize: 30,
+                            }}>NEXT</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
 }
+
+
 
