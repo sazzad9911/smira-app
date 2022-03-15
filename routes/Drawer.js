@@ -29,6 +29,7 @@ import ForgetPassword from "../screens/ForgetPassword";
 import Language from './../screens/Language';
 import TellToUs from "../screens/TellToUs";
 import HomeHeader from "../components/HomeHeader";
+import ConfirmMessage from "../screens/ConfirmMessage";
 
 
 const Drawer = createDrawerNavigator();
@@ -61,6 +62,7 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword}/>
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Language" component={Language}/>
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Talk To Us" component={TellToUs}/>
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Confirm Message" component={ConfirmMessage}/>
         <Drawer.Screen options={{headerShown: false }} name="Hotel" component={Hotel}/>
       </Drawer.Navigator>
     </NavigationContainer>

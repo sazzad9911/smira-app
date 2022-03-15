@@ -4,34 +4,20 @@ import RedeemHistory from './RedeemHistory';
 
 const ForgetPassword = () => {
     const [text, onChangeText] = React.useState(null);
+    const [Confirm, setConfirm] = React.useState(false);
 
     return (
         <ScrollView>
-            <View style={styles.text}>
-                <Text style={{ fontSize: 20 }}>Enter the email associated with your account{'\n'}
-                    and we'll send an email with instructions to {'\n'}
-                    reset your password</Text>
-            </View>
-            <View >
-                <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeText}
-                    value={text}
-                    placeholder="Your email address"
+        {
+            Confirm? (
+                <ConfirmMessage/>
+            ):(
+                <GetInstruction value={text} 
+                onChange={onChangeText}
+                    setConfirm={setConfirm}
                 />
-            </View>
-
-
-            <View style={styles.cartText}>
-            <Cart title='Email address does not exist.'></Cart>
-            </View>
-
-
-            <TouchableOpacity>
-                <View style={styles.view}>
-                    <Text style={styles.viewtext}>SEND INSTRUCTIONS</Text>
-                </View>
-            </TouchableOpacity>
+            )
+        }
         </ScrollView>
     );
 };
@@ -66,19 +52,51 @@ const styles = StyleSheet.create({
         color: 'red',
         fontSize: 20,
     },
-    cartText:{
-        marginLeft:30,
+    cartText: {
+        marginLeft: 30,
     }
 
 });
 export default ForgetPassword;
-
-const Cart = (props) => {
-
+const GetInstruction = (props) => {
     return (
-        <Text style={{
-            fontSize: 15,
-            color: 'red',
-        }}>{props.title}</Text>
+        <View>
+            <View style={styles.text}>
+                <Text style={{ fontSize: 20 }}>Enter the email associated with your account{'\n'}
+                    and we'll send an email with instructions to {'\n'}
+                    reset your password</Text>
+            </View>
+            <View >
+                <TextInput
+                    style={styles.input}
+                    onChangeText={props.onChange}
+                    value={props.value}
+                    placeholder="Your email address"
+                />
+            </View>
+
+
+            <View style={styles.cartText}>
+                <Text style={{
+                    fontSize: 15,
+                    color: 'red',
+                }}>Email address does not exist</Text>
+            </View>
+
+
+            <TouchableOpacity onPress={() =>props.setConfirm(true)}>
+                <View style={styles.view}>
+                    <Text style={styles.viewtext}>SEND INSTRUCTIONS</Text>
+                </View>
+            </TouchableOpacity>
+        </View>
+    )
+}
+
+const ConfirmMessage = () => {
+    return (
+        <View>
+            <Text>Confirm Message</Text>
+        </View>
     )
 }
