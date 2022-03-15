@@ -76,7 +76,6 @@ const GetInstruction = (props) => {
                 />
             </View>
 
-
             <View style={styles.cartText}>
                 <Text style={{
                     fontSize: 15,
@@ -120,7 +119,7 @@ const ConfirmMessage = ({ navigation }) => {
                 </View>
 
                 <View style={{
-                    marginTop: 180,
+                    marginTop: '80%',
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
