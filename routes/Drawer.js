@@ -49,7 +49,7 @@ export default function DrawerApp() {
           },
           drawerType: 'slide'
         }}
-        initialRouteName='Hotel'
+        initialRouteName='Onboarding'
         drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}>
         <Drawer.Screen options={{ header:(props)=><HomeHeader {...props}/> }} name="Home" component={Home} />
         <Drawer.Screen options={{ headerShown: false }} name="Search" component={Search} />
