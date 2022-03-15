@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, ScrollView, Text, TouchableOpacity, TextInput } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const ResetPassword = () => {
-    const [Confirm, setConfirm] = React.useState(true);
+    const [Confirm, setConfirm] = React.useState(false);
     return (
         <ScrollView>
             {
@@ -21,6 +22,8 @@ const ResetPassword = () => {
 export default ResetPassword;
 
 const GetInstruction = () => {
+    const [visible,setVisible]=React.useState(false)
+
     return (
         <View>
             <ScrollView>
@@ -37,17 +40,36 @@ const GetInstruction = () => {
                         fontSize: 20,
                         color: 'rgb(100,100,100)',
                     }}>Password</Text>
-                    <TextInput
-                        style={{
-                            height: 50,
-                            margin: 12,
-                            borderWidth: 1,
-                            padding: 10,
-                            borderRadius: 30,
-                        }}
-                        placeholder=""
-                        secureTextEntry={true}
-                    />
+                    <View style={{
+                        height: 50,
+                        margin: 20,
+                        borderWidth: 1,
+                        padding: 10,
+                        borderRadius: 30,
+                        flexDirection: 'row',
+                    }}>
+                        <TextInput
+                            style={{
+                                height: 50,
+                                borderRadius: 30,
+                                marginTop: -10,
+                                width: '95%'
+                            }}
+                            secureTextEntry={visible}
+                        />
+                        <View style={{
+                            marginLeft:-10,
+                        }}>
+                            
+                            {
+                                visible?(
+                                    <Ionicons onPress={()=>setVisible(false)} name="eye-off-outline" size={24} color="black" />
+                                ):(
+                                    <Ionicons onPress={()=>setVisible(true)} name="eye-outline" size={24} color="black" />
+                                )
+                            }
+                        </View>
+                    </View>
                     <Text style={{
                         fontSize: 15,
                         color: 'rgb(100,100,100)',
@@ -66,7 +88,7 @@ const GetInstruction = () => {
                         <TextInput
                             style={{
                                 height: 50,
-                                margin: 12,
+                                margin: 20,
                                 borderWidth: 1,
                                 padding: 10,
                                 borderRadius: 30,
@@ -131,7 +153,7 @@ const ConfirmMessage = () => {
                     }}>Reset successfully.</Text>
                 </View>
 
-                
+
             </ScrollView>
         </View>
     )
