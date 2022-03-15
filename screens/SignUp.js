@@ -1,5 +1,8 @@
 import React from 'react';
-import { View, Modal, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import {
+    View, Modal, Text, ScrollView, Image,
+    TouchableOpacity, TextInput
+} from 'react-native';
 import Screen from '../assets/Screen.png'
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -137,9 +140,60 @@ const SignUpWithOtp = () => {
         <View style={{
             marginTop: 40,
         }}>
-            <ScrollView>
-                <Text>bsdhsdh</Text>
-            </ScrollView>
+                <View style={{
+                    marginTop: '15%',
+                    marginLeft: '85%'
+                }}>
+                    <TouchableOpacity>
+                        <Fontisto name="close-a" size={24} color="black" />
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: '20%',
+                }}>
+                    <Text style={{
+                        fontSize: 35,
+                    }}>SignUp with OTP</Text>
+                    <Text style={{
+                        fontSize: 15,
+                    }}>Register your new account</Text>
+                </View>
+
+                <View >
+                    <TextInput
+                        style={{
+                            height: 75,
+                            margin: 12,
+                            padding: 10,
+                            borderRadius: 50,
+                            marginTop: 50,
+                            backgroundColor: '#F5F5F5'
+                        }}
+                        placeholder="Mobile Number"
+                    />
+
+                    <TouchableOpacity >
+                        <View style={{
+                            height: 75,
+                            margin: 12,
+                            padding: 10,
+                            borderRadius: 40,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            backgroundColor:'#FC444B'
+                        }}>
+                        <Text style={{
+                            color:'white',
+                            fontSize:30,
+                        }}>NEXT</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
         </View>
     )
 }
+
