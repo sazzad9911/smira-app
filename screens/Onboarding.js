@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet ,Image} from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Image } from 'react-native'
 import { Dimensions } from 'react-native';
 import SideSwipe from 'react-native-sideswipe';
 import { AntDesign } from '@expo/vector-icons';
@@ -7,39 +7,26 @@ import Screen from '../assets/Screen.png'
 
 const window = Dimensions.get('window')
 const Onboarding = (props) => {
-    
+    const [index, setIndex] = React.useState(3)
     const navigation = props.navigation
     const [data, setData] = React.useState([
-        {
-            name: 'skdjsd',
-            id: 1
-        },
-        {
-            name: 'dewsd',
-            id: 2
-        },
-        {
-            name:'dsf',
-            id: 3
-        }
+        0, 1, 2, 3
     ])
 
     return (
         <ScrollView>
             <View style={{
-                width:window.width,
-                height: window.height / 2 + 100,
                 backgroundColor: 'black'
             }}>
                 <SideSwipe
-                    index={1}
+                    index={3}
                     itemWidth={window.width}
-                    style={{ width: window.width }}
+                    style={{}}
                     data={data}
                     contentOffset={window.width}
-                    onIndexChange={index => { }
-                        //this.setState(() => ({ currentIndex: index }))
-                    }
+                    onIndexChange={index => {
+                        setIndex(index);
+                    }}
                     renderItem={({ itemIndex, currentIndex, item, animatedValue }) => (
                         <Slider
                             {...item}
@@ -47,11 +34,10 @@ const Onboarding = (props) => {
                             currentIndex={currentIndex}
                             animatedValue={animatedValue}
                         />
-                    )}
-                />
+                    )} />
             </View>
             <View style={{
-                height: window.height / 2 - 100,
+                height: 300,
                 padding: 30,
             }}>
                 <Text style={{
@@ -79,9 +65,11 @@ const Onboarding = (props) => {
                         flex: 1,
                         flexDirection: 'row',
                     }}>
-                        <View style={styles.view}></View>
-                        <View style={styles.view}></View>
-                        <View style={styles.view}></View>
+
+                        <View style={[styles.view, { backgroundColor: index == 0 ? 'black' : '#0000008e' }]}></View>
+                        <View style={[styles.view, { backgroundColor: index==1?'black' :'#0000008e' }]}></View>
+                        <View style={[styles.view, { backgroundColor: index==2?'black' :'#0000008e' }]}></View>
+                        <View style={[styles.view, { backgroundColor: index==3?'black' :'#0000008e' }]}></View>
                     </View>
                     <TouchableOpacity style={{
                         height: 60,
@@ -102,8 +90,8 @@ const Onboarding = (props) => {
 export default Onboarding;
 const styles = StyleSheet.create({
     view: {
-        width: 15,
-        height: 3,
+        width: 20,
+        height: 4,
         margin: 2,
         backgroundColor: 'black',
         borderRadius: 1
@@ -112,10 +100,8 @@ const styles = StyleSheet.create({
 const Slider = ({ item }) => {
     return (
         <Image source={Screen} style={{
-            backgroundColor: 'red',
             width: window.width,
             height: window.height / 2 + 100,
-            margin:10,
-        }}/>
+        }} />
     )
 }

@@ -189,8 +189,6 @@ const propTypes = {
 
   draggable: PropTypes.bool,
 
-  tappable: PropTypes.bool,
-
   /**
    * Sets whether this marker should track view changes true.
    */
@@ -335,14 +333,14 @@ class MapMarker extends React.Component {
 
     return (
       <AIRMapMarker
-        ref={(ref) => {
+        ref={ref => {
           this.marker = ref;
         }}
         {...this.props}
         image={image}
         icon={icon}
         style={[styles.marker, this.props.style]}
-        onPress={(event) => {
+        onPress={event => {
           if (this.props.stopPropagation) {
             event.stopPropagation();
           }

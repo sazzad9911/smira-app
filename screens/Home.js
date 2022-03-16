@@ -8,17 +8,19 @@ import testImage from '../assets/favicon.png';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SliderBox } from "react-native-image-slider-box";
 //------------------------------------------------------------------------------
-import Hotels from '../assets/Icons/Hotels.svg'
+import Hotels from '../assets/svgtopng/Hotels.png'
+import Health from '../assets/svgtopng/Health.png'
+import Games from '../assets/svgtopng/Games.png'
+import Camping from '../assets/svgtopng/Camping.png'
+import Restaurant from '../assets/svgtopng/Restaurant.png'
+import Services from '../assets/svgtopng/Services.png'
+import Shopping from '../assets/svgtopng/Shopping.png'
+import Travel from '../assets/svgtopng/Travel.png'
+import Villas from '../assets/svgtopng/Villas.png'
 
 const window = Dimensions.get('window')
 const Home = ({ navigation }) => {
-  const [Options, setOptions] = useState([
-    {
-      id: 1,
-      img: Hotels
-    },
 
-  ]);
   const [TopBrands, setTopBrands] = useState([
     1, 2, 3, 4, 5
   ]);
@@ -58,18 +60,18 @@ const Home = ({ navigation }) => {
           flexDirection: 'row', flexWrap: 'wrap',
           justifyContent: 'center', alignItems: 'center'
         }}>
-          {
-            Options.map(opt => {
-              return (
-                <View key={opt.id} style={{
-                  borderWidth: 1, borderColor: 'rgb(220,220,220)', height: 80,
-                  width: 80, borderRadius: 10, margin: 5,
-                }}>
-                  
-                </View>
-              );
-            })
-          }
+        {
+          //icon set
+        }
+          <IconsSet name="Hotels" icon={Hotels} />
+          <IconsSet name="Health" icon={Health} />
+          <IconsSet name="Games" icon={Games} />
+          <IconsSet name="Camping" icon={Camping} />
+          <IconsSet name="Restaurant" icon={Restaurant} />
+          <IconsSet name="Services" icon={Services} />
+          <IconsSet name="Shopping" icon={Shopping} />
+          <IconsSet name="Travel" icon={Travel} />
+          
         </View>
       </View>
       <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
@@ -206,4 +208,16 @@ const Home = ({ navigation }) => {
 
 export default Home
 
-const styles = StyleSheet.create({})
+export const IconsSet = (props) => {
+  return (
+    <View style={{
+      borderWidth: 1, borderColor: 'rgb(220,220,220)', height: 80,
+      width: 80, borderRadius: 10, margin: 5,
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>
+      <Image style={{ width: 40, height: 40, margin: 5 }} source={props.icon} />
+      <Text>{props.name}</Text>
+    </View>
+  );
+}
