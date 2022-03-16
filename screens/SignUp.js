@@ -88,6 +88,7 @@ const SignUp = (props) => {
                         }}>SignUp with Email</Text>
                     </TouchableOpacity>
 
+<<<<<<< Updated upstream
                     <TouchableOpacity style={{
                         height: 60,
                         margin: 20,
@@ -106,6 +107,29 @@ const SignUp = (props) => {
                         elevation: 4,
                         backgroundColor: '#FFFFFF',
                     }}>
+=======
+                    <TouchableOpacity >
+                        <View style={{
+                            height: 75,
+                            margin: 20,
+                            padding: 10,
+                            borderWidth: 1,
+                            borderRadius: 40,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            color: 'rgb(100,100,100)'
+                        }}>
+                            <View style={{ flex: 2, marginLeft: 20, }}>
+                                <Fontisto name="google" size={44} color="red" />
+                            </View>
+                            <View style={{ flex: 3 }}>
+                                <Text style={{
+                                    color: 'black',
+                                    fontSize: 20,
+                                }}>SignUp with Google</Text>
+                            </View>
+>>>>>>> Stashed changes
 
                         <Fontisto name="google" size={30} color="red" />
                         <Text style={{
@@ -319,7 +343,7 @@ const SignUpWithOtp = (props) => {
                             borderRadius: 50,
                             marginTop: 50,
                             backgroundColor: '#F5F5F5',
-                            fontSize: 20
+                            fontSize: 20,
                         }}
                         placeholder="Mobile Number"
                     />
