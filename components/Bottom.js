@@ -133,7 +133,7 @@ import HotelBooking from './HotelBooking';
 export const Category = () => {
     return (
         <View style={{
-            width: window.width,
+            width: '100%',
             padding: 20,
         }}>
             <Text style={{
