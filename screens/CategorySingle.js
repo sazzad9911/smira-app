@@ -8,7 +8,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const CategorySingle = (props) => {
     const title = props.route.params.title;
-    console.log(title)
+    //console.log(title)
 
     if (title == 'Popular Hotel') {
         return (
