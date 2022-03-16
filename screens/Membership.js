@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
 
 
-const Membership = () => {
+const Membership = ({ navigation}) => {
     return (
         <View style={style.body}>
             <Text style={style.bodyHeaderText}>Claim Your <Text style={{
@@ -10,9 +10,9 @@ const Membership = () => {
             }}>Free Month</Text></Text>
             <ScrollView>
                 <View>
-                    <MembershipSlide headcolor='#FA454B' night='40' hotel='5' account='3' amount='50000' Buttoncolor='#FA454B'></MembershipSlide>
-                    <MembershipSlide headcolor='#D4B931' night='50' hotel='6' account='4' amount='60000' Buttoncolor='#D4B931'></MembershipSlide>
-                    <MembershipSlide headcolor='#31D485' night='60' hotel='7' account='5' amount='70000' Buttoncolor='#31D485'></MembershipSlide>
+                    <MembershipSlide navigation={navigation} headcolor='#FA454B' night='40' hotel='5' account='3' amount='50000' Buttoncolor='#FA454B'></MembershipSlide>
+                    <MembershipSlide navigation={navigation} headcolor='#D4B931' night='50' hotel='6' account='4' amount='60000' Buttoncolor='#D4B931'></MembershipSlide>
+                    <MembershipSlide navigation={navigation} headcolor='#31D485' night='60' hotel='7' account='5' amount='70000' Buttoncolor='#31D485'></MembershipSlide>
                 </View>
             </ScrollView>
 
@@ -33,6 +33,7 @@ const Membership = () => {
 export default Membership;
 
 const MembershipSlide = (props) => {
+    const navigation = props.navigation
     const { height, width } = Dimensions.get('screen');
     return (
         <View style={style.slideView}>
@@ -43,7 +44,7 @@ const MembershipSlide = (props) => {
                 <Text style={style.textMargin}>Family access upto {props.account} accounts</Text>
                 <Text style={style.textMargin}>Benefits worth of ₹{props.amount}</Text>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() =>navigation.navigate('Checkout',{color:props.headcolor})}>
                     <View style={[style.bottomButton,{
                         backgroundColor: props.Buttoncolor
                     }]}>
