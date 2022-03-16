@@ -55,6 +55,7 @@ const List = (props) => {
                                 width:20,
                                 borderRadius:10,
                                 backgroundColor:'red'
+                                
                             }} />
                         ) : (
                             <View></View>
