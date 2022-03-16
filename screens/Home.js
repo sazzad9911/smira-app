@@ -17,7 +17,8 @@ import Services from '../assets/svgtopng/Services.png'
 import Shopping from '../assets/svgtopng/Shopping.png'
 import Travel from '../assets/svgtopng/Travel.png'
 import Villas from '../assets/svgtopng/Villas.png'
-import {HotelMemberCart} from './Hotel'
+import { HotelMemberCart } from './Hotel'
+import Brands from '../components/Brands'
 
 const window = Dimensions.get('window')
 const Home = ({ navigation }) => {
@@ -61,9 +62,9 @@ const Home = ({ navigation }) => {
           flexDirection: 'row', flexWrap: 'wrap',
           justifyContent: 'center', alignItems: 'center'
         }}>
-        {
-          //icon set
-        }
+          {
+            //icon set
+          }
           <IconsSet name="Hotels" icon={Hotels} />
           <IconsSet name="Health" icon={Health} />
           <IconsSet name="Games" icon={Games} />
@@ -72,7 +73,7 @@ const Home = ({ navigation }) => {
           <IconsSet name="Services" icon={Services} />
           <IconsSet name="Shopping" icon={Shopping} />
           <IconsSet name="Travel" icon={Travel} />
-          
+
         </View>
       </View>
       <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
@@ -165,21 +166,11 @@ const Home = ({ navigation }) => {
         </View>
         <ScrollView style={{ flex: 3, marginBottom: 10 }} horizontal={true}>
           <View style={{ width: 10 }}></View>
-          {
-            TopBrands.map(brand => {
-              return (
-                <View key={brand}
-                  style={{
-                    height: 100, width: 100, backgroundColor: 'blue', borderRadius: 10,
-                    marginBottom: 10, marginLeft: 4, marginRight: 4, marginTop: 5, shadowColor: 'black', shadowOffset: {
-                      height: 0, width: 2
-                    }, shadowOpacity: 0.5, shadowRadius: 5
-                  }}>
-
-                </View>
-              );
-            })
-          }
+          <Brands img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScyH6_XNmOwHCPuZHCqk9aaHADZGHfp5-FyA&usqp=CAU' />
+          <Brands img='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/deer-icon-animal-logo-fashion-brand-logo-design-template-a35052e08e1706a6a9118c70d812cf39_screen.jpg?ts=1597394386' />
+          <Brands img="https://images-platform.99static.com/QaJZniGXtK44vAT6nYiN3NMNWD4=/146x111:1346x1311/500x500/top/smart/99designs-contests-attachments/94/94573/attachment_94573795" />
+          <Brands img='https://cdn.logojoy.com/wp-content/uploads/2018/05/30143356/127.png' />
+          <Brands img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDKWW0BdV2kJicYJ4i00_PY9QstjrlUlb9Sg&usqp=CAU' />
         </ScrollView>
       </LinearGradient>
 
@@ -188,11 +179,11 @@ const Home = ({ navigation }) => {
         <View style={{ width: '100%' }}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 10 }}>Popular Hotels</Text>
         </View>
-        <ScrollView horizontal={true} style={{ width: '100%',margin:5 }}>
-          <HotelMemberCart/>
-          <HotelMemberCart/>
-          <HotelMemberCart/>
-          <HotelMemberCart/>
+        <ScrollView horizontal={true} style={{ width: '100%', margin: 5 }}>
+          <HotelMemberCart />
+          <HotelMemberCart />
+          <HotelMemberCart />
+          <HotelMemberCart />
         </ScrollView>
       </View>
     </ScrollView>
