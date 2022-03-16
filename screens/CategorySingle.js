@@ -8,27 +8,27 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const CategorySingle = (props) => {
     const title = props.route.params.title;
-    //console.log(title)
+    console.log(title)
 
     if (title == 'Popular Hotel') {
         return (
             <View style={styles.body}>
 
                 <View style={{
-                    flexDirection:'row',
+                    flexDirection: 'row',
                     marginTop: 50,
-                    alignItems:'center'
+                    alignItems: 'center'
                 }}>
                     <View style={{
-                        width:Dimensions.get('screen').width-60
+                        width: Dimensions.get('screen').width - 60
                     }}>
-                    <Text style={{
-                        color:'black',
-                        fontSize:24,
-                        fontWeight:'800'
-                    }}> {title}</Text>
+                        <Text style={{
+                            color: 'black',
+                            fontSize: 24,
+                            fontWeight: '800'
+                        }}> {title}</Text>
                     </View>
-                    
+
                     <TouchableOpacity onPress={props.navigation.goBack}>
                         <Entypo name="cross" size={40} color="black" />
                     </TouchableOpacity>
@@ -45,6 +45,10 @@ const CategorySingle = (props) => {
                 </View>
                 <ScrollView>
                     <View >
+                        <Cards navigation={props.navigation} img={picture} title="On the go"
+                            address="Alibaug, Maharashtra" />
+                        <Cards navigation={props.navigation} img={picture} title="On the go"
+                            address="Alibaug, Maharashtra" />
                         <Cards navigation={props.navigation} img={picture} title="On the go"
                             address="Alibaug, Maharashtra" />
                         <Cards navigation={props.navigation} img={picture} title="On the go"
@@ -54,24 +58,24 @@ const CategorySingle = (props) => {
             </View>
         );
     }
-    else if (title == 'Restuarant') {
+    else if (title == 'Restaurant') {
         return (
             <View style={styles.body}>
                 <View style={{
-                    flexDirection:'row',
+                    flexDirection: 'row',
                     marginTop: 50,
-                    alignItems:'center'
+                    alignItems: 'center'
                 }}>
                     <View style={{
-                        width:Dimensions.get('screen').width-60
+                        width: Dimensions.get('screen').width - 60
                     }}>
-                    <Text style={{
-                        color:'black',
-                        fontSize:24,
-                        fontWeight:'800'
-                    }}> {title}</Text>
+                        <Text style={{
+                            color: 'black',
+                            fontSize: 24,
+                            fontWeight: '800'
+                        }}> {title}</Text>
                     </View>
-                    
+
                     <TouchableOpacity onPress={props.navigation.goBack}>
                         <Entypo name="cross" size={40} color="black" />
                     </TouchableOpacity>
@@ -88,6 +92,15 @@ const CategorySingle = (props) => {
                 </View>
                 <ScrollView>
                     <View >
+                        <DealCart headLine='Flat 35% OFF On All Order'
+                            category='Ovenstory' img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
+                        />
+                        <DealCart headLine='Flat 35% OFF On All Order'
+                            category='Ovenstory' img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
+                        />
+                        <DealCart headLine='Flat 35% OFF On All Order'
+                            category='Ovenstory' img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
+                        />
                         <DealCart headLine='Flat 35% OFF On All Order'
                             category='Ovenstory' img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
                         />
