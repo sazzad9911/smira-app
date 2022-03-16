@@ -53,7 +53,8 @@ export default function DrawerApp() {
         }}
         initialRouteName='Onboarding'
         drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}>
-        <Drawer.Screen options={{ header:(props)=><HomeHeader {...props}/> }} name="Home" component={Home} />
+        <Drawer.Screen options={{ headerShown: false }} name="Onboarding" component={Onboarding} />
+        <Drawer.Screen options={{ header: (props) => <HomeHeader {...props} /> }} name="Home" component={Home} />
         <Drawer.Screen options={{ headerShown: false }} name="Search" component={Search} />
         <Drawer.Screen options={{ headerShown: false }} name="PopularHotels" component={PopularHotels} />
         <Drawer.Screen options={{ headerShown: false }} name="Coupons" component={Coupons} />
@@ -65,21 +66,20 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ headerShown: false }} name="WishList" component={WishList} />
         <Drawer.Screen options={{ headerShown: false }} name="Rooms" component={Rooms} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Settings" component={Settings} />
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Choose Your Membership" component={Membership}/>
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Checkout" component={CheckOut}/>
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory}/>
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword}/>
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Language" component={Language}/>
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Talk To Us" component={TellToUs}/>
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Confirm Message" component={ConfirmMessage}/>
-        <Drawer.Screen options={{ header: (props) => <HotelGallaryHeader title='9 Photos' {...props} /> }} name="Hotel Gallery" component={HotelGallery}/>
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword}/>
-        <Drawer.Screen options={{headerShown: false }} name="Hotel" component={Hotel}/>
-        <Drawer.Screen options={{headerShown: false }} name="Onboarding" component={Onboarding}/>
-        <Drawer.Screen options={{headerShown: false }} name="SignUp" component={SignUp}/>
-        <Drawer.Screen options={{headerShown: false }} name="SignIn" component={SignIn}/>
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Booking" component={Booking}/>
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Review" component={Review}/>
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Choose Your Membership" component={Membership} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Checkout" component={CheckOut} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Language" component={Language} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Talk To Us" component={TellToUs} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Confirm Message" component={ConfirmMessage} />
+        <Drawer.Screen options={{ header: (props) => <HotelGallaryHeader title='9 Photos' {...props} /> }} name="Hotel Gallery" component={HotelGallery} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
+        <Drawer.Screen options={{ headerShown: false }} name="Hotel" component={Hotel} />
+        <Drawer.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
+        <Drawer.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Booking" component={Booking} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Review" component={Review} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

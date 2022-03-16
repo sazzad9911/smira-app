@@ -7,7 +7,7 @@ import Screen from '../assets/Screen.png'
 
 const window = Dimensions.get('window')
 const Onboarding = (props) => {
-    const [index, setIndex] = React.useState(3)
+    const [index, setIndex] = React.useState(1)
     const navigation = props.navigation
     const [data, setData] = React.useState([
         0, 1, 2, 3
@@ -19,7 +19,7 @@ const Onboarding = (props) => {
                 backgroundColor: 'black'
             }}>
                 <SideSwipe
-                    index={3}
+                    index={index}
                     itemWidth={window.width}
                     style={{}}
                     data={data}
@@ -39,7 +39,7 @@ const Onboarding = (props) => {
             <View style={{
                 height: 300,
                 padding: 30,
-                marginBottom:30
+                marginBottom: 30
             }}>
                 <Text style={{
                     fontSize: 26
@@ -68,11 +68,15 @@ const Onboarding = (props) => {
                     }}>
 
                         <View style={[styles.view, { backgroundColor: index == 0 ? 'black' : '#0000008e' }]}></View>
-                        <View style={[styles.view, { backgroundColor: index==1?'black' :'#0000008e' }]}></View>
-                        <View style={[styles.view, { backgroundColor: index==2?'black' :'#0000008e' }]}></View>
-                        <View style={[styles.view, { backgroundColor: index==3?'black' :'#0000008e' }]}></View>
+                        <View style={[styles.view, { backgroundColor: index == 1 ? 'black' : '#0000008e' }]}></View>
+                        <View style={[styles.view, { backgroundColor: index == 2 ? 'black' : '#0000008e' }]}></View>
+                        <View style={[styles.view, { backgroundColor: index == 3 ? 'black' : '#0000008e' }]}></View>
                     </View>
-                    <TouchableOpacity style={{
+                    <TouchableOpacity onPress={() => {
+                        if (index <= 3) {
+                            setIndex(index + 1)
+                        }
+                    }} style={{
                         height: 60,
                         width: 60,
                         backgroundColor: '#FC444B',

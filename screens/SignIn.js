@@ -16,7 +16,7 @@ const SignIn = ({navigation}) => {
                     marginTop: '15%',
                     marginLeft: '85%'
                 }}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() =>navigation.goBack()}>
                         <Fontisto name="close-a" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
@@ -56,14 +56,14 @@ const SignIn = ({navigation}) => {
                             margin: 20,
                             padding: 10,
                             borderRadius: 40,
-                            backgroundColor: '#F5F5F5',
+                            backgroundColor: '#F5F5F1',
                             fontSize: 18,
 
                         }}
                         placeholder="Password"
                     />
 
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={() =>navigation.navigate('Home')}>
                         <View style={{
                             height: 60,
                             margin: 20,
