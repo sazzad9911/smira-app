@@ -15,9 +15,20 @@ const CategorySingle = (props) => {
             <View style={styles.body}>
 
                 <View style={{
+                    flexDirection:'row',
                     marginTop: 50,
-                    marginLeft: 360
+                    alignItems:'center'
                 }}>
+                    <View style={{
+                        width:Dimensions.get('screen').width-60
+                    }}>
+                    <Text style={{
+                        color:'black',
+                        fontSize:24,
+                        fontWeight:'800'
+                    }}> {title}</Text>
+                    </View>
+                    
                     <TouchableOpacity onPress={props.navigation.goBack}>
                         <Entypo name="cross" size={40} color="black" />
                     </TouchableOpacity>
@@ -47,9 +58,20 @@ const CategorySingle = (props) => {
         return (
             <View style={styles.body}>
                 <View style={{
+                    flexDirection:'row',
                     marginTop: 50,
-                    marginLeft: 360
+                    alignItems:'center'
                 }}>
+                    <View style={{
+                        width:Dimensions.get('screen').width-60
+                    }}>
+                    <Text style={{
+                        color:'black',
+                        fontSize:24,
+                        fontWeight:'800'
+                    }}> {title}</Text>
+                    </View>
+                    
                     <TouchableOpacity onPress={props.navigation.goBack}>
                         <Entypo name="cross" size={40} color="black" />
                     </TouchableOpacity>
