@@ -73,7 +73,7 @@ const MemberShipInfo = ({ navigation}) => {
           </View>
         </View>
         <TouchableOpacity onPress={()=>{
-          navigation.navigate('Checkout')
+          navigation.navigate('Checkout',{color:'#FC444B'})
         }} style={{
           backgroundColor: '#64B657', flexDirection: 'row', minHeight: 70, width: '95%', backgroundColor: '#64B657', borderRadius: 10,
           marginTop: 20, alignItems: 'center', justifyContent: 'space-between'

@@ -73,8 +73,10 @@ const Onboarding = (props) => {
                         <View style={[styles.view, { backgroundColor: index == 3 ? 'black' : '#0000008e' }]}></View>
                     </View>
                     <TouchableOpacity onPress={() => {
-                        if (index <= 3) {
+                        if (index < 3) {
                             setIndex(index + 1)
+                        }else{
+                            navigation.navigate('SignUp')
                         }
                     }} style={{
                         height: 60,

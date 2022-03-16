@@ -38,6 +38,7 @@ import SignIn from './../screens/SignIn';
 import SignUp from "../screens/SignUp";
 import Booking from './../screens/Booking';
 import Review from './../screens/Review';
+import BottomBar from './BottomBar';
 
 
 const Drawer = createDrawerNavigator();
@@ -54,7 +55,7 @@ export default function DrawerApp() {
         initialRouteName='Onboarding'
         drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}>
         <Drawer.Screen options={{ headerShown: false }} name="Onboarding" component={Onboarding} />
-        <Drawer.Screen options={{ header: (props) => <HomeHeader {...props} /> }} name="Home" component={Home} />
+        <Drawer.Screen options={{ header: (props) => <HomeHeader {...props} /> }} name="Home" component={BottomBar} />
         <Drawer.Screen options={{ headerShown: false }} name="Search" component={Search} />
         <Drawer.Screen options={{ headerShown: false }} name="PopularHotels" component={PopularHotels} />
         <Drawer.Screen options={{ headerShown: false }} name="Coupons" component={Coupons} />
