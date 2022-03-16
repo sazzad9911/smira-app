@@ -66,14 +66,30 @@ const Home = ({ navigation }) => {
           {
             //icon set
           }
-          <IconsSet name="Hotels" icon={Hotels} />
-          <IconsSet name="Health" icon={Health} />
-          <IconsSet name="Games" icon={Games} />
-          <IconsSet name="Camping" icon={Camping} />
-          <IconsSet name="Restaurant" icon={Restaurant} />
-          <IconsSet name="Services" icon={Services} />
-          <IconsSet name="Shopping" icon={Shopping} />
-          <IconsSet name="Travel" icon={Travel} />
+          <IconsSet onPress={()=>{
+            navigation.navigate('Category Single',{title:'Popular Hotel'})
+          }} name="Hotels" icon={Hotels} />
+          <IconsSet onPress={()=>{
+            navigation.navigate('Category Single',{title:''})
+          }} name="Health" icon={Health} />
+          <IconsSet onPress={()=>{
+            navigation.navigate('Category Single',{title:''})
+          }} name="Games" icon={Games} />
+          <IconsSet onPress={()=>{
+            navigation.navigate('Category Single',{title:''})
+          }} name="Camping" icon={Camping} />
+          <IconsSet onPress={()=>{
+            navigation.navigate('Category Single',{title:'Restaurant'})
+          }} name="Restaurant" icon={Restaurant} />
+          <IconsSet onPress={()=>{
+            navigation.navigate('Category Single',{title:''})
+          }} name="Services" icon={Services} />
+          <IconsSet onPress={()=>{
+            navigation.navigate('Category Single',{title:''})
+          }} name="Shopping" icon={Shopping} />
+          <IconsSet onPress={()=>{
+            navigation.navigate('Category Single',{title:''})
+          }} name="Travel" icon={Travel} />
 
         </View>
       </View>
@@ -145,7 +161,7 @@ export default Home
 
 export const IconsSet = (props) => {
   return (
-    <TouchableOpacity style={{
+    <TouchableOpacity onPress={props.onPress} style={{
       borderWidth: 1, borderColor: 'rgb(220,220,220)', height: 80,
       width: 80, borderRadius: 10, margin: 5,
       justifyContent: 'center',

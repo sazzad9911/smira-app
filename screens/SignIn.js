@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     View, Modal, Text, ScrollView, Image,
-    TouchableOpacity, TextInput, Dimensions
+    TouchableOpacity, TextInput, Dimensions,Platform
 } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -9,7 +9,7 @@ import { AntDesign } from '@expo/vector-icons';
 const SignIn = ({ navigation }) => {
     return (
         <View style={{
-            marginTop: 40,
+            marginTop: Platform.OS == 'ios' ?40:0,
         }}>
             <ScrollView>
                 <View style={{

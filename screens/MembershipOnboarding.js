@@ -7,7 +7,9 @@ import Brands from '../components/Brands'
 const MembershipOnboarding = ({ navigation }) => {
     return (
         <ScrollView>
-            <TouchableOpacity style={{
+            <TouchableOpacity onPress={()=>{
+                navigation.navigate('Home')
+            }} style={{
                 justifyContent: 'flex-end',
                 alignItems: 'flex-end', marginTop: Platform.OS == 'ios' ? 40 : 0
             }}>
