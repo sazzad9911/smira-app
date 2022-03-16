@@ -116,6 +116,11 @@ const SignUp = () => {
                             }}>Login</Text>
                         </TouchableOpacity>
                     </View>
+
+                    <View style={{
+                        height:150,
+                    }}></View>
+
                 </View>
 
 
@@ -174,6 +179,7 @@ const SignUpWithOtp = (props) => {
                         alignItems: 'center',
                         flexDirection: 'row',
                     }}>
+                    
                         <TextInput keyboardType='numeric'
                             style={{
                                 height: 75,
@@ -184,6 +190,7 @@ const SignUpWithOtp = (props) => {
                                 marginTop: 50,
                                 backgroundColor: '#F5F5F5',
                                 fontSize: 20,
+                                
                             }}
                         />
 
@@ -226,6 +233,8 @@ const SignUpWithOtp = (props) => {
                                 marginTop: 50,
                                 backgroundColor: '#F5F5F5',
                                 fontSize: 20,
+                                justifyContent: 'center',
+                            alignItems: 'center',
                             }}
                         />
                     </View>
