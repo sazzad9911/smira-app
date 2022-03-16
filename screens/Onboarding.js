@@ -39,6 +39,7 @@ const Onboarding = (props) => {
             <View style={{
                 height: 300,
                 padding: 30,
+                marginBottom:30
             }}>
                 <Text style={{
                     fontSize: 26
