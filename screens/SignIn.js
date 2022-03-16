@@ -6,7 +6,7 @@ import {
 import { Fontisto } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
-const SignIn = ({navigation}) => {
+const SignIn = ({ navigation }) => {
     return (
         <View style={{
             marginTop: 40,
@@ -16,7 +16,7 @@ const SignIn = ({navigation}) => {
                     marginTop: '15%',
                     marginLeft: '85%'
                 }}>
-                    <TouchableOpacity onPress={() =>navigation.goBack()}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Fontisto name="close-a" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
@@ -62,8 +62,8 @@ const SignIn = ({navigation}) => {
                         }}
                         placeholder="Password"
                     />
+                    <TouchableOpacity onPress={() => navigation.navigate('Home')}>
 
-                    <TouchableOpacity onPress={() =>navigation.navigate('Home')}>
                         <View style={{
                             height: 60,
                             margin: 20,
@@ -137,7 +137,7 @@ const SignIn = ({navigation}) => {
                     <Text style={{
                         fontSize: 20
                     }}>New to Smira Club?</Text>
-                    <TouchableOpacity onPress={()=>navigation.navigate('SignUp')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
                         <Text style={{
                             fontSize: 20,
                             color: 'red',
