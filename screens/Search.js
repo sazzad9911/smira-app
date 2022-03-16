@@ -19,7 +19,7 @@ const Search = ({ navigation }) => {
   return (
     SearchParam != 'Type' ?
       (
-        <Tab.Navigator>
+        <Tab.Navigator tabBar={(props)=><SearchBottom {...props}/>}>
           <Tab.Screen options={{ headerShown: false }} name="SearchHotel" component={SearchHotel} />
           <Tab.Screen options={{
             headerShown: false

@@ -4,12 +4,15 @@ import React from 'react';
 
 import { AntDesign, EvilIcons, Feather, FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 import profilePicture from '../assets/10.jpg'
+import { Category } from './Bottom';
 
 
 const DrawerMenu = ({ navigation }) => {
     const onNavigate = (screen) => {
         navigation.navigate(screen)
     }
+    const [dropdown, setDropdown] = React.useState(false)
+
     return (
         <ScrollView>
             <View style={[styles.container]}>
@@ -53,10 +56,32 @@ const DrawerMenu = ({ navigation }) => {
                     <AntDesign style={[styles.tabIco]} name='linechart' size={22} />
                     <Text style={[styles.navTabText]}>Redeem History</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Home')}>
-                    <MaterialIcons style={[styles.tabIco]} name='category' size={22} />
-                    <Text style={[styles.navTabText]}>Category</Text>
+                <TouchableOpacity style={[styles.navTab, {
+                    justifyContent: 'space-between',
+                }]} onPress={() => {
+                    setDropdown(!dropdown)
+                }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <MaterialIcons style={[styles.tabIco]} name='category' size={22} />
+                        <Text style={[styles.navTabText]}>Category</Text>
+                    </View>
+                    {
+                        dropdown ?
+                            (
+                                <AntDesign name="caretup" size={20} color="rgb(170,170,170)" />
+                            ) : (
+                                <AntDesign name="caretdown" size={20} color="rgb(170,170,170)" />
+                            )
+                    }
                 </TouchableOpacity>
+                {
+                    dropdown?
+                    (
+                        <Category/>
+                    ):(
+                        <View></View>
+                    )
+                }
                 <View style={{ borderBottomColor: 'rgb(230,230,230)', borderBottomWidth: 1, marginTop: 10, marginBottom: 10 }}></View>
                 <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Home')}>
                     <Ionicons style={[styles.tabIco]} name='briefcase-outline' size={22} />
