@@ -36,6 +36,8 @@ import ResetPassword from "../screens/ResetPassword";
 import Onboarding from "../screens/Onboarding";
 import SignIn from './../screens/SignIn';
 import SignUp from "../screens/SignUp";
+import Booking from './../screens/Booking';
+import Review from './../screens/Review';
 
 
 const Drawer = createDrawerNavigator();
@@ -76,6 +78,8 @@ export default function DrawerApp() {
         <Drawer.Screen options={{headerShown: false }} name="Onboarding" component={Onboarding}/>
         <Drawer.Screen options={{headerShown: false }} name="SignUp" component={SignUp}/>
         <Drawer.Screen options={{headerShown: false }} name="SignIn" component={SignIn}/>
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Booking" component={Booking}/>
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Review" component={Review}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );

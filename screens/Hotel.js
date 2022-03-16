@@ -19,7 +19,7 @@ const Hotel = (props) => {
             <ScrollView>
                 <View style={styles.body}>
                     <View style={styles.bodyTop}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() =>navigation.navigate('Hotel Gallery',{title:'9 Photos'})}>
                             <Image
                                 style={styles.image}
                                 source={{
@@ -168,7 +168,7 @@ const Hotel = (props) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}>
-                <TouchableOpacity style={{
+                <TouchableOpacity onPress={()=>navigation.navigate('Review')} style={{
                     borderWidth: 1,
                     borderColor: '#0000008e',
                     width: 60,
@@ -179,7 +179,7 @@ const Hotel = (props) => {
                 }}>
                     <AntDesign name="hearto" size={24} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate('Hotel Gallery',{title:'9 Photos'})} style={{
+                <TouchableOpacity onPress={()=>navigation.navigate('Booking')} style={{
                     backgroundColor: '#64B657',
                     width: 200,
                     height: 50,
