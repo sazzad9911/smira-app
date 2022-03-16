@@ -54,10 +54,10 @@ export default function DrawerApp() {
           },
           drawerType: 'slide'
         }}
-        initialRouteName='Home'
+        initialRouteName='Onboarding'
         drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}>
-        <Drawer.Screen options={{ headerShown: false }} name="Onboarding" component={Onboarding} />
         <Drawer.Screen options={{ header: (props) => <HomeHeader {...props} /> }} name="Home" component={BottomBar} />
+        <Drawer.Screen options={{ headerShown: false }} name="Onboarding" component={Onboarding} />
         <Drawer.Screen options={{ headerShown: false }} name="PopularHotels" component={PopularHotels} />
         <Drawer.Screen options={{ headerShown: false }} name="Coupons" component={Coupons} />
         <Drawer.Screen options={{ headerShown: false }} name="Account" component={Account} />

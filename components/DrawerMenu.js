@@ -77,7 +77,7 @@ const DrawerMenu = ({ navigation }) => {
                 {
                     dropdown?
                     (
-                        <Category/>
+                        <Category navigation={navigation}/>
                     ):(
                         <View></View>
                     )

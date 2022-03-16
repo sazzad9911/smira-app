@@ -78,7 +78,7 @@ const Bottom = (props) => {
                                     <HotelBooking/>
                                 ) :
                                 (
-                                    <Category />
+                                    <Category navigation={navigation}/>
                                 )
                         }
                     </ScrollView>
@@ -130,7 +130,7 @@ import Spa from '../assets/svgtopng/Spa.png'
 import Services from '../assets/svgtopng/Services.png'
 import HotelBooking from './HotelBooking';
 
-export const Category = () => {
+export const Category = ({navigation}) => {
     return (
         <View style={{
             width: '100%',
@@ -145,16 +145,36 @@ export const Category = () => {
                 flexDirection:'row',
                 flexWrap:'wrap'
             }}>
-                <IconsSet name='Hotels' icon={Hotels} />
-                <IconsSet name='Restaurants' icon={Restaurant} />
-                <IconsSet name='Games' icon={Games} />
-                <IconsSet name='Shopping' icon={Shopping} />
-                <IconsSet name='Villas' icon={Villas} />
-                <IconsSet name='Camping' icon={Camping} />
-                <IconsSet name='Travel' icon={Travel} />
-                <IconsSet name='Health' icon={Health} />
-                <IconsSet name='Spa & Salons' icon={Spa} />
-                <IconsSet name='Services' icon={Services} />
+                <IconsSet onPress={()=>{
+                    navigation.navigate('Category Single',{title:'Popular Hotel'})
+                }} name='Hotels' icon={Hotels} />
+                <IconsSet onPress={()=>{
+                    navigation.navigate('Category Single',{title:'Restaurant'})
+                }} name='Restaurants' icon={Restaurant} />
+                <IconsSet onPress={()=>{
+                    navigation.navigate('Category Single',{title:''})
+                }} name='Games' icon={Games} />
+                <IconsSet onPress={()=>{
+                    navigation.navigate('Category Single',{title:''})
+                }} name='Shopping' icon={Shopping} />
+                <IconsSet onPress={()=>{
+                    navigation.navigate('Category Single',{title:''})
+                }} name='Villas' icon={Villas} />
+                <IconsSet onPress={()=>{
+                    navigation.navigate('Category Single',{title:''})
+                }} name='Camping' icon={Camping} />
+                <IconsSet onPress={()=>{
+                    navigation.navigate('Category Single',{title:''})
+                }} name='Travel' icon={Travel} />
+                <IconsSet onPress={()=>{
+                    navigation.navigate('Category Single',{title:''})
+                }} name='Health' icon={Health} />
+                <IconsSet onPress={()=>{
+                    navigation.navigate('Category Single',{title:''})
+                }} name='Spa & Salons' icon={Spa} />
+                <IconsSet onPress={()=>{
+                    navigation.navigate('Category Single',{title:''})
+                }} name='Services' icon={Services} />
             </View>
         </View>
     )
