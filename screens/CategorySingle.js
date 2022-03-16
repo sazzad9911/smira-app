@@ -1,9 +1,10 @@
 import React from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 import Cards from '../components/Cards'
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import picture from '../assets/tub.png'
 import DealCart from '../components/DealCart'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const CategorySingle = (props) => {
     const title = props.route.params.title;
@@ -12,6 +13,15 @@ const CategorySingle = (props) => {
     if (title == 'Popular Hotel') {
         return (
             <View style={styles.body}>
+
+                <View style={{
+                    marginTop: 50,
+                    marginLeft: 360
+                }}>
+                    <TouchableOpacity onPress={props.navigation.goBack}>
+                        <Entypo name="cross" size={40} color="black" />
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.content}>
                     <Ionicons name="md-checkmark-done-circle-outline" size={20} color='rgba(100, 182, 87, 1)' />
                     <Text style={{
@@ -36,6 +46,14 @@ const CategorySingle = (props) => {
     else if (title == 'Restuarant') {
         return (
             <View style={styles.body}>
+                <View style={{
+                    marginTop: 50,
+                    marginLeft: 360
+                }}>
+                    <TouchableOpacity onPress={props.navigation.goBack}>
+                        <Entypo name="cross" size={40} color="black" />
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.content}>
                     <Ionicons name="md-checkmark-done-circle-outline" size={20} color='rgba(100, 182, 87, 1)' />
                     <Text style={{
@@ -75,7 +93,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginLeft: 30,
-        marginTop: 50,
+        marginTop: 10,
         marginBottom: 30
     }
 })
