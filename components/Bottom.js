@@ -20,6 +20,7 @@ const Bottom = (props) => {
             <View style={{ flex: 1, flexDirection: 'row', marginRight: 40 }}>
                 <TouchableOpacity onPress={() => {
                     setActive('explore')
+                    navigation.navigate('Home')
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <MaterialIcons name="explore" size={24} color={active == 'explore' ? 'black' : '#D8D8D8'} />
                     <Text style={{ color: active == 'explore' ? 'black' : '#D8D8D8' }}>Explore</Text>
@@ -33,13 +34,16 @@ const Bottom = (props) => {
                 </TouchableOpacity>
             </View>
             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }}>
-                <TouchableOpacity onPress={() => setActive('membership')} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => {
+                    setActive('membership')
+                    //navigation.navigate('MemberShipInfo')
+                    }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <MaterialIcons name="card-membership" size={24} color={active == 'membership' ? 'black' : '#D8D8D8'} />
                     <Text style={{ color: active == 'membership' ? 'black' : '#D8D8D8' }}>Membership</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setActive('call')} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <MaterialIcons name="call" size={24} color={active == 'call' ? 'black' : '#D8D8D8'} />
-                    <Text style={{ color: active == 'call' ? 'black' : '#D8D8D8' }}>Category</Text>
+                    <Text style={{ color: active == 'call' ? 'black' : '#D8D8D8' }}>Call</Text>
                 </TouchableOpacity>
             </View>
             <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
@@ -71,7 +75,7 @@ const Bottom = (props) => {
                         {
                             active == 'calendar' ?
                                 (
-                                    <Booking />
+                                    <HotelBooking/>
                                 ) :
                                 (
                                     <Category />
@@ -124,6 +128,7 @@ import Travel from '../assets/svgtopng/Travel.png'
 import Health from '../assets/svgtopng/Health.png'
 import Spa from '../assets/svgtopng/Spa.png'
 import Services from '../assets/svgtopng/Services.png'
+import HotelBooking from './HotelBooking';
 
 export const Category = () => {
     return (

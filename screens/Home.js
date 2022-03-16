@@ -194,7 +194,7 @@ export default Home
 
 export const IconsSet = (props) => {
   return (
-    <View style={{
+    <TouchableOpacity style={{
       borderWidth: 1, borderColor: 'rgb(220,220,220)', height: 80,
       width: 80, borderRadius: 10, margin: 5,
       justifyContent: 'center',
@@ -202,6 +202,6 @@ export const IconsSet = (props) => {
     }}>
       <Image style={{ width: 40, height: 40, margin: 5 }} source={props.icon} />
       <Text>{props.name}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }

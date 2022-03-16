@@ -5,9 +5,8 @@ import {
     TouchableOpacity, TextInput
 } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
-import react from 'react';
 
-const Booking = () => {
+const Booking = ({navigation}) => {
     const [CheckIn, setCheckIn] = React.useState('')
     const [CheckOut, setCheckOut] = React.useState('')
     const [count,setCount]=React.useState(0)
@@ -224,7 +223,7 @@ const Booking = () => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Confirm Message')}>
                         <View style={style.viewEnd}>
                             <Text style={style.viewtext}>CONFIRM BOOKING</Text>
                         </View>
