@@ -19,6 +19,7 @@ import Travel from '../assets/svgtopng/Travel.png'
 import Villas from '../assets/svgtopng/Villas.png'
 import { HotelMemberCart } from './Hotel'
 import Brands from '../components/Brands'
+import SmallDealCart from './../components/SmallDealCart';
 
 const window = Dimensions.get('window')
 const Home = ({ navigation }) => {
@@ -81,76 +82,18 @@ const Home = ({ navigation }) => {
       <View style={{ paddingLeft: 10, paddingRight: 10 }}>
         <Text style={{ fontWeight: 'bold', fontSize: 17, padding: 15 }}>Deals new you</Text>
         <ScrollView horizontal={true} >
-          <View style={{ width: 5 }}></View>
-          <View style={{
-            height: 130, width: 200, backgroundColor: 'white', borderRadius: 10,
-            shadowColor: 'gray',
-            shadowOffset: {
-              width: 2,
-              height: 2
-            },
-            shadowOpacity: 0.5,
-            shadowRadius: 5,
-            elevation: 10,
-            marginBottom: 15,
-            marginTop: 5,
-            marginLeft: 3,
-            marginRight: 3
-          }}>
-            <View style={{ height: 70, width: 200, backgroundColor: 'red', borderRadius: 10 }}>
-
-            </View>
-            <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-              <Image source={testImage} style={{ height: 50, width: 50, borderRadius: 25, backgroundColor: 'red' }} />
-              <Text style={{ width: 100, fontWeight: 'bold' }}>Flat 35% OFF On All Orders</Text>
-            </View>
-          </View>
-          <View style={{
-            height: 130, width: 200, backgroundColor: 'white', borderRadius: 10,
-            shadowColor: 'gray',
-            shadowOffset: {
-              width: 2,
-              height: 2
-            },
-            shadowOpacity: 0.5,
-            shadowRadius: 5,
-            elevation: 10,
-            marginBottom: 15,
-            marginTop: 5,
-            marginLeft: 3,
-            marginRight: 3
-          }}>
-            <View style={{ height: 70, width: 200, backgroundColor: 'red', borderRadius: 10 }}>
-
-            </View>
-            <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-              <Image source={testImage} style={{ height: 50, width: 50, borderRadius: 25, backgroundColor: 'red' }} />
-              <Text style={{ width: 100, fontWeight: 'bold' }}>Flat 35% OFF On All Orders</Text>
-            </View>
-          </View>
-          <View style={{
-            height: 130, width: 200, backgroundColor: 'white', borderRadius: 10,
-            shadowColor: 'gray',
-            shadowOffset: {
-              width: 2,
-              height: 2
-            },
-            shadowOpacity: 0.5,
-            shadowRadius: 5,
-            elevation: 10,
-            marginBottom: 15,
-            marginTop: 5,
-            marginLeft: 3,
-            marginRight: 3
-          }}>
-            <View style={{ height: 70, width: 200, backgroundColor: 'red', borderRadius: 10 }}>
-
-            </View>
-            <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-              <Image source={testImage} style={{ height: 50, width: 50, borderRadius: 25, backgroundColor: 'red' }} />
-              <Text style={{ width: 100, fontWeight: 'bold' }}>Flat 35% OFF On All Orders</Text>
-            </View>
-          </View>
+          <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
+            img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
+            title='Flat 25% OFF on all orders'
+          />
+          <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
+            img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
+            title='Flat 25% OFF on all orders'
+          />
+          <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
+            img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
+            title='Flat 25% OFF on all orders'
+          />
         </ScrollView>
       </View>
 
@@ -176,8 +119,16 @@ const Home = ({ navigation }) => {
 
       <View style={{ width: '100%', backgroundColor: 'rgb(245,245,245)', paddinTop: 15, paddingBottom: 15 }}>
         <View style={{ marginTop: 25, marginBottom: 5, borderWidth: 0.5, borderColor: 'rgb(220,220,220)', width: '90%' }}></View>
-        <View style={{ width: '100%' }}>
+        <View style={{
+          width: '90%',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 10 }}>Popular Hotels</Text>
+          <AntDesign onPress={()=>{
+            navigation.navigate('Category Single',{title: 'Popular Hotel'})
+          }} name="rightcircle" size={24} color="black" />
         </View>
         <ScrollView horizontal={true} style={{ width: '100%', margin: 5 }}>
           <HotelMemberCart />

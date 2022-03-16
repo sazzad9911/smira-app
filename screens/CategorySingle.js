@@ -1,7 +1,9 @@
 import React from 'react';
 import {View} from 'react-native'
 
-const CategorySingle = () => {
+const CategorySingle = (props) => {
+    const title = props.route.params.title;
+    
     return (
         <View>
             
