@@ -54,9 +54,9 @@ const SearchBottom = () => {
             <Modal transparent={true} animationType='slide' visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
                 <View style={{
                     width: window.width,
-                    height: window.height - 200,
+                    height: window.height - 400,
                     backgroundColor: '#ffff',
-                    marginTop: 200,
+                    marginTop: 400,
                     borderTopLeftRadius: 20,
                     borderTopRightRadius: 20,
                     shadowOffset: {
