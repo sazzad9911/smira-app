@@ -7,6 +7,7 @@ import testImage from '../assets/favicon.png';
 import tub from '../assets/tub.png';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons'
 import Cards from '../components/Cards'
+import SmallDealCart from '../components/SmallDealCart';
 
 const WishList = ({ navigation }) => {
     return (
@@ -50,10 +51,18 @@ const WishList = ({ navigation }) => {
                     {
                         //repeat the deals slide here --------------
                     }
-                    <Deals title="Flat 35% OFF On All Orders" />
-                    <Deals title="Flat 35% OFF On All Orders" />
-                    <Deals title="Flat 35% OFF On All Orders" />
-                    <Deals title="Flat 35% OFF On All Orders" />
+                    <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
+                        img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
+                        title='Flat 25% OFF on all orders'
+                    />
+                    <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
+                        img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
+                        title='Flat 25% OFF on all orders'
+                    />
+                    <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
+                        img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
+                        title='Flat 25% OFF on all orders'
+                    />
                 </ScrollView>
                 <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Hotels</Text>
                 <View>
@@ -103,30 +112,3 @@ const styles = StyleSheet.create({
         color: '#FB444B',
     }
 })
-const Deals = (props) => {
-    return (
-        <View style={{
-            height: 130, width: 200, backgroundColor: 'white', borderRadius: 10,
-            shadowColor: 'gray',
-            shadowOffset: {
-                width: 2,
-                height: 2
-            },
-            shadowOpacity: 0.5,
-            shadowRadius: 5,
-            elevation: 10,
-            marginBottom: 15,
-            marginTop: 5,
-            marginLeft: 3,
-            marginRight: 3
-        }}>
-            <View style={{ height: 70, width: 200, backgroundColor: 'red', borderRadius: 10 }}>
-
-            </View>
-            <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-                <Image source={testImage} style={{ height: 50, width: 50, borderRadius: 25, backgroundColor: 'red' }} />
-                <Text style={{ width: 100, fontWeight: 'bold' }}>{props.title}</Text>
-            </View>
-        </View>
-    )
-}

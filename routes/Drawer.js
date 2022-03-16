@@ -40,6 +40,7 @@ import Booking from './../screens/Booking';
 import Review from './../screens/Review';
 import BottomBar from './BottomBar';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import CategorySingle from '../screens/CategorySingle'
 
 
 const Drawer = createDrawerNavigator();
@@ -82,6 +83,7 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Booking" component={Booking} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Review" component={Review} />
         <Drawer.Screen options={{ headerShown: false }} name="Search" component={Search} />
+        <Drawer.Screen options={{headerShown: false}} name='Category Single' component={CategorySingle} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
