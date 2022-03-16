@@ -8,7 +8,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 
-const SignUp = () => {
+const SignUp = (props) => {
+    const navigation = props.navigation
     const [modalVisible, setModalVisible] = React.useState(false);
 
     return (
@@ -109,7 +110,7 @@ const SignUp = () => {
                         <Text style={{
                             fontSize: 20
                         }}>Already a Member?</Text>
-                        <TouchableOpacity >
+                        <TouchableOpacity onPress={() =>navigation.navigate('Home')}>
                             <Text style={{
                                 fontSize: 20,
                                 color: 'red',

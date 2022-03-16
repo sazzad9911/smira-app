@@ -70,7 +70,7 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Language" component={Language}/>
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Talk To Us" component={TellToUs}/>
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Confirm Message" component={ConfirmMessage}/>
-        <Drawer.Screen options={{ header: (props) => <HotelGallaryHeader {...props} /> }} name="Hotel Gallery" component={HotelGallery}/>
+        <Drawer.Screen options={{ header: (props) => <HotelGallaryHeader title='9 Photos' {...props} /> }} name="Hotel Gallery" component={HotelGallery}/>
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword}/>
         <Drawer.Screen options={{headerShown: false }} name="Hotel" component={Hotel}/>
         <Drawer.Screen options={{headerShown: false }} name="Onboarding" component={Onboarding}/>

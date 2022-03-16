@@ -8,159 +8,198 @@ import { color } from 'react-native/Libraries/Components/View/ReactNativeStyleAt
 const Hotel = (props) => {
     const params = props.route.params
     const navigation = props.navigation;
+    const window = Dimensions.get('window')
 
     return (
 
-        <ScrollView>
-            <View style={styles.body}>
-                <View style={styles.bodyTop}>
-                    <TouchableOpacity>
-                        <Image
-                            style={styles.image}
-                            source={{
-                                uri: 'https://images.unsplash.com/photo-1615874959474-d609969a20ed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YmVkcm9vbXxlbnwwfHwwfHw%3D&w=1000&q=80',
-                            }}
-                        />
-                    </TouchableOpacity>
-
-                    <View style={styles.imageButtomIcon}>
-                        <Text style={styles.imageButtomIconText}> 1/9</Text>
-                    </View>
-
-                </View>
-                <View style={styles.content}>
-                    <View style={styles.contentTop}>
-                        <Text style={styles.hotelName}>Shradha Saburi Place </Text>
-                        <View style={styles.contentTopLeftBox}>
-                            <TouchableOpacity>
-                                <AntDesign name="star" size={15} color="white" />
-                            </TouchableOpacity>
-                            <Text style={styles.contentTopLeftBoxText}>4.3</Text>
-                        </View>
-                    </View>
-                    <View>
-                        <Text style={{ color: '#808080' }}>
-                            Shirdi, Maharashtra
-                        </Text>
-                        <View style={styles.icon}>
-                            <View style={styles.iconBackground}>
-                                <AntDesign name="wifi" size={20} color="black" />
-                            </View>
-                            <View style={styles.iconBackground}>
-                                <MaterialIcons name="monitor" size={20} color="black" />
-                            </View>
-                            <View style={styles.iconBackground}>
-                                <EvilIcons name="sc-pinterest" size={26} color="black" />
-                            </View>
-                        </View>
-                    </View>
-                    <View style={styles.contentDescrip}>
-                        <Text style={styles.textHead}>
-                            Description
-                        </Text>
-                        <Text style={styles.textDescr}>
-                            Shradha Saburi Palace is a budget hotel that
-                            provides a comfortable stay for a nominal price.
-                            The hotel is located close to a few attractions in
-                            Shirdi including Sai Baba Mandir and more.
-                        </Text>
+        <View style={{
+            width: window.width,
+            height: window.height
+        }}>
+            <ScrollView>
+                <View style={styles.body}>
+                    <View style={styles.bodyTop}>
                         <TouchableOpacity>
-                            <Text style={{ color: 'red' }}>
-                                Read more
+                            <Image
+                                style={styles.image}
+                                source={{
+                                    uri: 'https://images.unsplash.com/photo-1615874959474-d609969a20ed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YmVkcm9vbXxlbnwwfHwwfHw%3D&w=1000&q=80',
+                                }}
+                            />
+                        </TouchableOpacity>
+
+                        <View style={styles.imageButtomIcon}>
+                            <Text style={styles.imageButtomIconText}> 1/9</Text>
+                        </View>
+
+                    </View>
+                    <View style={styles.content}>
+                        <View style={styles.contentTop}>
+                            <Text style={styles.hotelName}>Shradha Saburi Place </Text>
+                            <View style={styles.contentTopLeftBox}>
+                                <TouchableOpacity>
+                                    <AntDesign name="star" size={15} color="white" />
+                                </TouchableOpacity>
+                                <Text style={styles.contentTopLeftBoxText}>4.3</Text>
+                            </View>
+                        </View>
+                        <View>
+                            <Text style={{ color: '#808080' }}>
+                                Shirdi, Maharashtra
                             </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.time}>
-                        <View style={styles.view3}>
-                            <Text style={{
-                                fontSize: 15,
-                                color: 'rgb(100,100,100)',
-                            }}>Check-in</Text>
-                            <Text style={{
-                                fontSize: 25,
-                            }}>12:00 PM</Text>
+                            <View style={styles.icon}>
+                                <View style={styles.iconBackground}>
+                                    <AntDesign name="wifi" size={20} color="black" />
+                                </View>
+                                <View style={styles.iconBackground}>
+                                    <MaterialIcons name="monitor" size={20} color="black" />
+                                </View>
+                                <View style={styles.iconBackground}>
+                                    <EvilIcons name="sc-pinterest" size={26} color="black" />
+                                </View>
+                            </View>
                         </View>
-                        <View style={styles.view2}></View>
-                        <View style={styles.view3}>
-                            <Text style={{
-                                fontSize: 15,
-                                color: 'rgb(100,100,100)',
-                            }}>Check-out</Text>
-                            <Text style={{
-                                fontSize: 25,
-                            }}>10:00 AM</Text>
-                        </View>
-                    </View>
-                    <View style={styles.container}>
-                        <MapView style={styles.map} />
-                    </View>
-                    <View style={styles.nearbyView}>
-                        <Text style={styles.nearbyText}>
-                            What's nearby
-                        </Text>
-                        <View style={styles.nearbyTextDescrView}>
-
-                            <Unorderedlist>
-                                <Text style={styles.nearbyTextDescr}>
-                                    500m away from Sai Baba Mandir
-                                </Text>
-                            </Unorderedlist>
-                            <Unorderedlist>
-                                <Text style={styles.nearbyTextDescr}>
-                                    200m away from Shirdi Bus Stop
-                                </Text>
-                            </Unorderedlist>
-
-                        </View>
-                    </View>
-                    <View style={styles.contentTop}>
-                        <Text style={styles.hotelName}>Reviews </Text>
-                        <View style={styles.contentTopLeftBox2}>
+                        <View style={styles.contentDescrip}>
+                            <Text style={styles.textHead}>
+                                Description
+                            </Text>
+                            <Text style={styles.textDescr}>
+                                Shradha Saburi Palace is a budget hotel that
+                                provides a comfortable stay for a nominal price.
+                                The hotel is located close to a few attractions in
+                                Shirdi including Sai Baba Mandir and more.
+                            </Text>
                             <TouchableOpacity>
-                                <AntDesign name="star" size={15} color="white" />
-                            </TouchableOpacity>
-                            <Text style={styles.contentTopLeftBoxText}>4.3</Text>
-                        </View>
-                    </View>
-                    <HotelMember></HotelMember>
-                    <HotelMember></HotelMember>
-                    <HotelMember></HotelMember>
-                    <View style={{ alignItems: 'center', marginBottom: 30 }}>
-                        <TouchableOpacity>
-                            <View style={styles.showMoreButton}>
-                                <Text style={styles.showMoreButtonText}>
-                                    Show more
+                                <Text style={{ color: 'red' }}>
+                                    Read more
                                 </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.time}>
+                            <View style={styles.view3}>
+                                <Text style={{
+                                    fontSize: 15,
+                                    color: 'rgb(100,100,100)',
+                                }}>Check-in</Text>
+                                <Text style={{
+                                    fontSize: 25,
+                                }}>12:00 PM</Text>
                             </View>
-                        </TouchableOpacity>
-                    </View>
-                    <Text style={{
-                        color: '#000000',
-                        fontSize: 20,
-                        fontWeight: '700',
-                        margin: 10
-                    }}>
-                        Other hotels nearby
-                    </Text>
-                    <View style={{ width: '95%' }}>
-                        <ScrollView horizontal={true}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <HotelMemberCart></HotelMemberCart>
-                                <HotelMemberCart></HotelMemberCart>
-                                <HotelMemberCart></HotelMemberCart>
-                                <HotelMemberCart></HotelMemberCart>
+                            <View style={styles.view2}></View>
+                            <View style={styles.view3}>
+                                <Text style={{
+                                    fontSize: 15,
+                                    color: 'rgb(100,100,100)',
+                                }}>Check-out</Text>
+                                <Text style={{
+                                    fontSize: 25,
+                                }}>10:00 AM</Text>
                             </View>
-                        </ScrollView>
+                        </View>
+                        <View style={styles.container}>
+                            <MapView style={styles.map} />
+                        </View>
+                        <View style={styles.nearbyView}>
+                            <Text style={styles.nearbyText}>
+                                What's nearby
+                            </Text>
+                            <View style={styles.nearbyTextDescrView}>
+
+                                <Unorderedlist>
+                                    <Text style={styles.nearbyTextDescr}>
+                                        500m away from Sai Baba Mandir
+                                    </Text>
+                                </Unorderedlist>
+                                <Unorderedlist>
+                                    <Text style={styles.nearbyTextDescr}>
+                                        200m away from Shirdi Bus Stop
+                                    </Text>
+                                </Unorderedlist>
+
+                            </View>
+                        </View>
+                        <View style={styles.contentTop}>
+                            <Text style={styles.hotelName}>Reviews </Text>
+                            <View style={styles.contentTopLeftBox2}>
+                                <TouchableOpacity>
+                                    <AntDesign name="star" size={15} color="white" />
+                                </TouchableOpacity>
+                                <Text style={styles.contentTopLeftBoxText}>4.3</Text>
+                            </View>
+                        </View>
+                        <HotelMember></HotelMember>
+                        <HotelMember></HotelMember>
+                        <HotelMember></HotelMember>
+                        <View style={{ alignItems: 'center', marginBottom: 30 }}>
+                            <TouchableOpacity>
+                                <View style={styles.showMoreButton}>
+                                    <Text style={styles.showMoreButtonText}>
+                                        Show more
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={{
+                            color: '#000000',
+                            fontSize: 20,
+                            fontWeight: '700',
+                            margin: 10
+                        }}>
+                            Other hotels nearby
+                        </Text>
+                        <View style={{ width: '95%' }}>
+                            <ScrollView horizontal={true}>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <HotelMemberCart></HotelMemberCart>
+                                    <HotelMemberCart></HotelMemberCart>
+                                    <HotelMemberCart></HotelMemberCart>
+                                    <HotelMemberCart></HotelMemberCart>
+                                </View>
+                            </ScrollView>
+                        </View>
                     </View>
                 </View>
+            </ScrollView>
+            <View style={{
+                backgroundColor: 'white',
+                height: 60,
+                paddingHorizontal: 20,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+            }}>
+                <TouchableOpacity style={{
+                    borderWidth: 1,
+                    borderColor: '#0000008e',
+                    width: 60,
+                    height: 50,
+                    borderRadius: 20,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <AntDesign name="hearto" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('Hotel Gallery',{title:'9 Photos'})} style={{
+                    backgroundColor: '#64B657',
+                    width: 200,
+                    height: 50,
+                    borderRadius: 20,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <Text style={{
+                        color:'white',
+                        fontSize:18
+                    }}>Book Now</Text>
+                </TouchableOpacity>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 
 export default Hotel;
 
-const HotelMemberCart = (props) => {
+export const HotelMemberCart = (props) => {
     return (
         <TouchableOpacity>
             <View style={styles.cart}>

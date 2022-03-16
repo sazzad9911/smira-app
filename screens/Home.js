@@ -17,6 +17,7 @@ import Services from '../assets/svgtopng/Services.png'
 import Shopping from '../assets/svgtopng/Shopping.png'
 import Travel from '../assets/svgtopng/Travel.png'
 import Villas from '../assets/svgtopng/Villas.png'
+import {HotelMemberCart} from './Hotel'
 
 const window = Dimensions.get('window')
 const Home = ({ navigation }) => {
@@ -187,19 +188,11 @@ const Home = ({ navigation }) => {
         <View style={{ width: '100%' }}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 10 }}>Popular Hotels</Text>
         </View>
-        <ScrollView horizontal={true} style={{ width: '100%' }}>
-          <View style={{ height: 200, width: 200, backgroundColor: 'gray', borderRadius: 15, margin: 10 }}>
-
-          </View>
-          <View style={{ height: 200, width: 200, backgroundColor: 'gray', borderRadius: 15, margin: 10 }}>
-
-          </View>
-          <View style={{ height: 200, width: 200, backgroundColor: 'gray', borderRadius: 15, margin: 10 }}>
-
-          </View>
-          <View style={{ height: 200, width: 200, backgroundColor: 'gray', borderRadius: 15, margin: 10 }}>
-
-          </View>
+        <ScrollView horizontal={true} style={{ width: '100%',margin:5 }}>
+          <HotelMemberCart/>
+          <HotelMemberCart/>
+          <HotelMemberCart/>
+          <HotelMemberCart/>
         </ScrollView>
       </View>
     </ScrollView>
