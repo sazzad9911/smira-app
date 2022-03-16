@@ -87,10 +87,7 @@ const SignUp = (props) => {
                             marginLeft: 20
                         }}>SignUp with Email</Text>
                     </TouchableOpacity>
-<<<<<<< HEAD
-=======
 
->>>>>>> 2accdc2d2ab29fb46b80de047313a8d4ee7be26d
                     <TouchableOpacity style={{
                         height: 60,
                         margin: 20,
@@ -109,10 +106,7 @@ const SignUp = (props) => {
                         elevation: 4,
                         backgroundColor: '#FFFFFF',
                     }}>
-<<<<<<< HEAD
-=======
 
->>>>>>> 2accdc2d2ab29fb46b80de047313a8d4ee7be26d
                         <Fontisto name="google" size={30} color="red" />
                         <Text style={{
                             color: 'black',
