@@ -2,10 +2,12 @@
 import { SafeAreaView, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import React from 'react';
 import DrawerApp from './routes/Drawer';
+import StackNavigation from './routes/StackNavigation';
+import 'react-native-gesture-handler';
 const App = () => {
   const window = Dimensions.get('window')
   return (
-   <DrawerApp/>
+   <StackNavigation/>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     View, Modal, Text, ScrollView, Image,
-    TouchableOpacity, TextInput, Dimensions,Platform
+    TouchableOpacity, TextInput, Dimensions, Platform
 } from 'react-native';
 import Screen from '../assets/Screen.png'
 import { FontAwesome } from '@expo/vector-icons';
@@ -17,10 +17,10 @@ const SignUp = (props) => {
     const [isOTP, setOTP] = React.useState(false);
 
     return (
-        <View style={{
-            marginTop: Platform.OS == 'ios' ?40:0,
-        }}>
-            <ScrollView>
+        <ScrollView>
+            <View style={{
+                marginTop: Platform.OS == 'ios' ? 40 : 0,
+            }}>
                 <View>
                     <Image
                         style={{
@@ -119,7 +119,6 @@ const SignUp = (props) => {
                         flexDirection: 'row',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        marginTop: '10%'
                     }}>
                         <Text style={{
                             fontSize: 20
@@ -131,15 +130,7 @@ const SignUp = (props) => {
                             }}>Login</Text>
                         </TouchableOpacity>
                     </View>
-
-                    <View style={{
-                        height: 150,
-                    }}></View>
-
                 </View>
-
-
-
 
 
                 <Modal animationType="fade"
@@ -156,8 +147,9 @@ const SignUp = (props) => {
                         }
                     </View>
                 </Modal>
-            </ScrollView>
-        </View>
+
+            </View>
+        </ScrollView>
     );
 };
 
@@ -192,6 +184,7 @@ const SignUpWithOtp = (props) => {
                     <Text style={{
                         fontSize: 15,
                         marginTop: 20,
+                        color:'#A7A7A7'
                     }}>Register your new account</Text>
                 </View>
 
@@ -204,10 +197,10 @@ const SignUpWithOtp = (props) => {
 
                         <TextInput keyboardType='numeric'
                             style={{
-                                height: 75,
+                                height: 60,
                                 margin: 12,
                                 padding: 10,
-                                width: 75,
+                                width: 60,
                                 borderRadius: 50,
                                 marginTop: 50,
                                 backgroundColor: '#F5F5F5',
@@ -219,10 +212,10 @@ const SignUpWithOtp = (props) => {
 
                         <TextInput keyboardType='numeric'
                             style={{
-                                height: 75,
+                                height: 60,
                                 margin: 12,
                                 padding: 10,
-                                width: 75,
+                                width: 60,
                                 borderRadius: 50,
                                 marginTop: 50,
                                 backgroundColor: '#F5F5F5',
@@ -233,10 +226,10 @@ const SignUpWithOtp = (props) => {
 
                         <TextInput keyboardType='numeric'
                             style={{
-                                height: 75,
+                                height: 60,
                                 margin: 12,
                                 padding: 10,
-                                width: 75,
+                                width: 60,
                                 borderRadius: 50,
                                 marginTop: 50,
                                 backgroundColor: '#F5F5F5',
@@ -247,10 +240,10 @@ const SignUpWithOtp = (props) => {
 
                         <TextInput keyboardType='numeric'
                             style={{
-                                height: 75,
+                                height: 60,
                                 margin: 12,
                                 padding: 10,
-                                width: 75,
+                                width: 60,
                                 borderRadius: 50,
                                 marginTop: 50,
                                 backgroundColor: '#F5F5F5',
@@ -264,18 +257,19 @@ const SignUpWithOtp = (props) => {
 
                     <TouchableOpacity >
                         <View style={{
-                            height: 75,
-                            margin: 12,
+                            height: 60,
+                            margin: 25,
                             padding: 10,
                             borderRadius: 40,
                             justifyContent: 'center',
                             alignItems: 'center',
                             flexDirection: 'row',
-                            backgroundColor: '#FC444B'
+                            backgroundColor: '#FC444B',
+                            width:window.width-50
                         }}>
                             <Text style={{
                                 color: 'white',
-                                fontSize: 30,
+                                fontSize: 25,
                             }}>SUBMIT</Text>
                         </View>
                     </TouchableOpacity>
@@ -307,19 +301,21 @@ const SignUpWithOtp = (props) => {
                     <Text style={{
                         fontSize: 15,
                         marginTop: 20,
+                        color:'#A7A7A7'
                     }}>Register your new account</Text>
                 </View>
 
                 <View >
                     <TextInput keyboardType='numeric'
                         style={{
-                            height: 75,
-                            margin: 12,
+                            height: 60,
+                            margin: 25,
                             padding: 10,
                             borderRadius: 50,
                             marginTop: 50,
                             backgroundColor: '#F5F5F5',
-                            fontSize: 20
+                            fontSize: 20,
+                            width:window.width-50
                         }}
                         placeholder="Mobile Number"
                     />
@@ -328,18 +324,19 @@ const SignUpWithOtp = (props) => {
                         setNext(true)
                     }}>
                         <View style={{
-                            height: 75,
-                            margin: 12,
+                            height: 60,
+                            margin: 25,
                             padding: 10,
                             borderRadius: 40,
                             justifyContent: 'center',
                             alignItems: 'center',
                             flexDirection: 'row',
-                            backgroundColor: '#FC444B'
+                            backgroundColor: '#FC444B',
+                            width:window.width-50,
                         }}>
                             <Text style={{
                                 color: 'white',
-                                fontSize: 30,
+                                fontSize: 25,
                             }}>NEXT</Text>
                         </View>
                     </TouchableOpacity>
@@ -379,6 +376,7 @@ const SignUpWithEmail = (props) => {
                     <Text style={{
                         fontSize: 15,
                         marginTop: 20,
+                        color:'#A7A7A7'
                     }}>Register your new account</Text>
                 </View>
 
@@ -391,13 +389,13 @@ const SignUpWithEmail = (props) => {
                         <TextInput placeholder='Name'
                             style={{
                                 height: 60,
-                                margin: 12,
+                                marginHorizontal: 25,
                                 padding: 15,
                                 borderRadius: 50,
                                 marginTop: 30,
                                 backgroundColor: '#F5F5F5',
                                 fontSize: 18,
-                                width: 330
+                                width: window.width-50
 
                             }}
                         />
@@ -405,13 +403,13 @@ const SignUpWithEmail = (props) => {
                         <TextInput placeholder='Email'
                             style={{
                                 height: 60,
-                                margin: 12,
+                                marginHorizontal: 25,
                                 padding: 15,
                                 borderRadius: 50,
                                 marginTop: 10,
                                 backgroundColor: '#F5F5F5',
                                 fontSize: 18,
-                                width: 330
+                                width: window.width-50
 
                             }}
                         />
@@ -420,13 +418,13 @@ const SignUpWithEmail = (props) => {
                         <TextInput placeholder='Password'
                             style={{
                                 height: 60,
-                                margin: 12,
+                                marginHorizontal: 25,
                                 padding: 15,
                                 borderRadius: 50,
                                 marginTop: 10,
                                 backgroundColor: '#F5F5F5',
                                 fontSize: 18,
-                                width: 330
+                                width: window.width-50
 
                             }}
                         />
@@ -437,7 +435,7 @@ const SignUpWithEmail = (props) => {
                     <TouchableOpacity >
                         <View style={{
                             height: 60,
-                            margin: 20,
+                            marginHorizontal: 25,
                             padding: 10,
                             borderRadius: 40,
                             justifyContent: 'center',
@@ -451,6 +449,8 @@ const SignUpWithEmail = (props) => {
                             shadowOpacity: .3,
                             shadowRadius: 10,
                             elevation: 4,
+                            width:window.width-50,
+                            marginVertical:10
                         }}>
                             <Text style={{
                                 color: 'white',

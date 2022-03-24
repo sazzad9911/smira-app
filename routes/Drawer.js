@@ -46,7 +46,6 @@ import CategorySingle from '../screens/CategorySingle'
 const Drawer = createDrawerNavigator();
 export default function DrawerApp() {
   return (
-    <NavigationContainer>
       <Drawer.Navigator
         screenOptions={{
           drawerStyle: {
@@ -54,10 +53,9 @@ export default function DrawerApp() {
           },
           drawerType: 'slide'
         }}
-        initialRouteName='Onboarding'
+        initialRouteName='Home'
         drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}>
         <Drawer.Screen options={{ header: (props) => <HomeHeader {...props} /> }} name="Home" component={BottomBar} />
-        <Drawer.Screen options={{ headerShown: false }} name="Onboarding" component={Onboarding} />
         <Drawer.Screen options={{ headerShown: false }} name="PopularHotels" component={PopularHotels} />
         <Drawer.Screen options={{ headerShown: false }} name="Coupons" component={Coupons} />
         <Drawer.Screen options={{ headerShown: false }} name="Account" component={Account} />
@@ -78,13 +76,10 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ header: (props) => <HotelGallaryHeader title='9 Photos' {...props} /> }} name="Hotel Gallery" component={HotelGallery} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
         <Drawer.Screen options={{ headerShown: false }} name="Hotel" component={Hotel} />
-        <Drawer.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
-        <Drawer.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Booking" component={Booking} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Review" component={Review} />
         <Drawer.Screen options={{ headerShown: false }} name="Search" component={Search} />
         <Drawer.Screen options={{headerShown: false}} name='Category Single' component={CategorySingle} />
       </Drawer.Navigator>
-    </NavigationContainer>
   );
 }

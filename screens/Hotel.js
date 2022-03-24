@@ -473,14 +473,18 @@ const styles = StyleSheet.create({
     cartImg: {
         height: 210,
         width: 200,
-        borderRadius: 10
+        borderRadius: 10,
+        opacity:.7,
+        borderRadius:5
     },
     cart: {
         height: 210,
         width: 200,
         marginTop: 10,
         marginRight: 10,
-        marginBottom: 40
+        marginBottom: 40,
+        backgroundColor: '#000',
+        borderRadius:5
     },
     cartText: {
         position: 'absolute',

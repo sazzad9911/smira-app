@@ -36,7 +36,7 @@ const Bottom = (props) => {
             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }}>
                 <TouchableOpacity onPress={() => {
                     setActive('membership')
-                    //navigation.navigate('MemberShipInfo')
+                    navigation.navigate('MemberShipInfo')
                     }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <MaterialIcons name="card-membership" size={24} color={active == 'membership' ? 'black' : '#D8D8D8'} />
                     <Text style={{ color: active == 'membership' ? 'black' : '#D8D8D8' }}>Membership</Text>

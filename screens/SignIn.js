@@ -5,11 +5,13 @@ import {
 } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+const window= Dimensions.get('window')
 
 const SignIn = ({ navigation }) => {
     return (
         <View style={{
             marginTop: Platform.OS == 'ios' ?40:0,
+            backgroundColor: '#ffff'
         }}>
             <ScrollView>
                 <View style={{
@@ -32,6 +34,7 @@ const SignIn = ({ navigation }) => {
                     <Text style={{
                         fontSize: 15,
                         marginTop: 20,
+                        color:'#A7A7A7'
                     }}>Login to your existing account</Text>
                 </View>
 
@@ -39,12 +42,13 @@ const SignIn = ({ navigation }) => {
                     <TextInput
                         style={{
                             height: 60,
-                            margin: 20,
+                            marginHorizontal: 25,
                             padding: 10,
                             borderRadius: 40,
-                            marginTop: 100,
+                            marginTop: 50,
                             backgroundColor: '#F5F5F5',
                             fontSize: 18,
+                            width:window.width-50
 
                         }}
                         placeholder="Email Address"
@@ -53,20 +57,22 @@ const SignIn = ({ navigation }) => {
                     <TextInput
                         style={{
                             height: 60,
-                            margin: 20,
+                            marginHorizontal: 20,
                             padding: 10,
                             borderRadius: 40,
                             backgroundColor: '#F5F5F1',
                             fontSize: 18,
+                            width:window.width-50,
+                            marginTop:20
 
                         }}
                         placeholder="Password"
                     />
-                    <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
 
                         <View style={{
                             height: 60,
-                            margin: 20,
+                            marginHorizontal: 25,
                             padding: 10,
                             borderRadius: 40,
                             marginTop: 40,
@@ -78,11 +84,12 @@ const SignIn = ({ navigation }) => {
                             shadowOpacity: .3,
                             shadowRadius: 10,
                             elevation: 4,
+                            width:window.width-50
 
                         }}>
                             <Text style={{
                                 color: 'white',
-                                fontSize: 30,
+                                fontSize: 25,
                             }}>LogIn</Text>
                         </View>
                     </TouchableOpacity>
@@ -93,6 +100,7 @@ const SignIn = ({ navigation }) => {
                 }}>
                     <Text style={{
                         fontSize: 20,
+                        marginTop:20
                     }}>Forgot Password?</Text>
                 </TouchableOpacity>
                 <View style={{
@@ -104,7 +112,7 @@ const SignIn = ({ navigation }) => {
                 <TouchableOpacity >
                     <View style={{
                         height: 60,
-                        margin: 20,
+                        marginHorizontal: 25,
                         padding: 10,
                         borderRadius: 40,
                         justifyContent: 'center',
@@ -118,6 +126,7 @@ const SignIn = ({ navigation }) => {
                         shadowRadius: 10,
                         elevation: 4,
                         backgroundColor: '#FFFFF3',
+                        width:window.width-50
                     }}>
                         <AntDesign name="google" size={30} color="black" />
                         <Text style={{

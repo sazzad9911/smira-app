@@ -1,7 +1,8 @@
 import React,{ useState} from 'react';
-import { View, TouchableOpacity, Modal,Platform} from 'react-native';
+import { View, TouchableOpacity, Modal,Platform,Image} from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons'
 import NotificationBar from './NotificationBar';
+import logo from '../assets/logo.png'
 
 const HomeHeader = (props) => {
     const [ShowNotifications, setShowNotifications] = useState(false);
@@ -19,7 +20,10 @@ const HomeHeader = (props) => {
             }}>
                 <Feather name="menu" size={24} color="white" />
             </TouchableOpacity>
-            <Ionicons name='logo-apple' size={25} color="white" />
+            <Image style={{
+                width:25,
+                height:25,
+            }} source={logo}/>
             <TouchableOpacity onPress={() => {
                 setShowNotifications(true)
             }}>

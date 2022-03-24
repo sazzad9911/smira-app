@@ -66,29 +66,29 @@ const Home = ({ navigation }) => {
           {
             //icon set
           }
-          <IconsSet onPress={()=>{
-            navigation.navigate('Category Single',{title:'Popular Hotel'})
+          <IconsSet onPress={() => {
+            navigation.navigate('Category Single', { title: 'Popular Hotel' })
           }} name="Hotels" icon={Hotels} />
-          <IconsSet onPress={()=>{
-            navigation.navigate('Category Single',{title:''})
+          <IconsSet onPress={() => {
+            navigation.navigate('Category Single', { title: '' })
           }} name="Health" icon={Health} />
-          <IconsSet onPress={()=>{
-            navigation.navigate('Category Single',{title:''})
+          <IconsSet onPress={() => {
+            navigation.navigate('Category Single', { title: '' })
           }} name="Games" icon={Games} />
-          <IconsSet onPress={()=>{
-            navigation.navigate('Category Single',{title:''})
+          <IconsSet onPress={() => {
+            navigation.navigate('Category Single', { title: '' })
           }} name="Camping" icon={Camping} />
-          <IconsSet onPress={()=>{
-            navigation.navigate('Category Single',{title:'Restaurant'})
+          <IconsSet onPress={() => {
+            navigation.navigate('Category Single', { title: 'Restaurant' })
           }} name="Restaurant" icon={Restaurant} />
-          <IconsSet onPress={()=>{
-            navigation.navigate('Category Single',{title:''})
+          <IconsSet onPress={() => {
+            navigation.navigate('Category Single', { title: '' })
           }} name="Services" icon={Services} />
-          <IconsSet onPress={()=>{
-            navigation.navigate('Category Single',{title:''})
+          <IconsSet onPress={() => {
+            navigation.navigate('Category Single', { title: '' })
           }} name="Shopping" icon={Shopping} />
-          <IconsSet onPress={()=>{
-            navigation.navigate('Category Single',{title:''})
+          <IconsSet onPress={() => {
+            navigation.navigate('Category Single', { title: '' })
           }} name="Travel" icon={Travel} />
 
         </View>
@@ -96,7 +96,17 @@ const Home = ({ navigation }) => {
       <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
       </View>
       <View style={{ paddingLeft: 10, paddingRight: 10 }}>
-        <Text style={{ fontWeight: 'bold', fontSize: 17, padding: 15 }}>Deals new you</Text>
+        <View style={{
+          width: '95%',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 17, padding: 15 }}>Deals new you</Text>
+          <AntDesign onPress={() => {
+            navigation.navigate('Category Single', { title: 'Popular Hotel' })
+          }} name="rightcircle" size={24} color="#585858" />
+        </View>
         <ScrollView horizontal={true} >
           <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
             img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
@@ -142,11 +152,11 @@ const Home = ({ navigation }) => {
           alignItems: 'center',
         }}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 10 }}>Popular Hotels</Text>
-          <AntDesign onPress={()=>{
-            navigation.navigate('Category Single',{title: 'Popular Hotel'})
-          }} name="rightcircle" size={24} color="black" />
+          <AntDesign onPress={() => {
+            navigation.navigate('Category Single', { title: 'Popular Hotel' })
+          }} name="rightcircle" size={24} color="#585858" />
         </View>
-        <ScrollView horizontal={true} style={{ width: '100%', margin: 5 }}>
+        <ScrollView horizontal={true} style={{ width: '100%', padding: 10 }}>
           <HotelMemberCart />
           <HotelMemberCart />
           <HotelMemberCart />
@@ -162,7 +172,7 @@ export default Home
 export const IconsSet = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={{
-      borderWidth: 1, borderColor: 'rgb(220,220,220)', height: 80,
+      borderWidth: 1, borderColor: 'rgb(220,220,220)', minHeight: 80,
       width: 80, borderRadius: 10, margin: 5,
       justifyContent: 'center',
       alignItems: 'center'
