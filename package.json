@@ -12,6 +12,7 @@
   "dependencies": {
     "@expo/vector-icons": "^12.0.5",
     "@gorhom/bottom-sheet": "^4.1.5",
+    "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/drawer": "^6.3.1",
     "@react-navigation/native": "^6.0.8",
@@ -30,7 +31,7 @@
     "react-native-image-slider-box": "^1.1.20",
     "react-native-maps": "^0.29.4",
     "react-native-reanimated": "~2.3.1",
-    "react-native-safe-area-context": "^3.3.2",
+    "react-native-safe-area-context": "^3.4.1",
     "react-native-screens": "~3.10.1",
     "react-native-sideswipe": "^1.5.0",
     "react-native-svg": "^12.1.1",
