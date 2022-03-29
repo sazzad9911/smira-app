@@ -4,10 +4,15 @@ import React from 'react';
 import DrawerApp from './routes/Drawer';
 import StackNavigation from './routes/StackNavigation';
 import 'react-native-gesture-handler';
+import { Provider } from 'react-redux'
+import store from './store';
+
 const App = () => {
   const window = Dimensions.get('window')
   return (
-   <StackNavigation/>
+    <Provider store={store}>
+      <StackNavigation />
+    </Provider>
   );
 };
 
