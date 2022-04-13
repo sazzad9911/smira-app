@@ -78,7 +78,7 @@ const Bottom = (props) => {
                                     <HotelBooking/>
                                 ) :
                                 (
-                                    <Category navigation={navigation}/>
+                                    <Category close={setModalVisible} navigation={navigation}/>
                                 )
                         }
                     </ScrollView>
@@ -130,7 +130,9 @@ import Spa from '../assets/svgtopng/Spa.png'
 import Services from '../assets/svgtopng/Services.png'
 import HotelBooking from './HotelBooking';
 
-export const Category = ({navigation}) => {
+export const Category = (props) => {
+    const navigation = props.navigation;
+
     return (
         <View style={{
             width: '100%',
@@ -146,33 +148,63 @@ export const Category = ({navigation}) => {
                 flexWrap:'wrap'
             }}>
                 <IconsSet onPress={()=>{
+                    if(props.close){
+                        props.close(false)
+                    }
                     navigation.navigate('Category Single',{title:'Popular Hotel'})
                 }} name='Hotels' icon={Hotels} />
                 <IconsSet onPress={()=>{
+                    if(props.close){
+                        props.close(false)
+                    }
                     navigation.navigate('Category Single',{title:'Restaurant'})
                 }} name='Restaurants' icon={Restaurant} />
                 <IconsSet onPress={()=>{
+                    if(props.close){
+                        props.close(false)
+                    }
                     navigation.navigate('Category Single',{title:''})
                 }} name='Games' icon={Games} />
                 <IconsSet onPress={()=>{
+                    if(props.close){
+                        props.close(false)
+                    }
                     navigation.navigate('Category Single',{title:''})
                 }} name='Shopping' icon={Shopping} />
                 <IconsSet onPress={()=>{
+                    if(props.close){
+                        props.close(false)
+                    }
                     navigation.navigate('Category Single',{title:''})
                 }} name='Villas' icon={Villas} />
                 <IconsSet onPress={()=>{
+                    if(props.close){
+                        props.close(false)
+                    }
                     navigation.navigate('Category Single',{title:''})
                 }} name='Camping' icon={Camping} />
                 <IconsSet onPress={()=>{
+                    if(props.close){
+                        props.close(false)
+                    }
                     navigation.navigate('Category Single',{title:''})
                 }} name='Travel' icon={Travel} />
                 <IconsSet onPress={()=>{
+                    if(props.close){
+                        props.close(false)
+                    }
                     navigation.navigate('Category Single',{title:''})
                 }} name='Health' icon={Health} />
                 <IconsSet onPress={()=>{
+                    if(props.close){
+                        props.close(false)
+                    }
                     navigation.navigate('Category Single',{title:''})
                 }} name='Spa & Salons' icon={Spa} />
                 <IconsSet onPress={()=>{
+                    if(props.close){
+                        props.close(false)
+                    }
                     navigation.navigate('Category Single',{title:''})
                 }} name='Services' icon={Services} />
             </View>
