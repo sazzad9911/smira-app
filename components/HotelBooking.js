@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
     View, StyleSheet,
     Dimensions, ScrollView, Text,
-    TouchableOpacity, TextInput
+    TouchableOpacity, TextInput,Alert
 } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown'

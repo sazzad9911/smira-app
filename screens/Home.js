@@ -316,13 +316,13 @@ export default Home
 
 export const IconsSet = (props) => {
   return (
-    <TouchableOpacity onPress={props.onPress} style={{
+    <TouchableOpacity onPress={props.onPress} style={[{
       borderWidth: 1, borderColor: 'rgb(220,220,220)', minHeight: 80,
       width: 80, borderRadius: 10, margin: 5,
       justifyContent: 'center',
       alignItems: 'center'
-    }}>
-      <Image style={{ width: 40, height: 40, margin: 5 }} source={props.icon} />
+    },props.style]}>
+      <Image style={{ width: 25, height: 25, margin: 5 }} source={props.icon} />
       <Text>{props.name}</Text>
     </TouchableOpacity>
   );
