@@ -53,7 +53,7 @@ const Bottom = (props) => {
                 setActive('calendar')
                 setModalVisible(true)
             }} style={styles.center}>
-                <Feather name="calendar" size={24} color="#ffff" />
+                <Feather name="calendar" size={27} color="#ffff" />
             </TouchableOpacity>
             <View style={{ flex: 1, flexDirection: 'row', marginRight: 40 }}>
                 <TouchableOpacity onPress={() => {
@@ -179,16 +179,8 @@ const styles = StyleSheet.create({
     }
 })
 import { IconsSet } from '../screens/Home'
-import Hotels from '../assets/svgtopng/Hotels.png'
-import Restaurant from '../assets/svgtopng/Restaurant.png'
-import Games from '../assets/svgtopng/Games.png'
-import Shopping from '../assets/svgtopng/Shopping.png'
-import Villas from '../assets/svgtopng/Villas.png'
-import Camping from '../assets/svgtopng/Camping.png'
-import Travel from '../assets/svgtopng/Travel.png'
-import Health from '../assets/svgtopng/Health.png'
-import Spa from '../assets/svgtopng/Spa.png'
-import Services from '../assets/svgtopng/Services.png'
+import { Hotels,Health, Camping,Games, 
+    Restaurant,Services,Shopping, Spa_Salons, Travel, Villas } from './Icon';
 import HotelBooking from './HotelBooking';
 
 export const Category = (props) => {
@@ -258,7 +250,7 @@ export const Category = (props) => {
                     backgroundColor: tab == 'Spa & Salons' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
                     setTab('Spa & Salons')
-                }} name='Spa & Salons' icon={Spa} />
+                }} name='Spa & Salons' icon={Spa_Salons} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Services' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
