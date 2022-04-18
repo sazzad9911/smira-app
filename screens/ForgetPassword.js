@@ -27,11 +27,10 @@ const styles = StyleSheet.create({
     input: {
         height: 50,
         margin: 12,
-        borderWidth: 1,
         padding: 10,
         borderRadius: 30,
         marginTop: 50,
-        backgroundColor: '#ECE6E6'
+        backgroundColor: '#F5F5F5'
     },
     text: {
         marginTop: 50,
@@ -43,14 +42,14 @@ const styles = StyleSheet.create({
         margin: 12,
         padding: 10,
         borderWidth: 1,
-        borderColor: 'red',
+        borderColor: '#FC444B',
         borderRadius: 30,
         marginTop: 30,
         justifyContent: 'center',
         alignItems: 'center',
     },
     viewtext: {
-        color: 'red',
+        color: '#FC444B',
         fontSize: 20,
     },
     cartText: {
@@ -63,7 +62,7 @@ const GetInstruction = (props) => {
     return (
         <View>
             <View style={styles.text}>
-                <Text style={{ fontSize: 20 }}>Enter the email associated with your account{'\n'}
+                <Text style={{ fontSize: 20, color:'#585858' }}>Enter the email associated with your account{'\n'}
                     and we'll send an email with instructions to {'\n'}
                     reset your password</Text>
             </View>
@@ -79,7 +78,7 @@ const GetInstruction = (props) => {
             <View style={styles.cartText}>
                 <Text style={{
                     fontSize: 15,
-                    color: 'red',
+                    color: '#FC444B',
                 }}>Email address does not exist</Text>
             </View>
 
@@ -102,7 +101,7 @@ const ConfirmMessage = ({ navigation }) => {
                     alignItems: 'center',
                     marginTop: 100,
                 }}>
-                    <AntDesign name="checkcircle" size={100} color="red" />
+                    <AntDesign name="checkcircle" size={100} color="#FC444B" />
                     <Text style={{
                         fontSize: 30,
                         fontWeight: "bold",
@@ -110,11 +109,11 @@ const ConfirmMessage = ({ navigation }) => {
                     }}>Check your mail</Text>
                     <Text style={{
                         fontSize: 20,
-                        color: 'rgb(100,100,100)',
+                        color: '#585858',
                     }}>We have sent a password recover</Text>
                     <Text style={{
                         fontSize: 20,
-                        color: 'rgb(100,100,100)',
+                        color: '#585858',
                     }}>instructions to your email.</Text>
                 </View>
 
@@ -129,7 +128,7 @@ const ConfirmMessage = ({ navigation }) => {
                     <TouchableOpacity onPress={() =>navigation.navigate('Reset Password')}>
                         <Text style={{
                             fontSize: 20,
-                            color: 'red',
+                            color: '#FC444B',
                         }}>Check your spam folder.</Text>
                     </TouchableOpacity>
                 </View>
