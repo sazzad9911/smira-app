@@ -57,14 +57,14 @@ const Home = ({ navigation }) => {
     postData(url + "/getData", {
       tableName: "slider"
     }).then(data => {
-     if(Array.isArray(data)){
-      setSlider(data)
-      let arr = []
-      data.forEach(data => {
-        arr.push(data.image)
-      })
-      setImage(arr)
-     }
+      if (Array.isArray(data)) {
+        setSlider(data)
+        let arr = []
+        data.forEach(data => {
+          arr.push(data.image)
+        })
+        setImage(arr)
+      }
     }).catch(err => {
       console.log(err.message);
     })
@@ -198,7 +198,15 @@ const Home = ({ navigation }) => {
             justifyContent: 'center',
             alignItems: 'center'
           }}>
-            <AntDesign name={More ? "upcircleo" : "downcircleo"} size={24} color="black" />
+            <View style={{
+              borderWidth: 1,
+              borderRadius: 15,
+              height: 28, width: 28,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <AntDesign name={More ? "left" : "right"} size={18} color="#FC444B" />
+            </View>
             <Text style={{
               margin: 5
             }}>{More ? "Less" : "More"}</Text>
@@ -232,11 +240,11 @@ const Home = ({ navigation }) => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 17, padding: 15 }}>Deals Near You</Text>
-          <TouchableOpacity onPress={() => {
+          <Text style={{ fontWeight: 'bold', fontSize: 17, paddingHorizontal: 5, paddingVertical: 15 }}>Deals Near You</Text>
+          <TouchableOpacity style={style.outline} onPress={() => {
             navigation.navigate('Category Single', { title: 'Deals Near You' })
           }}>
-            <AntDesign name="rightcircle" size={24} color="#585858" />
+            <AntDesign name="right" size={20} color="black" />
           </TouchableOpacity>
         </View>
         <ScrollView horizontal={true} >
@@ -280,23 +288,24 @@ const Home = ({ navigation }) => {
         </ScrollView>
       </LinearGradient>
 
-      <View style={{ width: '100%', backgroundColor: 'rgb(245,245,245)', paddinTop: 15, paddingBottom: 15 }}>
-        <View style={{ marginTop: 25, marginBottom: 5, borderWidth: 0.5, borderColor: 'rgb(220,220,220)', width: '90%' }}></View>
+      <View style={{ width: '100%', backgroundColor: 'rgb(245,245,245)', paddingTop: 15, paddingBottom: 15 }}>
+        <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
+        </View>
         <View style={{
-          width: '90%',
+          width: '95%',
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 10 }}>Popular Hotels</Text>
-          <TouchableOpacity onPress={() => {
+          <TouchableOpacity style={style.outline} onPress={() => {
             navigation.navigate('Category Single', { title: 'Popular Hotel' })
           }}>
-            <AntDesign name="rightcircle" size={24} color="#585858" />
+            <AntDesign name="right" size={20} color="black" />
           </TouchableOpacity>
         </View>
         <ScrollView horizontal={true}>
-        <View style={{ width: 10 }}></View>
+          <View style={{ width: 10 }}></View>
           {
             Hotel ? (
               Hotel.map(d => (
@@ -321,9 +330,18 @@ export const IconsSet = (props) => {
       width: 80, borderRadius: 10, margin: 5,
       justifyContent: 'center',
       alignItems: 'center'
-    },props.style]}>
+    }, props.style]}>
       <Image style={{ width: 25, height: 25, margin: 5 }} source={props.icon} />
       <Text>{props.name}</Text>
     </TouchableOpacity>
   );
 }
+const style = StyleSheet.create({
+  outline: {
+    borderRadius: 15,
+    height: 28, width: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor:'#D8D8D8'
+  }
+})

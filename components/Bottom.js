@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, Dimensions, ScrollView
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import Booking from '../screens/Booking'
+import explore from '../assets/TabIcon/active/explore.png'
+import Explore from '../assets/TabIcon/inactive/Explore.png'
 
 const window = Dimensions.get('window')
 const Bottom = (props) => {
@@ -12,26 +14,28 @@ const Bottom = (props) => {
 
     return (
         <View style={styles.view}>
+            <View style={styles.center_view}>
+            </View>
             <TouchableOpacity onPress={() => {
-                setActive('calendar')
-                setModalVisible(true)
-            }} style={styles.center}>
-                <Feather name="calendar" size={24} color="#ffff" />
-            </TouchableOpacity>
+                    setActive('calendar')
+                    setModalVisible(true)
+                }} style={styles.center}>
+                    <Feather name="calendar" size={24} color="#ffff" />
+                </TouchableOpacity>
             <View style={{ flex: 1, flexDirection: 'row', marginRight: 40 }}>
                 <TouchableOpacity onPress={() => {
                     setActive('explore')
                     navigation.navigate('Home')
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <MaterialIcons name="explore" size={24} color={active == 'explore' ? 'black' : '#D8D8D8'} />
-                    <Text style={{ color: active == 'explore' ? 'black' : '#D8D8D8' }}>Explore</Text>
+                    <Text style={{ color: active == 'explore' ? 'black' : '#D8D8D8', fontSize: 12 }}>Explore</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     setActive('category')
                     setModalVisible(true)
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <MaterialIcons name="category" size={24} color={active == 'category' ? 'black' : '#D8D8D8'} />
-                    <Text style={{ color: active == 'category' ? 'black' : '#D8D8D8' }}>Category</Text>
+                    <Text style={{ color: active == 'category' ? 'black' : '#D8D8D8', fontSize: 12 }}>Category</Text>
                 </TouchableOpacity>
             </View>
             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }}>
@@ -40,19 +44,18 @@ const Bottom = (props) => {
                     navigation.navigate('MemberShipInfo')
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <MaterialIcons name="card-membership" size={24} color={active == 'membership' ? 'black' : '#D8D8D8'} />
-                    <Text style={{ color: active == 'membership' ? 'black' : '#D8D8D8' }}>Membership</Text>
+                    <Text style={{ color: active == 'membership' ? 'black' : '#D8D8D8', fontSize: 12 }}>Membership</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setActive('call')} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <MaterialIcons name="call" size={24} color={active == 'call' ? 'black' : '#D8D8D8'} />
-                    <Text style={{ color: active == 'call' ? 'black' : '#D8D8D8' }}>Call</Text>
+                    <Text style={{ color: active == 'call' ? 'black' : '#D8D8D8', fontSize: 12 }}>Call</Text>
                 </TouchableOpacity>
             </View>
             <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
                 <View style={{
                     width: window.width,
-                    height: window.height - 200,
+                    maxHeight: window.height - 200,
                     backgroundColor: '#ffff',
-                    marginTop: 200,
                     borderTopLeftRadius: 20,
                     borderTopRightRadius: 20,
                     shadowOffset: {
@@ -61,7 +64,9 @@ const Bottom = (props) => {
                     shadowRadius: 5,
                     elevation: 5,
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    position: 'absolute',
+                    bottom: 0,
                 }}>
                     <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={{
                         width: window.width,
@@ -100,7 +105,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         marginHorizontal: '4%',
         width: '92%',
-        height: 70,
+        height: 60,
         borderRadius: 30,
         shadowOffset: {
             height: 2, width: 2
@@ -110,17 +115,34 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         flexDirection: 'row'
     },
+    center_view: {
+        position: 'absolute',
+        height: 43, width: 91,
+        left: '37%',
+        alignItems: 'center',
+        bottom: 18,
+        backgroundColor:'#f5f5f5',
+        borderBottomLeftRadius:40,
+        borderBottomRightRadius:40,
+        borderTopLeftRadius:5,
+        borderTopRightRadius:5,
+    },
     center: {
         backgroundColor: '#FC444B',
-        height: 80, width: 80,
-        position: 'absolute',
+        height: 70, width: 70,
         justifyContent: 'center',
-        borderWidth: 8,
-        borderColor: '#f5f5f5',
-        bottom: 25,
-        borderRadius: 40,
+        borderRadius: 35,
         alignItems: 'center',
+        position:'absolute',
+        bottom: 25,
         left: '40%',
+        shadowOffset: {
+            height: 2, width: 2
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        elevation:5,
+        shadowColor:'black'
     }
 })
 import { IconsSet } from '../screens/Home'
