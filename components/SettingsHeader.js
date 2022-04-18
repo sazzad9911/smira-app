@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity,Platform } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 
-const Header = (props) => {
+const SettingsHeader = (props) => {
     const name = props.route.name;
     const navigation = props.navigation;
 
@@ -12,7 +12,7 @@ const Header = (props) => {
             flexDirection:'row'
         }}>
             <TouchableOpacity onPress={() =>{
-                navigation.goBack()
+                navigation.goBack();
             }} style={{
                 flex: 1,
                 justifyContent: 'center',
@@ -34,4 +34,4 @@ const Header = (props) => {
     );
 };
 
-export default Header;
+export default SettingsHeader;

@@ -5,10 +5,10 @@ import ShortBy from './ShortBy';
 import { AntDesign } from '@expo/vector-icons'
 const window = Dimensions.get('window')
 
-const SearchBottom = () => {
+const SearchBottom = (props) => {
     const [modalVisible, setModalVisible] = React.useState(false)
     const [filter, setFilter] = React.useState(false)
-
+    
     return (
         <View style={{
             width: window.width,
@@ -80,7 +80,7 @@ const SearchBottom = () => {
                         {
                             filter ?
                                 (
-                                    <Filter />
+                                    <Filter close={setModalVisible}/>
                                 ) : (
                                     <ShortBy />
                                 )

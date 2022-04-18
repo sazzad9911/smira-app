@@ -28,7 +28,7 @@ const Cards = (props) => {
                     justifyContent: 'space-between', borderRadius: 20, width: 70, margin: 10
                 }}>
                     <MaterialCommunityIcons size={20} style={{ color: 'white' }} name="star" />
-                    <Text style={{ color: 'white', marginLeft: 5 }}>4.3</Text>
+                    <Text style={{ color: 'white', marginLeft: 5 }}>{props.rating}</Text>
                 </View>
 
             </ImageBackground>
@@ -39,7 +39,7 @@ const Cards = (props) => {
                     <Text style={{ fontWeight: '400', fontSize: 15, color: 'gray', marginTop: 5 }}>{props.address}</Text>
                 </View>
                 <TouchableOpacity onPress={() =>navigation.navigate('Hotel',{
-                    title: props.title
+                    id:props.doc.id
                 })} style={{
                     backgroundColor: 'rgb(220,220,220)',
                     height: 40,

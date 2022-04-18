@@ -10,6 +10,7 @@ const HotelGallaryHeader = (props) => {
             height: Platform.OS=='ios'?120: 50,
             flexDirection:'row',
             alignItems: 'center',
+            paddingLeft:10,
         }}>
             <AntDesign name="left" size={24} color="black" />
             <Text>{props.title}</Text>

@@ -1,35 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View, StyleSheet,
     Dimensions, ScrollView, Text,
     TouchableOpacity, TextInput
 } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
+import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown'
+import { postData, url } from '../action'
+import RNDateTimePicker from '@react-native-community/datetimepicker';
+import { getAuth } from 'firebase/auth'
+import app from '../firebase';
+import AnimatedLoader from "react-native-animated-loader";
 
-const HotelBooking = () => {
-    const [CheckIn, setCheckIn] = React.useState('')
-    const [CheckOut, setCheckOut] = React.useState('')
+const HotelBooking = (props) => {
+    const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    const [CheckIn, setCheckIn] = React.useState(new Date())
+    const [CheckOut, setCheckOut] = React.useState(new Date())
+    const [In, setIn] = React.useState(null);
+    const [Out, setOut] = React.useState(null)
     const [count, setCount] = React.useState(0)
     const [count1, setCount1] = React.useState(0)
     const [count2, setCount2] = React.useState(0)
+    const [selectedItem, setSelectedItem] = useState(null)
+    const [data, setData] = useState(null)
+    const [text, setText] = useState(null)
+    const auth = getAuth(app);
+    const [loader, setLoader] = React.useState(false)
+    const navigation = props.navigation;
+
+    const Confirm = () => {
+        setLoader(true)
+        postData(url + '/setData', {
+            auth: auth.currentUser,
+            tableName: 'hotel_booking',
+            columns: ['check_in', 'check_out', 'adult', 'children', 'room', 'date', 'user_id', 'hotel_id'],
+            values: [CheckIn, CheckOut, count, count1, count2, new Date(), auth.currentUser.uid, selectedItem]
+        }).then(data => {
+            if (data.insertId) {
+                setLoader(false)
+                return navigation.navigate('Confirm Message', {
+                    text1: 'You have successfully booked.',
+                    text2: 'Please check for confirmation email.'
+                })
+            }
+            setLoader(false)
+            Alert.alert('Opps!', data.message)
+        }).catch(err => {
+            setLoader(false)
+            Alert.alert('Error', err.code)
+        })
+    }
     return (
-        <ScrollView>
+        <View>
             <View style={style.view}>
                 <Text style={style.Text}>Hotel Booking Enquiry</Text>
             </View>
-            <View >
+            <View style={{
+                height: 140
+            }}>
                 <Text style={{
                     fontSize: 15,
                     color: 'rgb(100,100,100)',
                     marginTop: 50,
                     marginLeft: 40,
                 }}>Where?</Text>
-                <TextInput
-                    style={style.input}
-                    value={CheckIn}
-                    onChangeText={(val) =>
-                        setCheckIn(val)}
-                />
+                <TextInput value={text} onChangeText={(val) => {
+                    setText(val);
+                    postData(url + '/searchData', {
+                        tableName: 'hotels',
+                        searchColumn: 'address',
+                        searchData: val
+                    }).then(data => {
+                        if (Array.isArray(data)) {
+                            setData(data)
+                        }
+                    })
+                }} style={style.input} />
+                {
+                    data ? (
+                        data.map((data, i) => (
+                            <TouchableOpacity onPress={() => {
+                                setSelectedItem(data.id)
+                                setData(null)
+                                setText(data.address)
+                            }} key={i} style={style.overRest}>
+                                <Text>{data.address}</Text>
+                            </TouchableOpacity>
+                        ))
+                    ) : (
+                        <View></View>
+                    )
+                }
+
             </View>
 
             <View >
@@ -39,12 +101,23 @@ const HotelBooking = () => {
                     marginTop: 20,
                     marginLeft: 40,
                 }}>Check-in</Text>
-                <TextInput
-                    style={style.input}
-                    value={CheckIn}
-                    onChangeText={(val) =>
-                        setCheckIn(val)}
-                />
+                <TouchableOpacity onPress={() => {
+                    setIn(true)
+                }} style={[style.input, { justifyContent: 'center' }]}>
+                    {
+                        In ? (
+                            <RNDateTimePicker value={CheckIn}
+                                onChange={(event, date) => {
+                                    setIn(false)
+                                    setCheckIn(date);
+
+                                }} />
+                        ) : (
+                            <Text>{CheckIn.getDate() + " "
+                                + Months[CheckIn.getMonth()] + " " + CheckIn.getFullYear()}</Text>
+                        )
+                    }
+                </TouchableOpacity>
             </View>
 
             <View >
@@ -54,12 +127,23 @@ const HotelBooking = () => {
                     marginTop: 20,
                     marginLeft: 40,
                 }}>Check-out</Text>
-                <TextInput
-                    style={style.input}
-                    value={CheckOut}
-                    onChangeText={(val) =>
-                        setCheckOut(val)}
-                />
+                <TouchableOpacity onPress={() => {
+                    setOut(true)
+                }} style={[style.input, { justifyContent: 'center' }]}>
+                    {
+                        Out ? (
+                            <RNDateTimePicker value={CheckOut}
+                                onChange={(event, date) => {
+                                    setOut(false)
+                                    setCheckOut(date);
+
+                                }} />
+                        ) : (
+                            <Text>{CheckOut.getDate() + " "
+                                + Months[CheckOut.getMonth()] + " " + CheckOut.getFullYear()}</Text>
+                        )
+                    }
+                </TouchableOpacity>
             </View>
 
             <View style={{
@@ -222,11 +306,29 @@ const HotelBooking = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <TouchableOpacity style={style.viewEnd}>
-                    <Text style={style.viewtext}>SUBMIT</Text>
+                <TouchableOpacity onPress={Confirm} disabled={count > 0 && count2 > 0 && text ? false : true}
+                    style={[style.viewEnd, {
+                        backgroundColor: count > 0 && count2 > 0 && text ? '#FC444B' : '#FFFF',
+                        borderWidth: count > 0 && count2 > 0 && text ? 0 : 1,
+                        borderColor: '#FC444B'
+                    }]}>
+                    <Text style={[style.viewtext, {
+                        color: count > 0 && count2 > 0 && text ? '#ffff' : '#000'
+                    }]}>SUBMIT</Text>
                 </TouchableOpacity>
             </View>
-        </ScrollView>
+            <AnimatedLoader
+                visible={loader}
+                overlayColor="rgba(255,255,255,0.75)"
+                source={require("../assets/9997-infinity-loader.json")}
+                animationStyle={{
+                    height: 100, width: 100,
+                }}
+                speed={1}
+            >
+                <Text>Loading...</Text>
+            </AnimatedLoader>
+        </View>
     );
 };
 
@@ -286,6 +388,8 @@ const style = StyleSheet.create({
         padding: 5,
         borderRadius: 30,
         width: 350,
+        marginLeft: 30,
+        paddingLeft: 20
     },
     view4: {
         height: 50,
@@ -306,11 +410,26 @@ const style = StyleSheet.create({
         marginTop: 60,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'red'
+        backgroundColor: '#FC444B'
     },
     viewtext: {
         color: 'white',
         fontSize: 20,
     },
-
+    overRest: {
+        height: 50,
+        width: 350,
+        zIndex: 1,
+        marginLeft: 25,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        padding: 5,
+        shadowOffset: {
+            height: 2, width: 2
+        },
+        shadowColor: 'black',
+        shadowOpacity: .3,
+        shadowRadius: 5,
+        elevation: 5
+    }
 })

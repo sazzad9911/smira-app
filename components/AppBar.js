@@ -2,8 +2,11 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import ProfilePicture from '../assets/10.jpg';
+import {useSelector} from 'react-redux'
 
 const AppBar = ({ title, navigation, whereTo, showDrawer }) => {
+    const user=useSelector(state => state.user);
+    
     const openNav = () => {
         navigation.openDrawer()
     }

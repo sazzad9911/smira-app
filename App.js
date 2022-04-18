@@ -1,5 +1,4 @@
-
-import { SafeAreaView, StyleSheet, Dimensions, StatusBar } from 'react-native';
+import { SafeAreaView, StyleSheet, Dimensions, StatusBar,View,Text } from 'react-native';
 import React from 'react';
 import DrawerApp from './routes/Drawer';
 import StackNavigation from './routes/StackNavigation';
@@ -9,6 +8,7 @@ import store from './store';
 
 const App = () => {
   const window = Dimensions.get('window')
+  
   return (
     <Provider store={store}>
       <StackNavigation />

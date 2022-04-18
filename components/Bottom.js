@@ -9,6 +9,7 @@ const Bottom = (props) => {
     const [active, setActive] = React.useState('explore')
     const navigation = props.navigation;
     const [modalVisible, setModalVisible] = React.useState(false)
+    
     return (
         <View style={styles.view}>
             <TouchableOpacity onPress={() => {
@@ -71,11 +72,11 @@ const Bottom = (props) => {
                     }}>
                         <AntDesign name="caretdown" size={30} color="black" />
                     </TouchableOpacity>
-                    <ScrollView>
+                    <ScrollView style={{width:'100%'}}>
                         {
                             active == 'calendar' ?
                                 (
-                                    <HotelBooking/>
+                                    <HotelBooking navigation={navigation}/>
                                 ) :
                                 (
                                     <Category close={setModalVisible} navigation={navigation}/>
@@ -110,11 +111,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         justifyContent: 'center',
         borderWidth: 8,
-        borderColor: '#ffff',
+        borderColor: '#f5f5f5',
         bottom: 25,
         borderRadius: 40,
         alignItems: 'center',
-        left: '40%'
+        left: '40%',
     }
 })
 import { IconsSet } from '../screens/Home'

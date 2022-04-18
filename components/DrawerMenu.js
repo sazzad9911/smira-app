@@ -1,24 +1,31 @@
-import { Button, Image, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native';
-
+import {
+    Button, Image, ScrollView, StyleSheet, Text,
+    Touchable, TouchableOpacity, View
+} from 'react-native';
 import React from 'react';
-
-import { AntDesign, EvilIcons, Feather, FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
+import {
+    AntDesign, EvilIcons, Feather, FontAwesome,
+    FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons,
+    MaterialIcons, SimpleLineIcons
+} from '@expo/vector-icons';
 import profilePicture from '../assets/10.jpg'
 import { Category } from './Bottom';
-
+import { useSelector } from 'react-redux'
 
 const DrawerMenu = ({ navigation }) => {
     const onNavigate = (screen) => {
         navigation.navigate(screen)
     }
     const [dropdown, setDropdown] = React.useState(false)
+    const user = useSelector(state => state.user)
 
     return (
         <ScrollView>
             <View style={[styles.container]}>
                 <TouchableOpacity style={[styles.metaContainer]}
                     onPress={() => onNavigate('Account')}>
-                    <Image source={profilePicture}
+                    <Image source={{ uri:user && user[0].image?
+                    user[0].image:'https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png'}}
                         style={[styles.profilePicture]} />
                     <View style={{
                         flexDirection: 'row',
@@ -30,10 +37,31 @@ const DrawerMenu = ({ navigation }) => {
                             <Text style={{
                                 fontWeight: '600',
                                 fontSize: 20
-                            }}>Nirmiti Gaitonde</Text>
-                            <Text style={[styles.membership]}>
-                                <Text style={{ color: '#FFB92E' }}>Gold</Text>
-                                Member</Text>
+                            }}>{user && user[0].name ? user[0].name : '-'}</Text>
+                            {
+                                user && user[0].membership_type == 'Gold Membership' ? (
+                                    <Text style={[styles.membership]}>
+                                        <Text style={{ color: '#FFB92E' }}>Gold </Text>
+                                        Member</Text>
+                                ) : user && user[0].membership_type == 'Platinum Membership' ? (
+                                    <Text style={[styles.membership]}>
+                                        <Text style={{ color: '#A2B0CD' }}>Platinum </Text>
+                                        Member</Text>
+                                ) : user && user[0].membership_type == 'Diamond Membership' ? (
+                                    <Text style={[styles.membership]}>
+                                        <Text style={{ color: '#48A6DB' }}>Diamond </Text>
+                                        Member</Text>
+                                ) : user && user[0].membership_type == 'Silver Membership' ? (
+                                    <Text style={[styles.membership]}>
+                                        <Text style={{ color: '#FC444B' }}>Slider </Text>
+                                        Member</Text>
+                                ) :
+                                    (
+                                        <Text style={[styles.membership]}>
+                                            <Text style={{ color: 'black' }}>Non </Text>
+                                            Member</Text>
+                                    )
+                            }
                         </View>
                         <MaterialIcons style={[styles.tabIco3]} name='navigate-next' size={35} />
                     </View>
@@ -75,12 +103,12 @@ const DrawerMenu = ({ navigation }) => {
                     }
                 </TouchableOpacity>
                 {
-                    dropdown?
-                    (
-                        <Category navigation={navigation}/>
-                    ):(
-                        <View></View>
-                    )
+                    dropdown ?
+                        (
+                            <Category navigation={navigation} />
+                        ) : (
+                            <View></View>
+                        )
                 }
                 <View style={{ borderBottomColor: 'rgb(230,230,230)', borderBottomWidth: 1, marginTop: 10, marginBottom: 10 }}></View>
                 <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Home')}>

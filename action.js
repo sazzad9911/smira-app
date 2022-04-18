@@ -16,7 +16,7 @@ export async function postData(url = '', data = {}) {
     return response.json(); // parses JSON response into native JavaScript objects
   }
 
-export const url ="http://192.168.0.190:4000"
+export const url ="http://165.232.178.79:4000"
 
 export const setDeals=(doc)=>{
   return{
@@ -36,9 +36,39 @@ export const setHotels=(doc)=>{
     playload:doc
   }
 }
-export const setRecentSearch=(doc)=>{
+export const setShortBy=(doc)=>{
   return{
-    type:'SET_SEARCH',
+    type:'SHORT',
+    playload:doc
+  }
+}
+export const setRating=(doc)=>{
+  return{
+    type:'RATING',
+    playload:doc
+  }
+}
+export const setBrand=(doc)=>{
+  return{
+    type:'BRAND',
+    playload:doc
+  }
+}
+export const setCategory=(doc)=>{
+  return{
+    type:'CATEGORY',
+    playload:doc
+  }
+}
+export const setLoader=(doc)=>{
+  return{
+    type:'SET_LOADER',
+    playload:doc
+  }
+}
+export const setUser=(doc)=>{
+  return{
+    type:'SET_USER',
     playload:doc
   }
 }

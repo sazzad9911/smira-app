@@ -6,6 +6,7 @@ const window = Dimensions.get('window')
 
 const DealCart = (props) => {
     const [modalVisible, setmodalVisible] = React.useState(false)
+    const navigation = props.navigation;
 
     return (
         <View style={{
@@ -47,10 +48,10 @@ const DealCart = (props) => {
                 </TouchableOpacity>
             </View>
             <Modal visible={modalVisible} onPress={() => setmodalVisible(!modalVisible)}>
-                <DealCoupon close={setmodalVisible}/>
+                <DealCoupon navigation={navigation} data={props.data} close={setmodalVisible}/>
             </Modal>
         </View>
     );
 };
 
-export default DealCart;
+export default DealCart; 
