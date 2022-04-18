@@ -18,14 +18,14 @@ const RedeemHistory = () => {
                 />
                 <Text
                     style={{
-                        fontSize: 25,
+                        fontSize: 25, fontWeight: 'bold'
                     }}>Nirmiti Gaitonde</Text>
                 <Text
                     style={{
                         fontSize: 15,
-                        color: '#FF9E00'
+                        color: '#FFC654'
                     }}>Gold <Text
-                        style={{ color: 'black' }}>Member</Text></Text>
+                        style={{ color: 'black',color: '#585858' }}>Member</Text></Text>
             </View>
             <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
             </View>

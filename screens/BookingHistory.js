@@ -26,7 +26,7 @@ const BookingHistory = (props) => {
                     <Text style={style.font}>Booking History</Text>
                 </View>
             </View>
-            <ScrollView>
+            <ScrollView >
                 <View style={style.view}>
                     <Text style={style.Text}>Shradha Saburi Palace</Text>
                     <Text style={style.Text1}>Shirdi,Maharashtra</Text>
@@ -39,6 +39,7 @@ const BookingHistory = (props) => {
                         }}>Check-in</Text>
                         <Text style={{
                             fontSize: 25,
+                            fontWeight:'bold'
                         }}>12:00 PM</Text>
                     </View>
                     <View style={style.view2}></View>
@@ -49,6 +50,7 @@ const BookingHistory = (props) => {
                         }}>Check-out</Text>
                         <Text style={{
                             fontSize: 25,
+                            fontWeight:'bold'
                         }}>10:00 AM</Text>
                     </View>
                 </View>
@@ -83,7 +85,7 @@ const BookingHistory = (props) => {
                 </View>
 
                 <View>
-                    <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20 }}>
+                    <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20, marginTop: 50 }}>
                         <View style={{ flex: 2 }}>
                             <Text style={{ fontSize: 20 }}>Aduits</Text>
                             <Text style={{ fontSize: 20, color: 'rgb(100,100,100)', }}>Older 12 years</Text>
@@ -152,7 +154,7 @@ const style = StyleSheet.create({
     },
     Text1: {
         fontSize: 20,
-        color: 'rgb(100,100,100)',
+        color: '#808080',
     },
     view1: {
         borderWidth: .5,
@@ -175,6 +177,7 @@ const style = StyleSheet.create({
     view3: {
         marginTop: 20,
         marginLeft: 40,
+
     },
     input: {
         height: 50,
@@ -182,6 +185,7 @@ const style = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         borderRadius: 30,
+        borderColor: '#D8D8D8'
     },
     view4: {
         height: 50,
@@ -189,7 +193,7 @@ const style = StyleSheet.create({
         margin: 12,
         padding: 10,
         borderRadius: 30,
-        backgroundColor: '#F7F2F2',
+        backgroundColor: '#F5F5F5',
         justifyContent: 'center',
         alignItems: 'center',
 
@@ -199,14 +203,14 @@ const style = StyleSheet.create({
         margin: 12,
         padding: 10,
         borderWidth: 1,
-        borderColor: 'red',
+        borderColor: '#FC444B',
         borderRadius: 30,
         marginTop: 30,
         justifyContent: 'center',
         alignItems: 'center',
     },
     viewtext: {
-        color: 'red',
+        color: '#FC444B',
         fontSize: 20,
     },
 

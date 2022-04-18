@@ -21,11 +21,11 @@ const RedeemHistoryCart = (props) => {
                     />
                 </View>
                 <View style={{ flex: 3, marginTop: 10 }}>
-                    <Text style={{ fontSize: 15, color: 'black' }}>{props.title}</Text>
+                    <Text style={{ fontSize: 15, color: '#585858' }}>{props.title}</Text>
                     <Text
                         style={{
                             fontSize: 15,
-                            color: 'rgb(100,100,100)',
+                            color: '#808080',
                             marginTop: 10
                         }}>{props.date}</Text>
                 </View>
