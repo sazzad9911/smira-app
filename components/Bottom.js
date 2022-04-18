@@ -9,7 +9,7 @@ const Bottom = (props) => {
     const [active, setActive] = React.useState('explore')
     const navigation = props.navigation;
     const [modalVisible, setModalVisible] = React.useState(false)
-    
+
     return (
         <View style={styles.view}>
             <TouchableOpacity onPress={() => {
@@ -38,7 +38,7 @@ const Bottom = (props) => {
                 <TouchableOpacity onPress={() => {
                     setActive('membership')
                     navigation.navigate('MemberShipInfo')
-                    }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <MaterialIcons name="card-membership" size={24} color={active == 'membership' ? 'black' : '#D8D8D8'} />
                     <Text style={{ color: active == 'membership' ? 'black' : '#D8D8D8' }}>Membership</Text>
                 </TouchableOpacity>
@@ -70,16 +70,21 @@ const Bottom = (props) => {
                         borderTopLeftRadius: 20,
                         borderTopRightRadius: 20,
                     }}>
-                        <AntDesign name="caretdown" size={30} color="black" />
+                        <View style={{
+                            width: 40,
+                            height: 4,
+                            margin: 15,
+                            backgroundColor: '#D8D8D8'
+                        }}></View>
                     </TouchableOpacity>
-                    <ScrollView style={{width:'100%'}}>
+                    <ScrollView style={{ width: '100%' }}>
                         {
                             active == 'calendar' ?
                                 (
-                                    <HotelBooking navigation={navigation}/>
+                                    <HotelBooking navigation={navigation} />
                                 ) :
                                 (
-                                    <Category close={setModalVisible} navigation={navigation}/>
+                                    <Category close={setModalVisible} navigation={navigation} />
                                 )
                         }
                     </ScrollView>
@@ -133,6 +138,11 @@ import HotelBooking from './HotelBooking';
 
 export const Category = (props) => {
     const navigation = props.navigation;
+    const [tab, setTab] = React.useState(null)
+    const navigate = () => {
+        navigation.navigate('Category Single', { title: tab })
+        props.close(false)
+    }
 
     return (
         <View style={{
@@ -140,75 +150,85 @@ export const Category = (props) => {
             padding: 20,
         }}>
             <Text style={{
-                fontSize: 20,
-                marginVertical: 20,
-                fontWeight: '500'
+                fontSize: 25,
+                marginVertical: 15,
+                fontWeight: 'bold'
             }}>Categories</Text>
             <View style={{
-                flexDirection:'row',
-                flexWrap:'wrap'
+                flexDirection: 'row',
+                flexWrap: 'wrap'
             }}>
-                <IconsSet onPress={()=>{
-                    if(props.close){
-                        props.close(false)
-                    }
-                    navigation.navigate('Category Single',{title:'Popular Hotel'})
+
+                <IconsSet style={{
+                    backgroundColor: tab == 'Popular Hotel' ? '#D8D8D8' : '#FFFF'
+                }} onPress={() => {
+                    setTab('Popular Hotel')
                 }} name='Hotels' icon={Hotels} />
-                <IconsSet onPress={()=>{
-                    if(props.close){
-                        props.close(false)
-                    }
-                    navigation.navigate('Category Single',{title:'Restaurant'})
+                <IconsSet style={{
+                    backgroundColor: tab == 'Restaurant' ? '#D8D8D8' : '#FFFF'
+                }} onPress={() => {
+                    setTab('Restaurant')
                 }} name='Restaurants' icon={Restaurant} />
-                <IconsSet onPress={()=>{
-                    if(props.close){
-                        props.close(false)
-                    }
-                    navigation.navigate('Category Single',{title:''})
+                <IconsSet style={{
+                    backgroundColor: tab == 'Games' ? '#D8D8D8' : '#FFFF'
+                }} onPress={() => {
+                    setTab('Games')
                 }} name='Games' icon={Games} />
-                <IconsSet onPress={()=>{
-                    if(props.close){
-                        props.close(false)
-                    }
-                    navigation.navigate('Category Single',{title:''})
+                <IconsSet style={{
+                    backgroundColor: tab == 'Shopping' ? '#D8D8D8' : '#FFFF'
+                }} onPress={() => {
+                    setTab('Shopping')
                 }} name='Shopping' icon={Shopping} />
-                <IconsSet onPress={()=>{
-                    if(props.close){
-                        props.close(false)
-                    }
-                    navigation.navigate('Category Single',{title:''})
+                <IconsSet style={{
+                    backgroundColor: tab == 'Villas' ? '#D8D8D8' : '#FFFF'
+                }} onPress={() => {
+                    setTab('Villas')
                 }} name='Villas' icon={Villas} />
-                <IconsSet onPress={()=>{
-                    if(props.close){
-                        props.close(false)
-                    }
-                    navigation.navigate('Category Single',{title:''})
+                <IconsSet style={{
+                    backgroundColor: tab == 'Camping' ? '#D8D8D8' : '#FFFF'
+                }} onPress={() => {
+                    setTab('Camping')
                 }} name='Camping' icon={Camping} />
-                <IconsSet onPress={()=>{
-                    if(props.close){
-                        props.close(false)
-                    }
-                    navigation.navigate('Category Single',{title:''})
+                <IconsSet style={{
+                    backgroundColor: tab == 'Travel' ? '#D8D8D8' : '#FFFF'
+                }} onPress={() => {
+                    setTab('Travel')
                 }} name='Travel' icon={Travel} />
-                <IconsSet onPress={()=>{
-                    if(props.close){
-                        props.close(false)
-                    }
-                    navigation.navigate('Category Single',{title:''})
+                <IconsSet style={{
+                    backgroundColor: tab == 'Health' ? '#D8D8D8' : '#FFFF'
+                }} onPress={() => {
+                    setTab('Health')
                 }} name='Health' icon={Health} />
-                <IconsSet onPress={()=>{
-                    if(props.close){
-                        props.close(false)
-                    }
-                    navigation.navigate('Category Single',{title:''})
+                <IconsSet style={{
+                    backgroundColor: tab == 'Spa & Salons' ? '#D8D8D8' : '#FFFF'
+                }} onPress={() => {
+                    setTab('Spa & Salons')
                 }} name='Spa & Salons' icon={Spa} />
-                <IconsSet onPress={()=>{
-                    if(props.close){
-                        props.close(false)
-                    }
-                    navigation.navigate('Category Single',{title:''})
+                <IconsSet style={{
+                    backgroundColor: tab == 'Services' ? '#D8D8D8' : '#FFFF'
+                }} onPress={() => {
+                    setTab('Services')
                 }} name='Services' icon={Services} />
             </View>
+            <TouchableOpacity onPress={() => {
+                navigate()
+            }} disabled={tab ? false : true}
+                style={{
+                    borderColor: '#FC444B',
+                    borderWidth: 1,
+                    height: 50,
+                    margin: 12,
+                    padding: 10,
+                    borderRadius: 30,
+                    marginTop: 60,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: tab ? '#FC444B' : '#FFFF'
+                }}>
+                <Text style={{
+                    color: tab ? 'white' : 'black'
+                }}>APPLY</Text>
+            </TouchableOpacity>
         </View>
     )
-}
+} 
