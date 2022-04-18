@@ -29,7 +29,8 @@ const GetInstruction = () => {
             <ScrollView>
                 <Text style={{
                     fontSize: 17,
-                    marginLeft: '5%'
+                    marginLeft: '5%',
+                    color:'#585858'
 
                 }}>Your new password must be different from
                     {"\n"} previous used passwords.</Text>
@@ -38,7 +39,7 @@ const GetInstruction = () => {
                         marginTop: '10%',
                         marginLeft: '10%',
                         fontSize: 20,
-                        color: 'rgb(100,100,100)',
+                        color: '#585858',
                     }}>Password</Text>
                     <View style={{
                         height: 50,
@@ -72,8 +73,8 @@ const GetInstruction = () => {
                     </View>
                     <Text style={{
                         fontSize: 15,
-                        color: 'rgb(100,100,100)',
-                        marginLeft: '10%'
+                        marginLeft: '10%',
+                        color: '#808080',
                     }}>Must be atleast 8 characters.</Text>
                 </View>
 
@@ -82,16 +83,16 @@ const GetInstruction = () => {
                         marginTop: '10%',
                         marginLeft: '10%',
                         fontSize: 20,
-                        color: 'rgb(100,100,100)',
+                        color: '#585858',
                     }}>Confirm Password</Text>
                     <View>
                         <TextInput
                             style={{
                                 height: 50,
                                 margin: 20,
-                                borderWidth: 1,
                                 padding: 10,
                                 borderRadius: 30,
+                                backgroundColor: '#F5F5F5',
                             }}
                             placeholder=""
                             secureTextEntry={true}
@@ -101,8 +102,9 @@ const GetInstruction = () => {
                     </View>
                     <Text style={{
                         fontSize: 15,
-                        color: 'rgb(100,100,100)',
-                        marginLeft: '10%'
+                        color: '#808080',
+                        marginLeft: '10%',
+                        
                     }}>Both passwords must match.</Text>
                 </View>
 
@@ -112,14 +114,14 @@ const GetInstruction = () => {
                         margin: 12,
                         padding: 10,
                         borderWidth: 1,
-                        borderColor: 'red',
+                        borderColor: '#FC444B',
                         borderRadius: 30,
                         marginTop: '30%',
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}>
                         <Text style={{
-                            color: 'red',
+                            color: '#FC444B',
                             fontSize: 20,
                         }}>RESET PASSWORD</Text>
                     </View>
@@ -137,7 +139,7 @@ const ConfirmMessage = () => {
                     alignItems: 'center',
                     marginTop: 100,
                 }}>
-                    <AntDesign name="checkcircle" size={100} color="red" />
+                    <AntDesign name="checkcircle" size={100} color="#FC444B" />
                     <Text style={{
                         fontSize: 30,
                         fontWeight: "bold",
@@ -145,11 +147,11 @@ const ConfirmMessage = () => {
                     }}>That's It!</Text>
                     <Text style={{
                         fontSize: 20,
-                        color: 'rgb(100,100,100)',
+                        color: '#585858',
                     }}>Your password has been</Text>
                     <Text style={{
                         fontSize: 20,
-                        color: 'rgb(100,100,100)',
+                        color: '#585858',
                     }}>Reset successfully.</Text>
                 </View>
 
