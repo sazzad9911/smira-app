@@ -25,14 +25,14 @@ const Language = () => {
                     margin: 20,
                     padding: 10,
                     borderWidth: 1,
-                    borderColor: 'red',
+                    borderColor: '#FC444B',
                     borderRadius: 30,
                     marginTop: '100%',
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
                     <Text style={{
-                        color: 'red',
+                        color: '#FC444B',
                         fontSize: 20,
                     }}>OKAY</Text>
                 </View>
@@ -49,13 +49,13 @@ const List = (props) => {
             props.onChange(props.title)
         }} style={{ flexDirection: 'row', marginVertical: 15 }}>
             <View style={{ flex: 5 }}>
-                <Text style={{ fontSize: 25, color: props.title == props.value ? 'red' : 'black', marginLeft: 50 }}>{props.title}</Text>
+                <Text style={{ fontSize: 25, color: props.title == props.value ? '#FC444B' : '#585858', marginLeft: 50 }}>{props.title}</Text>
             </View>
             <View style={{ flex: 1 }}>
                 {
                     props.title == props.value ?
                         (
-                            <Feather name="check" size={30} color="red" />
+                            <Feather name="check" size={30} color="#FC444B" />
                         ) : (
                             <View></View>
                         )
