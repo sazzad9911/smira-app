@@ -1,20 +1,34 @@
 import React from 'react';
 import {
     View, Modal, Text, ScrollView, Image,
-    TouchableOpacity, TextInput, Dimensions, Platform
+    TouchableOpacity, TextInput, Dimensions, Platform, StyleSheet, Alert
 } from 'react-native';
 import Screen from '../assets/Screen.png'
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-
+import app from '../firebase'
+import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
+import {
+    PhoneAuthProvider, signInWithCredential, getAuth,
+    createUserWithEmailAndPassword, updateProfile, getRedirectResult, GoogleAuthProvider
+} from 'firebase/auth';
+import AnimatedLoader from "react-native-animated-loader";
+import { postData, url } from '../action'
+import CreateUser from './CreateUser';
+//import * as Google from 'expo-google-app-auth';
+const auth = getAuth(app);
 const window = Dimensions.get('window')
 
 const SignUp = (props) => {
     const navigation = props.navigation
     const [modalVisible, setModalVisible] = React.useState(false);
     const [isOTP, setOTP] = React.useState(false);
+    const auth = getAuth();
+    const [visibility, setVisibility] = React.useState(false);
+
+
 
     return (
         <ScrollView>
@@ -88,7 +102,9 @@ const SignUp = (props) => {
                         }}>SignUp with Email</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{
+                    <TouchableOpacity onPress={() => {
+
+                    }} style={{
                         height: 60,
                         margin: 20,
                         padding: 10,
@@ -142,13 +158,22 @@ const SignUp = (props) => {
                                 (
                                     <SignUpWithOtp navigation={navigation} close={setModalVisible} />
                                 ) : (
-                                    <SignUpWithEmail navigation={navigation} close={setModalVisible} />
+                                    <CreateUser navigation={navigation} close={setModalVisible} />
                                 )
                         }
                     </View>
                 </Modal>
 
             </View>
+            <AnimatedLoader
+                visible={visibility}
+                overlayColor="rgba(255,255,255,0.75)"
+                source={require("../assets/9997-infinity-loader.json")}
+                animationStyle={styles.lottie}
+                speed={1}
+            >
+                <Text>Loading...</Text>
+            </AnimatedLoader>
         </ScrollView>
     );
 };
@@ -156,6 +181,15 @@ const SignUp = (props) => {
 export default SignUp;
 const SignUpWithOtp = (props) => {
     const [next, setNext] = React.useState(false)
+    const recaptchaVerifier = React.useRef(null);
+    const [phoneNumber, setPhoneNumber] = React.useState();
+    const [verificationId, setVerificationId] = React.useState();
+    const [verificationCode, setVerificationCode] = React.useState();
+    const [message, showMessage] = React.useState();
+    const attemptInvisibleVerification = false;
+    const [visibility, setVisibility] = React.useState(false);
+
+    const navigation = props.navigation
 
     if (next) {
         return (
@@ -184,7 +218,7 @@ const SignUpWithOtp = (props) => {
                     <Text style={{
                         fontSize: 15,
                         marginTop: 20,
-                        color:'#A7A7A7'
+                        color: '#A7A7A7'
                     }}>Register your new account</Text>
                 </View>
 
@@ -195,83 +229,68 @@ const SignUpWithOtp = (props) => {
                         flexDirection: 'row',
                     }}>
 
-                        <TextInput keyboardType='numeric'
+                        <TextInput placeholder='6 digit verification code'
+                            onChangeText={setVerificationCode}
+                            keyboardType='numeric'
                             style={{
                                 height: 60,
                                 margin: 12,
                                 padding: 10,
-                                width: 60,
+                                width: window.width - 50,
                                 borderRadius: 50,
                                 marginTop: 50,
                                 backgroundColor: '#F5F5F5',
                                 fontSize: 20,
-
-                            }}
-                        />
-
-
-                        <TextInput keyboardType='numeric'
-                            style={{
-                                height: 60,
-                                margin: 12,
-                                padding: 10,
-                                width: 60,
-                                borderRadius: 50,
-                                marginTop: 50,
-                                backgroundColor: '#F5F5F5',
-                                fontSize: 20,
-                            }}
-                        />
-
-
-                        <TextInput keyboardType='numeric'
-                            style={{
-                                height: 60,
-                                margin: 12,
-                                padding: 10,
-                                width: 60,
-                                borderRadius: 50,
-                                marginTop: 50,
-                                backgroundColor: '#F5F5F5',
-                                fontSize: 20,
-                            }}
-                        />
-
-
-                        <TextInput keyboardType='numeric'
-                            style={{
-                                height: 60,
-                                margin: 12,
-                                padding: 10,
-                                width: 60,
-                                borderRadius: 50,
-                                marginTop: 50,
-                                backgroundColor: '#F5F5F5',
-                                fontSize: 20,
-                                justifyContent: 'center',
-                                alignItems: 'center',
                             }}
                         />
                     </View>
 
 
-                    <TouchableOpacity >
-                        <View style={{
-                            height: 60,
-                            margin: 25,
-                            padding: 10,
-                            borderRadius: 40,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'row',
-                            backgroundColor: '#FC444B',
-                            width:window.width-50
-                        }}>
-                            <Text style={{
-                                color: 'white',
-                                fontSize: 25,
-                            }}>SUBMIT</Text>
-                        </View>
+                    <TouchableOpacity onPress={
+                        async () => {
+                            if (!verificationCode) {
+                                Alert.alert('Error', 'Type verificationCode first');
+                                return;
+                            }
+                            setVisibility(true);
+                            try {
+                                const credential = PhoneAuthProvider.credential(
+                                    verificationId,
+                                    verificationCode
+                                );
+                                await signInWithCredential(auth, credential)
+                                    .then(userCredential => {
+                                        postData(url + '/setData', {
+                                            auth: userCredential.user,
+                                            tableName: 'user',
+                                            columns: ['phone', 'uid'],
+                                            values: [userCredential.user.phoneNumber, userCredential.user.uid]
+                                        }).then(data => {
+                                            Alert.alert('Success!', 'Sign Up completed successfully')
+                                            setVisibility(false)
+                                            navigation.navigate('Dashboard');
+                                        })
+                                    })
+                            } catch (err) {
+                                Alert.alert(err.code, err.message)
+                                setVisibility(false)
+                            }
+                        }
+                    } style={{
+                        height: 60,
+                        margin: 25,
+                        padding: 10,
+                        borderRadius: 40,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        backgroundColor: '#FC444B',
+                        width: window.width - 50
+                    }}>
+                        <Text style={{
+                            color: 'white',
+                            fontSize: 25,
+                        }}>SUBMIT</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -281,6 +300,11 @@ const SignUpWithOtp = (props) => {
             <View style={{
                 marginTop: 40,
             }}>
+                <FirebaseRecaptchaVerifierModal
+                    ref={recaptchaVerifier}
+                    firebaseConfig={app.options}
+                // attemptInvisibleVerification
+                />
                 <View style={{
                     marginTop: '15%',
                     marginLeft: '85%'
@@ -301,12 +325,12 @@ const SignUpWithOtp = (props) => {
                     <Text style={{
                         fontSize: 15,
                         marginTop: 20,
-                        color:'#A7A7A7'
+                        color: '#A7A7A7'
                     }}>Register your new account</Text>
                 </View>
 
                 <View >
-                    <TextInput keyboardType='numeric'
+                    <TextInput onChangeText={setPhoneNumber} keyboardType='numeric'
                         style={{
                             height: 60,
                             margin: 25,
@@ -315,13 +339,38 @@ const SignUpWithOtp = (props) => {
                             marginTop: 50,
                             backgroundColor: '#F5F5F5',
                             fontSize: 20,
-                            width:window.width-50
+                            width: window.width - 50
                         }}
-                        placeholder="Mobile Number"
+                        placeholder="Mobile Number with country code"
                     />
 
-                    <TouchableOpacity onPress={() => {
-                        setNext(true)
+                    <TouchableOpacity onPress={async () => {
+
+                        //setVisibility(true)
+                        if (!phoneNumber) {
+                            Alert.alert('Error', 'It looks like you have a phone number')
+                            return;
+                        }
+                        if (phoneNumber.length != 13) {
+                            Alert.alert('Error', 'Invalid phone number');
+                            return;
+                        }
+                        try {
+                            const phoneProvider = new PhoneAuthProvider(auth);
+                            const verificationId = await phoneProvider.verifyPhoneNumber(
+                                phoneNumber,
+                                recaptchaVerifier.current
+                            );
+                            setNext(true)
+                            setVerificationId(verificationId);
+                            Alert.alert('Success', 'We sent a verification code to your phone number')
+                            setVisibility(false)
+                        } catch (err) {
+                            Alert.alert(err.message)
+                            setVisibility(false)
+                        }
+
+
                     }}>
                         <View style={{
                             height: 60,
@@ -332,7 +381,7 @@ const SignUpWithOtp = (props) => {
                             alignItems: 'center',
                             flexDirection: 'row',
                             backgroundColor: '#FC444B',
-                            width:window.width-50,
+                            width: window.width - 50,
                         }}>
                             <Text style={{
                                 color: 'white',
@@ -341,171 +390,22 @@ const SignUpWithOtp = (props) => {
                         </View>
                     </TouchableOpacity>
                 </View>
+                <AnimatedLoader
+                    visible={visibility}
+                    overlayColor="rgba(255,255,255,0.75)"
+                    source={require("../assets/9997-infinity-loader.json")}
+                    animationStyle={styles.lottie}
+                    speed={1}
+                >
+                    <Text>Loading...</Text>
+                </AnimatedLoader>
             </View>
         )
     }
 }
-
-
-const SignUpWithEmail = (props) => {
-    const navigation = props.navigation
-    return (
-        <ScrollView>
-            <View style={{
-                marginTop: 40,
-            }}>
-                <View style={{
-                    marginTop: '15%',
-                    marginLeft: '85%'
-                }}>
-                    <TouchableOpacity onPress={() => {
-                        props.close(false)
-                    }}>
-                        <Fontisto name="close-a" size={24} color="black" />
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: '20%',
-                }}>
-                    <Text style={{
-                        fontSize: 35,
-                    }}>Hello, New Member!</Text>
-                    <Text style={{
-                        fontSize: 15,
-                        marginTop: 20,
-                        color:'#A7A7A7'
-                    }}>Register your new account</Text>
-                </View>
-
-                <View >
-                    <View style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}>
-
-                        <TextInput placeholder='Name'
-                            style={{
-                                height: 60,
-                                marginHorizontal: 25,
-                                padding: 15,
-                                borderRadius: 50,
-                                marginTop: 30,
-                                backgroundColor: '#F5F5F5',
-                                fontSize: 18,
-                                width: window.width-50
-
-                            }}
-                        />
-
-                        <TextInput placeholder='Email'
-                            style={{
-                                height: 60,
-                                marginHorizontal: 25,
-                                padding: 15,
-                                borderRadius: 50,
-                                marginTop: 10,
-                                backgroundColor: '#F5F5F5',
-                                fontSize: 18,
-                                width: window.width-50
-
-                            }}
-                        />
-
-
-                        <TextInput placeholder='Password'
-                            style={{
-                                height: 60,
-                                marginHorizontal: 25,
-                                padding: 15,
-                                borderRadius: 50,
-                                marginTop: 10,
-                                backgroundColor: '#F5F5F5',
-                                fontSize: 18,
-                                width: window.width-50
-
-                            }}
-                        />
-
-                    </View>
-
-
-                    <TouchableOpacity >
-                        <View style={{
-                            height: 60,
-                            marginHorizontal: 25,
-                            padding: 10,
-                            borderRadius: 40,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'row',
-                            backgroundColor: '#FC444B',
-                            shadowOffset: {
-                                height: 2, width: 2,
-                            },
-                            shadowColor: 'black',
-                            shadowOpacity: .3,
-                            shadowRadius: 10,
-                            elevation: 4,
-                            width:window.width-50,
-                            marginVertical:10
-                        }}>
-                            <Text style={{
-                                color: 'white',
-                                fontSize: 18,
-                            }}>SIGNUP</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <View style={{
-                        width: window.width - 40, height: 2,
-                        backgroundColor: '#0000008e', marginLeft: 20
-                    }}></View>
-                    <TouchableOpacity >
-                        <View style={{
-                            height: 60,
-                            margin: 20,
-                            padding: 10,
-                            borderRadius: 40,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'row',
-                            shadowOffset: {
-                                height: 2, width: 2,
-                            },
-                            shadowColor: 'black',
-                            shadowOpacity: .3,
-                            shadowRadius: 10,
-                            elevation: 4,
-                            backgroundColor: '#FFFFF3',
-                        }}>
-                            <AntDesign name="google" size={30} color="black" />
-                            <Text style={{
-                                color: '#000000',
-                                fontSize: 18,
-                                marginLeft: 30
-                            }}>Continue with Google</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginTop: '10%'
-                    }}>
-                        <Text style={{
-                            fontSize: 20
-                        }}>Already a Member?</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-                            <Text style={{
-                                fontSize: 20,
-                                color: 'red',
-                            }}>Login</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </View>
-        </ScrollView>
-    )
-}
+const styles = StyleSheet.create({
+    lottie: {
+        width: 100,
+        height: 100
+    }
+});

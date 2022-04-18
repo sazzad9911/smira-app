@@ -1,13 +1,17 @@
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Platform, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { HotelMemberCart } from './Hotel'
 import Brands from '../components/Brands'
+import { useSelector } from 'react-redux'
 
 const MembershipOnboarding = ({ navigation }) => {
+    const brands = useSelector(state => state.brands)
+    const hotels = useSelector(state => state.hotels)
+
     return (
         <ScrollView>
-            <TouchableOpacity onPress={()=>{
+            <TouchableOpacity onPress={() => {
                 navigation.navigate('Home')
             }} style={{
                 justifyContent: 'flex-end',
@@ -78,18 +82,26 @@ const MembershipOnboarding = ({ navigation }) => {
                     <Text style={{ fontSize: 13 }}>Save big on most popular brands with us</Text>
                 </View>
                 <ScrollView horizontal={true} style={{ width: '100%', padding: 5 }}>
-                    <Brands img="https://images-platform.99static.com/QaJZniGXtK44vAT6nYiN3NMNWD4=/146x111:1346x1311/500x500/top/smart/99designs-contests-attachments/94/94573/attachment_94573795" />
-                    <Brands img='https://cdn.logojoy.com/wp-content/uploads/2018/05/30143356/127.png' />
-                    <Brands img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDKWW0BdV2kJicYJ4i00_PY9QstjrlUlb9Sg&usqp=CAU' />
-                    <Brands img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScyH6_XNmOwHCPuZHCqk9aaHADZGHfp5-FyA&usqp=CAU' />
-                    <Brands img='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/deer-icon-animal-logo-fashion-brand-logo-design-template-a35052e08e1706a6a9118c70d812cf39_screen.jpg?ts=1597394386' />
+                    {
+                        brands ? (
+                            brands.map((doc, i) => (
+                                <Brands key={i} img={doc.image} />
+                            ))
+                        ) : (
+                            <ActivityIndicator size="large" color="#FA454B" />
+                        )
+                    }
                 </ScrollView>
                 <ScrollView horizontal={true} style={{ width: '100%', padding: 5 }}>
-                    <Brands img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScyH6_XNmOwHCPuZHCqk9aaHADZGHfp5-FyA&usqp=CAU' />
-                    <Brands img='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/deer-icon-animal-logo-fashion-brand-logo-design-template-a35052e08e1706a6a9118c70d812cf39_screen.jpg?ts=1597394386' />
-                    <Brands img="https://images-platform.99static.com/QaJZniGXtK44vAT6nYiN3NMNWD4=/146x111:1346x1311/500x500/top/smart/99designs-contests-attachments/94/94573/attachment_94573795" />
-                    <Brands img='https://cdn.logojoy.com/wp-content/uploads/2018/05/30143356/127.png' />
-                    <Brands img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDKWW0BdV2kJicYJ4i00_PY9QstjrlUlb9Sg&usqp=CAU' />
+                    {
+                        brands ? (
+                            brands.reverse().map((doc, i) => (
+                                <Brands key={i} img={doc.image} />
+                            ))
+                        ) : (
+                            <ActivityIndicator size="large" color="#FA454B" />
+                        )
+                    }
                 </ScrollView>
                 <View style={{ width: '100%', backgroundColor: 'rgb(245,245,245)', paddinTop: 15, paddingBottom: 15 }}>
                     <View style={{ marginTop: 25, marginBottom: 5, borderWidth: 0.5, borderColor: 'rgb(220,220,220)', width: '90%' }}></View>
@@ -98,10 +110,15 @@ const MembershipOnboarding = ({ navigation }) => {
                         <Text style={{ paddingLeft: 10 }}>Save big on most luxury hotels with us</Text>
                     </View>
                     <ScrollView horizontal={true} style={{ width: '100%', margin: 10 }}>
-                        <HotelMemberCart />
-                        <HotelMemberCart />
-                        <HotelMemberCart />
-                        <HotelMemberCart />
+                        {
+                            hotels ? (
+                                hotels.map((doc, i) => (
+                                    <HotelMemberCart key={i} data={doc} />
+                                ))
+                            ) : (
+                                <ActivityIndicator size="large" color="#FA454B" />
+                            )
+                        }
                     </ScrollView>
                 </View>
                 <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>

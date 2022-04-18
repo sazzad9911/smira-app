@@ -4,14 +4,31 @@ import { Dimensions } from 'react-native';
 import SideSwipe from 'react-native-sideswipe';
 import { AntDesign } from '@expo/vector-icons';
 import Screen from '../assets/Screen.png'
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import AnimatedLoader from "react-native-animated-loader";
+import {LogBox} from 'react-native';
+import app from './../firebase';
+LogBox.ignoreAllLogs();
 
 const window = Dimensions.get('window')
 const Onboarding = (props) => {
     const [index, setIndex] = React.useState(1)
+    const [user, setUser] = React.useState(null)
     const navigation = props.navigation
     const [data, setData] = React.useState([
         0, 1, 2, 3
     ])
+    React.useEffect(() => {
+        const auth = getAuth(app);
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                setUser(user);
+                navigation.navigate('Dashboard')
+            } else {
+                setUser('ok')
+            }
+        })
+    }, [])
 
     return (
         <ScrollView>
@@ -75,7 +92,7 @@ const Onboarding = (props) => {
                     <TouchableOpacity onPress={() => {
                         if (index < 3) {
                             setIndex(index + 1)
-                        }else{
+                        } else {
                             navigation.navigate('SignUp')
                         }
                     }} style={{
@@ -90,6 +107,26 @@ const Onboarding = (props) => {
                     </TouchableOpacity>
                 </View>
             </View>
+            {
+                user == 'ok' ? (
+                    <View></View>
+                ) :
+                    user && user.uid ? (
+                        <View></View>
+                    ) : (
+                        <AnimatedLoader
+                            visible={true}
+                            overlayColor="rgba(255,255,255,0.75)"
+                            source={require("../assets/9997-infinity-loader.json")}
+                            animationStyle={{
+                                height: 100, width: 100,
+                            }}
+                            speed={1}
+                        >
+                            <Text>Loading...</Text>
+                        </AnimatedLoader>
+                    )
+            }
         </ScrollView>
     );
 };

@@ -1,6 +1,6 @@
 import {
   Image, ScrollView, StyleSheet, Text,
-  TouchableOpacity, View, StatusBar, Dimensions
+  TouchableOpacity, View, StatusBar, Dimensions, ActivityIndicator
 } from 'react-native'
 import React, { useState } from 'react'
 import { AntDesign } from '@expo/vector-icons'
@@ -17,20 +17,108 @@ import Services from '../assets/svgtopng/Services.png'
 import Shopping from '../assets/svgtopng/Shopping.png'
 import Travel from '../assets/svgtopng/Travel.png'
 import Villas from '../assets/svgtopng/Villas.png'
+import Spa from '../assets/svgtopng/Spa.png'
+import arrow from '../assets/svgtopng/arrow.png'
 import { HotelMemberCart } from './Hotel'
 import Brands from '../components/Brands'
 import SmallDealCart from './../components/SmallDealCart';
+import { postData, url } from '../action';
+import { useDispatch } from 'react-redux';
+import { setDeals, setBrands, setHotels, setUser } from '../action'
+import { getAuth } from 'firebase/auth'
+import app from '../firebase';
 
 const window = Dimensions.get('window')
+const auth = getAuth(app);
 const Home = ({ navigation }) => {
 
-  const [TopBrands, setTopBrands] = useState([
-    1, 2, 3, 4, 5
-  ]);
-  const images = [
-    "https://d2eohwa6gpdg50.cloudfront.net/wp-content/uploads/sites/4/2021/12/28134738/sam-moqadam-yxZSAjyToP4-unsplash-scaled-1-1275x900.jpg",
-    "https://121clicks.com/wp-content/uploads/2021/05/food_photography_tips_01.jpg"
-  ]
+  const [More, setMore] = React.useState(false)
+  const [slider, setSlider] = React.useState(null)
+  const [image, setImage] = React.useState(null)
+  const [Brand, setBrand] = React.useState(null)
+  const [BrandDeal, setBrandDeal] = React.useState(null)
+  const [Hotel, setHotel] = React.useState(null)
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    postData(url + "/getData", {
+      tableName: 'user',
+      condition: "uid=" + "'" + auth.currentUser.uid + "'"
+    }).then(data => {
+      if (Array.isArray(data)) {
+        return dispatch(setUser(data))
+      }
+      console.log('Home.js->' + data.message)
+    }).catch(err => {
+      console.log('Home.js->' + err.code)
+    })
+  }, [])
+  React.useEffect(() => {
+    postData(url + "/getData", {
+      tableName: "slider"
+    }).then(data => {
+     if(Array.isArray(data)){
+      setSlider(data)
+      let arr = []
+      data.forEach(data => {
+        arr.push(data.image)
+      })
+      setImage(arr)
+     }
+    }).catch(err => {
+      console.log(err.message);
+    })
+    postData(url + "/getData", {
+      tableName: "brands",
+      orderColumn: "popularity",
+    }).then(data => {
+      if (Array.isArray(data)) {
+        setBrand(data);
+        dispatch(setBrands(data));
+      }
+    }).catch(err => {
+      console.log(err.message);
+    })
+  }, [])
+
+  React.useEffect(() => {
+    if (!Brand) {
+      return
+    }
+    postData(url + "/getData", {
+      tableName: 'deals',
+      orderColumn: "date"
+    }).then(data => {
+      if (Array.isArray(data)) {
+        let arr = []
+        data.map((data) => {
+          Brand.map(b => {
+            if (b.id === data.brand_id) {
+              let doc = { deal: data, brand: b }
+              arr.push(doc)
+            }
+          })
+        })
+        setBrandDeal(arr)
+        dispatch(setDeals(arr));
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  }, [Brand])
+  React.useEffect(() => {
+    postData(url + "/getData", {
+      tableName: 'hotels',
+      orderColumn: 'popularity'
+    }).then(data => {
+      if (Array.isArray(data)) {
+        dispatch(setHotels(data));
+        setHotel(data)
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+  }, [])
   return (
     <ScrollView>
       <StatusBar animated={true} backgroundColor='#FA454B' />
@@ -46,13 +134,28 @@ const Home = ({ navigation }) => {
           placeholderTextColor={'rgb(130,130,130)'} >Hotels, Deals, Restaurants, etc</Text>
       </TouchableOpacity>
       <View style={{ width: '100%' }}>
-        <View style={{ minHeight: 200, borderRadius: 10, marginLeft: 15 }}>
-          <SliderBox images={images}
-            paginationBoxVerticalPadding={10}
-            autoplay
-            circleLoop
-            parentWidth={window.width - 30}
-          />
+        <View style={{
+          height: 200,
+          width: window.width - 30,
+          borderRadius: 10,
+          marginLeft: 15,
+          justifyContent: 'center', alignItems: 'center'
+        }}>
+          {
+            !image ? (
+              <ActivityIndicator size="large" color="#FA454B" />
+            ) : (
+              <SliderBox images={image}
+                paginationBoxVerticalPadding={10}
+                autoplay
+                circleLoop
+                parentWidth={window.width - 30}
+                ImageComponentStyle={{
+                  borderRadius: 10,
+                }}
+              />
+            )
+          }
         </View>
       </View>
       <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
@@ -70,26 +173,53 @@ const Home = ({ navigation }) => {
             navigation.navigate('Category Single', { title: 'Popular Hotel' })
           }} name="Hotels" icon={Hotels} />
           <IconsSet onPress={() => {
-            navigation.navigate('Category Single', { title: '' })
+            //navigation.navigate('Category Single', { title: 'Health' })
           }} name="Health" icon={Health} />
           <IconsSet onPress={() => {
-            navigation.navigate('Category Single', { title: '' })
+            //navigation.navigate('Category Single', { title: 'Games' })
           }} name="Games" icon={Games} />
           <IconsSet onPress={() => {
-            navigation.navigate('Category Single', { title: '' })
+            //navigation.navigate('Category Single', { title: 'Camping' })
           }} name="Camping" icon={Camping} />
           <IconsSet onPress={() => {
             navigation.navigate('Category Single', { title: 'Restaurant' })
           }} name="Restaurant" icon={Restaurant} />
           <IconsSet onPress={() => {
-            navigation.navigate('Category Single', { title: '' })
+            //navigation.navigate('Category Single', { title: 'Services' })
           }} name="Services" icon={Services} />
           <IconsSet onPress={() => {
-            navigation.navigate('Category Single', { title: '' })
+            //navigation.navigate('Category Single', { title: 'Shopping' })
           }} name="Shopping" icon={Shopping} />
-          <IconsSet onPress={() => {
-            navigation.navigate('Category Single', { title: '' })
-          }} name="Travel" icon={Travel} />
+          <TouchableOpacity onPress={() => {
+            setMore(!More)
+          }} style={{
+            borderWidth: 1, borderColor: 'rgb(220,220,220)', minHeight: 80,
+            width: 80, borderRadius: 10, margin: 5,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <AntDesign name={More ? "upcircleo" : "downcircleo"} size={24} color="black" />
+            <Text style={{
+              margin: 5
+            }}>{More ? "Less" : "More"}</Text>
+          </TouchableOpacity>
+          {
+            !More ? (
+              <View></View>
+            ) : (
+              <View style={{ flexDirection: 'row', width: '87%' }}>
+                <IconsSet onPress={() => {
+                  //navigation.navigate('Category Single', { title: 'Travel' })
+                }} name="Travel" icon={Travel} />
+                <IconsSet onPress={() => {
+                  //navigation.navigate('Category Single', { title: 'Villas' })
+                }} name="Villas" icon={Villas} />
+                <IconsSet onPress={() => {
+                  //navigation.navigate('Category Single', { title: 'Spa' })
+                }} name="Spa" icon={Spa} />
+              </View>
+            )
+          }
 
         </View>
       </View>
@@ -102,24 +232,27 @@ const Home = ({ navigation }) => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 17, padding: 15 }}>Deals new you</Text>
-          <AntDesign onPress={() => {
-            navigation.navigate('Category Single', { title: 'Popular Hotel' })
-          }} name="rightcircle" size={24} color="#585858" />
+          <Text style={{ fontWeight: 'bold', fontSize: 17, padding: 15 }}>Deals Near You</Text>
+          <TouchableOpacity onPress={() => {
+            navigation.navigate('Category Single', { title: 'Deals Near You' })
+          }}>
+            <AntDesign name="rightcircle" size={24} color="#585858" />
+          </TouchableOpacity>
         </View>
         <ScrollView horizontal={true} >
-          <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
-            img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
-            title='Flat 25% OFF on all orders'
-          />
-          <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
-            img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
-            title='Flat 25% OFF on all orders'
-          />
-          <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
-            img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
-            title='Flat 25% OFF on all orders'
-          />
+
+          {
+            BrandDeal ? (
+              BrandDeal.map(d => (
+                <SmallDealCart key={d.deal.id} icon={d.brand.image}
+                  img={d.deal.image}
+                  title={d.deal.name}
+                />
+              ))
+            ) : (
+              <ActivityIndicator size="large" color="#FA454B" />
+            )
+          }
         </ScrollView>
       </View>
 
@@ -135,11 +268,15 @@ const Home = ({ navigation }) => {
         </View>
         <ScrollView style={{ flex: 3, marginBottom: 10 }} horizontal={true}>
           <View style={{ width: 10 }}></View>
-          <Brands img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScyH6_XNmOwHCPuZHCqk9aaHADZGHfp5-FyA&usqp=CAU' />
-          <Brands img='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/deer-icon-animal-logo-fashion-brand-logo-design-template-a35052e08e1706a6a9118c70d812cf39_screen.jpg?ts=1597394386' />
-          <Brands img="https://images-platform.99static.com/QaJZniGXtK44vAT6nYiN3NMNWD4=/146x111:1346x1311/500x500/top/smart/99designs-contests-attachments/94/94573/attachment_94573795" />
-          <Brands img='https://cdn.logojoy.com/wp-content/uploads/2018/05/30143356/127.png' />
-          <Brands img='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDKWW0BdV2kJicYJ4i00_PY9QstjrlUlb9Sg&usqp=CAU' />
+          {
+            Brand ? (
+              Brand.map(d => (
+                <Brands key={d.id} data={d} img={d.image} />
+              ))
+            ) : (
+              <ActivityIndicator size="large" color="#FA454B" />
+            )
+          }
         </ScrollView>
       </LinearGradient>
 
@@ -152,15 +289,23 @@ const Home = ({ navigation }) => {
           alignItems: 'center',
         }}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 10 }}>Popular Hotels</Text>
-          <AntDesign onPress={() => {
+          <TouchableOpacity onPress={() => {
             navigation.navigate('Category Single', { title: 'Popular Hotel' })
-          }} name="rightcircle" size={24} color="#585858" />
+          }}>
+            <AntDesign name="rightcircle" size={24} color="#585858" />
+          </TouchableOpacity>
         </View>
-        <ScrollView horizontal={true} style={{ width: '100%', padding: 10 }}>
-          <HotelMemberCart />
-          <HotelMemberCart />
-          <HotelMemberCart />
-          <HotelMemberCart />
+        <ScrollView horizontal={true}>
+        <View style={{ width: 10 }}></View>
+          {
+            Hotel ? (
+              Hotel.map(d => (
+                <HotelMemberCart key={d.id} data={d} />
+              ))
+            ) : (
+              <ActivityIndicator size="large" color="#FA454B" />
+            )
+          }
         </ScrollView>
       </View>
     </ScrollView>

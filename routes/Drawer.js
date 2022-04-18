@@ -81,5 +81,5 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ headerShown: false }} name="Search" component={Search} />
         <Drawer.Screen options={{headerShown: false}} name='Category Single' component={CategorySingle} />
       </Drawer.Navigator>
-  );
+  ); 
 }

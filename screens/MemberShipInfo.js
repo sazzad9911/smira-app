@@ -1,9 +1,15 @@
-import { Image, StyleSheet, Text, View ,TouchableOpacity} from 'react-native'
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import userImage from '../assets/10.jpg';
 import { Entypo, Ionicons } from '@expo/vector-icons';
+import { useSelector } from 'react-redux'
 
-const MemberShipInfo = ({ navigation}) => {
+const MemberShipInfo = ({ navigation }) => {
+  const user = useSelector(state => state.user[0])
+  const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const total=(new Date(user.ending_date).getTime() -new Date(user.starting_date).getTime())/(1000 * 3600 * 24);
+  const reminding=(new Date(user.ending_date).getTime() -new Date().getTime())/(1000 * 3600 * 24);
+  const progress=(reminding*100)/total;
   return (
     <View style={{
       flexDirection: 'column',
@@ -23,18 +29,28 @@ const MemberShipInfo = ({ navigation}) => {
         }} />
         <Text style={{
           margin: 7
-        }}>Hi, Nirmiti Gaitonde</Text>
-        <Text style={{ 
-          fontWeight: '600', 
-          fontSize: 25 
-          }}><Text style={{ color: '#F3B038' }}>Gold</Text> Membership</Text>
-        <Text style={{ color: 'gray', fontSize: 13, marginTop: 6 }}>Valid up to 23 December 2026</Text>
-        <Text style={{ marginTop: 15, fontSize: 15 }}><Text style={{ fontWeight: '600' }}>{"27"} days left</Text> in membership</Text>
+        }}>Hi, {user.name}</Text>
+        <Text style={{
+          fontWeight: '600',
+          fontSize: 25
+        }}>{
+            user.membership_type == 'gold' ?
+              (<Text style={{ color: '#F3B038' }}>Gold</Text>) :
+              user.membership_type == 'platinum' ?
+                (<Text style={{ color: '#A2B0CD' }}>Platinum</Text>) :
+                user.membership_type == 'silver' ?
+                  (<Text style={{ color: '#FC444B' }}>Silver</Text>) :
+                  user.membership_type == 'diamond' ?
+                    (<Text style={{ color: '#48A6DB' }}>Diamond</Text>) :
+                    (<Text style={{ color: '#000' }}>Non</Text>)
+          } Membership</Text>
+        <Text style={{ color: 'gray', fontSize: 13, marginTop: 6 }}>Valid up to {new Date(user.ending_date).getDate()
+        +' '+Months[new Date(user.ending_date).getMonth()]+' '+new Date(user.ending_date).getFullYear()}</Text>
+        <Text style={{ marginTop: 15, fontSize: 15 }}><Text style={{ fontWeight: '600' }}>{reminding.toFixed(0)} days left</Text> in membership</Text>
         <View style={{ borderWidth: 1, width: '80%', marginTop: 15, borderColor: '#FEF893', backgroundColor: '#FEF893' }}>
-          <View style={{ borderWidth: 1, width: '35%', borderColor: '#F3B038' }}>
+          <View style={{ borderWidth: 1, width: progress+'%', borderColor: '#F3B038' }}>
 
           </View>
-
         </View>
       </View>
       <View style={{ flex: 3, width: '100%', flexDirection: 'column', alignItems: 'center', padding: 5 }}>
@@ -72,8 +88,8 @@ const MemberShipInfo = ({ navigation}) => {
             <Text style={{ fontSize: 17, color: '#1371A4', fontWeight: 'bold' }}>₹ 2499</Text>
           </View>
         </View>
-        <TouchableOpacity onPress={()=>{
-          navigation.navigate('Checkout',{color:'#FC444B'})
+        <TouchableOpacity onPress={() => {
+          navigation.navigate('Checkout', { color: '#FC444B' })
         }} style={{
           backgroundColor: '#64B657', flexDirection: 'row', minHeight: 70, width: '95%', backgroundColor: '#64B657', borderRadius: 10,
           marginTop: 20, alignItems: 'center', justifyContent: 'space-between'

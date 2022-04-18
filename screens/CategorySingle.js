@@ -1,22 +1,48 @@
 import React from 'react';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import Cards from '../components/Cards'
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, ScrollView, Platform, ActivityIndicator } from 'react-native'
 import picture from '../assets/tub.png'
 import DealCart from '../components/DealCart'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
+import { postData, url } from '../action';
 
 const CategorySingle = (props) => {
     const title = props.route.params.title;
+    const [DealData, setDealData] = React.useState(null)
+    const [Hotels, setHotels] = React.useState(null)
+    const navigation = props.navigation
     //console.log(title)
-
+    React.useEffect(() => {
+        postData(url + "/getData", {
+            tableName: 'deals',
+            orderColumn: 'popularity'
+        }).then(data => {
+            if (Array.isArray(data)) {
+                return setDealData(data)
+            }
+            console.log('CategorySingle.js->' + data.message)
+        })
+    }, [])
+    React.useEffect(() => {
+        postData(url + "/getData", {
+            tableName: 'hotels',
+            orderColumn: 'popularity'
+        }).then(data => {
+            if (Array.isArray(data)) {
+                return setHotels(data)
+            }
+            console.log('CategorySingle.js->' + data.message)
+        })
+    }, [])
     if (title == 'Popular Hotel') {
         return (
             <View style={styles.body}>
 
                 <View style={{
                     flexDirection: 'row',
-                    marginTop: 50,
+                    marginTop: Platform.OS == 'ios' ? 50 : 5,
                     alignItems: 'center'
                 }}>
                     <View style={{
@@ -45,25 +71,28 @@ const CategorySingle = (props) => {
                 </View>
                 <ScrollView>
                     <View >
-                        <Cards navigation={props.navigation} img={picture} title="On the go"
-                            address="Alibaug, Maharashtra" />
-                        <Cards navigation={props.navigation} img={picture} title="On the go"
-                            address="Alibaug, Maharashtra" />
-                        <Cards navigation={props.navigation} img={picture} title="On the go"
-                            address="Alibaug, Maharashtra" />
-                        <Cards navigation={props.navigation} img={picture} title="On the go"
-                            address="Alibaug, Maharashtra" />
+                        {
+                            Hotels ? (
+                                Hotels.map(doc => (
+                                    <Cards key={doc.id} doc={doc} navigation={navigation}
+                                        img={{ uri: doc.image }} title={doc.name}
+                                        address={doc.address} rating={doc.ratings} />
+                                ))
+                            ) : (
+                                <ActivityIndicator size="large" color="#FA454B" />
+                            )
+                        }
                     </View>
                 </ScrollView>
             </View>
         );
     }
-    else if (title == 'Restaurant') {
+    else if (title == 'Restaurant' || title == 'Deals Near You') {
         return (
             <View style={styles.body}>
                 <View style={{
                     flexDirection: 'row',
-                    marginTop: 50,
+                    marginTop: Platform.OS == 'ios' ? 50 : 5,
                     alignItems: 'center'
                 }}>
                     <View style={{
@@ -92,18 +121,17 @@ const CategorySingle = (props) => {
                 </View>
                 <ScrollView>
                     <View >
-                        <DealCart headLine='Flat 35% OFF On All Order'
-                            category='Ovenstory' img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
-                        />
-                        <DealCart headLine='Flat 35% OFF On All Order'
-                            category='Ovenstory' img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
-                        />
-                        <DealCart headLine='Flat 35% OFF On All Order'
-                            category='Ovenstory' img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
-                        />
-                        <DealCart headLine='Flat 35% OFF On All Order'
-                            category='Ovenstory' img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
-                        />
+                        {
+                            DealData ? (
+                                DealData.map(doc => (
+                                    <DealCart data={doc} key={doc.id} headLine={doc.name}
+                                        category={doc.brand} img={doc.image} navigation={navigation}
+                                    />
+                                ))
+                            ) : (
+                                <ActivityIndicator size="large" color="#FA454B" />
+                            )
+                        }
                     </View>
                 </ScrollView>
             </View>
@@ -127,7 +155,7 @@ const styles = StyleSheet.create({
     content: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 30,
+        marginLeft: 5,
         marginTop: 10,
         marginBottom: 30
     }

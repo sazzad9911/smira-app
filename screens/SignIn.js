@@ -1,19 +1,37 @@
 import React from 'react';
 import {
     View, Modal, Text, ScrollView, Image,
-    TouchableOpacity, TextInput, Dimensions,Platform
+    TouchableOpacity, TextInput, Dimensions,Platform,Alert
 } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 const window= Dimensions.get('window')
-
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import app from '../firebase'
 const SignIn = ({ navigation }) => {
+    const [email,setEmail]= React.useState(null)
+    const [password,setPassword]= React.useState(null)
+
+    const auth = getAuth(app);
+    const signIn=()=>{
+        if(!email || !password) {
+            Alert.alert('Wrong!', 'Please fill all the fields');
+            return
+        }
+        signInWithEmailAndPassword(auth,email, password)
+        .then((userCredentials) => {
+            navigation.navigate('Dashboard');
+        }).catch((error) => {
+            Alert.alert('Error',error.code)
+            console.log('Error: SignIn.js->'+error.code)
+        })
+    }
     return (
         <View style={{
             marginTop: Platform.OS == 'ios' ?40:0,
             backgroundColor: '#ffff'
         }}>
-            <ScrollView>
+            <ScrollView> 
                 <View style={{
                     marginTop: '15%',
                     marginLeft: '85%'
@@ -39,7 +57,7 @@ const SignIn = ({ navigation }) => {
                 </View>
 
                 <View >
-                    <TextInput
+                    <TextInput onChangeText={setEmail}
                         style={{
                             height: 60,
                             marginHorizontal: 25,
@@ -54,7 +72,7 @@ const SignIn = ({ navigation }) => {
                         placeholder="Email Address"
                     />
 
-                    <TextInput
+                    <TextInput onChangeText={setPassword}
                         style={{
                             height: 60,
                             marginHorizontal: 20,
@@ -68,7 +86,7 @@ const SignIn = ({ navigation }) => {
                         }}
                         placeholder="Password"
                     />
-                    <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
+                    <TouchableOpacity onPress={signIn}>
 
                         <View style={{
                             height: 60,

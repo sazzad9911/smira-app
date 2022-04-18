@@ -12,7 +12,7 @@ import SmallDealCart from '../components/SmallDealCart';
 const WishList = ({ navigation }) => {
     return (
         <ScrollView>
-            <StatusBar barStyle='dark-content' />
+            <StatusBar barStyle='light-content' />
             <View style={{
                 padding: 10,
                 flexDirection: 'row',

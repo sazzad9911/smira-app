@@ -1,10 +1,19 @@
 import { MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, Ionicons, } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
-import { Image, ScrollView, Text, TouchableOpacity, View, TextInput, Modal, Alert } from 'react-native'
+import {
+  Image, ScrollView, Text, TouchableOpacity,
+  View, TextInput, Modal, Alert, Platform
+} from 'react-native'
 import { StyleSheet } from 'react-native'
 import { Dimensions } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import image from './../assets/10.jpg'
+import { useSelector,useDispatch } from 'react-redux'
+import * as ImagePicker from 'expo-image-picker';
+import { postData, url,setUser } from '../action'
+import { getAuth } from 'firebase/auth'
+import app from '../firebase'
+
 function Account({ navigation }) {
 
   const [Name, setName] = useState("");
@@ -14,16 +23,36 @@ function Account({ navigation }) {
   const [Dob, setDob] = useState("")
   const [Location, setLocation] = useState("")
   const [ProfileImage, setProfileImage] = useState("")
-
   const [MembershipFamilyCode, setMembershipFamilyCode] = useState("")
   const [MemberShipFamilyCodeError, setMemberShipFamilyCodeError] = useState(false)
-
-  const [ShowModal, setShowModal] = useState(true)
-
+  const [ShowModal, setShowModal] = useState(false)
   const { height, width } = Dimensions.get('screen')
+  const user = useSelector(state => state.user)
+  const auth = getAuth(app);
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    // setProfileImage(image);
+    if (user && user[0].image) {
+      setProfileImage(user[0].image)
+    }
+    if (user && user[0].name) {
+      setName(user[0].name)
+    }
+    if (user && user[0].phone) {
+      setMobilNo(user[0].phone)
+    }
+    if (user && user[0].email) {
+      setEmail(user[0].email)
+    }
+    if (user && user[0].address) {
+      setLocation(user[0].address)
+    }
+    if (user && user[0].birth_day) {
+      setDob(user[0].birth_day)
+    }
+    if (user && user[0].gender) {
+      setGender(user[0].gender)
+    }
   }, [])
 
 
@@ -33,9 +62,42 @@ function Account({ navigation }) {
     { label: 'Apple', value: 'apple' },
     { label: 'Banana', value: 'banana' }
   ])
+  const Save = (key, value) => {
+    postData(url + '/updateData', {
+      tableName: 'user',
+      columns: [key],
+      values: [value],
+      condition: "uid=" + "'" + auth.currentUser.uid + "'"
+    }).then(data => {
+      postData(url +'/getData',{
+        tableName: 'user',
+        condition: "uid=" + "'" + auth.currentUser.uid + "'"
+      }).then(data => {
+        if(Array.isArray(data)){
+          dispatch(setUser(data));
+        }
+      })
+    }).catch(err => {
+      console.log(err.message)
+    })
+  }
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
+    console.log(result);
+
+    if (!result.cancelled) {
+      setProfileImage(result.uri);
+    }
+  };
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView>
 
       <Modal
         animationType='slide'
@@ -95,56 +157,66 @@ function Account({ navigation }) {
           </View>
         </View>
       </Modal>
-      <View style={{ backgroundColor: 'rgb(255,70,70)', height: 70 }}>
-        <TouchableOpacity onPress={() => {
-          navigation.navigate('Home')
+      <View style={{ backgroundColor: '#FC444B', height: 70 }}>
+        <TouchableOpacity style={{
+          position: 'absolute', right: 0, top: Platform.OS == 'ios' ? 50 : 10, marginRight: 10,
+        }} onPress={() => {
+          navigation.goBack()
         }}>
           <MaterialCommunityIcons name='close'
-          style={{ position: 'absolute', right: 0, top: 10, marginRight: 10, color: 'white' }} size={26} />
+            style={{ color: 'white' }} size={26} />
         </TouchableOpacity>
       </View>
       <View style={{ justifyContent: "center", alignItems: 'center', minHeight: 120 }}>
         <View style={{ height: 160, position: 'absolute', width: '100%', }}>
-          <View style={{ backgroundColor: 'rgb(255,70,70)', flex: 1 }}></View>
+          <View style={{ backgroundColor: '#FC444B', flex: 1 }}></View>
           <View style={{ backgroundColor: 'white', flex: 1 }}></View>
         </View>
-        {
-          ProfileImage !== "" &&
-          <Image source={ProfileImage} style={[styles.profileImage,]} />
-        }
-        {
-          ProfileImage === "" &&
-          <View style={[styles.profileImage, { backgroundColor: 'rgb(240,240,240)' }]} >
-            <Ionicons name='ios-camera-outline' size={40} style={[{ color: 'rgb(130,130,130)' }]} />
-          </View>
-        }
+        <TouchableOpacity onPress={pickImage}>
+          {
+            ProfileImage !== "" &&
+            <Image source={{ uri:ProfileImage}} style={[styles.profileImage,]} />
+          }
+          {
+            ProfileImage === "" &&
+            <View style={[styles.profileImage, { backgroundColor: 'rgb(240,240,240)' }]} >
+              <Ionicons name='ios-camera-outline' size={40} style={[{ color: 'rgb(130,130,130)' }]} />
+            </View>
+          }
+        </TouchableOpacity>
       </View>
 
       <View style={[styles.body, { marginTop: 0 }]}>
         <View style={[styles.formRow]}>
           <View style={[styles.imageStyle, Name === "" ? styles.imageStyleEmptyStyle : '']} >
-            <SimpleLineIcons name='user' size={22} style={[Name === "" ? styles.inactiveIcon : '']} />
+            <SimpleLineIcons name='user' size={22} style={[Name === "" ? styles.inactiveIcon : styles.activeIcon]} />
           </View>
           <TextInput
             value={Name} placeholderTextColor='rgb(130,130,130)'
             placeholder={Name === "" ? "Full Number" : ""}
-            onChangeText={e => setName(e)} style={[styles.formInput, Name === "" ? styles.fontEmptyStyle : '']} />
+            onChangeText={e => { setName(e) }} onEndEditing={() => {
+              Save('name', Name);
+            }} style={[styles.formInput, Name === "" ? styles.fontEmptyStyle : '']} />
         </View>
         <View style={[styles.formRow]}>
           <View style={[styles.imageStyle, MobilNo === "" ? styles.imageStyleEmptyStyle : '']} >
-            <SimpleLineIcons name='phone' size={22} style={[MobilNo === "" ? styles.inactiveIcon : '']} />
+            <SimpleLineIcons name='phone' size={22} style={[MobilNo === "" ? styles.inactiveIcon : styles.activeIcon]} />
           </View>
           <TextInput value={MobilNo} placeholderTextColor='rgb(130,130,130)'
             placeholder={MobilNo === "" ? "Mobile No." : ""}
-            onChangeText={e => setMobilNo(e)} style={[styles.formInput, MobilNo === "" ? styles.fontEmptyStyle : '']} />
+            onChangeText={e => setMobilNo(e)} onEndEditing={() => {
+              Save('phone', MobilNo);
+            }} style={[styles.formInput, MobilNo === "" ? styles.fontEmptyStyle : '']} />
         </View>
         <View style={[styles.formRow]}>
           <View style={[styles.imageStyle, Email === "" ? styles.imageStyleEmptyStyle : '']} >
-            <MaterialIcons name='mail' size={22} style={[Email === "" ? styles.inactiveIcon : '']} />
+            <MaterialIcons name='mail' size={22} style={[Email === "" ? styles.inactiveIcon : styles.activeIcon]} />
           </View>
           <TextInput value={Email} placeholderTextColor='rgb(130,130,130)'
             placeholder={Email === "" ? "Email" : ""}
-            onChangeText={e => setEmail(e)} style={[styles.formInput, Email === "" ? styles.fontEmptyStyle : '']} />
+            onChangeText={e => setEmail(e)} onEndEditing={() => {
+              Save('email', Email);
+            }} style={[styles.formInput, Email === "" ? styles.fontEmptyStyle : '']} />
         </View>
 
         <TouchableOpacity
@@ -156,33 +228,38 @@ function Account({ navigation }) {
             } else {
               setGender('Female')
             }
+            Save('gender', Gender)
           }}
           style={[styles.formRow]}>
           <View style={[styles.imageStyle, Gender === "" ? styles.imageStyleEmptyStyle : '']} >
             <MaterialCommunityIcons
               name={`${Gender.toLowerCase() === 'male' ? 'gender-male' :
                 Gender.toLocaleLowerCase() === 'female' ? 'gender-female' : 'checkbox-blank-circle-outline'}`} size={22}
-              style={[Gender === "" ? styles.inactiveIcon : '']} />
+              style={[Gender === "" ? styles.inactiveIcon : styles.activeIcon]} />
           </View>
-          <View style={[styles.formInput,{justifyContent:'center'}, Gender === "" ? styles.fontEmptyStyle : '']}>
+          <View style={[styles.formInput, { justifyContent: 'center' }, Gender === "" ? styles.fontEmptyStyle : '']}>
             <Text>{Gender}</Text>
           </View>
         </TouchableOpacity>
         <View style={[styles.formRow]}>
           <View style={[styles.imageStyle, Dob === "" ? styles.imageStyleEmptyStyle : '']} >
-            <SimpleLineIcons name='calendar' size={22} style={[Dob === "" ? styles.inactiveIcon : '']} />
+            <SimpleLineIcons name='calendar' size={22} style={[Dob === "" ? styles.inactiveIcon : styles.activeIcon]} />
           </View>
           <TextInput value={Dob} placeholderTextColor='rgb(130,130,130)'
             placeholder={Dob === "" ? "Birthday" : ""}
-            onChangeText={e => setDob(e)} style={[styles.formInput, Dob === "" ? styles.fontEmptyStyle : '']} />
+            onChangeText={e => setDob(e)} onEndEditing={() => {
+              Save('birth_day', Dob);
+            }} style={[styles.formInput, Dob === "" ? styles.fontEmptyStyle : '']} />
         </View>
         <View style={[styles.formRow]}>
           <View style={[styles.imageStyle, Location === "" ? styles.imageStyleEmptyStyle : '']} >
-            <SimpleLineIcons name='map' size={22} style={[Location === "" ? styles.inactiveIcon : '']} />
+            <SimpleLineIcons name='map' size={22} style={[Location === "" ? styles.inactiveIcon : styles.activeIcon]} />
           </View>
           <TextInput value={Location} placeholderTextColor='rgb(130,130,130)'
             placeholder={Location === "" ? "City of Residence" : ""}
-            onChangeText={e => setLocation(e)} style={[styles.formInput, Location === "" ? styles.fontEmptyStyle : '']} />
+            onChangeText={e => setLocation(e)} onEndEditing={() => {
+              Save('address', Location)
+            }} style={[styles.formInput, Location === "" ? styles.fontEmptyStyle : '']} />
         </View>
       </View>
       <View style={[{ borderBottomWidth: 1, borderColor: 'rgb(220,220,220)', }]}></View>
@@ -190,7 +267,7 @@ function Account({ navigation }) {
 
       <View style={[styles.formRow]}>
         <View style={[styles.imageStyle, MembershipFamilyCode === "" ? styles.imageStyleEmptyStyle : '']} >
-          <Ionicons name='key-outline' size={22} style={[MembershipFamilyCode === "" ? styles.inactiveIcon : '']} />
+          <Ionicons name='key-outline' size={22} style={[MembershipFamilyCode === "" ? styles.inactiveIcon : styles.activeIcon]} />
         </View>
         <TextInput onPressIn={() => {
           setShowModal(true)
@@ -199,11 +276,15 @@ function Account({ navigation }) {
           onChangeText={e => setMembershipFamilyCode(e)} style={[styles.formInput, MembershipFamilyCode === "" ? styles.fontEmptyStyle : '']} />
       </View>
       <View style={[{ backgroundColor: 'white' }]}>
-        <TouchableOpacity style={[styles.logoutButton]} onPress={() => { }} >
+        <TouchableOpacity style={[styles.logoutButton]} onPress={() => { 
+          auth.signOut().then(() => {
+            navigation.navigate('Onboarding')
+          })
+        }} >
           <Text style={[{ color: 'red', textTransform: 'uppercase' }]}>Log out</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ backgroundColor: 'white', minHeight: 300 }}></View>
+      <View style={{ backgroundColor: 'white', minHeight: 100 }}></View>
     </ScrollView>
   )
 }
@@ -280,6 +361,9 @@ const styles = StyleSheet.create({
   },
   inactiveIcon: {
     color: 'rgb(130,130,130)'
+  },
+  activeIcon: {
+    color: '#000'
   },
   textMemberShip: {
     backgroundColor: 'white',

@@ -1,4 +1,7 @@
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, Dimensions } from 'react-native'
+import {
+  Image, ScrollView, StyleSheet, Text, TextInput,
+  TouchableOpacity, View, Platform, Dimensions, ActivityIndicator
+} from 'react-native'
 import React, { useState } from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -12,14 +15,40 @@ import SearchHotel from './SearchHotel';
 
 const window = Dimensions.get('window')
 const Tab = createBottomTabNavigator();
+import { useSelector, useDispatch } from 'react-redux'
+import Brands from '../components/Brands';
+import SmallDealCart from '../components/SmallDealCart';
+import { setRecentSearch } from '../action';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+export const storeData = async (key,value) => {
+  try {
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.setItem(key, jsonValue)
+  } catch (e) {
+    // saving error
+    console.log('Error: Search.js->'+e.message)
+  }
+}
+
+export const getData = async (key) => {
+try {
+  const jsonValue = await AsyncStorage.getItem(key)
+  return jsonValue != null ? JSON.parse(jsonValue) : null;
+} catch(e) {
+  // error reading value
+  console.log('Error: Search.js->'+e.message)
+}
+}
+ 
 const Search = ({ navigation }) => {
   const [SearchParam, setSearchParams] = useState('Type')
+
   return (
     SearchParam != 'Type' ?
       (
-        <Tab.Navigator tabBar={(props)=><SearchBottom {...props}/>}>
+        <Tab.Navigator tabBar={(props) => <SearchBottom {...props}/>}>
           <Tab.Screen options={{ headerShown: false }} name="SearchHotel" component={SearchHotel} />
           <Tab.Screen options={{
             headerShown: false
@@ -40,16 +69,20 @@ const Search = ({ navigation }) => {
 export default Search
 
 const Hotels = (props) => {
-  const [Recents, setRecents] = useState([
-    'Shirdi', 'Oven Story', 'Nashik', 'McDonalds', 'Lonavala',
-    'Subway', 'Alibaug'
-  ])
-  const [TopBrands, setTopBrands] = useState([
-    1, 2, 3, 4, 5
-  ])
-  const [YourDeals, setYourDeals] = useState([
-    1, 2, 3, 4, 5
-  ])
+  const recent = useSelector(state => state.recentSearch)
+  const brands = useSelector(state => state.brands)
+  const deals = useSelector(state => state.deals)
+  const [search, setSearch] = React.useState('')
+  const [data,setData] = React.useState(null)
+  React.useEffect(()=>{
+    getData('search').then((data) => {
+      if(Array.isArray(data)){
+        setData(data)
+      }else{
+        setData([])
+      }
+    })
+  },[])
   return (
     <ScrollView>
       <View style={{
@@ -64,10 +97,25 @@ const Hotels = (props) => {
         }}>
 
 
-          <TextInput style={{ flex: 5, paddingLeft: 20 }}
+          <TextInput value={search} onChangeText={setSearch} style={{ flex: 5, paddingLeft: 20 }}
             placeholder="Search" placeholderTextColor={'rgb(130,130,130)'} />
           <TouchableOpacity
             onPress={() => {
+              const get=getData('search').then((data) => {
+                if(data){
+                let arr = data;
+                arr.push(search);
+                  storeData('search', arr).catch(err=>{
+                    console.log('Error: Search.js->'+err.message);
+                  })
+              }else{
+                let arr = [];
+                arr.push(search);
+                storeData('search', arr).catch(err => {
+                  console.log('Error: Search.js->'+err.message)
+                })
+              }
+              })
               if (props.SearchParam === 'Hotels') {
                 props.setSearchParams('Deals')
               } else {
@@ -93,17 +141,23 @@ const Hotels = (props) => {
       </View>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 10, paddingRight: 10 }}>
         {
-          Recents.map(recent => {
+          data?(
+            data.slice(Math.max(data.length - 7, 0)).map((doc,i) => {
             return (
-              <TouchableOpacity key={recent} style={{
+              <TouchableOpacity onPress={() => {
+                setSearch(doc)
+              }} key={i} style={{
                 borderColor: 'rgb(200,200,200)', borderWidth: 1, paddingLeft: 20,
                 paddingRight: 20, paddingTop: 10, paddingBottom: 10, borderRadius: 20,
                 margin: 3.5
               }}>
-                <Text style={{ color: 'rgb(130,130,130)' }}>{recent}</Text>
+                <Text style={{ color: 'rgb(130,130,130)' }}>{doc}</Text>
               </TouchableOpacity>
             );
           })
+          ):(
+            <ActivityIndicator size="large" color="#FA454B" />
+          )
         }
       </View>
       <LinearGradient style={{ width: '100%', marginTop: 15, flexDirection: 'column' }}
@@ -119,19 +173,15 @@ const Hotels = (props) => {
         <ScrollView style={{ flex: 3, marginBottom: 10 }} horizontal={true}>
           <View style={{ width: 10 }}></View>
           {
-            TopBrands.map(brand => {
-              return (
-                <View key={brand}
-                  style={{
-                    height: 100, width: 100, backgroundColor: 'blue', borderRadius: 10,
-                    marginBottom: 10, marginLeft: 4, marginRight: 4, marginTop: 5, shadowColor: 'black', shadowOffset: {
-                      height: 0, width: 2
-                    }, shadowOpacity: 0.5, shadowRadius: 5
-                  }}>
-
-                </View>
-              );
-            })
+            brands ? (
+              brands.map(brand => {
+                return (
+                  <Brands key={brand.id} data={brand} img={brand.image} />
+                );
+              })
+            ) : (
+              <ActivityIndicator size="large" color="#FA454B" />
+            )
           }
         </ScrollView>
       </LinearGradient>
@@ -140,33 +190,16 @@ const Hotels = (props) => {
         <ScrollView horizontal={true} >
           <View style={{ width: 10 }}></View>
           {
-            YourDeals.map(deal => {
-              return (
-                <View key={deal} style={{
-                  height: 130, width: 200, backgroundColor: 'white', borderRadius: 10,
-                  shadowColor: 'gray',
-                  shadowOffset: {
-                    width: 2,
-                    height: 2
-                  },
-                  shadowOpacity: 0.5,
-                  shadowRadius: 5,
-                  elevation: 10,
-                  marginBottom: 15,
-                  marginTop: 5,
-                  marginLeft: 3,
-                  marginRight: 3
-                }}>
-                  <View style={{ height: 70, width: 200, backgroundColor: 'red', borderRadius: 10 }}>
-
-                  </View>
-                  <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-                    <Image source={testImage} style={{ height: 50, width: 50, borderRadius: 25, backgroundColor: 'red' }} />
-                    <Text style={{ width: 100, fontWeight: 'bold' }}>Flat 35% OFF On All Orders</Text>
-                  </View>
-                </View>
-              );
-            })
+            deals ? (
+              deals.map(d => (
+                <SmallDealCart key={d.deal.id} icon={d.brand.image}
+                  img={d.deal.image}
+                  title={d.deal.name}
+                />
+              ))
+            ) : (
+              <ActivityIndicator size="large" color="#FA454B" />
+            )
           }
 
         </ScrollView>

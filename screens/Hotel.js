@@ -1,77 +1,181 @@
 import React from 'react';
-import { View, Dimensions, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native'
+import {
+    View, Dimensions, Text, TouchableOpacity, Image,
+    StyleSheet, ScrollView, ActivityIndicator, Alert, Modal, Platform
+} from 'react-native'
 import MapView from 'react-native-maps';
 import Unorderedlist from 'react-native-unordered-list';
 import { AntDesign, EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { color } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
+import { postData, url } from '../action'
+import { useRoute } from '@react-navigation/native';
+import Gallery from 'react-native-image-gallery';
 
 const Hotel = (props) => {
     const params = props.route.params
     const navigation = props.navigation;
     const window = Dimensions.get('window')
+    const [Hotel, setHotel] = React.useState(null)
+    const [conditions, setConditions] = React.useState(null)
+    const [Read, setRead] = React.useState(false)
+    const [OtherHotels, setOtherHotels] = React.useState(null)
+    const [Ratings, setRatings] = React.useState(null);
+    const [limit, setLimit] = React.useState(3);
+    const route = useRoute();
+    const [Images, setImages] = React.useState(null)
+    const [ModalVisible, setModalVisible] = React.useState(false);
+
+    React.useEffect(() => {
+        if (params.id) {
+            postData(url + '/getData', {
+                tableName: 'hotels',
+                condition: "id=" + "'" + params.id + "'"
+            }).then(data => {
+                if (Array.isArray(data)) {
+                    let arr = data[0].conditions.split(',');
+                    setConditions(arr)
+                    return setHotel(data)
+                }
+                console.log('Hotel.js->' + data.message)
+            }).catch(err => {
+                Alert.alert('Error', err.code)
+            })
+            ///-----------------------------------
+            postData(url + '/getData', {
+                tableName: 'hotels',
+                condition: "id<>" + "'" + params.id + "'"
+            }).then(data => {
+                if (Array.isArray(data)) {
+                    return setOtherHotels(data)
+                }
+                console.log('Hotel.js->' + data.message)
+            }).catch(err => {
+                Alert.alert('Error', err.code)
+            })
+
+            ///-----------------------------------
+            postData(url + '/getData', {
+                tableName: 'hotel_reviews',
+                condition: "hotel_id=" + "'" + params.id + "'"
+            }).then(data => {
+                if (Array.isArray(data)) {
+                    return setRatings(data)
+                }
+                console.log('Hotel.js->' + data.message)
+            }).catch(err => {
+                Alert.alert('Error', err.code)
+            })
+            //get hotels images
+            postData(url + '/getData', {
+                tableName: 'hotel_photos',
+                condition: "hotel_id=" + "'" + params.id + "'"
+            }).then(data => {
+                if (Array.isArray(data)) {
+                    let arr = []
+                    data.forEach(doc => {
+                        arr.push({ source: { uri: doc.url } })
+                    })
+                    return setImages(arr);
+                }
+                console.log(data.message)
+            }).catch(err => {
+                console.log(err.code)
+            })
+        }
+    }, [params.id + route])
+
 
     return (
 
         <View style={{
-            width: window.width,
+            width: window.width - 10,
+            marginLeft: 5,
             height: window.height
         }}>
             <ScrollView>
                 <View style={styles.body}>
                     <View style={styles.bodyTop}>
-                        <TouchableOpacity onPress={() =>navigation.navigate('Hotel Gallery',{title:'9 Photos'})}>
-                            <Image
-                                style={styles.image}
-                                source={{
-                                    uri: 'https://images.unsplash.com/photo-1615874959474-d609969a20ed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YmVkcm9vbXxlbnwwfHwwfHw%3D&w=1000&q=80',
-                                }}
-                            />
+                        <TouchableOpacity style={styles.image} onPress={() => setModalVisible(true)}>
+
+                            {
+                                Hotel ? (
+                                    <Image onPress={() => console.log('press')}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            borderRadius: 10,
+                                        }}
+                                        source={{
+                                            uri: Hotel[0].image,
+                                        }}
+                                    />
+                                ) : (
+                                    <ActivityIndicator size="large" color="#FA454B" />
+                                )
+                            }
                         </TouchableOpacity>
 
                         <View style={styles.imageButtomIcon}>
-                            <Text style={styles.imageButtomIconText}> 1/9</Text>
+                            <Text style={styles.imageButtomIconText}> 1/{Images ? Images.length : '1'}</Text>
                         </View>
 
                     </View>
                     <View style={styles.content}>
                         <View style={styles.contentTop}>
-                            <Text style={styles.hotelName}>Shradha Saburi Place </Text>
-                            <View style={styles.contentTopLeftBox}>
-                                <TouchableOpacity>
-                                    <AntDesign name="star" size={15} color="white" />
-                                </TouchableOpacity>
-                                <Text style={styles.contentTopLeftBoxText}>4.3</Text>
-                            </View>
+                            <Text style={styles.hotelName}>{Hotel ? Hotel[0].name : ''} </Text>
+                            <TouchableOpacity style={styles.contentTopLeftBox}>
+                                <AntDesign name="star" size={15} color="white" />
+                                <Text style={styles.contentTopLeftBoxText}>{Hotel ? Hotel[0].ratings : '0'}</Text>
+                            </TouchableOpacity>
                         </View>
                         <View>
                             <Text style={{ color: '#808080' }}>
-                                Shirdi, Maharashtra
+                                {Hotel ? Hotel[0].address : ''}
                             </Text>
                             <View style={styles.icon}>
-                                <View style={styles.iconBackground}>
-                                    <AntDesign name="wifi" size={20} color="black" />
-                                </View>
-                                <View style={styles.iconBackground}>
-                                    <MaterialIcons name="monitor" size={20} color="black" />
-                                </View>
-                                <View style={styles.iconBackground}>
-                                    <EvilIcons name="sc-pinterest" size={26} color="black" />
-                                </View>
+                                {
+                                    conditions ? (
+                                        conditions.map((doc, i) => {
+                                            if (doc == 'wifi') {
+                                                return (
+                                                    <View key={i} style={styles.iconBackground}>
+                                                        <AntDesign name="wifi" size={20} color="black" />
+                                                    </View>
+                                                )
+                                            } else if (doc == 'tv') {
+                                                return (
+                                                    <View key={i} style={styles.iconBackground}>
+                                                        <MaterialIcons name="monitor" size={20} color="black" />
+                                                    </View>
+                                                )
+                                            } else {
+                                                return (
+                                                    <View key={i} style={styles.iconBackground}>
+                                                        <EvilIcons name="sc-pinterest" size={26} color="black" />
+                                                    </View>
+                                                )
+                                            }
+                                        })
+                                    ) : (
+                                        <ActivityIndicator size="small" color="#FA454B" />
+                                    )
+                                }
+
+
                             </View>
                         </View>
                         <View style={styles.contentDescrip}>
                             <Text style={styles.textHead}>
                                 Description
                             </Text>
-                            <Text style={styles.textDescr}>
-                                Shradha Saburi Palace is a budget hotel that
-                                provides a comfortable stay for a nominal price.
-                                The hotel is located close to a few attractions in
-                                Shirdi including Sai Baba Mandir and more.
+                            <Text style={[styles.textDescr, { height: Read ? 'auto' : 50 }]}>
+                                {Hotel ? Hotel[0].description : ''}
                             </Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => {
+                                setRead(!Read)
+                            }}>
                                 <Text style={{ color: 'red' }}>
-                                    Read more
+                                    {!Read ? 'Read More' : 'Read Less'}
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -83,7 +187,7 @@ const Hotel = (props) => {
                                 }}>Check-in</Text>
                                 <Text style={{
                                     fontSize: 25,
-                                }}>12:00 PM</Text>
+                                }}>{Hotel ? Hotel[0].check_in : ''}</Text>
                             </View>
                             <View style={styles.view2}></View>
                             <View style={styles.view3}>
@@ -93,11 +197,16 @@ const Hotel = (props) => {
                                 }}>Check-out</Text>
                                 <Text style={{
                                     fontSize: 25,
-                                }}>10:00 AM</Text>
+                                }}>{Hotel ? Hotel[0].check_out : ''}</Text>
                             </View>
                         </View>
                         <View style={styles.container}>
-                            <MapView style={styles.map} />
+                            <MapView initialRegion={{
+                                latitude: 37.78825,
+                                longitude: -122.4324,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            }} style={styles.map} />
                         </View>
                         <View style={styles.nearbyView}>
                             <Text style={styles.nearbyText}>
@@ -124,41 +233,76 @@ const Hotel = (props) => {
                                 <TouchableOpacity>
                                     <AntDesign name="star" size={15} color="white" />
                                 </TouchableOpacity>
-                                <Text style={styles.contentTopLeftBoxText}>4.3</Text>
+                                <Text style={styles.contentTopLeftBoxText}>{Hotel ? Hotel[0].ratings : '0'}</Text>
                             </View>
                         </View>
-                        <HotelMember></HotelMember>
-                        <HotelMember></HotelMember>
-                        <HotelMember></HotelMember>
+                        {
+                            Ratings ? (
+                                Ratings.map((doc, i) => {
+                                    if (i < limit) {
+                                        return <HotelMember doc={doc} key={i} />
+                                    } else {
+                                        return <View key={i}></View>
+                                    }
+                                })
+                            ) : (
+                                <ActivityIndicator size="large" color="#FA454B" />
+                            )
+                        }
                         <View style={{ alignItems: 'center', marginBottom: 30 }}>
-                            <TouchableOpacity>
-                                <View style={styles.showMoreButton}>
-                                    <Text style={styles.showMoreButtonText}>
-                                        Show more
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
+                            {
+                                Ratings && Ratings.length > limit ? (
+                                    <TouchableOpacity onPress={() => {
+                                        setLimit(limit + 3);
+                                    }}>
+                                        <View style={styles.showMoreButton}>
+                                            <Text style={styles.showMoreButtonText}>
+                                                Show More
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                ) : (
+                                    <View>
+                                    </View>
+                                )
+                            }
                         </View>
                         <Text style={{
                             color: '#000000',
                             fontSize: 20,
                             fontWeight: '700',
-                            margin: 10
+                            marginBottom: 10
                         }}>
                             Other hotels nearby
                         </Text>
-                        <View style={{ width: '95%' }}>
-                            <ScrollView horizontal={true}>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <HotelMemberCart></HotelMemberCart>
-                                    <HotelMemberCart></HotelMemberCart>
-                                    <HotelMemberCart></HotelMemberCart>
-                                    <HotelMemberCart></HotelMemberCart>
-                                </View>
-                            </ScrollView>
-                        </View>
+                        <ScrollView horizontal={true}>
+                            {
+                                OtherHotels ? (
+                                    OtherHotels.map(d => (
+                                        <HotelMemberCart key={d.id} data={d} />
+                                    ))
+                                ) : (
+                                    <ActivityIndicator size="large" color="#FA454B" />
+                                )
+                            }
+                        </ScrollView>
                     </View>
                 </View>
+                <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
+                    <TouchableOpacity onPress={() => setModalVisible(!ModalVisible)} style={{
+                        paddingLeft: 10,
+                        height: 40,
+                        justifyContent: 'center',
+                        backgroundColor: '#FC444B',
+                        marginTop: Platform.OS == 'ios' ? 40 : 0
+                    }}>
+                        <AntDesign name="arrowleft" size={24} color="black" />
+                    </TouchableOpacity>
+                    <Gallery
+                        style={{ flex: 1, backgroundColor: 'black' }}
+                        images={Images}
+                    />
+                </Modal>
             </ScrollView>
             <View style={{
                 backgroundColor: 'white',
@@ -168,7 +312,9 @@ const Hotel = (props) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}>
-                <TouchableOpacity onPress={()=>navigation.navigate('Review')} style={{
+                <TouchableOpacity onPress={() => navigation.navigate('Review', {
+                    id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address
+                })} style={{
                     borderWidth: 1,
                     borderColor: '#0000008e',
                     width: 60,
@@ -179,7 +325,10 @@ const Hotel = (props) => {
                 }}>
                     <AntDesign name="hearto" size={24} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate('Booking')} style={{
+                <TouchableOpacity onPress={() => navigation.navigate('Booking', {
+                    id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address,
+                    check_in: Hotel[0].check_in, check_out: Hotel[0].check_out
+                })} style={{
                     backgroundColor: '#64B657',
                     width: 200,
                     height: 50,
@@ -188,8 +337,8 @@ const Hotel = (props) => {
                     alignItems: 'center'
                 }}>
                     <Text style={{
-                        color:'white',
-                        fontSize:18
+                        color: 'white',
+                        fontSize: 18
                     }}>Book Now</Text>
                 </TouchableOpacity>
             </View>
@@ -201,89 +350,112 @@ export default Hotel;
 
 export const HotelMemberCart = (props) => {
     return (
-        <TouchableOpacity>
-            <View style={styles.cart}>
-                <Image
-                    style={styles.cartImg}
-                    source={{
-                        uri: 'https://cdna.artstation.com/p/assets/images/images/016/681/028/large/mohd-ashraf-classic-black-1.jpg?1553066591',
-                    }}
-                />
-                <View style={styles.cartText}>
-                    <Text style={{
-                        fontSize: 18,
-                        color: '#FFFFFF',
-                        fontWeight: '700'
-                    }}>Shradha Saburi Palace
-                    </Text>
+        <View style={styles.cart}>
+            <Image
+                style={styles.cartImg}
+                source={{
+                    uri: props.data ? props.data.image : 'https://cdna.artstation.com/p/assets/images/images/016/681/028/large/mohd-ashraf-classic-black-1.jpg?1553066591',
+                }}
+            />
+            <View style={styles.cartText}>
+                <Text style={{
+                    fontSize: 18,
+                    color: '#FFFFFF',
+                    fontWeight: '700'
+                }}>{props.data ? props.data.name : "-----"}
+                </Text>
+                <Text style={{
+                    fontSize: 14,
+                    color: '#FFFFFF',
+                    fontWeight: '400',
+                    marginBottom: 7
+                }}>
+                    {props.data ? props.data.address : "---"}
+                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Ionicons name="md-checkmark-done-circle-outline" size={20} color='rgba(100, 182, 87, 1)' />
                     <Text style={{
                         fontSize: 14,
                         color: '#FFFFFF',
-                        fontWeight: '400',
-                        marginBottom: 7
+                        fontWeight: '500'
                     }}>
-                        Shirdi, Maharashtra
+                        {props.data ? props.data.type : "Free for Members"}
                     </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Ionicons name="md-checkmark-done-circle-outline" size={20} color='rgba(100, 182, 87, 1)' />
-                        <Text style={{
-                            fontSize: 14,
-                            color: '#FFFFFF',
-                            fontWeight: '500'
-                        }}>
-                            Free for Members
-                        </Text>
-                    </View>
                 </View>
             </View>
-        </TouchableOpacity>
+        </View>
     );
 };
 
-const HotelMember = (props) => {
+const HotelMember = ({ doc }) => {
+    const [Rating, setRating] = React.useState(null);
+    const [User, setUser] = React.useState(null);
+
+    React.useEffect(() => {
+        let arr = []
+        for (var i = 0; i < doc.rating; i++) {
+            arr.push('ok')
+        }
+        setRating(arr);
+        //finding user
+        ///-----------------------------------
+        postData(url + '/getData', {
+            tableName: 'user',
+            condition: "uid=" + "'" + doc.user_id + "'"
+        }).then(data => {
+            if (Array.isArray(data) && data.length > 0) {
+                //console.log(data)
+                return setUser(data);
+            }
+            console.log('369:Hotel.js->' + data.message)
+        }).catch(err => {
+            Alert.alert('Error', err.code)
+        })
+    }, [])
     return (
         <View style={styles.post}>
             <View style={styles.postHead}>
-                <View>
-                    <Image
-                        style={styles.tinyLogo}
-                        source={{
-                            uri: 'https://images.unsplash.com/photo-1545912452-8aea7e25a3d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YW1lcmljYW4lMjB3b21hbnxlbnwwfHwwfHw%3D&w=1000&q=80',
-                        }}
-                    />
-                </View>
+                <Image
+                    style={styles.tinyLogo}
+                    source={{
+                        uri: User && User[0].image ?
+                            User[0].image : 'https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2021/08/blank-profile-picture-png.png'
+                    }}
+                />
                 <View style={{
-                    marginLeft: 15,
-                    marginRight: 30
+
                 }}>
                     <Text style={{
                         fontSize: 14,
                         fontWeight: '700',
                         color: '#292929'
                     }}>
-                        Rahul Jadhav
+                        {User ? User[0].name : ''}
                     </Text>
                     <Text style={{
                         fontSize: 14,
                         fontWeight: '700',
                         color: '#CBCBCB'
                     }}>
-                        Platinum Member
+                        {User && User[0].membership_type ? User[0].membership_type : 'No Membership'}
                     </Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <AntDesign name="star" size={22} color="red" />
-                    <AntDesign name="star" size={22} color="red" />
-                    <AntDesign name="star" size={22} color="red" />
-                    <AntDesign name="star" size={22} color="red" />
-                    <AntDesign name="star" size={22} color="red" />
+                    {
+                        Rating ? (
+                            Rating.map((doc, j) => (
+                                <AntDesign key={j} name="star" size={22} color="red" />
+                            ))
+                        ) : (
+                            <View></View>
+                        )
+                    }
                 </View>
             </View>
             <Text style={styles.textDescr1}>
-                Shradha Saburi Palace is a budget hotel that
-                provides a comfortable stay for a nominal price.
-                The hotel is located close to a few attractions in
-                Shirdi including Sai Baba Mandir and more.
+                {
+                    doc.message
+                }
             </Text>
         </View>
     );
@@ -292,16 +464,17 @@ const styles = StyleSheet.create({
     body: {
         width: '100%',
         alignItems: 'center',
+        padding:10
     },
     bodyTop: {
-        width: '95%',
-        backgroundColor: 'blue'
+        width: '100%',
     },
     image: {
         height: 400,
         width: '100%',
         position: 'absolute',
-        borderRadius: 10
+        borderRadius: 10,
+        marginTop: 5
     },
     imageButtomIcon: {
         position: 'absolute',
@@ -325,6 +498,7 @@ const styles = StyleSheet.create({
     },
     contentTop: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     contentTopLeftBox: {
         width: 60,
@@ -375,11 +549,11 @@ const styles = StyleSheet.create({
         color: '#808080',
         fontSize: 14,
         fontWeight: '500',
-        marginBottom: 15
+        marginBottom: 15,
+        overflow: 'hidden',
     },
     time: {
         borderWidth: .5,
-        height: Dimensions.get('window').height - 800,
         marginTop: 40,
         marginBottom: 40,
         padding: 10,
@@ -391,7 +565,6 @@ const styles = StyleSheet.create({
     },
     view2: {
         borderWidth: .5,
-        height: 80,
         width: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -400,7 +573,7 @@ const styles = StyleSheet.create({
     view3: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 20
+        width: '45%'
     },
     map: {
         width: '100%',
@@ -444,15 +617,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     tinyLogo: {
-        width: 65,
-        height: 65,
-        borderRadius: 40,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
     },
     postHead: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 20
+        justifyContent: 'space-between',
+        marginBottom: 20,
+        width: '90%'
     },
     textDescr1: {
         color: '#808080',
@@ -474,8 +648,8 @@ const styles = StyleSheet.create({
         height: 210,
         width: 200,
         borderRadius: 10,
-        opacity:.7,
-        borderRadius:5
+        opacity: .7,
+        borderRadius: 5
     },
     cart: {
         height: 210,
@@ -484,7 +658,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         marginBottom: 40,
         backgroundColor: '#000',
-        borderRadius:5
+        borderRadius: 5
     },
     cartText: {
         position: 'absolute',
@@ -497,10 +671,9 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
     post: {
-        marginBottom: 20,
-        marginTop: 20,
+        marginBottom: 5,
+        marginTop: 5,
         padding: 5,
-        alignItems: 'center',
-        width: '95%'
+        width: '92%'
     }
 })

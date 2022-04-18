@@ -2,23 +2,61 @@ import React from 'react';
 import {
     View, StyleSheet,
     Dimensions, ScrollView, Text,
-    TouchableOpacity, TextInput
+    TouchableOpacity, TextInput, Alert
 } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
+import { postData, url } from '../action';
+import { getAuth } from 'firebase/auth';
+import AnimatedLoader from "react-native-animated-loader";
+import app from '../firebase'
 
-const Booking = ({navigation}) => {
-    const [CheckIn, setCheckIn] = React.useState('')
-    const [CheckOut, setCheckOut] = React.useState('')
-    const [count,setCount]=React.useState(0)
-    const [count1,setCount1]=React.useState(0)
-    const [count2,setCount2]=React.useState(0)
-    return (
-        <View>
-            
+const Booking = (props) => {
+    const [CheckIn, setCheckIn] = React.useState(new Date());
+    const [CheckOut, setCheckOut] = React.useState(new Date());
+    const [count, setCount] = React.useState(0)
+    const [count1, setCount1] = React.useState(0)
+    const [count2, setCount2] = React.useState(0)
+    const navigation = props.navigation
+    const params = props.route.params
+    const [In, setIn] = React.useState(null); 
+    const [Out, setOut] = React.useState(null)
+    const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    const auth = getAuth(app);
+    const [loader,setLoader] =React.useState(false)
+
+
+    const Confirm = () => {
+        setLoader(true)
+        postData(url + '/setData', {
+            auth: auth.currentUser,
+            tableName: 'hotel_booking',
+            columns: ['check_in', 'check_out', 'adult', 'children', 'room', 'date', 'user_id','hotel_id'],
+            values: [CheckIn, CheckOut, count, count1, count2, new Date(), auth.currentUser.uid,params.id]
+        }).then(data => {
+            if (data.insertId) {
+                setLoader(false)
+                return navigation.navigate('Confirm Message',{
+                    text1:'You have successfully booked.',
+                    text2:'Please check for confirmation email.'
+                })
+            }
+            setLoader(false)
+            Alert.alert('Opps!', data.message)
+        }).catch(err => {
+            setLoader(false)
+            Alert.alert('Error', err.code)
+        })
+    }
+
+    return ( 
+        <View style={{
+            paddingLeft: 10, paddingRight: 10
+        }}>
             <ScrollView>
                 <View style={style.view}>
-                    <Text style={style.Text}>Shradha Saburi Palace</Text>
-                    <Text style={style.Text1}>Shirdi,Maharashtra</Text>
+                    <Text style={style.Text}>{params.name}</Text>
+                    <Text style={style.Text1}>{params.address}</Text>
                 </View>
                 <View style={style.view1}>
                     <View style={style.view3}>
@@ -28,7 +66,7 @@ const Booking = ({navigation}) => {
                         }}>Check-in</Text>
                         <Text style={{
                             fontSize: 25,
-                        }}>12:00 PM</Text>
+                        }}>{params.check_in}</Text>
                     </View>
                     <View style={style.view2}></View>
                     <View style={style.view3}>
@@ -38,7 +76,7 @@ const Booking = ({navigation}) => {
                         }}>Check-out</Text>
                         <Text style={{
                             fontSize: 25,
-                        }}>10:00 AM</Text>
+                        }}>{params.check_out}</Text>
                     </View>
                 </View>
                 <View >
@@ -48,12 +86,23 @@ const Booking = ({navigation}) => {
                         marginTop: 50,
                         marginLeft: 40,
                     }}>Check-in</Text>
-                    <TextInput
-                        style={style.input}
-                        value={CheckIn}
-                        onChangeText={(val) =>
-                            setCheckIn(val)}
-                    />
+                    <TouchableOpacity onPress={() => {
+                        setIn(true)
+                    }} style={style.input}>
+                        {
+                            In ? (
+                                <RNDateTimePicker value={CheckIn}
+                                    onChange={(event, date) => {
+                                        setIn(false)
+                                        setCheckIn(date);
+
+                                    }} />
+                            ) : (
+                                <Text>{CheckIn.getDate() + " "
+                                    + Months[CheckIn.getMonth()] + " " + CheckIn.getFullYear()}</Text>
+                            )
+                        }
+                    </TouchableOpacity>
                 </View>
 
                 <View >
@@ -63,177 +112,206 @@ const Booking = ({navigation}) => {
                         marginTop: 20,
                         marginLeft: 40,
                     }}>Check-out</Text>
-                    <TextInput
-                        style={style.input}
-                        value={CheckOut}
-                        onChangeText={(val) =>
-                            setCheckOut(val)}
-                    />
+                    <TouchableOpacity onPress={() => {
+                        setOut(true)
+                    }} style={style.input}>
+                        {
+                            Out ? (
+                                <RNDateTimePicker value={CheckOut}
+                                    onChange={(event, date) => {
+                                        setOut(false)
+                                        setCheckOut(date);
+
+                                    }} />
+                            ) : (
+                                <Text>{CheckOut.getDate() + " "
+                                    + Months[CheckOut.getMonth()] + " " + CheckOut.getFullYear()}</Text>
+                            )
+                        }
+                    </TouchableOpacity>
                 </View>
 
                 <View style={{
-                    margin:20
+                    margin: 20
                 }}>
-                    <View style={{ alignItems: 'center', flexDirection: 'row',
-                     marginLeft: 20,marginTop: 20}}>
+                    <View style={{
+                        alignItems: 'center', flexDirection: 'row',
+                        marginLeft: 20, marginTop: 20
+                    }}>
                         <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }}>Aduits</Text>
-                            <Text style={{ fontSize: 20, color: 'rgb(100,100,100)', }}>Older 12 years</Text>
+                            <Text style={{ fontSize: 18 }}>Adults</Text>
+                            <Text style={{ fontSize: 15, color: 'rgb(100,100,100)', }}>Older 12 years</Text>
                         </View>
                         <View style={{
-                            justifyContent:'center',
-                            flexDirection:'row',
+                            justifyContent: 'center',
+                            flexDirection: 'row',
                         }}>
-                            <TouchableOpacity onPress={()=>{
-                                if(count>0){
-                                    setCount(count-1)
+                            <TouchableOpacity onPress={() => {
+                                if (count > 0) {
+                                    setCount(count - 1)
                                 }
                             }} style={{
-                                height:60,
-                                width:60,
-                                borderRadius:30,
-                                backgroundColor:'#F5F5F5',
-                                justifyContent:'center',
-                                alignItems:'center',
+                                height: 50,
+                                width: 50,
+                                borderRadius: 30,
+                                backgroundColor: '#FFFF',
+                                justifyContent: 'center',
+                                alignItems: 'center',
                             }}>
-                            <AntDesign name="minus" size={24} color="black" />
+                                <AntDesign name="minus" size={24} color="black" />
                             </TouchableOpacity>
                             <View style={{
-                                height:60,
-                                width:60,
-                                borderRadius:30,
-                                justifyContent:'center',
-                                alignItems:'center',
+                                height: 50,
+                                width: 50,
+                                borderRadius: 30,
+                                justifyContent: 'center',
+                                alignItems: 'center',
                             }}>
                                 <Text style={{
-                                    fontSize:20,
+                                    fontSize: 20,
                                 }}>{count}</Text>
                             </View>
-                            <TouchableOpacity onPress={()=>{
-                                setCount(count+1)
+                            <TouchableOpacity onPress={() => {
+                                setCount(count + 1)
                             }} style={{
-                                height:60,
-                                width:60,
-                                borderRadius:30,
-                                backgroundColor:'#FFE1E3',
-                                justifyContent:'center',
-                                alignItems:'center',
+                                height: 50,
+                                width: 50,
+                                borderRadius: 30,
+                                backgroundColor: '#FFE1E3',
+                                justifyContent: 'center',
+                                alignItems: 'center',
                             }}>
-                            <AntDesign name="plus" size={24} color="red" />
+                                <AntDesign name="plus" size={24} color="red" />
                             </TouchableOpacity>
                         </View>
                     </View>
-
-                    <View style={{ alignItems: 'center', flexDirection: 'row',
-                     marginLeft: 20,marginTop: 20 }}>
-                        <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }}>Children</Text>
-                            <Text style={{ fontSize: 20, color: 'rgb(100,100,100)', }}>5-12 years old</Text>
-                        </View>
-                        <View style={{
-                            justifyContent:'center',
-                            flexDirection:'row',
-                        }}>
-                            <TouchableOpacity onPress={()=>{
-                                if(count1>0){
-                                    setCount1(count1-1) ;
-                                }
-                            }} style={{
-                                height:60,
-                                width:60,
-                                borderRadius:30,
-                                backgroundColor:'#F5F5F5',
-                                justifyContent:'center',
-                                alignItems:'center',
-                            }}>
-                            <AntDesign name="minus" size={24} color="black" />
-                            </TouchableOpacity>
-                            <View style={{
-                                height:60,
-                                width:60,
-                                borderRadius:30,
-                                justifyContent:'center',
-                                alignItems:'center',
-                            }}>
-                                <Text style={{
-                                    fontSize:20,
-                                }}>{count1}</Text>
-                            </View>
-                            <TouchableOpacity onPress={()=>{
-                                setCount1(count1 +1);
-                            }} style={{
-                                height:60,
-                                width:60,
-                                borderRadius:30,
-                                backgroundColor:'#FFE1E3',
-                                justifyContent:'center',
-                                alignItems:'center',
-                            }}>
-                            <AntDesign name="plus" size={24} color="red" />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                    <View style={{ alignItems: 'center', flexDirection: 'row',
-                     marginLeft: 20,marginTop: 20 }}>
-                        <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }}>Rooms</Text>
-                            <Text style={{ fontSize: 20, color: 'rgb(100,100,100)', }}></Text>
-                        </View>
-                        <View style={{
-                            justifyContent:'center',
-                            flexDirection:'row',
-                        }}>
-                            <TouchableOpacity  onPress={()=>{
-                                if(count2>0){
-                                    setCount2(count2-1) ;
-                                }}}
-                                style={{
-                                height:60,
-                                width:60,
-                                borderRadius:30,
-                                backgroundColor:'#F5F5F5',
-                                justifyContent:'center',
-                                alignItems:'center',
-                            }}>
-                            <AntDesign name="minus" size={24} color="black" />
-                            </TouchableOpacity>
-                            <View style={{
-                                height:60,
-                                width:60,
-                                borderRadius:30,
-                                justifyContent:'center',
-                                alignItems:'center',
-                            }}>
-                                <Text style={{
-                                    fontSize:20,
-                                }}>{count2}</Text>
-                            </View>
-                            <TouchableOpacity onPress={()=>{
-                                setCount2(count2 +1)}}
-                                 style={{
-                                height:60,
-                                width:60,
-                                borderRadius:30,
-                                backgroundColor:'#FFE1E3',
-                                justifyContent:'center',
-                                alignItems:'center',
-                            }}>
-                            <AntDesign name="plus" size={24} color="red" />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('Confirm Message')}>
-                        <View style={style.viewEnd}>
-                            <Text style={style.viewtext}>CONFIRM BOOKING</Text>
-                        </View>
-                    </TouchableOpacity>
 
                     <View style={{
-                        height: 175,
-                    }}></View>
-                </View>
+                        alignItems: 'center', flexDirection: 'row',
+                        marginLeft: 20, marginTop: 20
+                    }}>
+                        <View style={{ flex: 2 }}>
+                            <Text style={{ fontSize: 18 }}>Children</Text>
+                            <Text style={{ fontSize: 15, color: 'rgb(100,100,100)', }}>5-12 years old</Text>
+                        </View>
+                        <View style={{
+                            justifyContent: 'center',
+                            flexDirection: 'row',
+                        }}>
+                            <TouchableOpacity onPress={() => {
+                                if (count1 > 0) {
+                                    setCount1(count1 - 1);
+                                }
+                            }} style={{
+                                height: 50,
+                                width: 50,
+                                borderRadius: 30,
+                                backgroundColor: '#FFFF',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <AntDesign name="minus" size={24} color="black" />
+                            </TouchableOpacity>
+                            <View style={{
+                                height: 50,
+                                width: 50,
+                                borderRadius: 30,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Text style={{
+                                    fontSize: 20,
+                                }}>{count1}</Text>
+                            </View>
+                            <TouchableOpacity onPress={() => {
+                                setCount1(count1 + 1);
+                            }} style={{
+                                height: 50,
+                                width: 50,
+                                borderRadius: 30,
+                                backgroundColor: '#FFE1E3',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <AntDesign name="plus" size={24} color="red" />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
 
+                    <View style={{
+                        alignItems: 'center', flexDirection: 'row',
+                        marginLeft: 20, marginTop: 20
+                    }}>
+                        <View style={{ flex: 2 }}>
+                            <Text style={{ fontSize: 18 }}>Rooms</Text>
+                            <Text style={{ fontSize: 18, color: 'rgb(100,100,100)', }}></Text>
+                        </View>
+                        <View style={{
+                            justifyContent: 'center',
+                            flexDirection: 'row',
+                        }}>
+                            <TouchableOpacity onPress={() => {
+                                if (count2 > 0) {
+                                    setCount2(count2 - 1);
+                                }
+                            }}
+                                style={{
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: 30,
+                                    backgroundColor: '#FFFF',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                <AntDesign name="minus" size={24} color="black" />
+                            </TouchableOpacity>
+                            <View style={{
+                                height: 50,
+                                width: 50,
+                                borderRadius: 30,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Text style={{
+                                    fontSize: 20,
+                                }}>{count2}</Text>
+                            </View>
+                            <TouchableOpacity onPress={() => {
+                                setCount2(count2 + 1)
+                            }}
+                                style={{
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: 30,
+                                    backgroundColor: '#FFE1E3',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                <AntDesign name="plus" size={24} color="red" />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <TouchableOpacity disabled={count2 != 0 && count != 0 ? false : true} onPress={Confirm}>
+                        <View style={[style.viewEnd, {
+                            backgroundColor: count2 != 0 && count != 0 ? '#FC444B' : '#f5f5f5'
+                        }]}>
+                            <Text style={[style.viewtext, {
+                                color: count2 != 0 && count != 0 ? '#FFFF' : '#FC444B'
+                            }]}>CONFIRM BOOKING</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <AnimatedLoader
+                    visible={loader}
+                    overlayColor="rgba(255,255,255,0.75)"
+                    source={require("../assets/9997-infinity-loader.json")}
+                    animationStyle={{
+                        height: 100, width: 100,
+                    }}
+                    speed={1}
+                >
+                    <Text>Loading...</Text>
+                </AnimatedLoader>
             </ScrollView>
         </View>
     );
@@ -242,7 +320,7 @@ const Booking = ({navigation}) => {
 export default Booking;
 const style = StyleSheet.create({
     container: {
-        width: window.width,
+        width: window.width - 10,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -293,6 +371,7 @@ const style = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         borderRadius: 30,
+        justifyContent: 'center',
     },
     view4: {
         height: 50,
@@ -310,7 +389,7 @@ const style = StyleSheet.create({
         margin: 12,
         padding: 10,
         borderWidth: 1,
-        borderColor: 'red',
+        borderColor: '#FC444B',
         borderRadius: 30,
         marginTop: 30,
         justifyContent: 'center',
