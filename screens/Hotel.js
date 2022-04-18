@@ -145,13 +145,13 @@ const Hotel = (props) => {
                                             } else if (doc == 'tv') {
                                                 return (
                                                     <View key={i} style={styles.iconBackground}>
-                                                        <MaterialIcons name="monitor" size={20} color="black" />
+                                                        <MaterialIcons name="monitor" size={20} color="#808080" />
                                                     </View>
                                                 )
                                             } else {
                                                 return (
                                                     <View key={i} style={styles.iconBackground}>
-                                                        <EvilIcons name="sc-pinterest" size={26} color="black" />
+                                                        <EvilIcons name="sc-pinterest" size={26} color="#808080" />
                                                     </View>
                                                 )
                                             }
@@ -269,8 +269,8 @@ const Hotel = (props) => {
                         </View>
                         <Text style={{
                             color: '#000000',
-                            fontSize: 20,
-                            fontWeight: '700',
+                            fontSize: 18,
+                            fontWeight: '600',
                             marginBottom: 10
                         }}>
                             Other hotels nearby
@@ -444,7 +444,7 @@ const HotelMember = ({ doc }) => {
                     {
                         Rating ? (
                             Rating.map((doc, j) => (
-                                <AntDesign key={j} name="star" size={22} color="red" />
+                                <AntDesign key={j} name="star" size={20} color="#FC444B" />
                             ))
                         ) : (
                             <View></View>
@@ -562,13 +562,15 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         color: 'rgb(100,100,100)',
+        borderColor:'#D8D8D8'
     },
     view2: {
         borderWidth: .5,
         width: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 20
+        marginRight: 20,
+        borderColor:'#D8D8D8'
     },
     view3: {
         justifyContent: 'center',

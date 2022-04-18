@@ -14,8 +14,8 @@ const PopularHotels = () => {
             </View>
             <View>
 
-                
-                <HotelCart/>
+
+                <HotelCart />
             </View>
             <View style={{ flexDirection: 'row', }}>
                 <View style={{ flex: 1, padding: 10 }}>
@@ -64,7 +64,7 @@ const HotelCart = () => {
             </ImageBackground>
 
             <View style={{ width: '93%', padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <View>
+                <View >
                     <Text style={{ fontWeight: '600', fontSize: 17 }}>On the Go</Text>
                     <Text style={{ fontWeight: '400', fontSize: 15, color: 'gray', marginTop: 5 }}>Alibaug, Maharashtra</Text>
                 </View>

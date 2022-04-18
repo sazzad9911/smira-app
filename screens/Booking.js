@@ -139,7 +139,7 @@ const Booking = (props) => {
                         marginLeft: 20, marginTop: 20
                     }}>
                         <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 18 }}>Adults</Text>
+                            <Text style={{ fontSize: 18,color:'#585858' }}>Adults</Text>
                             <Text style={{ fontSize: 15, color: 'rgb(100,100,100)', }}>Older 12 years</Text>
                         </View>
                         <View style={{
@@ -158,7 +158,7 @@ const Booking = (props) => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
-                                <AntDesign name="minus" size={24} color="black" />
+                                <AntDesign name="minus" size={24} color="#808080" />
                             </TouchableOpacity>
                             <View style={{
                                 height: 50,
@@ -181,7 +181,7 @@ const Booking = (props) => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
-                                <AntDesign name="plus" size={24} color="red" />
+                                <AntDesign name="plus" size={24} color="#FC444B" />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -191,7 +191,7 @@ const Booking = (props) => {
                         marginLeft: 20, marginTop: 20
                     }}>
                         <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 18 }}>Children</Text>
+                            <Text style={{ fontSize: 18,color:'#585858' }}>Children</Text>
                             <Text style={{ fontSize: 15, color: 'rgb(100,100,100)', }}>5-12 years old</Text>
                         </View>
                         <View style={{
@@ -210,7 +210,7 @@ const Booking = (props) => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
-                                <AntDesign name="minus" size={24} color="black" />
+                                <AntDesign name="minus" size={24} color="#808080" />
                             </TouchableOpacity>
                             <View style={{
                                 height: 50,
@@ -233,7 +233,7 @@ const Booking = (props) => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
-                                <AntDesign name="plus" size={24} color="red" />
+                                <AntDesign name="plus" size={24} color="#FC444B" />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -243,7 +243,7 @@ const Booking = (props) => {
                         marginLeft: 20, marginTop: 20
                     }}>
                         <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 18 }}>Rooms</Text>
+                            <Text style={{ fontSize: 18,color:'#585858' }}>Rooms</Text>
                             <Text style={{ fontSize: 18, color: 'rgb(100,100,100)', }}></Text>
                         </View>
                         <View style={{
@@ -263,7 +263,7 @@ const Booking = (props) => {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}>
-                                <AntDesign name="minus" size={24} color="black" />
+                                <AntDesign name="minus" size={24} color="#808080" />
                             </TouchableOpacity>
                             <View style={{
                                 height: 50,
@@ -287,7 +287,7 @@ const Booking = (props) => {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}>
-                                <AntDesign name="plus" size={24} color="red" />
+                                <AntDesign name="plus" size={24} color="#FC444B" />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -352,13 +352,13 @@ const style = StyleSheet.create({
         borderRadius: 15,
         flexDirection: 'row',
         alignContent: 'center',
-        color: 'rgb(100,100,100)',
+        color: 'rgb(100,100,100)'
     },
     view2: {
         borderWidth: .5,
         height: 100,
         width: 1,
-        marginLeft: 35,
+        marginLeft: 35
 
     },
     view3: {
@@ -372,6 +372,7 @@ const style = StyleSheet.create({
         padding: 10,
         borderRadius: 30,
         justifyContent: 'center',
+        borderColor:'#D8D8D8',
     },
     view4: {
         height: 50,
