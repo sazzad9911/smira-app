@@ -136,7 +136,9 @@ const DrawerMenu = ({ navigation }) => {
                 {
                     dropdown ?
                         (
-                            <Category navigation={navigation} />
+                            <Category close={()=>{
+                                
+                            }} navigation={navigation} />
                         ) : (
                             <View></View>
                         )
