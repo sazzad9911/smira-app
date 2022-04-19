@@ -12,7 +12,8 @@ import { useSelector,useDispatch } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker';
 import { postData, url,setUser } from '../action'
 import { getAuth } from 'firebase/auth'
-import app from '../firebase'
+import app from '../firebase';
+import { FontAwesome5 } from '@expo/vector-icons'; 
 
 function Account({ navigation }) {
 
@@ -267,7 +268,8 @@ function Account({ navigation }) {
 
       <View style={[styles.formRow]}>
         <View style={[styles.imageStyle, MembershipFamilyCode === "" ? styles.imageStyleEmptyStyle : '']} >
-          <Ionicons name='key-outline' size={22} style={[MembershipFamilyCode === "" ? styles.inactiveIcon : styles.activeIcon]} />
+        <FontAwesome5 name="crown" size={24} color="black"  style={[MembershipFamilyCode === "" ? styles.inactiveIcon : styles.activeIcon]}/>
+         
         </View>
         <TextInput onPressIn={() => {
           setShowModal(true)
@@ -332,7 +334,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   formInput: {
     flex: 6,

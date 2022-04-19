@@ -103,8 +103,8 @@ const MemberShipInfo = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
-          <Text style={{ fontSize: 16, }}>Have a family code?</Text>
-          <Text style={{ color: 'red', textDecorationLine: 'underline', fontSize: 16, marginTop: 10 }}>Apply it here</Text>
+          <Text style={{ fontSize: 16, color:'#585858'}}>Have a family code?</Text>
+          <Text style={{ color: '#FC444B', textDecorationLine: 'underline', fontSize: 16, marginTop: 10 }}>Apply it here</Text>
         </View>
       </View>
     </View>

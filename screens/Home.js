@@ -8,16 +8,6 @@ import testImage from '../assets/favicon.png';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SliderBox } from "react-native-image-slider-box";
 //------------------------------------------------------------------------------
-import Hotels from '../assets/svgtopng/Hotels.png'
-import Health from '../assets/svgtopng/Health.png'
-import Games from '../assets/svgtopng/Games.png'
-import Camping from '../assets/svgtopng/Camping.png'
-import Restaurant from '../assets/svgtopng/Restaurant.png'
-import Services from '../assets/svgtopng/Services.png'
-import Shopping from '../assets/svgtopng/Shopping.png'
-import Travel from '../assets/svgtopng/Travel.png'
-import Villas from '../assets/svgtopng/Villas.png'
-import Spa from '../assets/svgtopng/Spa.png'
 import arrow from '../assets/svgtopng/arrow.png'
 import { HotelMemberCart } from './Hotel'
 import Brands from '../components/Brands'
@@ -27,6 +17,9 @@ import { useDispatch } from 'react-redux';
 import { setDeals, setBrands, setHotels, setUser } from '../action'
 import { getAuth } from 'firebase/auth'
 import app from '../firebase';
+import { SvgXml } from 'react-native-svg';
+import { Hotels,Health, Camping,Games, 
+  Restaurant,Services,Shopping, Spa_Salons, Travel, Villas } from '../components/Icon';
 
 const window = Dimensions.get('window')
 const auth = getAuth(app);
@@ -224,7 +217,7 @@ const Home = ({ navigation }) => {
                 }} name="Villas" icon={Villas} />
                 <IconsSet onPress={() => {
                   //navigation.navigate('Category Single', { title: 'Spa' })
-                }} name="Spa" icon={Spa} />
+                }} name="Spa & Salons" icon={Spa_Salons} />
               </View>
             )
           }
@@ -331,7 +324,7 @@ export const IconsSet = (props) => {
       justifyContent: 'center',
       alignItems: 'center'
     }, props.style]}>
-      <Image style={{ width: 25, height: 25, margin: 5 }} source={props.icon} />
+      <SvgXml height="40" width="45" style={{ margin: 5 }} xml={props.icon} />
       <Text>{props.name}</Text>
     </TouchableOpacity>
   );

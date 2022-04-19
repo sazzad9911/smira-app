@@ -1,15 +1,15 @@
 import React from 'react';
 import {
     View, Text, ScrollView, StyleSheet, Image, TouchableOpacity,
-    ActivityIndicator,Alert
+    ActivityIndicator, Alert
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import { useSelector } from 'react-redux'
 import * as Clipboard from 'expo-clipboard';
 import AnimatedLoader from 'react-native-animated-loader';
-import {getAuth} from 'firebase/auth'
-import {postData,url} from '../action'
+import { getAuth } from 'firebase/auth'
+import { postData, url } from '../action'
 import app from '../firebase'
 
 const DealCoupon = (props) => {
@@ -18,9 +18,9 @@ const DealCoupon = (props) => {
     const [Brand, setBrand] = React.useState(null)
     const [Read, setRead] = React.useState(false)
     const [Code, setCode] = React.useState(false)
-    const auth= getAuth(app);
+    const auth = getAuth(app);
     const navigation = props.navigation
-    const [loader, setLoader]= React.useState(false)
+    const [loader, setLoader] = React.useState(false)
 
     React.useEffect(() => {
         brands.forEach(brand => {
@@ -39,9 +39,18 @@ const DealCoupon = (props) => {
     };
     return (
         <View>
-            <AntDesign onPress={() => props.close(false)} style={[styles.icon, {
-                top: Platform.OS == 'ios' ? 60 : 20
-            }]} name="leftcircle" size={30} color="black" />
+            <TouchableOpacity style={[styles.icon, {
+                top: Platform.OS == 'ios' ? 60 : 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                height: 40,
+                width: 40,
+                borderRadius: 25,
+                margin: 5
+            }]} onPress={() => props.close(false)}>
+                <AntDesign name="left" size={30} color="white" />
+            </TouchableOpacity>
             <View style={styles.body}>
                 <ScrollView>
                     <View>
@@ -76,22 +85,22 @@ const DealCoupon = (props) => {
                                         copyToClipboard(data.code)
                                     } else {
                                         setLoader(true);
-                                        postData(url +'/setData',{
-                                            auth:auth.currentUser,
-                                            tableName:'book_appointment',
-                                            columns:['uid','deal_id','date'],
-                                            values: [auth.currentUser.uid,data.id,new Date()]
+                                        postData(url + '/setData', {
+                                            auth: auth.currentUser,
+                                            tableName: 'book_appointment',
+                                            columns: ['uid', 'deal_id', 'date'],
+                                            values: [auth.currentUser.uid, data.id, new Date()]
                                         }).then(data => {
-                                            if(data && data.insertId){
+                                            if (data && data.insertId) {
                                                 setLoader(false);
-                                                return navigation.navigate('Confirm Message',{
-                                                    text1:'We book a appointment for you.',
-                                                    text2:'You will receive an confirmation email very soon.'
+                                                return navigation.navigate('Confirm Message', {
+                                                    text1: 'We book a appointment for you.',
+                                                    text2: 'You will receive an confirmation email very soon.'
                                                 });
                                             }
                                             setLoader(false);
-                                            Alert.alert('Opps!',data.message)
-                                        }).catch(err =>{
+                                            Alert.alert('Opps!', data.message)
+                                        }).catch(err => {
                                             setLoader(false);
                                             Alert.alert('Error', err.code)
                                         })

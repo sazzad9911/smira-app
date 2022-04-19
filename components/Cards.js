@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ImageBackground } from 'react-native'
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, MaterialIcons,Ionicons } from '@expo/vector-icons'
 
 const Cards = (props) => {
     const navigation = props.navigation;
+    const [Favor, setFavor] = React.useState(false)
 
     return (
         <View style={{
@@ -22,24 +23,39 @@ const Cards = (props) => {
                 alignItems: 'flex-end'
             }} >
 
-                <MaterialCommunityIcons name='heart' size={24} style={{ color: 'red', margin: 15 }} />
+                <TouchableOpacity onPress={()=>setFavor(!Favor)}>
+                    {
+                        Favor ? (
+                            <MaterialCommunityIcons name='heart' size={30} style={{ color: 'red', margin: 15 }} />
+                        ) : (
+                            <Ionicons name="heart-outline" size={30} color="white" style={{ color: 'white', margin: 15 }} />
+                            
+                        )
+                    }
+
+
+                </TouchableOpacity>
                 <View style={{
                     flexDirection: 'row', alignItems: 'center', backgroundColor: '#64B657', padding: 10,
                     justifyContent: 'space-between', borderRadius: 20, width: 70, margin: 10
                 }}>
                     <MaterialCommunityIcons size={20} style={{ color: 'white' }} name="star" />
-                    <Text style={{ color: 'white', marginLeft: 5 }}>{props.rating}</Text>
+                    <Text style={{ color: 'white', marginLeft: 10 }}>{props.rating}</Text>
                 </View>
 
             </ImageBackground>
 
-            <View style={{ width: '93%', padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <View style={{ width: '100%', padding: 5, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View>
-                    <Text style={{ fontWeight: '600', fontSize: 17 }}>{props.title}</Text>
-                    <Text style={{ fontWeight: '400', fontSize: 15, color: 'gray', marginTop: 5 }}>{props.address}</Text>
+                    <Text style={{ fontWeight: '600',
+                     fontSize: 17,
+                      marginVertical: 5,
+                      fontFamily:'San Francisco'
+                       }}>{props.title}</Text>
+                    <Text style={{ fontWeight: '400', fontSize: 15, color: 'gray', }}>{props.address}</Text>
                 </View>
-                <TouchableOpacity onPress={() =>navigation.navigate('Hotel',{
-                    id:props.doc.id
+                <TouchableOpacity onPress={() => navigation.navigate('Hotel', {
+                    id: props.doc.id
                 })} style={{
                     backgroundColor: 'rgb(220,220,220)',
                     height: 40,
