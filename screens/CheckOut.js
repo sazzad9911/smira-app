@@ -12,12 +12,12 @@ const CheckOut = (props) => {
                 <View>
                     <Text style={styles.text1}>Start your 30-days trial now!</Text>
                     <Text style={styles.text2}>We won't charge you today.Your payment day will be on{" "}
-                        <Text style={[styles.text3,{color:params.color}]}>April 5,2022.</Text>
+                        <Text style={[styles.text3, { color: params.color }]}>April 5,2022.</Text>
                     </Text>
                 </View>
                 <View style={styles.box}>
                     <View style={styles.logo1}>
-                        <FontAwesome name="rupee" size={24} color="black" /><Text><Text style={styles.rupee}>2999</Text>/2 years</Text>
+                        <FontAwesome name="rupee" size={24} color="black" /><Text><Text style={styles.rupee}>2999</Text ><Text style={{color:'#585858'}}>/2 years</Text></Text>
                     </View>
                     <View style={styles.logo1}>
                         <AntDesign name="checkcircle" size={24} color={params.color} /><Text style={styles.underrupee}>Stays upto 40 nights</Text>
@@ -42,7 +42,7 @@ const CheckOut = (props) => {
                     <Text style={styles.underboxtext}>Payment Method</Text>
                 </View>
                 <TouchableOpacity>
-                    <View style={[styles.button1,{backgroundColor:params.color}]}>
+                    <View style={[styles.button1, { backgroundColor: params.color }]}>
                         <Text style={styles.button1text}>TRY IT FOR 30 DAYS</Text>
                     </View>
                 </TouchableOpacity>
@@ -60,7 +60,9 @@ const CheckOut = (props) => {
                         </View>
                     </View>
                 </View>
-                <TextInput style={styles.input1} placeholder='Promo Code' />
+                <View style={{marginBottom:50}}>
+                    <TextInput style={styles.input1} placeholder='Promo Code' />
+                </View>
             </View>
         </ScrollView>
     );
@@ -79,16 +81,18 @@ const styles = StyleSheet.create({
         fontSize: 25,
         margin: 10,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+
     },
 
     text2: {
         fontSize: 17,
-        margin: 10
+        margin: 10,
+        color: '#585858'
     },
 
     text3: {
-        color: "red",
+        color: '#FC444B',
     },
 
     box: {
@@ -98,7 +102,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: window.width - 30,
         padding: 30,
-        borderColor: '#808080'
+        borderColor: '#D8D8D8'
     },
 
     logo1: {
@@ -113,13 +117,15 @@ const styles = StyleSheet.create({
 
     underrupee: {
         fontSize: 17,
-        marginLeft: 15
+        marginLeft: 15,
+        color: '#585858'
     },
 
     underboxtext: {
         fontSize: 15,
         fontWeight: "bold",
-        margin: 25
+        margin: 25,
+        color: '#585858'
     },
 
     button1: {
@@ -145,14 +151,14 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1,
         borderRightWidth: 1,
         padding: 10,
-        borderColor: '#323232b7'
+        borderColor: '#D8D8D8'
     },
     input: {
         height: 50,
         backgroundColor: 'rgba(255,255,255,1)',
         borderRadius: 30,
         padding: 10,
-        fontSize: 18
+        fontSize: 18,
     },
     input1: {
         height: 50,
@@ -160,10 +166,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         fontSize: 18,
-        borderWidth:1,
-        width:window.width - 30,
-        marginVertical:10,
-        borderColor:'#323232b7'
+        borderWidth: 1,
+        width: window.width - 30,
+        marginVertical: 10,
+        borderColor: '#D8D8D8',
     }
 
 

@@ -17,12 +17,13 @@ const Membership = ({ navigation}) => {
             </ScrollView>
 
             <Text style={{
-                marginTop: 10
+                marginTop: 10,
+                color:'#585858'
             }}>Have a family code?</Text>
             <TouchableOpacity> 
                 <Text style={{
-                color: 'red',
-                marginBottom: 10
+                color: '#FC444B',
+                marginBottom: 30
             }}>Apply it here</Text>
             </TouchableOpacity>
 
@@ -103,7 +104,7 @@ const style = StyleSheet.create({
     },
     bodyHeaderText: {
         fontSize: 20,
-        marginTop: 15,
+        
         marginBottom: 10
     },
     bottomButton: {
