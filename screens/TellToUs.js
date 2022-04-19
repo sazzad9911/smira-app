@@ -21,7 +21,7 @@ const TellToUs = () => {
                     <View>
                         <Text style={style.inputL}>Full Name</Text>
                         <TextInput
-                            style={style.input}
+                            style={style.inputFullName}
                             onChangeName={onChangeName}
                             value={name}
                         />
@@ -66,7 +66,7 @@ const style = StyleSheet.create({
         margin: 30,
     },
     headText: {
-        color: 'rgb(100,100,100)',
+        color: '#585858',
         fontSize: 18
     },
     inputView: {
@@ -78,25 +78,34 @@ const style = StyleSheet.create({
         margin: 12,
         padding: 10,
         borderRadius: 30,
-        backgroundColor: '#ECE6E6'
+        backgroundColor: '#F5F5F5'
+    },
+    inputFullName: {
+        height: 50,
+        margin: 12,
+        padding: 10,
+        borderRadius: 30,
+        backgroundColor: '#F5F5F5',
+        borderWidth:1,
+        borderColor:'#D8D8D8'
     },
     view: {
         height: 50,
         margin: 12,
         padding: 10,
         borderWidth: 1,
-        borderColor: 'red',
+        borderColor: '#FC444B',
         borderRadius: 30,
         marginTop: 30,
         justifyContent: 'center',
         alignItems: 'center',
     },
     viewtext: {
-        color: 'red',
+        color: '#FC444B',
         fontSize: 20,
     },
     inputL:{
-        color: 'rgb(100,100,100)',
+        color: '#585858',
         marginLeft:40,
         fontSize:18
     }

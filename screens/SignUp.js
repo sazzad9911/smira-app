@@ -17,6 +17,7 @@ import {
 import AnimatedLoader from "react-native-animated-loader";
 import { postData, url } from '../action'
 import CreateUser from './CreateUser';
+import { SvgXml } from 'react-native-svg'
 //import * as Google from 'expo-google-app-auth';
 const auth = getAuth(app);
 const window = Dimensions.get('window')
@@ -28,7 +29,11 @@ const SignUp = (props) => {
     const auth = getAuth();
     const [visibility, setVisibility] = React.useState(false);
 
-
+    const phone = `
+    <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10.5 0.153687C16.02 0.153687 20.5 4.63369 20.5 10.1537C20.5 15.6837 16.02 20.1537 10.5 20.1537C4.97 20.1537 0.5 15.6837 0.5 10.1537C0.5 4.63369 4.97 0.153687 10.5 0.153687ZM14.35 6.86369C14.46 6.51369 14.14 6.18369 13.79 6.29369L8.67 7.89369C8.46 7.96369 8.29 8.12369 8.23 8.33369L6.63 13.4637C6.52 13.8037 6.85 14.1337 7.19 14.0237L12.29 12.4237C12.5 12.3637 12.67 12.1937 12.73 11.9837L14.35 6.86369Z" fill="#292929"/>
+    </svg>  
+    `;
 
     return (
         <ScrollView>
@@ -57,14 +62,9 @@ const SignUp = (props) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row',
-                        shadowOffset: {
-                            height: 2, width: 2,
-                        },
-                        shadowColor: 'black',
-                        shadowOpacity: .3,
-                        shadowRadius: 10,
-                        elevation: 4,
-                        backgroundColor: '#FFFFFF',
+                        borderColor:'#E8E8E8',
+                        borderWidth:2
+                        
                     }}>
 
                         <FontAwesome name="phone-square" size={30} color="red" />
@@ -85,14 +85,8 @@ const SignUp = (props) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row',
-                        shadowOffset: {
-                            height: 2, width: 2,
-                        },
-                        shadowColor: 'black',
-                        shadowOpacity: .3,
-                        shadowRadius: 10,
-                        elevation: 4,
-                        backgroundColor: '#FFFFFF',
+                        borderColor:'#E8E8E8',
+                        borderWidth:2
                     }}>
                         <MaterialIcons name="email" size={30} color="red" />
                         <Text style={{
@@ -113,14 +107,8 @@ const SignUp = (props) => {
                         alignItems: 'center',
                         flexDirection: 'row',
                         color: 'rgb(100,100,100)',
-                        shadowOffset: {
-                            height: 2, width: 2,
-                        },
-                        shadowColor: 'black',
-                        shadowOpacity: .3,
-                        shadowRadius: 10,
-                        elevation: 4,
-                        backgroundColor: '#FFFFFF',
+                        borderColor:'#E8E8E8',
+                        borderWidth:2
                     }}>
 
                         <Fontisto name="google" size={30} color="red" />

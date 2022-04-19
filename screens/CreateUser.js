@@ -132,15 +132,8 @@ const CreateUser = (props) => {
                             alignItems: 'center',
                             flexDirection: 'row',
                             backgroundColor: '#FC444B',
-                            shadowOffset: {
-                                height: 2, width: 2,
-                            },
-                            shadowColor: 'black',
-                            shadowOpacity: .3,
-                            shadowRadius: 10,
-                            elevation: 4,
-                            width: window.width - 50,
-                            marginVertical: 10
+                            marginTop: 40,
+
                         }}>
                             <Text style={{
                                 color: 'white',
@@ -150,7 +143,9 @@ const CreateUser = (props) => {
                     </TouchableOpacity>
                     <View style={{
                         width: window.width - 40, height: 2,
-                        backgroundColor: '#0000008e', marginLeft: 20
+                        backgroundColor: '#E3E3E3',
+                         marginLeft: 20,
+                         marginTop: 30,
                     }}></View>
                     <TouchableOpacity >
                         <View style={{
@@ -161,14 +156,9 @@ const CreateUser = (props) => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             flexDirection: 'row',
-                            shadowOffset: {
-                                height: 2, width: 2,
-                            },
-                            shadowColor: 'black',
-                            shadowOpacity: .3,
-                            shadowRadius: 10,
-                            elevation: 4,
-                            backgroundColor: '#FFFFF3',
+                            borderWidth: 2,
+                            borderColor:'#E8E8E8',
+                            marginTop: 30
                         }}>
                             <AntDesign name="google" size={30} color="black" />
                             <Text style={{
@@ -187,7 +177,10 @@ const CreateUser = (props) => {
                         <Text style={{
                             fontSize: 20
                         }}>Already a Member?</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+                        <TouchableOpacity onPress={() =>{ 
+                            navigation.navigate('SignIn')
+                            props.close(false)
+                            }}>
                             <Text style={{
                                 fontSize: 20,
                                 color: 'red',

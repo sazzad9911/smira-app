@@ -98,8 +98,7 @@ const SignIn = ({ navigation }) => {
                             alignItems: 'center',
                             flexDirection: 'row',
                             backgroundColor: '#FC444B',
-                            shadowColor: 'black',
-                            shadowOpacity: .3,
+                            
                             shadowRadius: 10,
                             elevation: 4,
                             width:window.width-50
@@ -124,7 +123,8 @@ const SignIn = ({ navigation }) => {
                 <View style={{
                     borderWidth: 0.5,
                     margin: 15,
-                    borderColor: 'rgb(220,220,220)'
+                    borderColor: 'rgb(220,220,220)',
+                    marginTop: 30,
                 }}>
                 </View>
                 <TouchableOpacity >
@@ -136,15 +136,9 @@ const SignIn = ({ navigation }) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row',
-                        shadowOffset: {
-                            height: 2, width: 2,
-                        },
-                        shadowColor: 'black',
-                        shadowOpacity: .3,
-                        shadowRadius: 10,
-                        elevation: 4,
-                        backgroundColor: '#FFFFF3',
-                        width:window.width-50
+                        borderWidth: 2,
+                        borderColor: '#E8E8E8',
+                        marginTop: 30,
                     }}>
                         <AntDesign name="google" size={30} color="black" />
                         <Text style={{
