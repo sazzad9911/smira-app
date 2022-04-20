@@ -349,6 +349,8 @@ const Hotel = (props) => {
 
 export default Hotel;
 
+import { LinearGradient } from 'expo-linear-gradient';
+
 export const HotelMemberCart = (props) => {
     return (
         <View style={styles.cart}>
@@ -358,27 +360,38 @@ export const HotelMemberCart = (props) => {
                     uri: props.data ? props.data.image : 'https://cdna.artstation.com/p/assets/images/images/016/681/028/large/mohd-ashraf-classic-black-1.jpg?1553066591',
                 }}
             />
+            <LinearGradient style={{
+                height:'100%',
+                width:'100%',
+                position: 'absolute',
+                top:0,
+                left:0,
+                borderRadius:10
+            }} start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} colors={['rgba(15, 15, 15, 0.311)', 'rgba(15, 15, 15, 0.466)', '#000']}>
+                
+            </LinearGradient>
+
             <View style={styles.cartText}>
 
-                <View style={{height:70,overflow:'hidden'}}>
-                <Text style={{
-                    fontSize: 18,
-                    fontFamily:'PlusJakartaSansBold',
-                    color: '#FFFFFF',
-                    lineHeight:20,
-                }}>{props.data ? props.data.name : "-----"}
-                </Text>
-                <Text style={{
-                    fontSize: 12,
-                    fontFamily:'PlusJakartaSans',
-                    color: '#FFFFFF',
-                    lineHeight:20
-                }}>
-                    {props.data ? props.data.address : "---"}
-                </Text>
+                <View style={{ overflow: 'hidden',marginBottom:5 }}>
+                    <Text style={{
+                        fontSize: 18,
+                        fontFamily: 'PlusJakartaSansBold',
+                        color: '#FFFFFF',
+                        lineHeight: 20,
+                    }}>{props.data ? props.data.name : "-----"}
+                    </Text>
+                    <Text style={{
+                        fontSize: 12,
+                        fontFamily: 'PlusJakartaSans',
+                        color: '#FFFFFF',
+                        lineHeight: 20
+                    }}>
+                        {props.data ? props.data.address : "---"}
+                    </Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                <SvgXml
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <SvgXml
                         style={[styles.tabIco]}
                         xml={`<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.49972 14.9995C6.92295 14.9995 6.34693 14.7805 5.90666 14.3433L5.35914 13.7957C5.14688 13.5842 4.86262 13.4672 4.56111 13.4665H3.79083C2.54579 13.4665 1.5325 12.4532 1.5325 11.2081V10.4371C1.53175 10.1363 1.41475 9.85209 1.20249 9.63833L0.663969 9.10056C-0.218063 8.22378 -0.221813 6.79048 0.655719 5.90769L1.20324 5.35942C1.41475 5.14717 1.53175 4.86291 1.5325 4.56139V3.79187C1.5325 2.54607 2.54579 1.53278 3.79083 1.53278H4.56186C4.86262 1.53278 5.14613 1.41578 5.35989 1.20202L5.89916 0.664252C6.77594 -0.217781 8.2085 -0.222281 9.09203 0.656001L9.63955 1.20352C9.85256 1.41578 10.1361 1.53278 10.4368 1.53278H11.2079C12.4529 1.53278 13.4662 2.54607 13.4662 3.79187V4.56214C13.4669 4.86291 13.5839 5.14717 13.7962 5.36092L14.3347 5.89944C14.7615 6.32396 14.9977 6.88948 15 7.49325C15.0015 8.09327 14.7705 8.65804 14.3497 9.08481C14.3422 9.09231 14.3355 9.10056 14.328 9.10731L13.7955 9.63983C13.5839 9.85209 13.4669 10.1363 13.4662 10.4379V11.2081C13.4662 12.4532 12.4529 13.4665 11.2079 13.4665H10.4368C10.1361 13.4672 9.85181 13.5842 9.6388 13.7965L9.09953 14.335C8.66001 14.7775 8.07949 14.9995 7.49972 14.9995Z" fill="#64B657"/>
@@ -387,13 +400,11 @@ export const HotelMemberCart = (props) => {
                         `}
                         height="15"
                         width="15" />
-                    
-                    
-                       <Text style={{
+                    <Text style={{
                         fontSize: 14,
                         color: '#FFFFFF',
                         fontWeight: '400',
-                        marginLeft:4,
+                        marginLeft: 4,
                     }}>
                         {props.data ? props.data.type : "Free for Members"}
                     </Text>
@@ -480,7 +491,7 @@ const styles = StyleSheet.create({
     body: {
         width: '100%',
         alignItems: 'center',
-        padding:10
+        padding: 10
     },
     bodyTop: {
         width: '100%',
@@ -578,7 +589,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         color: 'rgb(100,100,100)',
-        borderColor:'#D8D8D8'
+        borderColor: '#D8D8D8'
     },
     view2: {
         borderWidth: .5,
@@ -586,7 +597,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 20,
-        borderColor:'#D8D8D8'
+        borderColor: '#D8D8D8'
     },
     view3: {
         justifyContent: 'center',
@@ -666,7 +677,6 @@ const styles = StyleSheet.create({
         height: 190,
         width: 180,
         borderRadius: 10,
-        opacity: .5,
         borderRadius: 5
     },
     cart: {
@@ -675,13 +685,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginRight: 10,
         marginBottom: 40,
-        backgroundColor: '#000',
-        borderRadius: 5
+        borderRadius: 10
     },
     cartText: {
         position: 'absolute',
         marginLeft: 10,
-        marginTop: '52%'
+        height:'100%',
+        justifyContent: 'flex-end',
+        paddingBottom:8
     },
     showMoreButtonText: {
         color: '#CACACA',
