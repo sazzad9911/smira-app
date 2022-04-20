@@ -18,8 +18,10 @@ import { setDeals, setBrands, setHotels, setUser } from '../action'
 import { getAuth } from 'firebase/auth'
 import app from '../firebase';
 import { SvgXml } from 'react-native-svg';
-import { Hotels,Health, Camping,Games, 
-  Restaurant,Services,Shopping, Spa_Salons, Travel, Villas } from '../components/Icon';
+import {
+  Hotels, Health, Camping, Games,
+  Restaurant, Services, Shopping, Spa_Salons, Travel, Villas
+} from '../components/Icon';
 
 const window = Dimensions.get('window')
 const auth = getAuth(app);
@@ -122,8 +124,24 @@ const Home = ({ navigation }) => {
       }} onPress={() => {
         navigation.navigate('Search')
       }}>
-        <AntDesign name='search1' size={25} style={{ flex: 1 }} />
-        <Text style={{ flex: 6, color: 'rgb(130,130,130)' }}
+        <SvgXml
+          style={{
+            marginRight:20
+                        }}
+          xml={`<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8.83188 1.5C5.32322 1.5 2.47888 4.25814 2.47888 7.66049C2.47888 11.0628 5.32322 13.821 8.83188 13.821C12.3406 13.821 15.1849 11.0628 15.1849 7.66049C15.1849 4.25814 12.3406 1.5 8.83188 1.5ZM0.932007 7.66049C0.932007 3.42972 4.4689 0 8.83188 0C13.1949 0 16.7318 3.42972 16.7318 7.66049C16.7318 11.8913 13.1949 15.321 8.83188 15.321C4.4689 15.321 0.932007 11.8913 0.932007 7.66049Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13.2408 12.2963C13.5424 12.003 14.0321 12.0024 14.3346 12.2949L17.1286 14.9972C17.431 15.2897 17.4316 15.7646 17.13 16.0578C16.8283 16.3511 16.3386 16.3517 16.0362 16.0592L13.2422 13.3569C12.9398 13.0644 12.9391 12.5896 13.2408 12.2963Z" fill="black"/>
+</svg>
+ `}
+          height="20"
+          width="20" />
+
+        <Text style={{ 
+          flex: 6,
+          color: 'rgb(130,130,130)',
+          fontFamily:'PlusJakartaSans',
+          fontSize:12
+        }}
           placeholderTextColor={'rgb(130,130,130)'} >Hotels, Deals, Restaurants, etc</Text>
       </TouchableOpacity>
       <View style={{ width: '100%' }}>
@@ -233,13 +251,13 @@ const Home = ({ navigation }) => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-          <Text style={{ 
+          <Text style={{
             fontFamily: 'PlusJakartaSansBold',
-            fontSize: 16, 
+            fontSize: 16,
             paddingHorizontal: 5,
             paddingVertical: 15,
-             
-            }}>Deals Near You</Text>
+            paddingLeft: 10
+          }}>Deals Near You</Text>
           <TouchableOpacity style={style.outline} onPress={() => {
             navigation.navigate('Category Single', { title: 'Deals Near You' })
           }}>
@@ -269,19 +287,21 @@ const Home = ({ navigation }) => {
       >
         <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 20, paddingTop: 20, paddingBottom: 8 }}>
           <View>
-            <Text style={{ color: 'white',
-             fontSize: 18,
-             fontFamily: 'PlusJakartaSansBold',
-             lineHeight:23
-               }}>Save on top brands</Text>
-            <Text style={{color: '#ffffff',
-             fontSize: 11,
-             fontFamily: 'PlusJakartaSans',
-             lineHeight:14,
-              }}>Save big on most popular brands with us</Text>
+            <Text style={{
+              color: 'white',
+              fontSize: 18,
+              fontFamily: 'PlusJakartaSansBold',
+              lineHeight: 23
+            }}>Save on top brands</Text>
+            <Text style={{
+              color: '#ffffff',
+              fontSize: 11,
+              fontFamily: 'PlusJakartaSans',
+              lineHeight: 14,
+            }}>Save big on most popular brands with us</Text>
           </View>
         </View>
-        <ScrollView style={{ flex: 3, marginBottom: 20,marginTop:15 }} horizontal={true}>
+        <ScrollView style={{ flex: 3, marginBottom: 20, marginTop: 15 }} horizontal={true}>
           <View style={{ width: 10 }}></View>
           {
             Brand ? (
@@ -296,43 +316,43 @@ const Home = ({ navigation }) => {
       </LinearGradient>
 
       <View style={{ width: '100%', backgroundColor: 'rgb(245,245,245)', paddingTop: 15, paddingBottom: 15 }}>
-        
-      <View style={{ paddingLeft: 10, paddingRight: 10 }}>
-        <View style={{
-          width: '95%',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-          <Text style={{ 
-            fontFamily: 'PlusJakartaSansBold',
-            fontSize: 16, 
-            paddingHorizontal: 5,
-            paddingVertical: 15,
-             
-            }}>Popular Deals</Text>
-          <TouchableOpacity style={style.outline} onPress={() => {
-            navigation.navigate('Category Single', { title: 'Deals Near You' })
+
+        <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+          <View style={{
+            width: '95%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}>
-            <AntDesign name="right" size={20} color="black" />
-          </TouchableOpacity>
-        </View>
-        <ScrollView horizontal={true} >
+            <Text style={{
+              fontFamily: 'PlusJakartaSansBold',
+              fontSize: 16,
+              paddingHorizontal: 5,
+              paddingVertical: 15,
+              paddingLeft: 10
+            }}>Popular Deals</Text>
+            <TouchableOpacity style={style.outline} onPress={() => {
+              navigation.navigate('Category Single', { title: 'Deals Near You' })
+            }}>
+              <AntDesign name="right" size={20} color="black" />
+            </TouchableOpacity>
+          </View>
+          <ScrollView horizontal={true} >
 
-          {
-            BrandDeal ? (
-              BrandDeal.map(d => (
-                <SmallDealCart key={d.deal.id} icon={d.brand.image}
-                  img={d.deal.image}
-                  title={d.deal.name}
-                />
-              ))
-            ) : (
-              <ActivityIndicator size="large" color="#FA454B" />
-            )
-          }
-        </ScrollView>
-      </View>
+            {
+              BrandDeal ? (
+                BrandDeal.map(d => (
+                  <SmallDealCart key={d.deal.id} icon={d.brand.image}
+                    img={d.deal.image}
+                    title={d.deal.name}
+                  />
+                ))
+              ) : (
+                <ActivityIndicator size="large" color="#FA454B" />
+              )
+            }
+          </ScrollView>
+        </View>
 
 
 
@@ -343,7 +363,13 @@ const Home = ({ navigation }) => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 10 }}>Popular Hotels</Text>
+          <Text style={{
+            fontSize: 18,
+            fontWeight: 'bold',
+            padding: 10,
+            paddingLeft: 20,
+            fontFamily: 'PlusJakartaSansBold'
+          }}>Popular Hotels</Text>
           <TouchableOpacity style={style.outline} onPress={() => {
             navigation.navigate('Category Single', { title: 'Popular Hotel' })
           }}>
@@ -351,7 +377,7 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <ScrollView horizontal={true}>
-          <View style={{ width: 10 }}></View>
+          <View style={{ width: 10, }}></View>
           {
             Hotel ? (
               Hotel.map(d => (
@@ -372,13 +398,19 @@ export default Home
 export const IconsSet = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={[{
-      borderWidth: 1, borderColor: 'rgb(220,220,220)', minHeight: 80,
+      borderWidth: 1,
+      borderColor: 'rgb(220,220,220)', minHeight: 80,
       width: 80, borderRadius: 10, margin: 5,
       justifyContent: 'center',
       alignItems: 'center'
     }, props.style]}>
       <SvgXml height="40" width="45" style={{ margin: 5 }} xml={props.icon} />
-      <Text>{props.name}</Text>
+      <Text style={{
+        fontSize: 11,
+        fontFamily: 'PlusJakartaSansBold',
+        lineHeight: 14,
+        color: '#000000'
+      }}>{props.name}</Text>
     </TouchableOpacity>
   );
 }
@@ -388,6 +420,6 @@ const style = StyleSheet.create({
     height: 28, width: 28,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#D8D8D8'
+    backgroundColor: '#D8D8D8'
   }
 })
