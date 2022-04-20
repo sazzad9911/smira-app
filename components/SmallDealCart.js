@@ -4,7 +4,7 @@ import {View,Image,Text} from 'react-native';
 const SmallDealCart = (props) => {
     return (
         <View style={{
-            height: 130, width: 200, backgroundColor: 'white', borderRadius: 10,
+            height: 140, width: 230, backgroundColor: 'white', borderRadius: 10,
             shadowColor: 'gray',
             shadowOffset: {
                 width: 2,
@@ -18,10 +18,10 @@ const SmallDealCart = (props) => {
             marginLeft: 3,
             marginRight: 3
         }}>
-            <Image source={{ uri: props.img }} style={{ height: 70, width: 200, borderRadius: 10 }}/>
+            <Image source={{ uri: props.img }} style={{ height: 80, width: 230, borderRadius: 10 }}/>
             <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
                 <Image source={{uri:props.icon}} style={{ height: 50, width: 50, borderRadius: 25, backgroundColor: 'red' }} />
-                <Text style={{ width: 100, fontWeight: 'bold' }}>{props.title}</Text>
+                <Text style={{ width: 110, fontWeight: 'bold' }}>{props.title}</Text>
             </View>
         </View>
     );
