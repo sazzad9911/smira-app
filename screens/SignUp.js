@@ -35,6 +35,24 @@ const SignUp = (props) => {
     </svg>  
     `;
 
+    const phoneIcon = `<svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.743408 15.3311C0.743408 7.04678 7.45914 0.331055 15.7434 0.331055C24.0277 0.331055 30.7434 7.04678 30.7434 15.3311C30.7434 23.6153 24.0277 30.3311 15.7434 30.3311C7.45914 30.3311 0.743408 23.6153 0.743408 15.3311Z" fill="#4285F4"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.3984 15.6791C18.3377 18.6176 19.0045 15.2181 20.876 17.0883C22.6802 18.892 23.7172 19.2534 21.4313 21.5387C21.1449 21.7689 19.3257 24.5373 12.9321 18.1455C6.5377 11.7529 9.30459 9.93179 9.53477 9.64553C11.8263 7.35387 12.1814 8.3969 13.9857 10.2007C15.8572 12.0716 12.4591 12.7406 15.3984 15.6791L15.3984 15.6791Z" fill="white"/>
+    </svg>`
+
+    const emailIcon = `<svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.743408 15.3311C0.743408 7.04678 7.45914 0.331055 15.7434 0.331055C24.0277 0.331055 30.7434 7.04678 30.7434 15.3311C30.7434 23.6153 24.0277 30.3311 15.7434 30.3311C7.45914 30.3311 0.743408 23.6153 0.743408 15.3311Z" fill="#EB4335"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9712 12.411C10.8067 12.411 10.6549 12.473 10.5437 12.5857C10.3279 12.7954 10.3035 13.1298 10.4868 13.3634L10.5919 13.4642L14.2315 16.2257C14.6839 16.5714 15.2234 16.7542 15.7918 16.7542C16.3569 16.7542 16.9134 16.5665 17.3585 16.2257L20.9679 13.418L21.032 13.3557C21.2246 13.1281 21.2207 12.801 21.0227 12.578C20.9133 12.4633 20.7631 12.3915 20.6 12.3757C20.5887 12.3751 20.5775 12.3749 20.5663 12.3749C20.4099 12.3749 20.2623 12.4303 20.1507 12.5311L16.5435 15.3311C16.3192 15.5119 16.0361 15.6114 15.7463 15.6114C15.4564 15.6114 15.1714 15.5119 14.9436 15.3311L11.3436 12.5311C11.2344 12.4525 11.1056 12.411 10.9712 12.411H10.9712ZM19.6948 22.3311H11.7913C9.55928 22.3311 7.74341 20.5691 7.74341 18.4034V12.2588C7.74341 10.093 9.55928 8.33105 11.7913 8.33105H19.6948C20.7633 8.33105 21.8073 8.75101 22.559 9.48325C23.3228 10.2251 23.7434 11.2108 23.7434 12.2588V18.4034C23.7434 20.5691 21.9272 22.3311 19.6948 22.3311Z" fill="white"/>
+    </svg>
+    `
+
+    const googleIcon = `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M25.2408 13.6111C25.2559 12.7518 25.1654 11.894 24.9714 11.056H13.002V15.6941H20.0279C19.7589 17.3374 18.8176 18.8019 17.4215 19.7489L17.397 19.9043L21.1818 22.7785L21.4438 22.8041C23.8518 20.6239 25.2403 17.4159 25.2403 13.6111" fill="#4285F4"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.998 25.8302C16.4412 25.8302 19.332 24.7194 21.4436 22.8035L17.4191 19.7489C16.3423 20.4849 14.8969 20.9987 12.998 20.9987C9.69043 20.9797 6.76705 18.8874 5.74269 15.8061L5.59322 15.8186L1.65649 18.8035L1.60503 18.9437C3.76741 23.1661 8.17682 25.8313 12.9985 25.8302" fill="#34A853"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.74066 15.804C5.46179 15.0082 5.31789 14.173 5.3147 13.3316C5.31984 12.4915 5.45842 11.6574 5.72547 10.8592L5.71836 10.6935L1.73454 7.65907L1.60422 7.71983C-0.208983 11.2497 -0.208983 15.4132 1.60422 18.9431L5.74066 15.804" fill="#FBBC05"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.9942 5.6654C14.8214 5.63759 16.5885 6.30447 17.9247 7.52607L21.5235 4.08251C19.2154 1.96047 16.1588 0.796139 12.9942 0.833431C8.17037 0.833431 3.76232 3.49975 1.60124 7.72294L5.72588 10.8584C6.76 7.77784 9.68516 5.68788 12.9942 5.66539" fill="#EB4335"/>
+    </svg>`
+
     return (
         <ScrollView>
             <View style={{
@@ -59,19 +77,20 @@ const SignUp = (props) => {
                         marginTop: '10%',
                         padding: 10,
                         borderRadius: 40,
-                        justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row',
-                        borderColor:'#E8E8E8',
-                        borderWidth:2
-                        
+                        borderColor: '#E8E8E8',
+                        borderWidth: 2
+
                     }}>
 
-                        <FontAwesome name="phone-square" size={30} color="red" />
+                        <SvgXml xml={phoneIcon} height="30" width="30" style={{ marginLeft: 30, color: '#D8D8D8', }} />
                         <Text style={{
                             color: 'black',
-                            fontSize: 18,
-                            marginLeft: 20
+                            fontSize: 14,
+                            marginLeft: 70,
+                            fontWeight: '500',
+                            lineHeight: 18,
                         }}>SignUp with OTP</Text>
                     </TouchableOpacity>
 
@@ -81,18 +100,20 @@ const SignUp = (props) => {
                     }} style={{
                         height: 60,
                         margin: 20,
+                        padding: 10,
                         borderRadius: 40,
-                        justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row',
-                        borderColor:'#E8E8E8',
-                        borderWidth:2
+                        borderColor: '#E8E8E8',
+                        borderWidth: 2
                     }}>
-                        <MaterialIcons name="email" size={30} color="red" />
+                        <SvgXml xml={emailIcon} height="30" width="30" style={{ marginLeft: 30, color: '#D8D8D8', }} />
                         <Text style={{
                             color: 'black',
-                            fontSize: 18,
-                            marginLeft: 20
+                            fontSize: 14,
+                            marginLeft: 70,
+                            fontWeight: '500',
+                            lineHeight: 18,
                         }}>SignUp with Email</Text>
                     </TouchableOpacity>
 
@@ -103,19 +124,20 @@ const SignUp = (props) => {
                         margin: 20,
                         padding: 10,
                         borderRadius: 40,
-                        justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row',
                         color: 'rgb(100,100,100)',
-                        borderColor:'#E8E8E8',
-                        borderWidth:2
+                        borderColor: '#E8E8E8',
+                        borderWidth: 2
                     }}>
 
-                        <Fontisto name="google" size={30} color="red" />
+                        <SvgXml xml={googleIcon} height="30" width="30" style={{ marginLeft: 30, color: '#D8D8D8', }} />
                         <Text style={{
                             color: 'black',
-                            fontSize: 18,
-                            marginLeft: 20
+                            fontSize: 14,
+                            marginLeft: 70,
+                            fontWeight: '500',
+                            lineHeight: 18,
                         }}>SignUp with Google</Text>
                     </TouchableOpacity>
 
@@ -123,14 +145,19 @@ const SignUp = (props) => {
                         flexDirection: 'row',
                         justifyContent: 'center',
                         alignItems: 'center',
+                        marginTop: 20,
                     }}>
                         <Text style={{
-                            fontSize: 20
+                            fontSize: 14,
+                            fontWeight: '500',
+                            lineHeight: 18,
                         }}>Already a Member?</Text>
                         <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
                             <Text style={{
-                                fontSize: 20,
-                                color: 'red',
+                                fontSize: 14,
+                                color: '#FC444B',
+                                fontWeight: '500',
+                                lineHeight: 18,
                             }}>Login</Text>
                         </TouchableOpacity>
                     </View>

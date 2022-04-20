@@ -64,7 +64,8 @@ const Onboarding = (props) => {
                 <Text style={{
                     fontSize: 17,
                     marginTop: 5,
-                    color: '#0000008e'
+                    opacity:0.4,
+                    color: '#000000'
                 }}>Get an overview of how you are performing
                     and motivate yourself to achieve even moment</Text>
                 <View style={{
@@ -84,7 +85,6 @@ const Onboarding = (props) => {
                         flexDirection: 'row',
                     }}>
 
-                        <View style={[styles.view, { backgroundColor: index == 0 ? 'black' : '#0000008e' }]}></View>
                         <View style={[styles.view, { backgroundColor: index == 1 ? 'black' : '#0000008e' }]}></View>
                         <View style={[styles.view, { backgroundColor: index == 2 ? 'black' : '#0000008e' }]}></View>
                         <View style={[styles.view, { backgroundColor: index == 3 ? 'black' : '#0000008e' }]}></View>
@@ -99,7 +99,7 @@ const Onboarding = (props) => {
                         height: 60,
                         width: 60,
                         backgroundColor: '#FC444B',
-                        borderRadius: 20,
+                        borderRadius: 25,
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}>
