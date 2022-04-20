@@ -20,11 +20,7 @@ import app from '../firebase';
 import { SvgXml } from 'react-native-svg';
 import {
   Hotels, Health, Camping, Games,
-<<<<<<< Updated upstream
   Restaurant, Services, Shopping, Spa_Salons, Travel, Villas
-=======
-  Restaurant, Services, Shopping, Spa_Salons, Travel, Villas, Search
->>>>>>> Stashed changes
 } from '../components/Icon';
 
 const window = Dimensions.get('window')
@@ -128,7 +124,6 @@ const Home = ({ navigation }) => {
       }} onPress={() => {
         navigation.navigate('Search')
       }}>
-<<<<<<< Updated upstream
         <SvgXml
           style={{
             marginRight:20
@@ -147,11 +142,6 @@ const Home = ({ navigation }) => {
           fontFamily:'PlusJakartaSans',
           fontSize:12
         }}
-=======
-        <SvgXml style={{ marginLeft: 10 }} xml={Search} height="25" width="25" />
-        <View style={{ width: 20 }}></View>
-        <Text style={{ flex: 6, color: 'rgb(130,130,130)' }}
->>>>>>> Stashed changes
           placeholderTextColor={'rgb(130,130,130)'} >Hotels, Deals, Restaurants, etc</Text>
       </TouchableOpacity>
       <View style={{ width: '100%' }}>
@@ -272,11 +262,7 @@ const Home = ({ navigation }) => {
             fontSize: 16,
             paddingHorizontal: 5,
             paddingVertical: 15,
-<<<<<<< Updated upstream
             paddingLeft: 10
-=======
-
->>>>>>> Stashed changes
           }}>Deals Near You</Text>
           <TouchableOpacity style={style.outline} onPress={() => {
             navigation.navigate('Category Single', { title: 'Deals Near You' })
@@ -349,7 +335,6 @@ const Home = ({ navigation }) => {
               fontSize: 16,
               paddingHorizontal: 5,
               paddingVertical: 15,
-<<<<<<< Updated upstream
               paddingLeft: 10
             }}>Popular Deals</Text>
             <TouchableOpacity style={style.outline} onPress={() => {
@@ -359,19 +344,6 @@ const Home = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <ScrollView horizontal={true} >
-
-=======
-
-            }}>Popular Deals</Text>
-            <TouchableOpacity style={style.outline} onPress={() => {
-              navigation.navigate('Category Single', { title: 'Deals Near You' })
-            }}>
-              <AntDesign name="right" size={20} color="black" />
-            </TouchableOpacity>
-          </View>
-          <ScrollView horizontal={true} >
-
->>>>>>> Stashed changes
             {
               BrandDeal ? (
                 BrandDeal.map(d => (
@@ -431,19 +403,13 @@ export default Home
 export const IconsSet = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={[{
-<<<<<<< Updated upstream
       borderWidth: 1,
       borderColor: 'rgb(220,220,220)', minHeight: 80,
       width: 80, borderRadius: 10, margin: 5,
-=======
-      borderWidth: 1, borderColor: 'rgb(220,220,220)', height: 75,
-      minWidth: 80, borderRadius: 10, margin: 5,
->>>>>>> Stashed changes
       justifyContent: 'center',
       alignItems: 'center',
       padding:5
     }, props.style]}>
-<<<<<<< Updated upstream
       <SvgXml height="40" width="45" style={{ margin: 5 }} xml={props.icon} />
       <Text style={{
         fontSize: 11,
@@ -451,10 +417,6 @@ export const IconsSet = (props) => {
         lineHeight: 14,
         color: '#000000'
       }}>{props.name}</Text>
-=======
-      <SvgXml height="35" width="40" style={{ margin: 5 }} xml={props.icon} />
-      <Text>{props.name}</Text>
->>>>>>> Stashed changes
     </TouchableOpacity>
   );
 }
