@@ -6,7 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 import Screen from '../assets/Screen.png'
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import AnimatedLoader from "react-native-animated-loader";
-import {LogBox} from 'react-native';
+import { LogBox } from 'react-native';
 import app from './../firebase';
 LogBox.ignoreAllLogs();
 
@@ -59,13 +59,19 @@ const Onboarding = (props) => {
                 marginBottom: 30
             }}>
                 <Text style={{
-                    fontSize: 26
+                    fontSize: 24,
+                    fontWeight: '500',
+                    lineHeight: 30,
+                    fontFamily: 'PlusJakartaSans'
                 }}>Track your mood and {'\n'} reflect on your day</Text>
                 <Text style={{
-                    fontSize: 17,
+                    fontSize: 14,
                     marginTop: 5,
-                    opacity:0.4,
-                    color: '#000000'
+                    opacity: 0.4,
+                    color: '#000000',
+                    fontWeight: '400',
+                    lineHeight: 19,
+                    fontFamily: 'PlusJakartaSans'
                 }}>Get an overview of how you are performing
                     and motivate yourself to achieve even moment</Text>
                 <View style={{
@@ -78,7 +84,12 @@ const Onboarding = (props) => {
                     <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={{
                         flex: 1,
                     }}>
-                        <Text style={{ fontSize: 18 }}>Skip</Text>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: '500',
+                            lineHeight: 20,
+                            fontFamily: 'PlusJakartaSans',
+                        }}>Skip</Text>
                     </TouchableOpacity>
                     <View style={{
                         flex: 1,
@@ -96,8 +107,8 @@ const Onboarding = (props) => {
                             navigation.navigate('SignUp')
                         }
                     }} style={{
-                        height: 60,
-                        width: 60,
+                        height: 62,
+                        width: 62,
                         backgroundColor: '#FC444B',
                         borderRadius: 25,
                         justifyContent: 'center',
