@@ -10,7 +10,8 @@ import {useFonts } from '@expo-google-fonts/inter';
 const App = () => {
   const window = Dimensions.get('window')
   let [fontsLoaded] = useFonts({
-    'PlusJakartaSans':require('./assets/fonts/PlusJakartaSans.ttf')
+    'PlusJakartaSans':require('./assets/fonts/PlusJakartaSans.ttf'),
+    'PlusJakartaSansBold':require('./assets/fonts/PlusJakartaSansBold.ttf')
   });
 
   if (!fontsLoaded) {

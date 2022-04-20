@@ -233,7 +233,13 @@ const Home = ({ navigation }) => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 17, paddingHorizontal: 5, paddingVertical: 15 }}>Deals Near You</Text>
+          <Text style={{ 
+            fontFamily: 'PlusJakartaSansBold',
+            fontSize: 16, 
+            paddingHorizontal: 5,
+            paddingVertical: 15,
+             
+            }}>Deals Near You</Text>
           <TouchableOpacity style={style.outline} onPress={() => {
             navigation.navigate('Category Single', { title: 'Deals Near You' })
           }}>
@@ -263,11 +269,19 @@ const Home = ({ navigation }) => {
       >
         <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 20, paddingTop: 20, paddingBottom: 8 }}>
           <View>
-            <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Save on top brands</Text>
-            <Text style={{ color: 'white', marginTop: 5, }}>Save big on most popular brands with us</Text>
+            <Text style={{ color: 'white',
+             fontSize: 18,
+             fontFamily: 'PlusJakartaSansBold',
+             lineHeight:23
+               }}>Save on top brands</Text>
+            <Text style={{color: '#ffffff',
+             fontSize: 11,
+             fontFamily: 'PlusJakartaSans',
+             lineHeight:14,
+              }}>Save big on most popular brands with us</Text>
           </View>
         </View>
-        <ScrollView style={{ flex: 3, marginBottom: 10 }} horizontal={true}>
+        <ScrollView style={{ flex: 3, marginBottom: 20,marginTop:15 }} horizontal={true}>
           <View style={{ width: 10 }}></View>
           {
             Brand ? (
@@ -282,8 +296,47 @@ const Home = ({ navigation }) => {
       </LinearGradient>
 
       <View style={{ width: '100%', backgroundColor: 'rgb(245,245,245)', paddingTop: 15, paddingBottom: 15 }}>
-        <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
+        
+      <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+        <View style={{
+          width: '95%',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+          <Text style={{ 
+            fontFamily: 'PlusJakartaSansBold',
+            fontSize: 16, 
+            paddingHorizontal: 5,
+            paddingVertical: 15,
+             
+            }}>Popular Deals</Text>
+          <TouchableOpacity style={style.outline} onPress={() => {
+            navigation.navigate('Category Single', { title: 'Deals Near You' })
+          }}>
+            <AntDesign name="right" size={20} color="black" />
+          </TouchableOpacity>
         </View>
+        <ScrollView horizontal={true} >
+
+          {
+            BrandDeal ? (
+              BrandDeal.map(d => (
+                <SmallDealCart key={d.deal.id} icon={d.brand.image}
+                  img={d.deal.image}
+                  title={d.deal.name}
+                />
+              ))
+            ) : (
+              <ActivityIndicator size="large" color="#FA454B" />
+            )
+          }
+        </ScrollView>
+      </View>
+
+
+
+
         <View style={{
           width: '95%',
           flexDirection: 'row',
