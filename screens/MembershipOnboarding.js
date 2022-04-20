@@ -25,8 +25,10 @@ const MembershipOnboarding = ({ navigation }) => {
             </TouchableOpacity>
 
             <View style={{ marginBottom: 15 }}>
-                <Text style={{ textAlign: 'center', fontSize: 16, marginBottom: 7 }}>You’re invited to become</Text>
-                <Text style={{ textAlign: 'center', fontSize: 25 }}><Text style={{ color: '#F33B41', fontWeight: '600' }}>SmiraClub</Text> Member</Text>
+                <Text style={{ textAlign: 'center', fontSize: 14, marginBottom: 7,fontFamily: 'PlusJakartaSans',lineHeight:20 }}>You’re invited to become</Text>
+                <Text style={{ textAlign: 'center', fontSize: 24 ,
+            fontFamily: 'PlusJakartaSansBold',
+            }}><Text style={{ color: '#F33B41', fontWeight: '600' }}>SmiraClub</Text> Member</Text>
             </View>
             <View style={{ alignItems: 'center' }}>
                 <View style={{
@@ -43,9 +45,11 @@ const MembershipOnboarding = ({ navigation }) => {
                 }}>
                     <View style={{ flex: 0.5 }}></View>
                     <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                        <Text style={{ fontWeight: '600', color: 'white', fontSize: 35, }}>Worth of ₹ 1 lakh</Text>
-                        <View style={{ width: '80%', borderColor: 'white', borderWidth: 0.5, marginBottom: 10, marginTop: 10 }}></View>
-                        <Text style={{ color: 'white' }}>Unlimited enjoyment • Unlimited savings!</Text>
+                        <Text style={{ fontFamily: 'PlusJakartaSansBold', color: 'white', fontSize: 32, }}>Worth of ₹ 1 lakh</Text>
+                        <View style={{ width: '80%', borderColor: 'rgba(255, 255, 255, 0.3)', borderWidth: 0.5, marginBottom: 10, marginTop: 10 }}></View>
+                        <Text style={{ color: 'white',
+                    fontFamily: 'PlusJakartaSans',
+                    fontSize:14, }}>Unlimited enjoyment • Unlimited savings!</Text>
                     </View>
                     <View style={{ flex: 1 }}></View>
                     <TouchableOpacity style={{
@@ -54,12 +58,18 @@ const MembershipOnboarding = ({ navigation }) => {
                     }} onPress={() => {
                         navigation.navigate('Choose Your Membership')
                     }}>
-                        <Text style={{ fontSize: 15 }}>Claim your free month</Text>
+                        <Text style={{ fontSize: 16,
+                        fontFamily: 'PlusJakartaSans', }}>Claim your free month</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 15, }}>
-                    <Text style={{ marginBottom: 5 }}>Have a family code?</Text>
-                    <Text style={{ textDecorationLine: 'underline', color: '#FC444B' }} onPress={() => {
+                    <Text style={{ marginBottom: 5 ,
+                    fontFamily: 'PlusJakartaSans',
+                    color:'#585858',
+                    fontSize:14,}}>Have a family code?</Text>
+                    <Text style={{ textDecorationLine: 'underline', color: '#FC444B' ,
+                    fontFamily: 'PlusJakartaSans',
+                fontSize:14}} onPress={() => {
                         navigation.navigate('MemberShipInfo')
                     }}>Apply it there</Text>
                 </View>
@@ -76,11 +86,14 @@ const MembershipOnboarding = ({ navigation }) => {
                     padding: 15
                 }}>
                     <Text style={{
-                        fontWeight: '500',
-                        fontSize: 17,
+                        fontFamily: 'PlusJakartaSansBold',
+                        fontSize: 16,
                         marginBottom: 5
                     }}>Save on top brands</Text>
-                    <Text style={{ fontSize: 13 }}>Save big on most popular brands with us</Text>
+                    <Text style={{ fontSize: 11,
+                    fontFamily: 'PlusJakartaSans',
+                    fontWeight:'500'
+                    }}>Save big on most popular brands with us</Text>
                 </View>
                 <ScrollView horizontal={true} style={{ width: '100%', padding: 5 }}>
                     {
@@ -105,12 +118,20 @@ const MembershipOnboarding = ({ navigation }) => {
                     }
                 </ScrollView>
                 <View style={{ width: '100%', backgroundColor: 'rgb(245,245,245)', paddinTop: 15, paddingBottom: 15 }}>
-                    <View style={{ marginTop: 25, marginBottom: 5, borderWidth: 0.5, borderColor: 'rgb(220,220,220)', width: '90%' }}></View>
-                    <View style={{ width: '100%' }}>
-                        <Text style={{ fontSize: 17, fontWeight: '600', padding: 10 }}>Free Stays at Executive Hotels</Text>
-                        <Text style={{ paddingLeft: 10 }}>Save big on most luxury hotels with us</Text>
+                    <View style={{ marginTop: 40, marginBottom: 5, borderWidth: 0.5, borderColor: 'rgb(220,220,220)', width: '90%' }}></View>
+                    <View style={{ width: '100%', }}>
+                        <Text style={{ 
+                            fontSize: 16,
+                            fontFamily: 'PlusJakartaSansBold',
+                            fontWeight:'700',
+                            paddingLeft:10,
+                        }}>Free Stays at Executive Hotels</Text>
+                        <Text style={{ paddingLeft: 10,
+                        fontSize: 11,
+                        fontFamily: 'PlusJakartaSans',
+                        fontWeight:'500' }}>Save big on most luxury hotels with us</Text>
                     </View>
-                    <ScrollView horizontal={true} style={{ width: '100%', margin: 10 }}>
+                    <ScrollView horizontal={true} style={{ width: '100%', margin: 15 }}>
                         {
                             hotels ? (
                                 hotels.map((doc, i) => (
@@ -123,17 +144,17 @@ const MembershipOnboarding = ({ navigation }) => {
                     </ScrollView>
                 </View>
                 <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ marginTop: 40, marginBottom: 35, fontSize: 18, fontWeight: '600' }}>FAQs</Text>
+                    <Text style={{ marginTop: 30, marginBottom: 35, fontSize: 18,fontFamily:'PlusJakartaSansBold', fontWeight: '700' }}>FAQs</Text>
                     <View style={{
                         minHeight: 80, width: '90%', backgroundColor: '#F9F9F9', borderRadius: 10,
                         flexDirection: 'row', paddingLeft: 15, paddingRight: 15, paddingTop: 20, paddingBottom: 20
                     }}>
                         <View style={{ flex: 9, flexDirection: 'column', }}>
                             <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center', }}>
-                                <Text style={{ fontSize: 16, fontWeight: '500',color:'#393939' }}>What are the benefits of a SmiraClub membership?</Text>
+                                <Text style={{ fontSize: 13, fontWeight: '500',color:'#393939',fontFamily:'PlusJakartaSansBold',  }}>What are the benefits of a SmiraClub membership?</Text>
                                 <MaterialIcons name="keyboard-arrow-down" size={30} color="black" />
                             </View>
-                            <Text style={{ color: 'gray', marginTop: 15 }}>SmiraClub Membership is an all-inclusive membership program that offers a variety of deals and hotel stays. Members receive substantial discounts on a variety of services provided by popular brands, as well as unlimited hotel stays in more than 30 cities across India. Members also receive priority assistance from us.
+                            <Text style={{ color: 'gray', marginTop: 15,fontSize:12,fontFamily:'PlusJakartaSans' }}>SmiraClub Membership is an all-inclusive membership program that offers a variety of deals and hotel stays. Members receive substantial discounts on a variety of services provided by popular brands, as well as unlimited hotel stays in more than 30 cities across India. Members also receive priority assistance from us.
                             </Text>
                         </View>
                         <View style={{ flex: 1 }}></View>
@@ -147,7 +168,10 @@ const MembershipOnboarding = ({ navigation }) => {
                     }}>
                         <View style={{ flex: 9, flexDirection: 'column', }}>
                             <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center', }}>
-                                <Text style={{ fontSize: 16, fontWeight: '500',color:'#393939' }}>What are the benefits of Family Code Access feature?</Text>
+                                <Text style={{
+                            fontSize: 13,
+                             fontWeight: '500',
+                             color:'#393939',fontFamily:'PlusJakartaSansBold', }}>What are the benefits of Family Code Access feature?</Text>
                                 <MaterialIcons name="keyboard-arrow-down" size={30} color="black" />
                             </View>
 
@@ -163,7 +187,9 @@ const MembershipOnboarding = ({ navigation }) => {
                     }}>
                         <View style={{ flex: 9, flexDirection: 'column', }}>
                             <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center', }}>
-                                <Text style={{ fontSize: 16, fontWeight: '500' ,color:'#393939'}}>Are there any restrictions on the free hotel stays?</Text>
+                                <Text style={{ fontSize: 13,
+                             fontWeight: '500',
+                             color:'#393939',fontFamily:'PlusJakartaSansBold',}}>Are there any restrictions on the free hotel stays?</Text>
                                 <MaterialIcons name="keyboard-arrow-down" size={30} color="black" />
                             </View>
 
@@ -171,11 +197,11 @@ const MembershipOnboarding = ({ navigation }) => {
                         <View style={{ flex: 1 }}></View>
                     </View>
                     <View style={{marginTop:30,marginBottom:50}}>
-                        <Text style={{fontSize:17,color:'#585858',fontWeight:'500'}}>
+                        <Text style={{fontSize:14,fontFamily:'PlusJakartaSansBold',color:'#585858',fontWeight:'500'}}>
                             Still have questions?
                         </Text>
                         <TouchableOpacity>
-                        <Text style={{textAlign:'center',color:'#FC444B',fontSize:17,fontWeight:'400',textDecorationLine: 'underline',}}>
+                        <Text style={{textAlign:'center',color:'#FC444B',fontSize:14,fontWeight:'500',fontFamily:'PlusJakartaSansBold',textDecorationLine: 'underline',}}>
                             Talk to Us
                         </Text>
                         </TouchableOpacity>

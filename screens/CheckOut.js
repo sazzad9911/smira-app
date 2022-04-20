@@ -78,21 +78,27 @@ const styles = StyleSheet.create({
 
 
     text1: {
-        fontSize: 25,
+        fontSize: 20,
+        fontFamily: 'PlusJakartaSansBold',
+        fontWeight:'500',
         margin: 10,
         justifyContent: "center",
         alignItems: "center",
-
     },
 
     text2: {
-        fontSize: 17,
+        fontSize: 14,
+        fontWeight:'500',
         margin: 10,
-        color: '#585858'
+        color: '#585858',
+        fontFamily: 'PlusJakartaSans',
     },
 
     text3: {
         color: '#FC444B',
+        fontSize: 14,
+        fontWeight:'500',
+        fontFamily: 'PlusJakartaSans',
     },
 
     box: {
@@ -112,18 +118,23 @@ const styles = StyleSheet.create({
     },
 
     rupee: {
-        fontSize: 35,
+        fontSize: 30,
+        fontFamily: 'PlusJakartaSansBold',
+        fontWeight:'500'
     },
 
     underrupee: {
-        fontSize: 17,
+        fontSize: 14,
+        fontFamily: 'PlusJakartaSans',
+        fontWeight:'500',
         marginLeft: 15,
         color: '#585858'
     },
 
     underboxtext: {
-        fontSize: 15,
-        fontWeight: "bold",
+        fontSize: 14,
+        fontFamily: 'PlusJakartaSansBold',
+        fontWeight:'500',
         margin: 25,
         color: '#585858'
     },
@@ -138,7 +149,9 @@ const styles = StyleSheet.create({
     },
 
     button1text: {
-        fontSize: 15,
+        fontSize: 13,
+        fontFamily: 'PlusJakartaSans',
+        fontWeight:'500',
         color: `#ffffff`,
         textAlign: "center"
     },
@@ -154,18 +167,23 @@ const styles = StyleSheet.create({
         borderColor: '#D8D8D8'
     },
     input: {
+        fontSize: 14,
+        fontFamily: 'PlusJakartaSans',
+        fontWeight:'500',
         height: 50,
         backgroundColor: 'rgba(255,255,255,1)',
         borderRadius: 30,
         padding: 10,
-        fontSize: 18,
     },
     input1: {
+        
+        fontFamily: 'PlusJakartaSans',
+        fontWeight:'500',
         height: 50,
         backgroundColor: 'rgba(255,255,255,.2)',
         borderRadius: 10,
         padding: 10,
-        fontSize: 18,
+        fontSize: 14,
         borderWidth: 1,
         width: window.width - 30,
         marginVertical: 10,

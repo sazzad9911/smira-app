@@ -51,7 +51,8 @@ const MembershipSlide = (props) => {
                     }]}>
                         <Text style={{
                             color: 'white',
-                            fontSize: 20,
+                            fontSize: 18,
+                            fontFamily: 'PlusJakartaSansBold',
                         }}>Become a Member</Text>
                         <Text style={style.text}
                         >at ₹2999 for 2 years</Text>
@@ -68,11 +69,14 @@ const style = StyleSheet.create({
 
     text: {
         color: 'white',
-
+        fontSize:14,
+        fontFamily: 'PlusJakartaSans',
     },
     textMargin: {
         marginBottom: 15,
-        color: 'rgb(100,100,100)'
+        color: 'rgb(100,100,100)',
+        fontFamily: 'PlusJakartaSans',
+        fontSize:14,
     },
     slideView: {
         justifyContent: 'center',
@@ -94,8 +98,10 @@ const style = StyleSheet.create({
         alignItems: 'center',
     },
     slideContentHead: {
-        fontSize: 25,
-        marginBottom: 10
+        fontSize: 21,
+        marginBottom: 10,
+        fontWeight:'700',
+        fontFamily: 'PlusJakartaSansBold',
     },
     body: {
         justifyContent: 'center',
@@ -103,9 +109,10 @@ const style = StyleSheet.create({
         height: '100%'
     },
     bodyHeaderText: {
-        fontSize: 20,
-        
-        marginBottom: 10
+        fontSize: 22,
+        fontFamily: 'PlusJakartaSansBold',
+        marginBottom: 10,
+        fontWeight:'500'
     },
     bottomButton: {
         backgroundColor: '#FA454B',
