@@ -126,8 +126,9 @@ const Home = ({ navigation }) => {
       }}>
         <SvgXml
           style={{
-            marginRight:20
-                        }}
+            marginRight: 20,
+            marginLeft: 5
+          }}
           xml={`<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.83188 1.5C5.32322 1.5 2.47888 4.25814 2.47888 7.66049C2.47888 11.0628 5.32322 13.821 8.83188 13.821C12.3406 13.821 15.1849 11.0628 15.1849 7.66049C15.1849 4.25814 12.3406 1.5 8.83188 1.5ZM0.932007 7.66049C0.932007 3.42972 4.4689 0 8.83188 0C13.1949 0 16.7318 3.42972 16.7318 7.66049C16.7318 11.8913 13.1949 15.321 8.83188 15.321C4.4689 15.321 0.932007 11.8913 0.932007 7.66049Z" fill="black"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2408 12.2963C13.5424 12.003 14.0321 12.0024 14.3346 12.2949L17.1286 14.9972C17.431 15.2897 17.4316 15.7646 17.13 16.0578C16.8283 16.3511 16.3386 16.3517 16.0362 16.0592L13.2422 13.3569C12.9398 13.0644 12.9391 12.5896 13.2408 12.2963Z" fill="black"/>
@@ -136,11 +137,11 @@ const Home = ({ navigation }) => {
           height="20"
           width="20" />
 
-        <Text style={{ 
+        <Text style={{
           flex: 6,
           color: 'rgb(130,130,130)',
-          fontFamily:'PlusJakartaSans',
-          fontSize:12
+          fontFamily: 'PlusJakartaSans',
+          fontSize: 12
         }}
           placeholderTextColor={'rgb(130,130,130)'} >Hotels, Deals, Restaurants, etc</Text>
       </TouchableOpacity>
@@ -175,7 +176,7 @@ const Home = ({ navigation }) => {
       <View>
         <View style={{
           flexDirection: 'row', flexWrap: 'wrap',
-          alignItems: 'center',paddingHorizontal:20
+          alignItems: 'center', paddingHorizontal: 20
         }}>
           {
             //icon set
@@ -202,27 +203,27 @@ const Home = ({ navigation }) => {
             //navigation.navigate('Category Single', { title: 'Travel' })
           }} name="Travel" icon={Travel} />
           {
-            More?(
+            More ? (
               <IconsSet onPress={() => {
-                  //navigation.navigate('Category Single', { title: 'Health' })
-                }} name="Health" icon={Health} />
-            ):(<></>)
+                //navigation.navigate('Category Single', { title: 'Health' })
+              }} name="Health" icon={Health} />
+            ) : (<></>)
           }
           {
-            More?(
+            More ? (
               <IconsSet onPress={() => {
-                  //navigation.navigate('Category Single', { title: 'Spa' })
-                }} name="Spa & Salons" icon={Spa_Salons} />
-            ):(<></>)
+                //navigation.navigate('Category Single', { title: 'Spa' })
+              }} name="Spa & Salons" icon={Spa_Salons} />
+            ) : (<></>)
           }
           {
-            More?(
+            More ? (
               <IconsSet onPress={() => {
-                  //navigation.navigate('Category Single', { title: 'Services' })
-                }} name="Services" icon={Services} />
-            ):(<></>)
+                //navigation.navigate('Category Single', { title: 'Services' })
+              }} name="Services" icon={Services} />
+            ) : (<></>)
           }
-          
+
           <TouchableOpacity onPress={() => {
             setMore(!More)
           }} style={{
@@ -241,7 +242,13 @@ const Home = ({ navigation }) => {
               <AntDesign name={More ? "left" : "right"} size={18} color="#FC444B" />
             </View>
             <Text style={{
-              margin: 5
+              fontSize: 11,
+              fontFamily: 'PlusJakartaSans',
+              lineHeight: 14,
+              color: '#000000',
+              fontWeight: '500',
+              margin: 5,
+              marginTop: 10
             }}>{More ? "Less" : "More"}</Text>
           </TouchableOpacity>
 
@@ -292,19 +299,33 @@ const Home = ({ navigation }) => {
         start={[0, 1]} end={[1, 0]}
       >
         <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 20, paddingTop: 20, paddingBottom: 8 }}>
-          <View>
-            <Text style={{
-              color: 'white',
-              fontSize: 18,
-              fontFamily: 'PlusJakartaSansBold',
-              lineHeight: 23
-            }}>Save on top brands</Text>
-            <Text style={{
-              color: '#ffffff',
-              fontSize: 11,
-              fontFamily: 'PlusJakartaSans',
-              lineHeight: 14,
-            }}>Save big on most popular brands with us</Text>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingRight: 23,
+          }}>
+            <View>
+              <Text style={{
+                color: 'white',
+                fontSize: 18,
+                fontFamily: 'PlusJakartaSansBold',
+                lineHeight: 23
+              }}>Save on top brands</Text>
+              <Text style={{
+                color: '#ffffff',
+                fontSize: 11,
+                fontFamily: 'PlusJakartaSans',
+                lineHeight: 14,
+                marginTop: 5
+              }}>Save big on most popular brands with us</Text>
+            </View>
+
+            <TouchableOpacity style={style.outline} onPress={() => {
+              //navigation.navigate('Category Single', { title: 'Deals Near You' })
+            }}>
+              <AntDesign name="right" size={20} color="black" />
+            </TouchableOpacity>
+
           </View>
         </View>
         <ScrollView style={{ flex: 3, marginBottom: 20, marginTop: 15 }} horizontal={true}>
@@ -358,10 +379,6 @@ const Home = ({ navigation }) => {
             }
           </ScrollView>
         </View>
-
-
-
-
         <View style={{
           width: '95%',
           flexDirection: 'row',
@@ -404,18 +421,19 @@ export const IconsSet = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={[{
       borderWidth: 1,
-      borderColor: 'rgb(220,220,220)', minHeight: 80,
-      width: 80, borderRadius: 10, margin: 5,
+      borderColor: 'rgb(220,220,220)', height: 75,
+      minWidth: 80, borderRadius: 10, margin: 5,
       justifyContent: 'center',
       alignItems: 'center',
-      padding:5
+      padding: 5
     }, props.style]}>
       <SvgXml height="40" width="45" style={{ margin: 5 }} xml={props.icon} />
       <Text style={{
         fontSize: 11,
-        fontFamily: 'PlusJakartaSansBold',
+        fontFamily: 'PlusJakartaSans',
         lineHeight: 14,
-        color: '#000000'
+        color: '#000000',
+        fontWeight: '500'
       }}>{props.name}</Text>
     </TouchableOpacity>
   );
