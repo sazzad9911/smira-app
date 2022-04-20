@@ -3,6 +3,8 @@ import { View, TouchableOpacity, Modal,Platform,Image} from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons'
 import NotificationBar from './NotificationBar';
 import logo from '../assets/logo.png'
+import {Notification,Icon} from '../components/Icon'
+import {SvgXml} from 'react-native-svg'
 
 const HomeHeader = (props) => {
     const [ShowNotifications, setShowNotifications] = useState(false);
@@ -20,14 +22,11 @@ const HomeHeader = (props) => {
             }}>
                 <Feather name="menu" size={24} color="white" />
             </TouchableOpacity>
-            <Image style={{
-                width:25,
-                height:25,
-            }} source={logo}/>
+            <SvgXml xml={Icon} width="63"/>
             <TouchableOpacity onPress={() => {
                 setShowNotifications(true)
             }}>
-                <Ionicons name="ios-notifications-outline" size={24} color="white" />
+                <SvgXml xml={Notification} height="25" width="25"/>
             </TouchableOpacity>
             <Modal
                 animationType='fade'
