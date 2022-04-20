@@ -5,9 +5,17 @@ import StackNavigation from './routes/StackNavigation';
 import 'react-native-gesture-handler';
 import { Provider } from 'react-redux'
 import store from './store';
+import {useFonts } from '@expo-google-fonts/inter';
 
 const App = () => {
   const window = Dimensions.get('window')
+  let [fontsLoaded] = useFonts({
+    'PlusJakartaSans':require('./assets/fonts/PlusJakartaSans.ttf')
+  });
+
+  if (!fontsLoaded) {
+    return <Text>Loading..</Text>;
+  }
   
   return (
     <Provider store={store}>
