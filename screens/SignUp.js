@@ -91,6 +91,7 @@ const SignUp = (props) => {
                             marginLeft: 70,
                             fontWeight: '500',
                             lineHeight: 18,
+                            fontFamily: 'PlusJakartaSans',
                         }}>SignUp with OTP</Text>
                     </TouchableOpacity>
 
@@ -113,6 +114,7 @@ const SignUp = (props) => {
                             fontSize: 14,
                             marginLeft: 70,
                             fontWeight: '500',
+                            fontFamily: 'PlusJakartaSans',
                             lineHeight: 18,
                         }}>SignUp with Email</Text>
                     </TouchableOpacity>
@@ -138,6 +140,7 @@ const SignUp = (props) => {
                             marginLeft: 70,
                             fontWeight: '500',
                             lineHeight: 18,
+                            fontFamily: 'PlusJakartaSans',
                         }}>SignUp with Google</Text>
                     </TouchableOpacity>
 
@@ -151,6 +154,7 @@ const SignUp = (props) => {
                             fontSize: 14,
                             fontWeight: '500',
                             lineHeight: 18,
+                            fontFamily: 'PlusJakartaSans',
                         }}>Already a Member?</Text>
                         <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
                             <Text style={{
@@ -158,6 +162,7 @@ const SignUp = (props) => {
                                 color: '#FC444B',
                                 fontWeight: '500',
                                 lineHeight: 18,
+                                fontFamily: 'PlusJakartaSans',
                             }}>Login</Text>
                         </TouchableOpacity>
                     </View>
@@ -218,7 +223,7 @@ const SignUpWithOtp = (props) => {
                     <TouchableOpacity onPress={() => {
                         props.close(false)
                     }}>
-                        <Fontisto name="close-a" size={24} color="black" />
+                        <Fontisto name="close-a" size={15} color="black" />
                     </TouchableOpacity>
                 </View>
 
@@ -228,10 +233,15 @@ const SignUpWithOtp = (props) => {
                     marginTop: '20%',
                 }}>
                     <Text style={{
-                        fontSize: 35,
+                        fontSize: 24,
+                        fontWeight: '500',
+                        lineHeight: 30,
+                        fontFamily: 'PlusJakartaSans',
                     }}>SignUp with OTP</Text>
                     <Text style={{
-                        fontSize: 15,
+                        fontSize: 12,
+                        fontWeight: '400',
+                        lineHeight: 19,
                         marginTop: 20,
                         color: '#A7A7A7'
                     }}>Register your new account</Text>
@@ -256,6 +266,9 @@ const SignUpWithOtp = (props) => {
                                 marginTop: 50,
                                 backgroundColor: '#F5F5F5',
                                 fontSize: 20,
+                                paddingLeft: 30,
+                                paddingRight: 30,
+                                fontSize: 14,
                             }}
                         />
                     </View>
@@ -304,7 +317,12 @@ const SignUpWithOtp = (props) => {
                     }}>
                         <Text style={{
                             color: 'white',
-                            fontSize: 25,
+                            fontSize: 14,
+
+                            fontWeight: '500',
+                            lineHeight: 21,
+                            fontFamily: 'PlusJakartaSans',
+
                         }}>SUBMIT</Text>
                     </TouchableOpacity>
                 </View>
@@ -325,7 +343,7 @@ const SignUpWithOtp = (props) => {
                     marginLeft: '85%'
                 }}>
                     <TouchableOpacity onPress={() => props.close(false)}>
-                        <Fontisto name="close-a" size={24} color="black" />
+                        <Fontisto name="close-a" size={15} color="black" />
                     </TouchableOpacity>
                 </View>
 
@@ -335,10 +353,15 @@ const SignUpWithOtp = (props) => {
                     marginTop: '20%',
                 }}>
                     <Text style={{
-                        fontSize: 35,
+                        fontSize: 24,
+                        fontWeight: '500',
+                        lineHeight: 30,
+                        fontFamily: 'PlusJakartaSans',
                     }}>SignUp with OTP</Text>
                     <Text style={{
-                        fontSize: 15,
+                        fontSize: 12,
+                        fontWeight: '400',
+                        lineHeight: 19,
                         marginTop: 20,
                         color: '#A7A7A7'
                     }}>Register your new account</Text>
@@ -354,9 +377,12 @@ const SignUpWithOtp = (props) => {
                             marginTop: 50,
                             backgroundColor: '#F5F5F5',
                             fontSize: 20,
-                            width: window.width - 50
+                            width: window.width - 50,
+                            paddingLeft: 30,
+                            paddingRight: 30,
+                            fontSize: 14,
                         }}
-                        placeholder="Mobile Number with country code"
+                        placeholder="Mobile Number"
                     />
 
                     <TouchableOpacity onPress={async () => {
@@ -400,7 +426,10 @@ const SignUpWithOtp = (props) => {
                         }}>
                             <Text style={{
                                 color: 'white',
-                                fontSize: 25,
+                                fontSize: 14,
+                                fontWeight: '500',
+                                lineHeight: 21,
+                                fontFamily: 'PlusJakartaSans',
                             }}>NEXT</Text>
                         </View>
                     </TouchableOpacity>
