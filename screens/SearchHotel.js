@@ -53,12 +53,22 @@ const SearchHotel = (props) => {
                 flexDirection: 'row',
                 padding: 5,
                 justifyContent: 'space-between',
-                paddingHorizontal: 10
+                paddingHorizontal: 10,
             }}>
-                <Text>{HotelData? HotelData.length:'0'} Hotels Found</Text>
+                <Text style={{
+                    fontSize:13,
+                    fontWeight:'500',
+                    color:'#808080',
+                    fontFamily: 'PlusJakartaSans',
+                    marginLeft:10
+                }}>{HotelData? HotelData.length:'0'} Hotels Found</Text>
                 <View style={{ flexDirection: 'row' }}>
-                    <MaterialIcons name="verified" size={24} color="green" />
-                    <Text style={{ marginLeft: 5 }}>Free For Members</Text>
+                    <MaterialIcons name="verified" size={23} color="green" />
+                    <Text style={{ marginLeft: 5,
+                    fontSize:13,
+                    fontWeight:'500',
+                    color:'#000000',
+                    fontFamily: 'PlusJakartaSans', }}>Free For Members</Text>
                 </View>
             </View>
             {

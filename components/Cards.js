@@ -46,13 +46,16 @@ const Cards = (props) => {
             </ImageBackground>
 
             <View style={{ width: '100%', padding: 5, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <View>
-                    <Text style={{ fontWeight: '600',
-                     fontSize: 17,
+                <View style={{
+                    marginLeft:8
+                }}>
+                    <Text style={{ fontWeight: '700',
+                     fontSize: 18,
                       marginVertical: 5,
-                      fontFamily:'San Francisco'
+                      fontFamily: 'PlusJakartaSansBold',
                        }}>{props.title}</Text>
-                    <Text style={{ fontWeight: '400', fontSize: 15, color: 'gray', }}>{props.address}</Text>
+                    <Text style={{ fontWeight: '400', fontSize: 12, color: '#808080', 
+                fontFamily: 'PlusJakartaSans'}}>{props.address}</Text>
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('Hotel', {
                     id: props.doc.id

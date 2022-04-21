@@ -43,14 +43,20 @@ const DealCart = (props) => {
             }}>
                 <View style={{
                     flex: 4,
-                    margin: 5
+                    margin: 10
                 }}>
                     <Text style={{
-                        fontWeight: 'bold',
-                        fontSize: 18,
+                        fontFamily: 'PlusJakartaSansBold',
+                        fontWeight:'700',
+                        fontSize: 16,
                         marginBottom: 5
                     }}>{props.headLine}</Text>
-                    <Text>{props.category}</Text>
+                    <Text style={{
+                        color:'#808080',
+                        fontFamily: 'PlusJakartaSans',
+                        fontSize:12,
+                        fontWeight:'400'
+                    }}>{props.category}</Text>
                 </View>
                 <TouchableOpacity onPress={() => setmodalVisible(true)} style={{
                     justifyContent: 'center',
