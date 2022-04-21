@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
         padding: 5,
         alignItems: "center",
         width: window.width,
+        backgroundColor:'#ffffff'
     },
 
 
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
         fontFamily: 'PlusJakartaSans',
         fontWeight:'500',
         height: 50,
-        backgroundColor: 'rgba(255,255,255,1)',
+        backgroundColor: '#f5f5f5',
         borderRadius: 30,
         padding: 10,
     },
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
         fontFamily: 'PlusJakartaSans',
         fontWeight:'500',
         height: 50,
-        backgroundColor: 'rgba(255,255,255,.2)',
+        backgroundColor: '#ffffff',
         borderRadius: 10,
         padding: 10,
         fontSize: 14,

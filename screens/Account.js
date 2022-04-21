@@ -220,7 +220,7 @@ function Account({ navigation }) {
           </View>
           <TextInput
             value={Name} placeholderTextColor='rgb(130,130,130)'
-            placeholder={Name === "" ? "Full Number" : ""}
+            placeholder={Name === "" ? "Full Name" : ""}
             onChangeText={e => { setName(e) }} onEndEditing={() => {
               Save('name', Name);
             }} style={[styles.formInput, Name === "" ? styles.fontEmptyStyle : '']} />

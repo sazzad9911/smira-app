@@ -30,7 +30,8 @@ const DrawerMenu = ({ navigation }) => {
                         uri: user && user[0].image ?
                             user[0].image : 'https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png'
                     }}
-                        style={[styles.profilePicture]} />
+                        style={[styles.profilePicture]} />           
+
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
