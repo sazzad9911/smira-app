@@ -49,6 +49,25 @@ const TellToUs = () => {
                         </View>
                     </TouchableOpacity>
 
+                    <View style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginTop: 250,
+                    }}>
+                        <Text style={{
+                            fontSize: 14,
+                            fontFamily: 'PlusJakartaSans',
+                            color: '#000000',
+                        }}>Didn't got the reply?</Text>
+                        <TouchableOpacity>
+                            <Text style={{
+                                fontSize: 14,
+                                fontFamily: 'PlusJakartaSans',
+                                color: '#FC444B',
+                            }}>Call us directly</Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
 
             </View>
@@ -67,7 +86,8 @@ const style = StyleSheet.create({
     },
     headText: {
         color: '#585858',
-        fontSize: 18
+        fontSize: 14,
+        fontFamily: 'PlusJakartaSans',
     },
     inputView: {
         justifyContent: 'center',
@@ -78,7 +98,10 @@ const style = StyleSheet.create({
         margin: 12,
         padding: 10,
         borderRadius: 30,
-        backgroundColor: '#F5F5F5'
+        backgroundColor: '#F5F5F5',
+        paddingLeft: 30,
+        paddingRight: 30,
+        fontSize: 14,
     },
     inputFullName: {
         height: 50,
@@ -86,8 +109,11 @@ const style = StyleSheet.create({
         padding: 10,
         borderRadius: 30,
         backgroundColor: '#F5F5F5',
-        borderWidth:1,
-        borderColor:'#D8D8D8'
+        borderWidth: 1,
+        borderColor: '#D8D8D8',
+        paddingLeft: 30,
+        paddingRight: 30,
+        fontSize: 14,
     },
     view: {
         height: 50,
@@ -102,11 +128,13 @@ const style = StyleSheet.create({
     },
     viewtext: {
         color: '#FC444B',
-        fontSize: 20,
+        fontSize: 13,
+        fontFamily: 'PlusJakartaSans',
     },
-    inputL:{
+    inputL: {
         color: '#585858',
-        marginLeft:40,
-        fontSize:18
+        marginLeft: 40,
+        fontSize: 14,
+        fontFamily: 'PlusJakartaSans',
     }
 })
