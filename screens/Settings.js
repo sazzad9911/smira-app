@@ -114,6 +114,7 @@ const Settings = ({ navigation }) => {
                     <View style={{ flex: 1 }}>
                         <Switch
                             trackColor={{ true: '#FFE1E3', false: '#D8D8D8' }}
+                            thumbColor={checked ? "#FC444B" : "#585858"}
                             value={checked}
                             onValueChange={(value) => setChecked(value)}
                         />
@@ -129,6 +130,7 @@ const Settings = ({ navigation }) => {
                     <View style={{ flex: 1 }}>
                         <Switch
                             trackColor={{ true: '#FFE1E3', false: '#D8D8D8' }}
+                            thumbColor={checked1 ? "#FC444B" : "#585858"}
                             value={checked1}
                             onValueChange={(value1) => setChecked1(value1)}
                         />
@@ -170,6 +172,17 @@ const Settings = ({ navigation }) => {
                             }} />
                     </View>
                 </TouchableOpacity>
+
+                <View style={{
+                    alignItems:'center',
+                    marginTop: 150,
+                }}>
+                    <Text style={{
+                        color:'#D8D8D8',
+                        fontSize:12,
+                        fontFamily: 'PlusJakartaSans',
+                    }}>SmiraClub v 2.0.1</Text>
+                </View>
             </View>
         </ScrollView>
     );

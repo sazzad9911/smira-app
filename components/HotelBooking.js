@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
     View, StyleSheet,
     Dimensions, ScrollView, Text,
-    TouchableOpacity, TextInput,Alert
+    TouchableOpacity, TextInput, Alert
 } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown'
@@ -15,7 +15,7 @@ import AnimatedLoader from "react-native-animated-loader";
 const HotelBooking = (props) => {
     const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     const [CheckIn, setCheckIn] = React.useState(new Date())
-    const [CheckOut, setCheckOut] = React.useState(new Date())
+    const [CheckOut, setCheckOut] = React.useState(null)
     const [In, setIn] = React.useState(null);
     const [Out, setOut] = React.useState(null)
     const [count, setCount] = React.useState(0)
@@ -59,8 +59,9 @@ const HotelBooking = (props) => {
                 height: 140
             }}>
                 <Text style={{
-                    fontSize: 15,
-                    color: 'rgb(100,100,100)',
+                    fontSize: 14,
+                    color: '#585858',
+                    fontFamily: 'PlusJakartaSans',
                     marginTop: 50,
                     marginLeft: 40,
                 }}>Where?</Text>
@@ -75,7 +76,7 @@ const HotelBooking = (props) => {
                             setData(data)
                         }
                     })
-                }} style={style.input} />
+                }} style={style.inputT} />
                 {
                     data ? (
                         data.map((data, i) => (
@@ -96,8 +97,9 @@ const HotelBooking = (props) => {
 
             <View >
                 <Text style={{
-                    fontSize: 15,
-                    color: 'rgb(100,100,100)',
+                    fontSize: 14,
+                    color: '#585858',
+                    fontFamily: 'PlusJakartaSans',
                     marginTop: 20,
                     marginLeft: 40,
                 }}>Check-in</Text>
@@ -122,15 +124,16 @@ const HotelBooking = (props) => {
 
             <View >
                 <Text style={{
-                    fontSize: 15,
-                    color: 'rgb(100,100,100)',
+                    fontSize: 14,
+                    color: '#585858',
+                    fontFamily: 'PlusJakartaSans',
                     marginTop: 20,
                     marginLeft: 40,
                 }}>Check-out</Text>
                 <TouchableOpacity onPress={() => {
                     setOut(true)
-                }} style={[style.input, { justifyContent: 'center' }]}>
-                    {
+                }} style={[style.input, { justifyContent: 'center', }]}>
+                    {/*
                         Out ? (
                             <RNDateTimePicker value={CheckOut}
                                 onChange={(event, date) => {
@@ -142,7 +145,12 @@ const HotelBooking = (props) => {
                             <Text>{CheckOut.getDate() + " "
                                 + Months[CheckOut.getMonth()] + " " + CheckOut.getFullYear()}</Text>
                         )
-                    }
+                   */ }
+                    <View style={{
+                        flex:'end'
+                    }}>
+                        <Text>a</Text>
+                    </View>
                 </TouchableOpacity>
             </View>
 
@@ -155,7 +163,11 @@ const HotelBooking = (props) => {
                 }}>
                     <View style={{ flex: 2 }}>
                         <Text style={{ fontSize: 18 }}>Adults</Text>
-                        <Text style={{ fontSize: 15, color: 'rgb(100,100,100)', }}>Older 12 years</Text>
+                        <Text style={{
+                            fontSize: 12,
+                            color: '#808080',
+                            fontFamily: 'PlusJakartaSans',
+                        }}>Older 12 years</Text>
                     </View>
                     <View style={{
                         justifyContent: 'center',
@@ -207,7 +219,11 @@ const HotelBooking = (props) => {
                 }}>
                     <View style={{ flex: 2 }}>
                         <Text style={{ fontSize: 18 }}>Children</Text>
-                        <Text style={{ fontSize: 15, color: 'rgb(100,100,100)', }}>5-12 years old</Text>
+                        <Text style={{
+                            fontSize: 12,
+                            color: '#808080',
+                            fontFamily: 'PlusJakartaSans',
+                        }}>5-12 years old</Text>
                     </View>
                     <View style={{
                         justifyContent: 'center',
@@ -353,7 +369,8 @@ const style = StyleSheet.create({
         marginTop: 20,
     },
     Text: {
-        fontSize: 25,
+        fontSize: 18,
+        fontFamily: 'PlusJakartaSansBold',
     },
     Text1: {
         fontSize: 20,
@@ -381,15 +398,37 @@ const style = StyleSheet.create({
         marginTop: 20,
         marginLeft: 40,
     },
-    input: {
+    inputT: {
         height: 50,
         margin: 10,
         borderWidth: 1,
+        borderColor: '#D8D8D8',
         padding: 5,
         borderRadius: 30,
         width: 350,
         marginLeft: 30,
-        paddingLeft: 20
+        paddingLeft: 20,
+    },
+    input: {
+        height: 50,
+        margin: 10,
+        padding: 5,
+        borderRadius: 30,
+        width: 350,
+        marginLeft: 30,
+        paddingLeft: 20,
+        backgroundColor:'#F5F5F5',
+    },
+    inputAcctive:{
+        height: 50,
+        margin: 10,
+        borderWidth: 1,
+        borderColor: '#D8D8D8',
+        padding: 5,
+        borderRadius: 30,
+        width: 350,
+        marginLeft: 30,
+        paddingLeft: 20,
     },
     view4: {
         height: 50,
