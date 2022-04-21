@@ -16,7 +16,7 @@ const DealCart = (props) => {
             margin: 10,
             backgroundColor: 'white',
             borderRadius: 10
-        }}>
+        }}> 
             <Image style={{
                 width: '100%',
                 borderRadius: 10,

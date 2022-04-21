@@ -1,6 +1,6 @@
 import {
     Button, Image, ScrollView, StyleSheet, Text,
-    Touchable, TouchableOpacity, View
+    Touchable, TouchableOpacity, View,Linking
 } from 'react-native';
 import React from 'react';
 import {
@@ -168,7 +168,9 @@ const DrawerMenu = ({ navigation }) => {
                         width="22" />
                     <Text style={[styles.navTabText]}>Setting</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Home')}>
+                <TouchableOpacity style={[styles.navTab]} onPress={() => {
+                    Linking.openURL('https://www.google.com')
+                }}>
                     <SvgXml
                         style={[styles.tabIco]}
                         xml={`<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">

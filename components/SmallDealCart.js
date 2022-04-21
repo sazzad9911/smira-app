@@ -1,9 +1,13 @@
 import React from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, TouchableOpacity, Modal } from 'react-native';
+import DealCoupon from '../screens/DealCoupon';
 const SmallDealCart = (props) => {
+    const [modalVisible, setModalVisible] = React.useState(false)
+    const navigation = props.navigation;
+    //console.log(props.data)
 
     return (
-        <View style={{
+        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={{
             height: 140, width: 200, backgroundColor: 'white', borderRadius: 10,
             shadowColor: 'gray',
             shadowOffset: {
@@ -21,9 +25,12 @@ const SmallDealCart = (props) => {
             <Image source={{ uri: props.img }} style={{ height: 80, width: 200, borderRadius: 10 }} />
             <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
                 <Image source={{ uri: props.icon }} style={{ height: 40, width: 40, borderRadius: 25, backgroundColor: 'red' }} />
-                <Text style={{width:140,fontFamily: 'PlusJakartaSansBold', fontSize: 13, lineHeight: 16, alignItems: 'center', color: '#000000' , fontWeight:'700'}}>{props.title}</Text>
+                <Text style={{ width: 140, fontFamily: 'PlusJakartaSansBold', fontSize: 13, lineHeight: 16, alignItems: 'center', color: '#000000', fontWeight: '700' }}>{props.title}</Text>
             </View>
-        </View>
+            <Modal onRequestClose={() => setModalVisible(!modalVisible)} visible={modalVisible}>
+                <DealCoupon navigation={navigation} data={props.data} close={setModalVisible} />
+            </Modal>
+        </TouchableOpacity>
     );
 };
 

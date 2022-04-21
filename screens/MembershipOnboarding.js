@@ -223,17 +223,15 @@ const Quiz = () => {
                         color: '#393939',
                         fontFamily: 'PlusJakartaSansBold',
                     }}>What are the benefits of a SmiraClub membership?</Text>
-                    {
-                        height == 0 ? (
-                            <TouchableOpacity onPress={() => {
-                                setHeight('auto')
-                            }}>
-                                <MaterialIcons name="keyboard-arrow-down" size={30} color="black" />
-                            </TouchableOpacity>
-                        ):(
-                            <View></View>
-                        )
-                    }
+                    <TouchableOpacity onPress={() => {
+                        if (height == 0) {
+                            setHeight('auto')
+                        } else {
+                            setHeight(0)
+                        }
+                    }}>
+                        <MaterialIcons name={height ? "keyboard-arrow-up" : "keyboard-arrow-down"} size={30} color="black" />
+                    </TouchableOpacity>
                 </View>
                 <Text style={{
                     color: 'gray',

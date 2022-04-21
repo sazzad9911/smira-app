@@ -352,8 +352,13 @@ export default Hotel;
 import { LinearGradient } from 'expo-linear-gradient';
 
 export const HotelMemberCart = (props) => {
+    const navigation = props.navigation
     return (
-        <View style={styles.cart}>
+        <TouchableOpacity onPress={() => {
+            navigation.navigate('Hotel', {
+                id: props.data.id
+            })
+        }} style={styles.cart}>
             <Image
                 style={styles.cartImg}
                 source={{
@@ -361,19 +366,19 @@ export const HotelMemberCart = (props) => {
                 }}
             />
             <LinearGradient style={{
-                height:'100%',
-                width:'100%',
+                height: '100%',
+                width: '100%',
                 position: 'absolute',
-                top:0,
-                left:0,
-                borderRadius:10
+                top: 0,
+                left: 0,
+                borderRadius: 10
             }} start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} colors={['rgba(15, 15, 15, 0.311)', 'rgba(15, 15, 15, 0.466)', '#000']}>
-                
+
             </LinearGradient>
 
             <View style={styles.cartText}>
 
-                <View style={{ overflow: 'hidden',marginBottom:5 }}>
+                <View style={{ overflow: 'hidden', marginBottom: 5 }}>
                     <Text style={{
                         fontSize: 18,
                         fontFamily: 'PlusJakartaSansBold',
@@ -410,7 +415,7 @@ export const HotelMemberCart = (props) => {
                     </Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
@@ -690,9 +695,9 @@ const styles = StyleSheet.create({
     cartText: {
         position: 'absolute',
         marginLeft: 10,
-        height:'100%',
+        height: '100%',
         justifyContent: 'flex-end',
-        paddingBottom:8
+        paddingBottom: 8
     },
     showMoreButtonText: {
         color: '#CACACA',

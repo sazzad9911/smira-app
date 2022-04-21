@@ -76,7 +76,7 @@ const DealCoupon = (props) => {
                                     {data.brand}
                                 </Text>
                                 <View style={styles.input}>
-                                    <Text style={{ textAlign: 'center', fontSize: 20 }}>
+                                    <Text style={{ textAlign: 'center', fontSize: 18 }}>
                                         {data.code ? data.code : 'NO PROMO CODE'}
                                     </Text>
                                 </View>
@@ -130,7 +130,7 @@ const DealCoupon = (props) => {
                             Terms {'&'} Conditions
                         </Text>
                         <Text style={[styles.textDescrp, {
-                            height: Read ? 'auto' : 100, overflow: 'hidden', fontSize: 14,
+                            height: Read ? 'auto' : 97, overflow: 'hidden', fontSize: 14,
                             fontFamily: 'PlusJakartaSans',
                         }]}>
                             {data.conditions}

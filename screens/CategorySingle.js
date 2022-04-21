@@ -78,7 +78,7 @@ const CategorySingle = (props) => {
                         Free for Members
                     </Text>
                 </View>
-                <ScrollView>
+                <ScrollView> 
                     <View >
                         {
                             Hotels ? (

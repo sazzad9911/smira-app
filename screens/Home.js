@@ -285,6 +285,8 @@ const Home = ({ navigation }) => {
                 <SmallDealCart key={d.deal.id} icon={d.brand.image}
                   img={d.deal.image}
                   title={d.deal.name}
+                  navigation={navigation}
+                  data={d.deal}
                 />
               ))
             ) : (
@@ -371,6 +373,8 @@ const Home = ({ navigation }) => {
                   <SmallDealCart key={d.deal.id} icon={d.brand.image}
                     img={d.deal.image}
                     title={d.deal.name}
+                    navigation={navigation}
+                    data={d.deal}
                   />
                 ))
               ) : (
@@ -403,7 +407,7 @@ const Home = ({ navigation }) => {
           {
             Hotel ? (
               Hotel.map(d => (
-                <HotelMemberCart key={d.id} data={d} />
+                <HotelMemberCart key={d.id} data={d} navigation={navigation} />
               ))
             ) : (
               <ActivityIndicator size="large" color="#FA454B" />
@@ -422,7 +426,7 @@ export const IconsSet = (props) => {
     <TouchableOpacity onPress={props.onPress} style={[{
       borderWidth: 1,
       borderColor: 'rgb(220,220,220)', height: 75,
-      minWidth: 80, borderRadius: 10, margin: 5,
+      width: 82, borderRadius: 10, margin: 5,
       justifyContent: 'center',
       alignItems: 'center',
       padding: 5
