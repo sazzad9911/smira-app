@@ -123,18 +123,26 @@ const DealCoupon = (props) => {
                         </View>
                     </View>
                     <View style={styles.bottom}>
-                        <Text style={{ fontSize: 20, }}>
+                        <Text style={{
+                            fontSize: 14,
+                            fontFamily: 'PlusJakartaSans',
+                        }}>
                             Terms {'&'} Conditions
                         </Text>
                         <Text style={[styles.textDescrp, {
-                            height: Read ? 'auto' : 100, overflow: 'hidden'
+                            height: Read ? 'auto' : 100, overflow: 'hidden', fontSize: 14,
+                            fontFamily: 'PlusJakartaSans',
                         }]}>
                             {data.conditions}
                         </Text>
                         <TouchableOpacity onPress={() => {
                             setRead(!Read)
                         }}>
-                            <Text style={{ color: 'red' }}>
+                            <Text style={{
+                                color: '#FC444B',
+                                fontSize: 14,
+                                fontFamily: 'PlusJakartaSans',
+                            }}>
                                 {Read ? 'Read Less' : 'Read More'}
                             </Text>
                         </TouchableOpacity>
@@ -179,22 +187,26 @@ const styles = StyleSheet.create({
         borderWidth: 1
     },
     headingText: {
-        fontSize: 25,
+        fontSize: 18,
+        fontFamily: 'PlusJakartaSans',
         marginTop: 30,
+        margin: 30
     },
     subText: {
         color: 'rgb(100,100,100)',
-        fontSize: 20,
+        fontSize: 14,
         textAlign: 'center',
-        marginTop: 10,
-        marginBottom: 40
+        marginTop: -20,
+        marginBottom: 40,
+        fontFamily: 'PlusJakartaSans',
     },
     input: {
-        height: 70,
+        height: 60,
+        width: 270,
         margin: 12,
         padding: 20,
         borderRadius: 30,
-        backgroundColor: '#ECE6E6'
+        backgroundColor: '#F5F5F5'
     },
     textDescrp: {
         color: 'rgb(100,100,100)',
@@ -203,11 +215,11 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     view: {
-        height: 50,
+        height: 60,
         margin: 12,
         padding: 10,
         borderWidth: 1,
-        borderColor: 'red',
+        borderColor: '#FC444B',
         borderRadius: 30,
         marginTop: 30,
         marginBottom: 40,
