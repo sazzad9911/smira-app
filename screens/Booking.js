@@ -373,6 +373,8 @@ const style = StyleSheet.create({
         borderRadius: 30,
         justifyContent: 'center',
         borderColor:'#D8D8D8',
+        paddingRight:30,
+        paddingLeft:30,
     },
     view4: {
         height: 50,

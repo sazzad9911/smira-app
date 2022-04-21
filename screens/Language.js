@@ -21,7 +21,7 @@ const Language = () => {
             />
             <TouchableOpacity>
                 <View style={{
-                    height: 50,
+                    height: 40,
                     margin: 20,
                     padding: 10,
                     borderWidth: 1,
@@ -33,7 +33,8 @@ const Language = () => {
                 }}>
                     <Text style={{
                         color: '#FC444B',
-                        fontSize: 20,
+                        fontSize: 13,
+                        fontFamily: 'PlusJakartaSans'
                     }}>OKAY</Text>
                 </View>
             </TouchableOpacity>
@@ -49,13 +50,13 @@ const List = (props) => {
             props.onChange(props.title)
         }} style={{ flexDirection: 'row', marginVertical: 15 }}>
             <View style={{ flex: 5 }}>
-                <Text style={{ fontSize: 25, color: props.title == props.value ? '#FC444B' : '#585858', marginLeft: 50 }}>{props.title}</Text>
+                <Text style={{ fontSize: 14,fontFamily: 'PlusJakartaSans', color: props.title == props.value ? '#FC444B' : '#585858', marginLeft: 50 }}>{props.title}</Text>
             </View>
             <View style={{ flex: 1 }}>
                 {
                     props.title == props.value ?
                         (
-                            <Feather name="check" size={30} color="#FC444B" />
+                            <Feather name="check" size={15} color="#FC444B" />
                         ) : (
                             <View></View>
                         )
