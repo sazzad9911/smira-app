@@ -6,9 +6,8 @@ import { useSelector } from 'react-redux'
 
 const MemberShipInfo = ({ navigation }) => {
   const user = useSelector(state => state.user[0])
-  if(!user.starting_date){
-    navigation.navigate('MemberShipOnboarding')
-  }
+  //console.log(user)
+  
   const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const total = (new Date(user.ending_date).getTime() - new Date(user.starting_date).getTime()) / (1000 * 3600 * 24);
   const reminding = (new Date(user.ending_date).getTime() - new Date().getTime()) / (1000 * 3600 * 24);

@@ -4,6 +4,8 @@ import Filter from './Filter';
 import ShortBy from './ShortBy';
 import { AntDesign } from '@expo/vector-icons'
 const window = Dimensions.get('window')
+import {short } from './Icon'
+import { SvgXml } from 'react-native-svg';
 
 const SearchBottom = (props) => {
     const [modalVisible, setModalVisible] = React.useState(false)
@@ -19,34 +21,37 @@ const SearchBottom = (props) => {
         }}>
             <View style={{
                 flexDirection: 'row',
+                justifyContent: 'center',
             }}>
                 <TouchableOpacity onPress={()=>{
                     setModalVisible(true)
                     setFilter(false)
                 }} style={{
-                    borderColor: '#4c4b4bb7',
+                    borderColor: '#D8D8D8',
                     borderWidth:1,
-                    flex:1,
+                    width:65,
                     marginRight:10,
                     height:50,
                     borderRadius:30,
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
-                    <AntDesign name="swap" size={24} color="black" />
+                    <SvgXml xml={short} height="20" width="20"/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{
                     setModalVisible(true)
                     setFilter(true)
                 }} style={{
-                    borderColor: '#4c4b4bb7',
+                    borderColor: '#D8D8D8',
                     borderWidth:1,
-                    flex:3,
+                    width:245,
                     marginRight:10,
                     justifyContent: 'center',
                     alignItems: 'center',
                     height:50,
                     borderRadius:30,
+                    marginLeft:20,
+                    fontFamily:'PlusJakartaSans'
                 }}>
                 <Text>Brands     |     Filters</Text>
                 </TouchableOpacity>
@@ -54,9 +59,8 @@ const SearchBottom = (props) => {
             <Modal transparent={true} animationType='slide' visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
                 <View style={{
                     width: window.width,
-                    height: window.height - 400,
+                    maxHeight: window.height - 200,
                     backgroundColor: '#ffff',
-                    marginTop: 400,
                     borderTopLeftRadius: 20,
                     borderTopRightRadius: 20,
                     shadowOffset: {
@@ -65,16 +69,23 @@ const SearchBottom = (props) => {
                     shadowRadius: 5,
                     elevation: 5,
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    position: 'absolute',
+                    bottom: 0,
                 }}>
-                    <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={{
+                   <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={{
                         width: window.width,
                         justifyContent: 'center',
                         alignItems: 'center',
                         borderTopLeftRadius: 20,
                         borderTopRightRadius: 20,
                     }}>
-                        <AntDesign name="caretdown" size={30} color="black" />
+                        <View style={{
+                            width: 40,
+                            height: 4,
+                            margin: 15,
+                            backgroundColor: '#D8D8D8'
+                        }}></View>
                     </TouchableOpacity>
                     <ScrollView>
                         {

@@ -5,6 +5,7 @@ import hotels from './Reducers/hotels';
 import recentSearch from './Reducers/recentSearch';
 import loader from './Reducers/loader';
 import user from './Reducers/user';
+import pageSettings from './Reducers/pageSettings';
 
 const combine=combineReducers({
     brands: brands,
@@ -13,6 +14,7 @@ const combine=combineReducers({
     recentSearch: recentSearch,
     loader: loader,
     user: user,
+    pageSettings: pageSettings,
 })
 
 const store=createStore(combine);

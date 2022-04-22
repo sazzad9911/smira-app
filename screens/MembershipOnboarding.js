@@ -3,15 +3,18 @@ import React from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { HotelMemberCart } from './Hotel'
 import Brands from '../components/Brands'
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons';
+import {setFamilyCode} from '../action'
 
 const MembershipOnboarding = ({ navigation }) => {
     const brands = useSelector(state => state.brands)
     const hotels = useSelector(state => state.hotels)
+    const dispatch = useDispatch()
 
     return (
-        <ScrollView style={{ backgroundColor: 'white' }}>
+        <ScrollView showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
             <TouchableOpacity onPress={() => {
                 navigation.navigate('Home')
             }} style={{
@@ -79,7 +82,7 @@ const MembershipOnboarding = ({ navigation }) => {
                         fontFamily: 'PlusJakartaSans',
                         fontSize: 14
                     }} onPress={() => {
-                        navigation.navigate('MemberShipInfo')
+                        dispatch(setFamilyCode(true))
                     }}>Apply it there</Text>
                 </View>
                 <View style={{
@@ -105,7 +108,8 @@ const MembershipOnboarding = ({ navigation }) => {
                         fontWeight: '500'
                     }}>Save big on most popular brands with us</Text>
                 </View>
-                <ScrollView horizontal={true} style={{ width: '100%', paddingLeft: 15 }}>
+                <ScrollView showsVerticalScrollIndicator={false}
+    showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', paddingLeft: 15 }}>
                     {
                         brands ? (
                             brands.map((doc, i) => (
@@ -117,8 +121,10 @@ const MembershipOnboarding = ({ navigation }) => {
                             <ActivityIndicator size="large" color="#FA454B" />
                         )
                     }
+                    <View style={{width:20}}></View>
                 </ScrollView>
-                <ScrollView horizontal={true} style={{ width: '100%', paddingLeft: 15 }}>
+                <ScrollView showsVerticalScrollIndicator={false}
+    showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', paddingLeft: 15 }}>
                     {
                         brands ? (
                             brands.reverse().map((doc, i) => (
@@ -130,6 +136,7 @@ const MembershipOnboarding = ({ navigation }) => {
                             <ActivityIndicator size="large" color="#FA454B" />
                         )
                     }
+                    <View style={{width:20}}></View>
                 </ScrollView>
                 <View style={{ width: '100%', backgroundColor: '#F5F5F5', paddingTop: 25, paddingBottom: 20 }}>
 
@@ -147,7 +154,8 @@ const MembershipOnboarding = ({ navigation }) => {
                             fontWeight: '500'
                         }}>Save big on most luxury hotels with us</Text>
                     </View>
-                    <ScrollView horizontal={true} style={{ width: '100%', margin: 15 }}>
+                    <ScrollView showsVerticalScrollIndicator={false}
+    showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', margin: 15 }}>
                         {
                             hotels ? (
                                 hotels.map((doc, i) => (
@@ -177,7 +185,9 @@ const MembershipOnboarding = ({ navigation }) => {
                         <Text style={{ fontSize: 14, fontFamily: 'PlusJakartaSansBold', color: '#585858', fontWeight: '500' }}>
                             Still have questions?
                         </Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() =>{
+                            navigation.navigate('Talk To Us')
+                        }}>
                             <Text style={{ textAlign: 'center', color: '#FC444B', fontSize: 14, fontWeight: '500', fontFamily: 'PlusJakartaSansBold', textDecorationLine: 'underline', }}>
                                 Talk to Us
                             </Text>

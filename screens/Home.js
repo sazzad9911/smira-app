@@ -22,6 +22,7 @@ import {
   Hotels, Health, Camping, Games,
   Restaurant, Services, Shopping, Spa_Salons, Travel, Villas
 } from '../components/Icon';
+import { FamilyCode } from './Account';
 
 const window = Dimensions.get('window')
 const auth = getAuth(app);
@@ -115,7 +116,8 @@ const Home = ({ navigation }) => {
     })
   }, [])
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}
+    showsHorizontalScrollIndicator={false}>
       <StatusBar animated={true} backgroundColor='#FA454B' />
       <TouchableOpacity style={{
         borderWidth: 1, borderColor: 'rgb(220,220,220)',
@@ -182,10 +184,10 @@ const Home = ({ navigation }) => {
             //icon set
           }
           <IconsSet onPress={() => {
-            navigation.navigate('Category Single', { title: 'Popular Hotel' })
+            navigation.navigate('Hotels')
           }} name="Hotels" icon={Hotels} />
           <IconsSet onPress={() => {
-            navigation.navigate('Category Single', { title: 'Restaurant' })
+            navigation.navigate('Restaurants')
           }} name="Restaurant" icon={Restaurant} />
           <IconsSet onPress={() => {
             //navigation.navigate('Category Single', { title: 'Games' })
@@ -277,7 +279,8 @@ const Home = ({ navigation }) => {
             <AntDesign name="right" size={20} color="black" />
           </TouchableOpacity>
         </View>
-        <ScrollView horizontal={true} >
+        <ScrollView showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false} horizontal={true} >
 
           {
             BrandDeal ? (
@@ -323,14 +326,15 @@ const Home = ({ navigation }) => {
             </View>
 
             <TouchableOpacity style={style.outline} onPress={() => {
-              //navigation.navigate('Category Single', { title: 'Deals Near You' })
+              navigation.navigate('OurBrand')
             }}>
               <AntDesign name="right" size={20} color="black" />
             </TouchableOpacity>
 
           </View>
         </View>
-        <ScrollView style={{ flex: 3, marginBottom: 20, marginTop: 15 }} horizontal={true}>
+        <ScrollView showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false} style={{ flex: 3, marginBottom: 20, marginTop: 15 }} horizontal={true}>
           <View style={{ width: 10 }}></View>
           {
             Brand ? (
@@ -361,12 +365,13 @@ const Home = ({ navigation }) => {
               paddingLeft: 10
             }}>Popular Deals</Text>
             <TouchableOpacity style={style.outline} onPress={() => {
-              navigation.navigate('Category Single', { title: 'Deals Near You' })
+              navigation.navigate('Category Single', { title: 'Popular Deals' })
             }}>
               <AntDesign name="right" size={20} color="black" />
             </TouchableOpacity>
           </View>
-          <ScrollView horizontal={true} >
+          <ScrollView showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false} horizontal={true} >
             {
               BrandDeal ? (
                 BrandDeal.map(d => (
@@ -397,12 +402,13 @@ const Home = ({ navigation }) => {
             fontFamily: 'PlusJakartaSansBold'
           }}>Popular Hotels</Text>
           <TouchableOpacity style={style.outline} onPress={() => {
-            navigation.navigate('Category Single', { title: 'Popular Hotel' })
+            navigation.navigate('Category Single', { title: 'Popular Hotels' })
           }}>
             <AntDesign name="right" size={20} color="black" />
           </TouchableOpacity>
         </View>
-        <ScrollView horizontal={true}>
+        <ScrollView showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false} horizontal={true}>
           <View style={{ width: 10, }}></View>
           {
             Hotel ? (
@@ -415,6 +421,7 @@ const Home = ({ navigation }) => {
           }
         </ScrollView>
       </View>
+      <FamilyCode />
     </ScrollView>
   )
 }

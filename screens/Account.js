@@ -10,7 +10,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import image from './../assets/10.jpg'
 import { useSelector, useDispatch } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker';
-import { postData, url, setUser } from '../action'
+import { postData, url, setUser,setFamilyCode } from '../action'
 import { getAuth } from 'firebase/auth'
 import app from '../firebase';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -26,12 +26,11 @@ function Account({ navigation }) {
   const [Location, setLocation] = useState("")
   const [ProfileImage, setProfileImage] = useState("")
   const [MembershipFamilyCode, setMembershipFamilyCode] = useState("")
-  const [MemberShipFamilyCodeError, setMemberShipFamilyCodeError] = useState(false)
-  const [ShowModal, setShowModal] = useState(false)
-  const { height, width } = Dimensions.get('screen')
   const user = useSelector(state => state.user)
   const auth = getAuth(app);
   const dispatch = useDispatch()
+  const familyCode = useSelector(state => state.pageSettings.familyCode);
+  //console.log(familyCode)
 
   const profileIcon = `<svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" clip-rule="evenodd" d="M3.86305 4.29095C3.86305 2.56085 5.27073 1.15398 7.00083 1.15398C8.73013 1.15398 10.137 2.56085 10.137 4.29095C10.137 6.02024 8.73013 7.42792 7.00083 7.42792V8.00489L6.9774 7.42792C5.25457 7.42145 3.8574 6.01539 3.86305 4.29095ZM6.97494 8.58101H7.0008C9.36686 8.58101 11.2909 6.65697 11.2909 4.29091C11.2909 1.92485 9.36686 0 7.0008 0C4.63393 0 2.70908 1.92485 2.70908 4.28849C2.701 6.64808 4.61373 8.57374 6.97494 8.58101ZM1.81221 13.0693C1.81221 11.9016 3.55766 11.3101 7.00089 11.3101C10.4433 11.3101 12.188 11.9073 12.188 13.0855C12.188 14.2532 10.4433 14.8447 7.00089 14.8447C3.55766 14.8447 1.81221 14.2475 1.81221 13.0693ZM0.599976 13.0695C0.599976 16.0569 5.41775 16.0569 7.00078 16.0569C9.74745 16.0569 13.4 15.7491 13.4 13.0856C13.4 10.0981 8.58381 10.0981 7.00078 10.0981C4.25331 10.0981 0.599976 10.406 0.599976 13.0695Z" fill="black"/>
@@ -49,11 +48,11 @@ function Account({ navigation }) {
   <path fill-rule="evenodd" clip-rule="evenodd" d="M10.7023 3.31569C10.7023 3.65538 10.978 3.93107 11.3177 3.93107C11.6574 3.93107 11.9331 3.65538 11.9331 3.31569V2.54533C12.7905 2.61842 13.4846 2.90277 13.9594 3.37898C14.5002 3.92051 14.7726 4.7082 14.7693 5.72154V6.07539H1.23086V5.72154C1.23086 3.81355 2.23571 2.69931 4.07402 2.54499V3.31569C4.07402 3.65538 4.34972 3.93107 4.68941 3.93107C5.0291 3.93107 5.30479 3.65538 5.30479 3.31569V2.52646H10.7023V3.31569ZM11.9331 1.31103V0.615383C11.9331 0.275692 11.6574 0 11.3177 0C10.978 0 10.7023 0.275692 10.7023 0.615383V1.2957H5.30479V0.615383C5.30479 0.275692 5.0291 0 4.68941 0C4.34972 0 4.07402 0.275692 4.07402 0.615383V1.31131C1.54853 1.48738 0 3.14268 0 5.72154V13.1463C0 15.9189 1.7362 17.6411 4.53004 17.6411H11.4699C14.2638 17.6411 16 15.9426 16 13.2087V5.72318C16.0041 4.39149 15.5996 3.28134 14.8307 2.50924C14.1264 1.80347 13.1313 1.3931 11.9331 1.31103ZM1.23086 7.30616V13.1463C1.23086 15.2518 2.40255 16.4103 4.53014 16.4103H11.47C13.5976 16.4103 14.7693 15.2731 14.7693 13.2087V7.30616H1.23086ZM11.0336 9.89507C11.0336 10.2348 11.3126 10.5105 11.6523 10.5105C11.992 10.5105 12.2677 10.2348 12.2677 9.89507C12.2677 9.55538 11.992 9.27969 11.6523 9.27969H11.6449C11.3052 9.27969 11.0336 9.55538 11.0336 9.89507ZM8.01129 10.5105C7.6716 10.5105 7.39263 10.2348 7.39263 9.89507C7.39263 9.55538 7.66422 9.27969 8.00391 9.27969H8.01129C8.35098 9.27969 8.62668 9.55538 8.62668 9.89507C8.62668 10.2348 8.35098 10.5105 8.01129 10.5105ZM3.74316 9.89507C3.74316 10.2348 4.02296 10.5105 4.36265 10.5105C4.70234 10.5105 4.97803 10.2348 4.97803 9.89507C4.97803 9.55538 4.70234 9.27969 4.36265 9.27969H4.35527C4.01557 9.27969 3.74316 9.55538 3.74316 9.89507ZM11.6523 13.6995C11.3126 13.6995 11.0336 13.4238 11.0336 13.0841C11.0336 12.7444 11.3052 12.4688 11.6449 12.4688H11.6523C11.992 12.4688 12.2677 12.7444 12.2677 13.0841C12.2677 13.4238 11.992 13.6995 11.6523 13.6995ZM7.39263 13.0841C7.39263 13.4238 7.6716 13.6995 8.01129 13.6995C8.35098 13.6995 8.62668 13.4238 8.62668 13.0841C8.62668 12.7444 8.35098 12.4688 8.01129 12.4688H8.00391C7.66422 12.4688 7.39263 12.7444 7.39263 13.0841ZM4.36265 13.6995C4.02296 13.6995 3.74316 13.4238 3.74316 13.0841C3.74316 12.7444 4.01557 12.4688 4.35527 12.4688H4.36265C4.70234 12.4688 4.97803 12.7444 4.97803 13.0841C4.97803 13.4238 4.70234 13.6995 4.36265 13.6995Z" fill="black"/>
   </svg>`
 
-  const cityIcon =`<svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+  const cityIcon = `<svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" clip-rule="evenodd" d="M1.2364 6.85184C1.2364 3.75599 3.73221 1.23628 6.80004 1.23628C9.86787 1.23628 12.3637 3.75599 12.3637 6.85184C12.3637 10.7901 7.72813 14.6277 6.80004 14.833C5.87194 14.6286 1.2364 10.7909 1.2364 6.85184ZM0 6.85193C0 11.4965 5.32131 16.0727 6.8 16.0727C8.27869 16.0727 13.6 11.4965 13.6 6.85193C13.6 3.0736 10.5495 0 6.8 0C3.05052 0 0 3.0736 0 6.85193ZM5.35845 6.80057C5.35845 6.00435 6.00548 5.35732 6.80087 5.35732C7.59627 5.35732 8.2433 6.00435 8.2433 6.80057C8.2433 7.59597 7.59627 8.24217 6.80087 8.24217C6.00548 8.24217 5.35845 7.59597 5.35845 6.80057ZM4.12209 6.80066C4.12209 8.2777 5.32384 9.47862 6.80088 9.47862C8.27792 9.47862 9.47967 8.2777 9.47967 6.80066C9.47967 5.32279 8.27792 4.12105 6.80088 4.12105C5.32384 4.12105 4.12209 5.32279 4.12209 6.80066Z" fill="black"/>
   </svg>`
 
-  const memberIcon =`<svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+  const memberIcon = `<svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" clip-rule="evenodd" d="M7.90246 0.163257C8.08338 0.0564752 8.28979 0 8.50028 0C8.71076 0 8.91717 0.0564752 9.09809 0.163257C9.27898 0.270021 9.42762 0.423063 9.529 0.606126L11.6703 4.47236L15.3452 2.83403C15.5457 2.74465 15.7673 2.71311 15.985 2.74317C16.2027 2.77323 16.4073 2.86361 16.5758 3.00365C16.7442 3.14366 16.8699 3.32766 16.9392 3.53465C17.0085 3.74161 17.0188 3.96372 16.9689 4.17613L15.1116 12.0936C15.0751 12.2474 15.008 12.3926 14.914 12.5201C14.82 12.6477 14.701 12.7552 14.5641 12.8359C14.4272 12.9166 14.2752 12.9688 14.1173 12.9892C13.9601 13.0096 13.8004 12.9979 13.6479 12.955C10.2778 12.0226 6.71905 12.023 3.34917 12.956C3.19658 12.9989 3.03685 13.0106 2.87957 12.9903C2.72161 12.9699 2.56957 12.9177 2.4326 12.8369C2.29564 12.7561 2.17667 12.6486 2.08266 12.5209C1.98867 12.3933 1.92155 12.2481 1.88515 12.0941L1.88486 12.0929L0.0309527 4.1754C-0.0187774 3.96302 -0.00843145 3.74095 0.0608922 3.53405C0.130225 3.32712 0.255944 3.14319 0.424421 3.00324C0.592934 2.86327 0.797476 2.77294 1.01511 2.74291C1.23276 2.71287 1.45435 2.74442 1.65481 2.83378L5.33026 4.47236L7.47155 0.606126C7.57294 0.423061 7.72157 0.27002 7.90246 0.163257ZM8.50028 1.19464L6.3641 5.05164C6.22206 5.3081 5.98884 5.50297 5.70945 5.59669C5.42998 5.69044 5.12556 5.67581 4.85646 5.55585L5.53627 4.28018L5.64705 4.16486M8.50028 1.19464L10.6365 5.05164C10.7785 5.3081 11.0117 5.50297 11.2911 5.59669C11.5706 5.69044 11.875 5.67581 12.1441 5.55585L15.8107 3.9212L13.959 11.8146C10.3852 10.827 6.61149 10.8274 3.03784 11.8156L1.18928 3.92095L4.85646 5.55585L5.53627 4.28018" fill="#D8D8D8"/>
   </svg>`
   useEffect(() => {
@@ -123,67 +122,8 @@ function Account({ navigation }) {
   };
   return (
     <ScrollView style={{
-      backgroundColor:'white'
+      backgroundColor: 'white'
     }}>
-
-      <Modal
-        animationType='slide'
-        visible={ShowModal}
-        transparent={true}
-        onRequestClose={() => {
-          Alert.alert("Modal closed")
-          setShowModal(false)
-        }}
-      >
-        <View style={{
-          position: 'absolute', justifyContent: 'center', alignItems: 'center',
-          height: height, width: width, padding: 16
-        }}>
-          <View style={{
-            width: '100%', backgroundColor: 'white',
-            shadowColor: 'rgb(160,160,160)', shadowOpacity: 0.7, shadowRadius: 10, shadowOffset: {
-              height: 10, width: 0
-            }, borderRadius: 10
-          }}>
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-end', padding: 15 }}>
-              <MaterialCommunityIcons name='close' size={28} onPress={() => {
-                setShowModal(false)
-              }} />
-            </TouchableOpacity>
-            <Text style={{ textAlign: 'center', fontSize: 18, marginBottom: 20 }}>Membership Family Code</Text>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <TextInput
-                placeholder='XXXX-XXXX-XXXX-XXXX'
-                placeholderTextColor={'rgb(130,130,130)'}
-                value={MembershipFamilyCode}
-                onChangeText={text => setMembershipFamilyCode(text)}
-                style={{
-                  width: '80%', backgroundColor: 'rgb(245,245,245)', height: 40,
-                  borderRadius: 20, paddingLeft: 20, paddingRight: 20, textAlign: 'center'
-                  , marginBottom: 5,
-                }} />
-            </View>
-            {
-              MemberShipFamilyCodeError === true &&
-              <Text style={{
-                textAlign: 'center', color: 'gray', marginTop: 20,
-                marginBottom: 20
-              }}><Text style={{ color: 'red' }}>Incorrect code </Text> Please try again.</Text>
-            }
-            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-              <TouchableOpacity onPress={() => {
-
-              }} style={{
-                justifyContent: 'center', alignItems: 'center', backgroundColor: '#FB444B',
-                width: '80%', height: 40, borderRadius: 20, marginBottom: 30
-              }}>
-                <Text style={{ color: 'white', fontSize: 15, }}
-                >ADD FAMILY</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
       <View style={{ backgroundColor: '#FC444B', height: 70 }}>
         <TouchableOpacity style={{
           position: 'absolute', right: 0, top: Platform.OS == 'ios' ? 50 : 10, marginRight: 10,
@@ -259,7 +199,7 @@ function Account({ navigation }) {
           }}
           style={[styles.formRow]}>
           <View style={[styles.imageStyle, Gender === "" ? styles.imageStyleEmptyStyle : '']} >
-          <MaterialCommunityIcons
+            <MaterialCommunityIcons
               name={`${Gender.toLowerCase() === 'male' ? 'gender-male' :
                 Gender.toLocaleLowerCase() === 'female' ? 'gender-female' : 'checkbox-blank-circle-outline'}`} size={22}
               style={[Gender === "" ? styles.inactiveIcon : styles.activeIcon]} />
@@ -270,7 +210,7 @@ function Account({ navigation }) {
         </TouchableOpacity>
         <View style={[styles.formRow]}>
           <View style={[styles.imageStyle, Dob === "" ? styles.imageStyleEmptyStyle : '']} >
-          <SvgXml xml={birthdayIcon} height="25" width="20" style={[Name === "" ? styles.inactiveIcon : styles.activeIcon]} />
+            <SvgXml xml={birthdayIcon} height="25" width="20" style={[Name === "" ? styles.inactiveIcon : styles.activeIcon]} />
           </View>
           <TextInput value={Dob} placeholderTextColor='rgb(130,130,130)'
             placeholder={Dob === "" ? "Birthday" : ""}
@@ -280,7 +220,7 @@ function Account({ navigation }) {
         </View>
         <View style={[styles.formRow]}>
           <View style={[styles.imageStyle, Location === "" ? styles.imageStyleEmptyStyle : '']} >
-          <SvgXml xml={cityIcon} height="25" width="20" style={[Name === "" ? styles.inactiveIcon : styles.activeIcon]} />
+            <SvgXml xml={cityIcon} height="25" width="20" style={[Name === "" ? styles.inactiveIcon : styles.activeIcon]} />
           </View>
           <TextInput value={Location} placeholderTextColor='rgb(130,130,130)'
             placeholder={Location === "" ? "City of Residence" : ""}
@@ -292,17 +232,18 @@ function Account({ navigation }) {
       <View style={[{ borderBottomWidth: 1, borderColor: 'rgb(220,220,220)', }]}></View>
       <Text style={[styles.textMemberShip]}>Add Membership Family</Text>
 
-      <View style={[styles.formRow,{
+      <View style={[styles.formRow, {
       }]}>
         <View style={[styles.imageStyle, MembershipFamilyCode === "" ? styles.imageStyleEmptyStyle : '']} >
-        <SvgXml xml={memberIcon} height="25" width="20" style={[Name === "" ? styles.inactiveIcon : styles.activeIcon]} />
+          <SvgXml xml={memberIcon} height="25" width="20" style={[Name === "" ? styles.inactiveIcon : styles.activeIcon]} />
 
         </View>
         <TextInput onPressIn={() => {
-          setShowModal(true)
+          dispatch(setFamilyCode(true))
+          console.log('ok')
         }} value={MembershipFamilyCode} placeholderTextColor='rgb(130,130,130)'
           placeholder={MembershipFamilyCode === "" ? "Membership Family Code" : ""}
-          onChangeText={e => setMembershipFamilyCode(e)} style={[styles.formInput, MembershipFamilyCode === "" ? styles.fontEmptyStyle : '']} />
+          onChangeText={e => {}} style={[styles.formInput, MembershipFamilyCode === "" ? styles.fontEmptyStyle : '']} />
       </View>
       <View style={[{ backgroundColor: 'white' }]}>
         <TouchableOpacity style={[styles.logoutButton]} onPress={() => {
@@ -318,6 +259,75 @@ function Account({ navigation }) {
   )
 }
 export default Account
+
+
+export const FamilyCode = () => {
+  const familyCode = useSelector(state => state.pageSettings.familyCode);
+  const dispatch = useDispatch()
+  const [MemberShipFamilyCodeError, setMemberShipFamilyCodeError] = useState(false)
+  const [ShowModal, setShowModal] = useState(true)
+  const { height, width } = Dimensions.get('screen')
+  const [MembershipFamilyCode, setMembershipFamilyCode] = useState("")
+  return (
+    <Modal
+      animationType='fade'
+      visible={familyCode}
+      transparent={true}
+      onRequestClose={() => {
+        dispatch(setFamilyCode(!familyCode))
+      }}
+    >
+      <View style={{
+        position: 'absolute', justifyContent: 'center', alignItems: 'center',
+        height: height, width: width, padding: 16,backgroundColor: 'rgba(0, 0, 0, 0.357)'
+      }}>
+        <View style={{
+          width: '100%', backgroundColor: 'white',
+          shadowColor: '#000', shadowOpacity: 0.7, shadowRadius: 10, shadowOffset: {
+            height: 3, width: 3
+          }, borderRadius: 10,elevation:10
+        }}>
+          <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-end', padding: 15 }}>
+            <MaterialCommunityIcons name='close' size={28} onPress={() => {
+              dispatch(setFamilyCode(!familyCode))
+            }} />
+          </TouchableOpacity>
+          <Text style={{ textAlign: 'center', fontSize: 18, marginBottom: 20 }}>Membership Family Code</Text>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <TextInput
+              placeholder='XXXX-XXXX-XXXX-XXXX'
+              placeholderTextColor={'rgb(130,130,130)'}
+              value={MembershipFamilyCode}
+              onChangeText={text => setMembershipFamilyCode(text)}
+              style={{
+                width: '80%', backgroundColor: 'rgb(245,245,245)', height: 40,
+                borderRadius: 20, paddingLeft: 20, paddingRight: 20, textAlign: 'center'
+                , marginBottom: 5,
+              }} />
+          </View>
+          {
+            MemberShipFamilyCodeError === true &&
+            <Text style={{
+              textAlign: 'center', color: 'gray', marginTop: 20,
+              marginBottom: 20
+            }}><Text style={{ color: 'red' }}>Incorrect code </Text> Please try again.</Text>
+          }
+          <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+            <TouchableOpacity onPress={() => {
+
+            }} style={{
+              justifyContent: 'center', alignItems: 'center', backgroundColor: '#FB444B',
+              width: '80%', height: 40, borderRadius: 20, marginBottom: 30
+            }}>
+              <Text style={{ color: 'white', fontSize: 15, }}
+              >ADD FAMILY</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {

@@ -4,9 +4,9 @@ import { Feather } from '@expo/vector-icons';
 import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps';
 
 const Language = () => {
-    const [Check, setCheck] = React.useState('')
+    const [Check, setCheck] = React.useState('English (Default)')
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: 'white',height: '100%'}}>
             <List value={Check}
                 onChange={(val) => setCheck(val)}
                 title='English (Default)'
@@ -19,15 +19,16 @@ const Language = () => {
                 onChange={(val) => setCheck(val)}
                 title='Marathi'
             />
-            <TouchableOpacity>
+            <TouchableOpacity style={{
+               marginTop:'135%'
+            }}>
                 <View style={{
-                    height: 40,
+                    height: 50,
                     margin: 20,
                     padding: 10,
                     borderWidth: 1,
                     borderColor: '#FC444B',
                     borderRadius: 30,
-                    marginTop: '100%',
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>

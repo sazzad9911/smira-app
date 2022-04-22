@@ -28,7 +28,6 @@ import RedeemHistory from "../screens/RedeemHistory";
 import ForgetPassword from "../screens/ForgetPassword";
 import Language from './../screens/Language';
 import TellToUs from "../screens/TellToUs";
-import HomeHeader from "../components/HomeHeader";
 import ConfirmMessage from "../screens/ConfirmMessage";
 import HotelGallaryHeader from './../components/HotelGallaryHeader';
 import HotelGallery from "../screens/HotelGallery";
@@ -40,7 +39,7 @@ import Booking from './../screens/Booking';
 import Review from './../screens/Review';
 import BottomBar from './BottomBar';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import CategorySingle from '../screens/CategorySingle'
+import CategorySingleRoute from "../screens/CategorySingleRoute";
 
 
 const Drawer = createDrawerNavigator();
@@ -55,7 +54,7 @@ export default function DrawerApp() {
         }}
         initialRouteName='Home'
         drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}>
-        <Drawer.Screen options={{ header: (props) => <HomeHeader {...props} /> }} name="Home" component={BottomBar} />
+        <Drawer.Screen options={{ headerShown: false }} name="Home" component={BottomBar} />
         <Drawer.Screen options={{ headerShown: false }} name="PopularHotels" component={PopularHotels} />
         <Drawer.Screen options={{ headerShown: false }} name="Coupons" component={Coupons} />
         <Drawer.Screen options={{ headerShown: false }} name="Account" component={Account} />
@@ -79,7 +78,7 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Booking" component={Booking} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Review" component={Review} />
         <Drawer.Screen options={{ headerShown: false }} name="Search" component={Search} />
-        <Drawer.Screen options={{headerShown: false}} name='Category Single' component={CategorySingle} />
+        <Drawer.Screen options={{headerShown: false}} name='Category Single' component={CategorySingleRoute} />
       </Drawer.Navigator>
   ); 
 }

@@ -91,10 +91,12 @@ const Ratings = (props) => {
             alignItems: 'center',
             flexDirection: 'row',
             margin: 5,
-            backgroundColor: ratings == props.title[0] ? 'rgba(73, 246, 5, 0.269)' : '#ffff'
+            backgroundColor: ratings == props.title[0] ? 'rgba(73, 246, 5, 0.269)' : '#ffff',
+            borderColor:'#D8D8D8'
+            
         }}>
             <AntDesign name="star" size={18} color={props.color} />
-            <Text style={{ marginLeft: 5 }}>{props.title}</Text>
+            <Text style={{ marginLeft: 5,fontFamily: 'PlusJakartaSans' }}>{props.title}</Text>
         </TouchableOpacity>
     )
 }
@@ -114,9 +116,10 @@ const Category = (props) => {
             alignItems: 'center',
             flexDirection: 'row',
             margin: 5,
-            backgroundColor: category == props.title ? 'rgba(73, 246, 5, 0.269)' : '#ffff'
+            backgroundColor: category == props.title ? 'rgba(73, 246, 5, 0.269)' : '#ffff',
+            borderColor:'#D8D8D8'
         }}>
-            <Text style={{ marginLeft: 5 }}>{props.title}</Text>
+            <Text style={{ marginLeft: 5,fontFamily: 'PlusJakartaSans' }}>{props.title}</Text>
         </TouchableOpacity>
     )
 }
@@ -147,10 +150,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '800',
         margin: 5,
+        fontFamily: 'PlusJakartaSansBold'
     },
     headline: {
-        fontSize: 16,
-        margin: 5
+        fontSize: 18,
+        margin: 5,
+        fontFamily: 'PlusJakartaSans'
     },
     button: {
         backgroundColor: '#FC444B',

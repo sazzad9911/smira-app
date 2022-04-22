@@ -147,7 +147,7 @@ const HotelBooking = (props) => {
                         )
                    */ }
                     <View style={{
-                        flex:'end'
+                      
                     }}>
                         <Text>a</Text>
                     </View>

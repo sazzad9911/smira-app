@@ -22,7 +22,8 @@ const DrawerMenu = ({ navigation }) => {
     const user = useSelector(state => state.user)
 
     return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}>
             <View style={[styles.container]}>
                 <TouchableOpacity style={[styles.metaContainer]}
                     onPress={() => onNavigate('Account')}>
@@ -77,7 +78,13 @@ const DrawerMenu = ({ navigation }) => {
                     marginTop: 10,
                     marginBottom: 10
                 }}></View>
-                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('MemberShipInfo')}>
+                <TouchableOpacity style={[styles.navTab]} onPress={() => {
+                    if(user && user.starting_date){
+                        navigation.navigate('MemberShipInfo')
+                    }else{
+                        navigation.navigate('MemberShipOnboarding')
+                    }
+                }}>
                     <SvgXml
                         style={[styles.tabIco]}
                         xml={`<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">

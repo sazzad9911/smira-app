@@ -72,3 +72,9 @@ export const setUser=(doc)=>{
     playload:doc
   }
 }
+export const setFamilyCode=(doc)=>{
+  return{
+    type:'SET_FAMILY_CODE',
+    playload:doc
+  }
+}

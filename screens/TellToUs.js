@@ -2,15 +2,18 @@ import React from 'react';
 import {
     View,
     StyleSheet,
-    Text, TextInput, TouchableOpacity, ScrollView
+    Text, TextInput, TouchableOpacity, ScrollView,Linking
 } from 'react-native';
 
 const TellToUs = () => {
     const [name, onChangeName] = React.useState(null);
     const [mobile, onChangeMobile] = React.useState(null);
     const [msg, onChangeMsg] = React.useState(null);
+    const [focusName,setFocusName] = React.useState(false);
+    const [focusMobile, onFocusMobile] = React.useState(false);
+    const [focusMsg, onFocusMsg] = React.useState(false);
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: 'white'}}>
             <View style={style.body}>
                 <View>
                     <Text style={style.headText}>
@@ -21,25 +24,40 @@ const TellToUs = () => {
                     <View>
                         <Text style={style.inputL}>Full Name</Text>
                         <TextInput
-                            style={style.inputFullName}
+                            style={[style.inputFullName,{
+                                borderWidth:focusName?1:0,
+                                backgroundColor:focusName?'white':'#F5F5F5'
+                            }]}
                             onChangeName={onChangeName}
                             value={name}
+                            onFocus={() =>setFocusName(true)}
+                            onEndEditing={() => setFocusName(false)}
                         />
                     </View>
                     <View>
                         <Text style={style.inputL}>Mobile No.</Text>
                         <TextInput
-                            style={style.input}
+                            style={[style.inputFullName,{
+                                borderWidth:focusMobile?1:0,
+                                backgroundColor:focusMobile?'white':'#F5F5F5'
+                            }]}
                             onChangeMobile={onChangeMobile}
                             value={mobile}
+                            onFocus={() =>onFocusMobile(true)}
+                            onEndEditing={() => onFocusMobile(false)}
                         />
                     </View>
                     <View>
                         <Text style={style.inputL}>Your Message</Text>
                         <TextInput
-                            style={style.input}
+                            style={[style.inputFullName,{
+                                borderWidth:focusMsg?1:0,
+                                backgroundColor:focusMsg?'white':'#F5F5F5'
+                            }]}
                             onChangeMsg={onChangeMsg}
                             value={msg}
+                            onFocus={() =>onFocusMsg(true)}
+                            onEndEditing={() => onFocusMsg(false)}
                         />
                     </View>
                     <TouchableOpacity>
@@ -52,14 +70,16 @@ const TellToUs = () => {
                     <View style={{
                         display: 'flex',
                         alignItems: 'center',
-                        marginTop: 250,
+                        marginTop: '70%',
                     }}>
                         <Text style={{
                             fontSize: 14,
                             fontFamily: 'PlusJakartaSans',
                             color: '#000000',
                         }}>Didn't got the reply?</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() =>{
+                            Linking.openURL(`tel:+8801761143991`)
+                        }}>
                             <Text style={{
                                 fontSize: 14,
                                 fontFamily: 'PlusJakartaSans',

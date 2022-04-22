@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Image } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Image, StatusBar } from 'react-native'
 import { Dimensions } from 'react-native';
 import SideSwipe from 'react-native-sideswipe';
 import { AntDesign } from '@expo/vector-icons';
@@ -31,7 +31,7 @@ const Onboarding = (props) => {
     }, [])
 
     return (
-        <ScrollView>
+        <ScrollView style={{ backgroundColor: 'white' }}>
             <View style={{
                 backgroundColor: 'black'
             }}>
@@ -54,32 +54,16 @@ const Onboarding = (props) => {
                     )} />
             </View>
             <View style={{
-                height: 300,
                 padding: 30,
-                marginBottom: 30
+                marginBottom: 20,
+                
             }}>
-                <Text style={{
-                    fontSize: 24,
-                    fontWeight: '500',
-                    lineHeight: 30,
-                    fontFamily: 'PlusJakartaSans'
-                }}>Track your mood and {'\n'} reflect on your day</Text>
-                <Text style={{
-                    fontSize: 14,
-                    marginTop: 5,
-                    opacity: 0.4,
-                    color: '#000000',
-                    fontWeight: '400',
-                    lineHeight: 19,
-                    fontFamily: 'PlusJakartaSans'
-                }}>Get an overview of how you are performing
-                    and motivate yourself to achieve even moment</Text>
+
                 <View style={{
                     height: 100,
                     width: '100%',
-                    marginTop: 50,
                     flexDirection: 'row',
-                    justifyContent: 'center', alignItems: 'center'
+                    justifyContent: 'flex-end', alignItems: 'center'
                 }}>
                     <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={{
                         flex: 1,
@@ -152,11 +136,49 @@ const styles = StyleSheet.create({
         borderRadius: 1
     }
 })
-const Slider = ({ item }) => {
+import one from '../assets/one.png'
+import two from '../assets/two.png'
+import three from '../assets/three.png'
+
+const Slider = (props) => {
+    const index = props.index;
+    //console.log(index);
     return (
-        <Image source={Screen} style={{
+        <View style={{
             width: window.width,
-            height: window.height / 2 + 100,
-        }} />
+            height: window.height - 180,
+            backgroundColor: 'white'
+        }}>
+            <Image source={index == 0 ? one
+                : index == 1 ? two : three} style={{
+                    width: window.width,
+                    height: '70%',
+                }} />
+            <View style={{
+                width: '100%',
+                height: '30%',
+                justifyContent: 'center',
+                padding: 30,
+                
+            }}>
+                <Text style={{
+                    fontSize: 24,
+                    fontWeight: '500',
+                    lineHeight: 30,
+                    fontFamily: 'PlusJakartaSans'
+                }}>{index == 0 ? 'Exclusive discounts on your favourite brands'
+                    : index == 1 ? 'Discover large range of categories ' : 'Track your mood and reflect on your day'}</Text>
+                <Text style={{
+                    fontSize: 14,
+                    marginTop: 5,
+                    opacity: 0.4,
+                    color: '#000000',
+                    fontWeight: '400',
+                    lineHeight: 19,
+                    fontFamily: 'PlusJakartaSans'
+                }}>{index == 0 ? 'Get an overview of how you are performing and motivate yourself to achieve even moew.'
+                    : index == 1 ? 'Get an overview of how you are performing and motivate yourself to achieve even moew. ' : 'Get an overview of how you are performing and motivate yourself to achieve even moew.'}</Text>
+            </View>
+        </View>
     )
 }

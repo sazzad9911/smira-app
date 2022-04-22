@@ -7,7 +7,8 @@ const CheckOut = (props) => {
     const params = props.route.params
 
     return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}>
             <View style={styles.main}>
                 <View>
                     <Text style={styles.text1}>Start your 30-days trial now!</Text>

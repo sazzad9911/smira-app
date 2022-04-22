@@ -26,12 +26,12 @@ const Settings = ({ navigation }) => {
     `;
 
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: 'white' }}>
             <View style={{ marginLeft: 20 }}>
                 <Text style={{
-                    fontSize: 25,
+                    fontSize: 16,
                     color: 'black',
-                    fontWeight: 'bold'
+                    fontFamily: 'PlusJakartaSansBold'
                 }}>Account</Text>
                 <TouchableOpacity style={{ marginTop: 20 }}>
                     <View style={{ marginTop: 10, flexDirection: 'row' }}>
@@ -39,9 +39,11 @@ const Settings = ({ navigation }) => {
                             source={Picture}
                         />
                         <View style={{ marginLeft: 20, marginTop: 15, flex: 4 }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Nirmiti Gaitonde</Text>
+                            <Text style={{ fontSize: 16, 
+                            fontFamily: 'PlusJakartaSansBold' }}>Nirmiti Gaitonde</Text>
                             <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                                <Text style={{ fontSize: 15, color: '#FFC654' }}>Gold <Text style={{ color: '#585858' }}>Member</Text></Text>
+                                <Text style={{ fontSize: 14, color: '#FFC654' }}>Gold <Text style={{ color: '#585858',
+                                fontFamily: 'PlusJakartaSans' }}>Member</Text></Text>
 
                             </View>
                         </View>
@@ -51,7 +53,7 @@ const Settings = ({ navigation }) => {
                     </View>
                 </TouchableOpacity>
 
-                <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
+                <View style={{ borderWidth: 0.5, margin: 15, borderColor: '#F5F5F5' }}>
                 </View>
 
                 <TouchableOpacity onPress={() => {
@@ -61,7 +63,8 @@ const Settings = ({ navigation }) => {
                         <SvgXml xml={redeemHistory} height="20" width="20" style={{ marginLeft: 30, color: '#D8D8D8', marginLeft: 0 }} />
                     </View>
                     <View style={{ flex: 4 }}>
-                        <Text style={{ fontSize: 20, color: '#585858' }}>Redeem History</Text>
+                        <Text style={{ fontSize: 14, 
+                        color: '#585858',fontFamily: 'PlusJakartaSans' }}>Redeem History</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                         <AntDesign name="right" size={20} color="black" style={{ marginLeft: 30, color: '#D8D8D8' }} />
@@ -77,17 +80,18 @@ const Settings = ({ navigation }) => {
                         <SvgXml xml={forgetPassword} height="20" width="20" style={{ marginLeft: 30, color: '#D8D8D8', marginLeft: 0 }} />
                     </View>
                     <View style={{ flex: 4 }}>
-                        <Text style={{ fontSize: 20, color: '#585858' }}>Forgot Password</Text>
+                        <Text style={{ fontSize: 14, 
+                        color: '#585858',fontFamily: 'PlusJakartaSans' }}>Forgot Password</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                         <AntDesign name="right" size={20} color="black" style={{ marginLeft: 30, color: '#D8D8D8' }} />
                     </View>
                 </TouchableOpacity>
-                <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)', marginTop: 40 }}>
+                <View style={{ borderWidth: 0.5, margin: 15, borderColor: '#F5F5F5', marginTop: 40 }}>
                 </View>
 
                 <View>
-                    <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Settings</Text>
+                    <Text style={{ fontSize: 16, fontFamily: 'PlusJakartaSansBold', }}>Settings</Text>
                 </View>
 
                 <TouchableOpacity onPress={() => {
@@ -97,7 +101,8 @@ const Settings = ({ navigation }) => {
                         <Entypo name="language" size={24} color="black" style={{ color: '#D8D8D8' }} />
                     </View>
                     <View style={{ flex: 4 }}>
-                        <Text style={{ fontSize: 20, color: '#585858' }}>Language</Text>
+                        <Text style={{ fontSize: 14,
+                         color: '#585858',fontFamily: 'PlusJakartaSans', }}>Language</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                         <AntDesign name="right" size={20} color="black" style={{ marginLeft: 30, color: '#D8D8D8' }} />
@@ -109,7 +114,8 @@ const Settings = ({ navigation }) => {
                         <Ionicons name="notifications-outline" size={24} color="black" style={{ color: '#D8D8D8' }} />
                     </View>
                     <View style={{ flex: 4 }}>
-                        <Text style={{ fontSize: 20, color: '#585858' }}>Notification</Text>
+                        <Text style={{ fontSize: 14, 
+                        color: '#585858',fontFamily: 'PlusJakartaSans', }}>Notification</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                         <Switch
@@ -120,12 +126,13 @@ const Settings = ({ navigation }) => {
                         />
                     </View>
                 </View>
-                <View style={{ flexDirection: 'row', marginTop: 25 }}>
+                <View style={{ flexDirection: 'row', marginTop: 10 }}>
                     <View style={{ flex: 1 }}>
                         <FontAwesome name="moon-o" size={24} color="black" style={{ color: '#D8D8D8' }} />
                     </View>
                     <View style={{ flex: 4 }}>
-                        <Text style={{ fontSize: 20, color: '#585858' }}>Dark Mode</Text>
+                        <Text style={{ fontSize: 14, 
+                        color: '#585858',fontFamily: 'PlusJakartaSans', }}>Dark Mode</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                         <Switch
@@ -139,12 +146,13 @@ const Settings = ({ navigation }) => {
 
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('Talk To Us');
-                }} style={{ flexDirection: 'row', marginTop: 25 }}>
+                }} style={{ flexDirection: 'row', marginTop: 10 }}>
                     <View style={{ flex: 1 }}>
                         <Feather name="phone" size={24} color="black" style={{ color: '#D8D8D8' }} />
                     </View>
                     <View style={{ flex: 4 }}>
-                        <Text style={{ fontSize: 20, color: '#585858' }}>Talk to Us</Text>
+                        <Text style={{ fontSize: 14,
+                         color: '#585858',fontFamily: 'PlusJakartaSans', }}>Talk to Us</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                         <AntDesign name="right" size={20} color="black"
@@ -162,7 +170,8 @@ const Settings = ({ navigation }) => {
                             style={{ color: '#D8D8D8' }} />
                     </View>
                     <View style={{ flex: 4 }}>
-                        <Text style={{ fontSize: 20, color: '#585858' }}>Log out</Text>
+                        <Text style={{ fontSize: 14, color: '#585858',
+                        fontFamily: 'PlusJakartaSans' }}>Log out</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                         <AntDesign name="right" size={20} color='#000000'
@@ -175,7 +184,7 @@ const Settings = ({ navigation }) => {
 
                 <View style={{
                     alignItems:'center',
-                    marginTop: 150,
+                    marginTop: '40%',
                 }}>
                     <Text style={{
                         color:'#D8D8D8',

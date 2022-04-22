@@ -89,11 +89,11 @@ const Hotel = (props) => {
     return (
 
         <View style={{
-            width: window.width - 10,
-            marginLeft: 5,
-            height: window.height
+            width: window.width,
+            height: window.height,
+            backgroundColor:'white'
         }}>
-            <ScrollView>
+            <ScrollView style={{width: '100%'}}>
                 <View style={styles.body}>
                     <View style={styles.bodyTop}>
                         <TouchableOpacity style={styles.image} onPress={() => setModalVisible(true)}>
@@ -308,32 +308,39 @@ const Hotel = (props) => {
             <View style={{
                 backgroundColor: 'white',
                 height: 60,
-                paddingHorizontal: 20,
+                paddingHorizontal: 30,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                shadowOffset: {
+                    height: 2, width: 2
+                },
+                shadowColor: 'black',
+                shadowOpacity: 0.3,
+                shadowRadius:5,
+                elevation:5
             }}>
                 <TouchableOpacity onPress={() => navigation.navigate('Review', {
                     id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address
                 })} style={{
                     borderWidth: 1,
-                    borderColor: '#0000008e',
+                    borderColor: '#E2E2E2',
                     width: 60,
                     height: 50,
                     borderRadius: 20,
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
-                    <AntDesign name="hearto" size={24} color="black" />
+                    <AntDesign name="hearto" size={24} color="#808080" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Booking', {
                     id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address,
                     check_in: Hotel[0].check_in, check_out: Hotel[0].check_out
                 })} style={{
                     backgroundColor: '#64B657',
-                    width: 200,
+                    width: 240,
                     height: 50,
-                    borderRadius: 20,
+                    borderRadius: 30,
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
@@ -455,7 +462,8 @@ const HotelMember = ({ doc }) => {
                     }}
                 />
                 <View style={{
-
+                    width:'70%',
+                    paddingLeft:20
                 }}>
                     <Text style={{
                         fontSize: 14,
@@ -472,7 +480,8 @@ const HotelMember = ({ doc }) => {
                         {User && User[0].membership_type ? User[0].membership_type : 'No Membership'}
                     </Text>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row',height:'100%',
+                alignItems: 'center',justifyContent: 'center'}}>
                     {
                         Rating ? (
                             Rating.map((doc, j) => (
@@ -526,7 +535,8 @@ const styles = StyleSheet.create({
 
     },
     content: {
-        marginTop: 430
+        marginTop: 430,
+        width:'100%',
     },
     contentTop: {
         flexDirection: 'row',
@@ -658,7 +668,6 @@ const styles = StyleSheet.create({
     postHead: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
         marginBottom: 20,
         width: '90%'
     },

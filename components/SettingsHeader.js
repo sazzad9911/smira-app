@@ -10,7 +10,8 @@ const SettingsHeader = (props) => {
     return (
         <View style={{
             height: Platform.OS == 'ios' ? 120 : 50,
-            flexDirection: 'row'
+            flexDirection: 'row',
+            backgroundColor:'white'
         }}>
             <TouchableOpacity onPress={() => {
                 navigation.goBack();

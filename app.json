@@ -7,8 +7,16 @@
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "contain"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/Page - Explore/Componet - Top Bar/Home - Top Bar - Logo.svg",
+        "backgroundColor": "#FC444B"
+      }
+    },
+    "androidNavigationBar":{
+      
     },
     "updates": {
       "fallbackToCacheTimeout": 0

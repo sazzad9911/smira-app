@@ -19,6 +19,7 @@ const ShortBy = () => {
                 <Text style={{
                     fontSize: 20,
                     flex: 5,
+                    fontFamily: 'PlusJakartaSansBold'
                 }}>Sort By</Text>
                 <TouchableOpacity onPress={() => {
                     dispatch(setShortBy(null))
@@ -29,6 +30,7 @@ const ShortBy = () => {
                         fontSize: 15,
                         flex: 1,
                         color: 'rgb(100,100,100)',
+                        fontFamily: 'PlusJakartaSans'
                     }}>Clear All</Text>
                 </TouchableOpacity>
             </View>
@@ -47,7 +49,7 @@ const ShortBy = () => {
                 }}
                 title='Discount'
             />
-
+            <View style={{height: 20}}/>
 
         </ScrollView>
     );
@@ -59,9 +61,9 @@ const List = (props) => {
     return (
         <TouchableOpacity onPress={() => {
             props.onChange(props.title)
-        }} style={{ flexDirection: 'row', marginVertical: 15, marginTop: 20 }}>
+        }} style={{ flexDirection: 'row', marginVertical: 5, marginTop: 20 }}>
             <View style={{ flex: 5 }}>
-                <Text style={{ fontSize: 18, color: props.title.toLowerCase() == recentSearch.shortBy ? 'red' : 'black', marginLeft: 50 }}>{props.title}</Text>
+                <Text style={{ fontSize: 18,fontFamily: 'PlusJakartaSans', color: props.title.toLowerCase() == recentSearch.shortBy ? 'red' : 'black', marginLeft: 50 }}>{props.title}</Text>
             </View>
             <View style={{ flex: 1 }}>
                 {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useRef} from 'react';
 import { Constants } from 'expo';
 import { AntDesign } from '@expo/vector-icons';
 import {
@@ -21,6 +21,8 @@ const Review = (props) => {
     const [Star5, setStar5] = React.useState(false)
     const [Review, setReview] = React.useState(null);
     const [loader,setLoader] = React.useState(false);
+
+    const focusInput=useRef();
 
     const submit = () => {
         const auth = getAuth(app);
@@ -100,10 +102,12 @@ const Review = (props) => {
                     </TouchableOpacity>
                 </View>
                 <View>
-                    <Text style={{ marginEnd: '60%' }}>Review</Text>
+                    <Text style={{margin:5, marginEnd: '70%',fontFamily: 'PlusJakartaSans',}}>Review</Text>
                 </View>
-                <View style={styles.content} >
-                    <TextInput value={Review} onChangeText={setReview}
+                <TouchableOpacity onPress={() =>{
+                    focusInput.current.focus();
+                }} style={styles.content} >
+                    <TextInput ref={focusInput} value={Review} onChangeText={setReview}
                         multiline={true}
                         style={styles.textInput}
                         numberOfLines={4}
@@ -111,7 +115,7 @@ const Review = (props) => {
                         autoCapitalize="none"
                     />
                     <View style={styles.line} />
-                </View>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={submit} disabled={Review && Star1 ? false : true}>
                     <View style={[styles.view, {
                         backgroundColor: Review && Star1 ? '#FC444B' : 'white',
@@ -158,13 +162,15 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: '500',
         color: '#000000',
-        marginTop: 40
+        marginTop: 40,
+        fontFamily:'PlusJakartaSans'
     },
     headText1: {
         fontSize: 16,
         fontWeight: '400',
         color: '#808080',
-        marginBottom: 40
+        marginBottom: 40,
+        fontFamily:'PlusJakartaSans'
     },
     icon: {
         marginLeft: 10,
@@ -181,6 +187,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         fontSize: 14,
         fontWeight: '500',
+        borderRadius: 20,
+        alignItems:'flex-start',
+        fontFamily:'PlusJakartaSans'
     },
     view: {
         height: 50,

@@ -23,6 +23,10 @@ const DealCoupon = (props) => {
     const [loader, setLoader] = React.useState(false)
 
     React.useEffect(() => {
+        if(!data) {
+            setBrand(brands[0])
+            return
+        }
         brands.forEach(brand => {
             if (brand.id === data.brand_id) {
                 setBrand(brand)
@@ -55,7 +59,7 @@ const DealCoupon = (props) => {
                 <ScrollView>
                     <View>
                         <Image
-                            source={{ uri: data.image }} style={{ width: '100%', height: 300 }} />
+                            source={{ uri: data&&data.image?data.image:'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/food-offer-banner-design-template-855e1f46293f2f2af6edec050a679d39_screen.jpg?ts=1625718620' }} style={{ width: '100%', height: 300 }} />
 
                         <View style={styles.content}>
                             <View style={styles.logo}>
@@ -68,16 +72,16 @@ const DealCoupon = (props) => {
                                     )
                                 }
                             </View>
-                            <View>
+                            <View style={{alignItems: "center"}}>
                                 <Text style={styles.headingText}>
-                                    {data.name}
+                                    {data&&data.name?data.name:'Flat 45 % OFF On All Orders'}
                                 </Text>
                                 <Text style={styles.subText}>
-                                    {data.brand}
+                                    {data&&data.brand?data.brand:'We are happy to serve you special offers with the following terms and conditions.It is the responsibility of a customer to read, understand and remain knowledgeable of the '}
                                 </Text>
                                 <View style={styles.input}>
                                     <Text style={{ textAlign: 'center', fontSize: 18 }}>
-                                        {data.code ? data.code : 'NO PROMO CODE'}
+                                        {data&&data.code ? data.code : 'NO PROMO CODE'}
                                     </Text>
                                 </View>
                                 <TouchableOpacity disabled={Code ? true : false} onPress={() => {
@@ -113,7 +117,7 @@ const DealCoupon = (props) => {
                                             ) : (
                                                 <Text style={styles.viewtext}>
                                                     {
-                                                        data.code ? 'COPY CODE' : 'BOOK APPOINTMENT'
+                                                        data&&data.code ? 'COPY CODE' : 'BOOK APPOINTMENT'
                                                     }</Text>
                                             )
                                         }
@@ -133,7 +137,7 @@ const DealCoupon = (props) => {
                             height: Read ? 'auto' : 97, overflow: 'hidden', fontSize: 14,
                             fontFamily: 'PlusJakartaSans',
                         }]}>
-                            {data.conditions}
+                            {data&&data.conditions?data.conditions:'We are happy to serve you special offers with the foll owing terms and cond itions. It is the responsibility of a customer to read, unde rstand and remain know ledg ea ble of the understand and remain knowle dgea bled gea bledgeable thn owle dge able of t and remainn knowledg eable of the unde rstand and remain knowle dgeable of the f sdk warwaf a sfasfsdf asfsf '}
                         </Text>
                         <TouchableOpacity onPress={() => {
                             setRead(!Read)
@@ -190,7 +194,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'PlusJakartaSans',
         marginTop: 30,
-        margin: 30
+        margin: 30, 
+        textAlign: 'center',
     },
     subText: {
         color: 'rgb(100,100,100)',
@@ -225,6 +230,7 @@ const styles = StyleSheet.create({
         marginBottom: 40,
         justifyContent: 'center',
         alignItems: 'center',
+        width: 270,
     },
     viewtext: {
         color: 'red',

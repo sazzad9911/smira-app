@@ -8,7 +8,7 @@ const ForgetPassword = (props) => {
     const [Confirm, setConfirm] = React.useState(false);
 
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: 'white'}}>
             {
                 Confirm ? (
                     <ConfirmMessage navigation={props.navigation} />
@@ -30,11 +30,14 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 30,
         marginTop: 50,
-        backgroundColor: '#F5F5F5'
+        backgroundColor: '#F5F5F5',
+        paddingHorizontal:20,
+        fontFamily: 'PlusJakartaSans',
     },
     text: {
         marginTop: 50,
         marginLeft: 20,
+        fontFamily: 'PlusJakartaSans',
     },
 
     view: {
@@ -50,7 +53,8 @@ const styles = StyleSheet.create({
     },
     viewtext: {
         color: '#FC444B',
-        fontSize: 20,
+        fontSize: 14,
+        fontFamily: 'PlusJakartaSans',
     },
     cartText: {
         marginLeft: 30,
@@ -59,17 +63,29 @@ const styles = StyleSheet.create({
 });
 export default ForgetPassword;
 const GetInstruction = (props) => {
+    const [focus,setFocus] = React.useState(false)
     return (
         <View>
             <View style={styles.text}>
-                <Text style={{ fontSize: 20, color:'#585858' }}>Enter the email associated with your account{'\n'}
+                <Text style={{ fontSize: 14,fontFamily: 'PlusJakartaSans', color:'#585858' }}>Enter the email associated with your account{'\n'}
                     and we'll send an email with instructions to {'\n'}
-                    reset your password</Text>
+                    reset your password.</Text>
             </View>
             <View >
                 <TextInput
-                    style={styles.input}
-                    onChangeText={props.onChange}
+                    style={[styles.input,{
+                        borderColor: '#D8D8D8',
+                        borderWidth:focus?1:0,
+                    }]}
+                    onChangeText={(val)=>{
+                        props.onChange(val);
+                    }}
+                    onEndEditing={()=>{
+                        setFocus(false);
+                    }}
+                    onFocus={()=>{
+                        setFocus(true);
+                    }}
                     value={props.value}
                     placeholder="Your email address"
                 />

@@ -47,9 +47,9 @@ const NotificationBar = (props) => {
                 Notifications.length > 0 &&
                 <ScrollView>
                     {
-                        Notifications.map(notification => {
+                        Notifications.map((notification,i) => {
                             return (
-                                <View style={{ padding: 10, alignItems: 'center', paddingHorizontal: 20, opacity: notification.read ? .3 : 1 }}>
+                                <View key={i} style={{ padding: 10, alignItems: 'center', paddingHorizontal: 20, opacity: notification.read ? .3 : 1 }}>
                                     <Text style={{ fontWeight: 'bold', margin: 2, width: '100%' }}>{notification.title}</Text>
                                     <Text style={{ color: 'gray', margin: 2, width: '100%' }}>{notification.visibleText}</Text>
                                     <View style={{ borderWidth: 0.5, width: '100%', borderColor: 'rgb(220,220,220)', marginTop: 10 }}></View>

@@ -34,32 +34,35 @@ const BookingHistory = (props) => {
                 <View style={style.view1}>
                     <View style={style.view3}>
                         <Text style={{
-                            fontSize: 15,
+                            fontSize: 12,
                             color: 'rgb(100,100,100)',
+                            fontFamily: 'PlusJakartaSans',
                         }}>Check-in</Text>
                         <Text style={{
-                            fontSize: 25,
-                            fontWeight:'bold'
+                            fontSize: 18,
+                            fontFamily: 'PlusJakartaSansBold',
                         }}>12:00 PM</Text>
                     </View>
                     <View style={style.view2}></View>
                     <View style={style.view3}>
                         <Text style={{
-                            fontSize: 15,
+                            fontSize: 12,
                             color: 'rgb(100,100,100)',
+                            fontFamily: 'PlusJakartaSans',
                         }}>Check-out</Text>
                         <Text style={{
-                            fontSize: 25,
-                            fontWeight:'bold'
+                            fontSize: 18,
+                            fontFamily: 'PlusJakartaSansBold',
                         }}>10:00 AM</Text>
                     </View>
                 </View>
                 <View >
                     <Text style={{
-                        fontSize: 15,
+                        fontSize: 12,
                         color: 'rgb(100,100,100)',
                         marginTop: 50,
                         marginLeft: 40,
+                        fontFamily: 'PlusJakartaSans',
                     }}>Check-in</Text>
                     <TextInput
                         style={style.input}
@@ -71,10 +74,11 @@ const BookingHistory = (props) => {
 
                 <View >
                     <Text style={{
-                        fontSize: 15,
+                        fontSize: 12,
                         color: 'rgb(100,100,100)',
                         marginTop: 20,
                         marginLeft: 40,
+                        fontFamily: 'PlusJakartaSans',
                     }}>Check-out</Text>
                     <TextInput
                         style={style.input}
@@ -87,31 +91,43 @@ const BookingHistory = (props) => {
                 <View>
                     <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20, marginTop: 50 }}>
                         <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }}>Aduits</Text>
-                            <Text style={{ fontSize: 20, color: 'rgb(100,100,100)', }}>Older 12 years</Text>
+                            <Text style={{ fontSize: 14,fontFamily: 'PlusJakartaSans'}}>Aduits</Text>
+                            <Text style={{ fontSize: 12,
+                             color: 'rgb(100,100,100)',
+                             fontFamily: 'PlusJakartaSans' }}>Older 12 years</Text>
                         </View>
                         <View style={style.view4}>
-                            <Text style={{ fontSize: 20, }}>2</Text>
+                            <Text style={{ fontSize: 14,
+                            fontFamily: 'PlusJakartaSans' }}>2</Text>
                         </View>
                     </View>
 
                     <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20 }}>
                         <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }}>Children</Text>
-                            <Text style={{ fontSize: 20, color: 'rgb(100,100,100)', }}>5-12 years old</Text>
+                            <Text style={{ fontSize: 14,
+                            fontFamily: 'PlusJakartaSans' }}>Children</Text>
+                            <Text style={{ fontSize: 12, 
+                            color: 'rgb(100,100,100)',
+                            fontFamily: 'PlusJakartaSans'
+                             }}>5-12 years old</Text>
                         </View>
                         <View style={style.view4}>
-                            <Text style={{ fontSize: 20, }}>1</Text>
+                            <Text style={{ fontSize: 14,
+                            fontFamily: 'PlusJakartaSans' }}>1</Text>
                         </View>
                     </View>
 
                     <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20 }}>
                         <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }}>Rooms</Text>
-                            <Text style={{ fontSize: 20, color: 'rgb(100,100,100)', }}></Text>
+                            <Text style={{ fontSize: 14,
+                            fontFamily: 'PlusJakartaSans' }}>Rooms</Text>
+                            <Text style={{ fontSize: 12,
+                             color: 'rgb(100,100,100)',
+                             fontFamily: 'PlusJakartaSans' }}></Text>
                         </View>
                         <View style={style.view4}>
-                            <Text style={{ fontSize: 20, }}>1</Text>
+                            <Text style={{ fontSize: 14,
+                            fontFamily: 'PlusJakartaSans' }}>1</Text>
                         </View>
                     </View>
                     <TouchableOpacity>
@@ -140,9 +156,10 @@ const style = StyleSheet.create({
         height: 50
     },
     font: {
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: '600',
-        marginLeft: -50
+        marginLeft: -50,
+        fontFamily: 'PlusJakartaSansBold',
     },
     view: {
         justifyContent: 'center',
@@ -150,15 +167,17 @@ const style = StyleSheet.create({
         marginTop: 40,
     },
     Text: {
-        fontSize: 30,
+        fontSize: 20,
+        fontFamily: 'PlusJakartaSans',
     },
     Text1: {
-        fontSize: 20,
+        fontSize: 14,
         color: '#808080',
+        fontFamily: 'PlusJakartaSans',
     },
     view1: {
         borderWidth: .5,
-        height: 130,
+        height: 90,
         marginTop: 50,
         margin: 12,
         padding: 10,
@@ -166,18 +185,20 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         color: 'rgb(100,100,100)',
+        borderColor: '#D8D8D8'
     },
     view2: {
         borderWidth: .5,
-        height: 100,
+        height: 70,
         width: 1,
-        marginLeft: 35,
+        borderColor: '#D8D8D8'
 
     },
     view3: {
-        marginTop: 20,
-        marginLeft: 40,
-
+        marginTop: 10,
+        flex:2,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     input: {
         height: 50,
@@ -185,13 +206,15 @@ const style = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         borderRadius: 30,
-        borderColor: '#D8D8D8'
+        borderColor: '#D8D8D8',
+        fontFamily: 'PlusJakartaSans',
+        fontSize:13,
     },
     view4: {
-        height: 50,
-        width: 50,
+        height: 40,
+        width: 40,
         margin: 12,
-        padding: 10,
+        padding: 5,
         borderRadius: 30,
         backgroundColor: '#F5F5F5',
         justifyContent: 'center',
@@ -211,7 +234,8 @@ const style = StyleSheet.create({
     },
     viewtext: {
         color: '#FC444B',
-        fontSize: 20,
+        fontSize: 16,
+        fontFamily: 'PlusJakartaSans'
     },
 
 })
