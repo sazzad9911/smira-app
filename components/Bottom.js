@@ -9,7 +9,8 @@ import {activeExplore,inactiveExplore,activeCategory,
     inactiveCategory,
     activeMembership,
     inactiveMembership,activeCall,inactiveCall} from './Icon'
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {setBottomSheet} from '../action'
 
 const window = Dimensions.get('window')
 const Bottom = (props) => {
@@ -17,6 +18,7 @@ const Bottom = (props) => {
     const navigation = props.navigation;
     const [modalVisible, setModalVisible] = React.useState(false)
     const user = useSelector(state => state.user)
+    const dispatch = useDispatch()
 
     return (
         <View style={styles.view}>
@@ -24,7 +26,7 @@ const Bottom = (props) => {
             </View>
             <TouchableOpacity onPress={() => {
                 setActive('calendar')
-                setModalVisible(true)
+                dispatch(setBottomSheet('calendar'))
             }} style={styles.center}>
                 <Feather name="calendar" size={27} color="#ffff" />
             </TouchableOpacity>
@@ -38,7 +40,7 @@ const Bottom = (props) => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     setActive('category')
-                    setModalVisible(true)
+                    dispatch(setBottomSheet('category'))
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <SvgXml xml={active == 'category' ? activeCategory : inactiveCategory} height="20" width="20" />
                     <Text style={{ color: active == 'category' ? 'black' : '#D8D8D8', fontSize: 12 }}>Category</Text>
@@ -64,50 +66,6 @@ const Bottom = (props) => {
                     <Text style={{ color: active == 'call' ? 'black' : '#D8D8D8', fontSize: 12 }}>Call Us</Text>
                 </TouchableOpacity>
             </View>
-            <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
-                <View style={{
-                    width: window.width,
-                    maxHeight: window.height - 200,
-                    backgroundColor: '#ffff',
-                    borderTopLeftRadius: 20,
-                    borderTopRightRadius: 20,
-                    shadowOffset: {
-                        height: 2, width: 2
-                    }, shadowOpacity: .4,
-                    shadowRadius: 5,
-                    elevation: 5,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    position: 'absolute',
-                    bottom: 0,
-                }}>
-                    <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={{
-                        width: window.width,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderTopLeftRadius: 20,
-                        borderTopRightRadius: 20,
-                    }}>
-                        <View style={{
-                            width: 40,
-                            height: 4,
-                            margin: 15,
-                            backgroundColor: '#D8D8D8'
-                        }}></View>
-                    </TouchableOpacity>
-                    <ScrollView style={{ width: '100%' }}>
-                        {
-                            active == 'calendar' ?
-                                (
-                                    <HotelBooking navigation={navigation} />
-                                ) :
-                                (
-                                    <Category close={setModalVisible} navigation={navigation} />
-                                )
-                        }
-                    </ScrollView>
-                </View>
-            </Modal>
         </View>
     );
 };

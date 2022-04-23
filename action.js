@@ -78,3 +78,9 @@ export const setFamilyCode=(doc)=>{
     playload:doc
   }
 }
+export const setBottomSheet=(doc)=>{
+  return{
+    type:'SET_BOTTOM_SHEET',
+    playload:doc
+  }
+}

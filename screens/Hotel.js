@@ -28,7 +28,7 @@ const Hotel = (props) => {
 
     React.useEffect(() => {
         if (params.id) {
-            postData(url + '/getData', {
+            let first=postData(url + '/getData', {
                 tableName: 'hotels',
                 condition: "id=" + "'" + params.id + "'"
             }).then(data => {
@@ -38,11 +38,10 @@ const Hotel = (props) => {
                     return setHotel(data)
                 }
                 console.log('Hotel.js->' + data.message)
-            }).catch(err => {
-                Alert.alert('Error', err.code)
+                return first
             })
             ///-----------------------------------
-            postData(url + '/getData', {
+            const second=postData(url + '/getData', {
                 tableName: 'hotels',
                 condition: "id<>" + "'" + params.id + "'"
             }).then(data => {
@@ -50,12 +49,10 @@ const Hotel = (props) => {
                     return setOtherHotels(data)
                 }
                 console.log('Hotel.js->' + data.message)
-            }).catch(err => {
-                Alert.alert('Error', err.code)
+                return second
             })
-
             ///-----------------------------------
-            postData(url + '/getData', {
+            const third=postData(url + '/getData', {
                 tableName: 'hotel_reviews',
                 condition: "hotel_id=" + "'" + params.id + "'"
             }).then(data => {
@@ -63,11 +60,10 @@ const Hotel = (props) => {
                     return setRatings(data)
                 }
                 console.log('Hotel.js->' + data.message)
-            }).catch(err => {
-                Alert.alert('Error', err.code)
+                return third
             })
             //get hotels images
-            postData(url + '/getData', {
+            const forth=postData(url + '/getData', {
                 tableName: 'hotel_photos',
                 condition: "hotel_id=" + "'" + params.id + "'"
             }).then(data => {
@@ -79,8 +75,7 @@ const Hotel = (props) => {
                     return setImages(arr);
                 }
                 console.log(data.message)
-            }).catch(err => {
-                console.log(err.code)
+                return forth
             })
         }
     }, [params.id + route])

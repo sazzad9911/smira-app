@@ -8,7 +8,7 @@ const Hotels = (props) => {
     const navigation = props.navigation
     const [Hotels, setHotels] = React.useState(null)
     React.useEffect(() => {
-        postData(url + "/getData", {
+       let data =postData(url + "/getData", {
             tableName: 'hotels',
             orderColumn: 'popularity'
         }).then(data => {
@@ -16,6 +16,7 @@ const Hotels = (props) => {
                 return setHotels(data)
             }
             console.log('PopularHotels.js->' + data.message)
+            return data
         })
     }, [])
     return (

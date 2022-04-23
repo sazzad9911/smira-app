@@ -10,6 +10,7 @@ const ConfirmMessage = (props) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100%',
+                backgroundColor: 'white'
             }}>
                 <AntDesign name="checkcircle" size={50} color="red" />
                 <Text style={{
