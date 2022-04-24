@@ -23,6 +23,7 @@ import {
   Restaurant, Services, Shopping, Spa_Salons, Travel, Villas
 } from '../components/Icon';
 import { FamilyCode } from './Account';
+import {setLoader} from '../action'
 
 
 const window = Dimensions.get('window')
@@ -290,6 +291,7 @@ const Home = ({ navigation }) => {
           }}>Deals Near You</Text>
           <TouchableOpacity style={style.outline} onPress={() => {
             navigation.navigate('Category Single', { title: 'Deals Near You' })
+            dispatch(setLoader('PopularDeal'))
           }}>
             <AntDesign name="right" size={20} color="black" />
           </TouchableOpacity>
@@ -381,6 +383,7 @@ const Home = ({ navigation }) => {
             }}>Popular Deals</Text>
             <TouchableOpacity style={style.outline} onPress={() => {
               navigation.navigate('Category Single', { title: 'Popular Deals' })
+              dispatch(setLoader('PopularDeal'))
             }}>
               <AntDesign name="right" size={20} color="black" />
             </TouchableOpacity>
@@ -394,7 +397,7 @@ const Home = ({ navigation }) => {
                     img={d.deal.image}
                     title={d.deal.name}
                     navigation={navigation}
-                    data={d.deal}
+                    data={d.deal} 
                   />
                 ))
               ) : (
@@ -418,6 +421,8 @@ const Home = ({ navigation }) => {
           }}>Popular Hotels</Text>
           <TouchableOpacity style={style.outline} onPress={() => {
             navigation.navigate('Category Single', { title: 'Popular Hotels' })
+            dispatch(setLoader('SearchHotel'))
+
           }}>
             <AntDesign name="right" size={20} color="black" />
           </TouchableOpacity>

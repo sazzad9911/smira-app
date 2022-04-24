@@ -1,12 +1,37 @@
 import React from 'react';
-import { View, Text, Image, ScrollView } from 'react-native'
+import { View, Text, Image, ScrollView, StyleSheet,ActivityIndicator } from 'react-native'
 import Picture from '../assets/10.jpg'
 import RedeemHistoryCart from '../components/RedeemHistoryCart';
+import { useSelector } from 'react-redux'
+import { postData, url } from '../action'
+import { getAuth } from 'firebase/auth';
+import app from '../firebase';
 
 
 const RedeemHistory = () => {
+    const user = useSelector(state => state.user)
+    const [RedeemHistory, setRedeemHistory] = React.useState(null)
+    const auth = getAuth(app);
+
+    React.useEffect(() => {
+        const fun = postData(url + '/getData', {
+            tableName: 'redeem_history',
+            orderColumn: 'date',
+        }).then((data) => {
+            if (Array.isArray(data)) {
+                let arr=[]
+                data.forEach((item) => {
+                    if(item.uid==auth.currentUser.uid) {
+                        arr.push(item)
+                    }
+                })
+                return setRedeemHistory(arr)
+            }
+            return fun
+        })
+    }, [])
     return (
-        <ScrollView style={{backgroundColor: 'white'}}>
+        <ScrollView style={{ backgroundColor: 'white' }}>
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 30 }}>
                 <Image
                     style={{
@@ -14,51 +39,62 @@ const RedeemHistory = () => {
                         width: 100,
                         borderRadius: 50,
                     }}
-                    source={Picture}
+                    source={{ uri: user && user[0].image ? user[0].image : 'https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg' }}
                 />
                 <Text
                     style={{
-                        fontSize: 18, fontFamily: 'PlusJakartaSansBold',margin:5
-                    }}>Nirmiti Gaitonde</Text>
-                <Text
-                    style={{
-                        fontSize: 15,
-                        color: '#FFC654',
-                        fontFamily:'PlusJakartaSans'
-                    }}>Gold <Text
-                        style={{ color: 'black',color: '#585858' }}>Member</Text></Text>
+                        fontSize: 18, fontFamily: 'PlusJakartaSansBold', margin: 5
+                    }}>{user && user[0].name ? user[0].name : 'Loading...'}</Text>
+                {
+                    user && user[0].membership_type == 'Gold Membership' ? (
+                        <Text style={[styles.membership]}>
+                            <Text style={{ color: '#FFB92E' }}>Gold </Text>
+                            Member</Text>
+                    ) : user && user[0].membership_type == 'Platinum Membership' ? (
+                        <Text style={[styles.membership]}>
+                            <Text style={{ color: '#A2B0CD' }}>Platinum </Text>
+                            Member</Text>
+                    ) : user && user[0].membership_type == 'Diamond Membership' ? (
+                        <Text style={[styles.membership]}>
+                            <Text style={{ color: '#48A6DB' }}>Diamond </Text>
+                            Member</Text>
+                    ) : user && user[0].membership_type == 'Silver Membership' ? (
+                        <Text style={[styles.membership]}>
+                            <Text style={{ color: '#FC444B' }}>Slider </Text>
+                            Member</Text>
+                    ) :
+                        (
+                            <Text style={[styles.membership]}>
+                                <Text style={{ color: 'black' }}>Non </Text>
+                                Member</Text>
+                        )
+                }
             </View>
             <View style={{ borderWidth: 0.5, margin: 15, borderColor: '#F5F5F5' }}>
             </View>
             {
                 //must be include the props types,title,date and image
+                RedeemHistory ? (
+                    RedeemHistory.map((doc, index) => (
+                        <RedeemHistoryCart key={index}
+                            type={doc.purches_type=='deals'?"coupon":"hotel"}
+                            data={doc}/>
+                            
+                    ))
+                ):(
+                    <ActivityIndicator size="large" color="#FA454B" />
+                )
             }
-            <RedeemHistoryCart
-                type="coupon"
-                title='Flat 35% OFF On All Orders'
-                date='24 Febroary 2022'
-                img="https://media.istockphoto.com/vectors/red-limited-offer-with-clock-for-promotion-banner-price-label-of-vector-id1172999527?k=20&m=1172999527&s=612x612&w=0&h=MiiTdF9N6n0gysXDjHUtxPdTpARjww_XCeJZukTEZdw=" />
-            
-            <RedeemHistoryCart
-                type="hotel"
-                title='Any 2 Or More Pizza For ₹199*'
-                date='24 Febroary 2022'
-                img="https://media.hrs.com/media/image/01/99/b7/hotel-dummy.png" />
-            
-            <RedeemHistoryCart
-                type="coupon"
-                title='On The Go'
-                date='21 Febroary 2022'
-                img="https://st2.depositphotos.com/1435425/6338/v/950/depositphotos_63384005-stock-illustration-special-offer-icon-design.jpg" />
-            
-            <RedeemHistoryCart
-                type="hotel"
-                title='Special Offer @Just ₹199'
-                date='16 Febroary 2022'
-                img="https://media.hrs.com/media/image/01/99/b7/hotel-dummy.png" />
-            
         </ScrollView>
     );
 };
 
 export default RedeemHistory;
+const styles = StyleSheet.create({
+    membership: {
+        fontSize: 15,
+        color: 'rgb(90,90,90)',
+        marginTop: 5,
+        fontWeight: '500'
+    },
+})

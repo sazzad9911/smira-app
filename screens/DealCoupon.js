@@ -24,7 +24,6 @@ const DealCoupon = (props) => {
 
     React.useEffect(() => {
         if(!data) {
-            setBrand(brands[0])
             return
         }
         brands.forEach(brand => {
@@ -32,7 +31,7 @@ const DealCoupon = (props) => {
                 setBrand(brand)
             }
         })
-    }, [])
+    }, [brands+data])
     const copyToClipboard = (code) => {
         try {
             Clipboard.setString(code)

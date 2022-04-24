@@ -6,12 +6,46 @@ import {
     TouchableOpacity, TextInput
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { postData,url } from '../action';
+import {useSelector} from 'react-redux';
+
 const window = Dimensions.get('window')
 
 const BookingHistory = (props) => {
     const [CheckIn, setCheckIn] = React.useState('')
     const [CheckOut, setCheckOut] = React.useState('')
+    const [data,setData]= React.useState(null)
+    const hotels=useSelector(state => state.hotels)
+    const [Hotel,setHotel]= React.useState(null)
 
+    React.useEffect(()=>{
+        if(props.data){
+            postData(url +'/getData',{
+                tableName:'hotel_booking',
+                conditions:"id ="+"'"+props.data.purches_id+"'"
+            }).then(result=>{
+                if(Array.isArray(result)){
+                    setData(result[0])
+                    setCheckIn(convertDate(result[0].check_in))
+                    setCheckOut(convertDate(result[0].check_out))
+                    handleHotels(result[0].hotel_id)
+                }
+            })
+        }
+    },[])
+    const convertDate=(date)=>{
+        date=new Date(date)
+        let Months=['Jan', 'Feb', 'Mar', 'Apr', 'May','Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov','Dec']
+        let data=''
+        return data=date.getDate()+' '+Months[date.getMonth()]+' '+date.getFullYear()
+    }
+    const handleHotels=(id)=>{
+        hotels.forEach(element => {
+            if(element.id==id){
+                setHotel(element)
+            }
+        });
+    }
     return (
 
         <View>
@@ -28,8 +62,8 @@ const BookingHistory = (props) => {
             </View>
             <ScrollView >
                 <View style={style.view}>
-                    <Text style={style.Text}>Shradha Saburi Palace</Text>
-                    <Text style={style.Text1}>Shirdi,Maharashtra</Text>
+                    <Text style={style.Text}>{Hotel?Hotel.name:''}</Text>
+                    <Text style={style.Text1}>{Hotel?Hotel.address:''}</Text>
                 </View>
                 <View style={style.view1}>
                     <View style={style.view3}>
@@ -41,7 +75,7 @@ const BookingHistory = (props) => {
                         <Text style={{
                             fontSize: 18,
                             fontFamily: 'PlusJakartaSansBold',
-                        }}>12:00 PM</Text>
+                        }}>{Hotel?Hotel.check_in:''}</Text>
                     </View>
                     <View style={style.view2}></View>
                     <View style={style.view3}>
@@ -53,7 +87,7 @@ const BookingHistory = (props) => {
                         <Text style={{
                             fontSize: 18,
                             fontFamily: 'PlusJakartaSansBold',
-                        }}>10:00 AM</Text>
+                        }}>{Hotel?Hotel.check_out:''}</Text>
                     </View>
                 </View>
                 <View >
@@ -65,7 +99,7 @@ const BookingHistory = (props) => {
                         fontFamily: 'PlusJakartaSans',
                     }}>Check-in</Text>
                     <TextInput
-                        style={style.input}
+                        style={[style.input,{paddingLeft: 20}]}
                         value={CheckIn}
                         onChangeText={(val) =>
                             setCheckIn(val)}
@@ -81,7 +115,7 @@ const BookingHistory = (props) => {
                         fontFamily: 'PlusJakartaSans',
                     }}>Check-out</Text>
                     <TextInput
-                        style={style.input}
+                        style={[style.input,{paddingLeft: 20}]}
                         value={CheckOut}
                         onChangeText={(val) =>
                             setCheckOut(val)}
@@ -91,14 +125,14 @@ const BookingHistory = (props) => {
                 <View>
                     <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20, marginTop: 50 }}>
                         <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 14,fontFamily: 'PlusJakartaSans'}}>Aduits</Text>
+                            <Text style={{ fontSize: 14,fontFamily: 'PlusJakartaSans'}}>Adults</Text>
                             <Text style={{ fontSize: 12,
                              color: 'rgb(100,100,100)',
                              fontFamily: 'PlusJakartaSans' }}>Older 12 years</Text>
                         </View>
                         <View style={style.view4}>
                             <Text style={{ fontSize: 14,
-                            fontFamily: 'PlusJakartaSans' }}>2</Text>
+                            fontFamily: 'PlusJakartaSans' }}>{data?data.adult:''}</Text>
                         </View>
                     </View>
 
@@ -113,7 +147,7 @@ const BookingHistory = (props) => {
                         </View>
                         <View style={style.view4}>
                             <Text style={{ fontSize: 14,
-                            fontFamily: 'PlusJakartaSans' }}>1</Text>
+                            fontFamily: 'PlusJakartaSans' }}>{data?data.children:''}</Text>
                         </View>
                     </View>
 
@@ -127,12 +161,12 @@ const BookingHistory = (props) => {
                         </View>
                         <View style={style.view4}>
                             <Text style={{ fontSize: 14,
-                            fontFamily: 'PlusJakartaSans' }}>1</Text>
+                            fontFamily: 'PlusJakartaSans' }}>{data?data.room:''}</Text>
                         </View>
                     </View>
                     <TouchableOpacity>
                         <View style={style.viewEnd}>
-                            <Text style={style.viewtext}>BOOKING ID #193265</Text>
+                            <Text style={style.viewtext}>BOOKING ID #{data?data.id:''}</Text>
                         </View>
                     </TouchableOpacity>
 

@@ -11,6 +11,7 @@ import { postData, url } from '../action'
 import { useRoute } from '@react-navigation/native';
 import Gallery from 'react-native-image-gallery';
 import { SvgXml } from 'react-native-svg'
+import { getData, storeData } from '../screens/WishList'
 
 const Hotel = (props) => {
     const params = props.route.params
@@ -25,6 +26,7 @@ const Hotel = (props) => {
     const route = useRoute();
     const [Images, setImages] = React.useState(null)
     const [ModalVisible, setModalVisible] = React.useState(false);
+    const [color, setcolor]= React.useState(params.like?true:false);
 
     React.useEffect(() => {
         if (params.id) {
@@ -40,7 +42,7 @@ const Hotel = (props) => {
                 console.log('Hotel.js->' + data.message)
                 return first
             })
-            ///-----------------------------------
+            ///--------------------------------------
             const second=postData(url + '/getData', {
                 tableName: 'hotels',
                 condition: "id<>" + "'" + params.id + "'"
@@ -80,7 +82,24 @@ const Hotel = (props) => {
         }
     }, [params.id + route])
 
+    React.useEffect(() => {
+        setcolor(params.like)
+    },[params.like])
+    const [Hotels, setHotels] = React.useState(null)
 
+    React.useEffect(() => {
+        getData('hotels').then((data) => {
+            if (data) {
+                setHotels(data)
+                if (data.find(element => element.id == props.doc.id)) {
+                    setFavor(true);
+                }
+            } else {
+                storeData('hotels', [])
+                setHotels([])
+            }
+        })
+    }, [])
     return (
 
         <View style={{
@@ -91,7 +110,9 @@ const Hotel = (props) => {
             <ScrollView style={{width: '100%'}}>
                 <View style={styles.body}>
                     <View style={styles.bodyTop}>
-                        <TouchableOpacity style={styles.image} onPress={() => setModalVisible(true)}>
+                        <TouchableOpacity disabled={Images && Images.length>0?false: true} style={styles.image} onPress={() => {
+                           setModalVisible(true)
+                        }}>
 
                             {
                                 Hotel ? (
@@ -112,7 +133,7 @@ const Hotel = (props) => {
                         </TouchableOpacity>
 
                         <View style={styles.imageButtomIcon}>
-                            <Text style={styles.imageButtomIconText}> 1/{Images ? Images.length : '1'}</Text>
+                            <Text style={styles.imageButtomIconText}> 0/{Images ? Images.length : '1'}</Text>
                         </View>
 
                     </View>
@@ -315,9 +336,21 @@ const Hotel = (props) => {
                 shadowRadius:5,
                 elevation:5
             }}>
-                <TouchableOpacity onPress={() => navigation.navigate('Review', {
-                    id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address
-                })} style={{
+                <TouchableOpacity onPress={() =>{ //navigation.navigate('Review', {
+                    //id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address })} 
+                    setcolor(!color);
+                    if (!color) {
+                        let arr = Hotels
+                        arr.push(Hotel[0])
+                        setHotels(arr)
+                        //console.log(Deals)
+                        storeData('hotels', Hotels)
+                    } else {
+                        let arr = Hotels.filter(element => element.id != Hotel[0].id);
+                        storeData('hotels', arr);
+                        //console.log(arr);
+                    }
+                    }} style={{
                     borderWidth: 1,
                     borderColor: '#E2E2E2',
                     width: 60,
@@ -326,7 +359,7 @@ const Hotel = (props) => {
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
-                    <AntDesign name="hearto" size={24} color="#808080" />
+                    <AntDesign name="hearto" size={24} color={color?"#FC444B":"#808080"} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Booking', {
                     id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address,

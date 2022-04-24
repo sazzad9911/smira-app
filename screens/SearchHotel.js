@@ -26,7 +26,7 @@ const SearchHotel = (props) => {
         //console.log(recentSearch)
         postData(url + '/searchData', {
             tableName: 'hotels',
-            searchColumn: 'name',
+            searchColumn: 'address',
             searchData: SearchParam,
             orderColumn:recentSearch.shortBy,
             filterColumn:'categories',

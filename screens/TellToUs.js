@@ -2,16 +2,48 @@ import React from 'react';
 import {
     View,
     StyleSheet,
-    Text, TextInput, TouchableOpacity, ScrollView,Linking
+    Text, TextInput, TouchableOpacity, ScrollView,Linking,Alert
 } from 'react-native';
+import {postData, url,setAnimatedLoader} from '../action'
+import {useDispatch} from 'react-redux'
+import { getAuth } from 'firebase/auth';
+import app from '../firebase';
 
-const TellToUs = () => {
+const TellToUs = ({ navigation}) => {
     const [name, onChangeName] = React.useState(null);
     const [mobile, onChangeMobile] = React.useState(null);
     const [msg, onChangeMsg] = React.useState(null);
     const [focusName,setFocusName] = React.useState(false);
     const [focusMobile, onFocusMobile] = React.useState(false);
     const [focusMsg, onFocusMsg] = React.useState(false);
+    const dispatch = useDispatch()
+    const auth=getAuth(app);
+
+    const send=()=>{
+        if(!name || !mobile || !msg) {
+            Alert.alert('Opps!','All field are required')
+            return;
+        }
+        dispatch(setAnimatedLoader(true))
+        let date=new Date()
+        date=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
+        postData(url +'/setData',{
+            auth:auth.currentUser,
+            tableName: 'customer_messages',
+            columns: ['name','phone','message','uid','date'],
+            values: [name,mobile, msg,auth.currentUser.uid,date]
+        }).then(data => {
+            dispatch(setAnimatedLoader(false))
+            if(data.insertId) {
+                return navigation.navigate('Confirm Message',{
+                    text1:'You message is saved successfully',
+                    text2:'Please check for confirmation email.'
+                })
+            }
+        }).catch(err => {
+            dispatch(setAnimatedLoader(false))
+        })
+    }
     return (
         <ScrollView style={{backgroundColor: 'white'}}>
             <View style={style.body}>
@@ -28,7 +60,7 @@ const TellToUs = () => {
                                 borderWidth:focusName?1:0,
                                 backgroundColor:focusName?'white':'#F5F5F5'
                             }]}
-                            onChangeName={onChangeName}
+                            onChangeText={onChangeName}
                             value={name}
                             onFocus={() =>setFocusName(true)}
                             onEndEditing={() => setFocusName(false)}
@@ -41,7 +73,7 @@ const TellToUs = () => {
                                 borderWidth:focusMobile?1:0,
                                 backgroundColor:focusMobile?'white':'#F5F5F5'
                             }]}
-                            onChangeMobile={onChangeMobile}
+                            onChangeText={onChangeMobile}
                             value={mobile}
                             onFocus={() =>onFocusMobile(true)}
                             onEndEditing={() => onFocusMobile(false)}
@@ -54,13 +86,13 @@ const TellToUs = () => {
                                 borderWidth:focusMsg?1:0,
                                 backgroundColor:focusMsg?'white':'#F5F5F5'
                             }]}
-                            onChangeMsg={onChangeMsg}
+                            onChangeText={onChangeMsg}
                             value={msg}
                             onFocus={() =>onFocusMsg(true)}
                             onEndEditing={() => onFocusMsg(false)}
                         />
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={send}>
                         <View style={style.view}>
                             <Text style={style.viewtext}>
                                 SUBMIT</Text>

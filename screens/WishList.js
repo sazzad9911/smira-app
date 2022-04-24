@@ -1,6 +1,6 @@
 import {
     Image, ImageBackground, ScrollView, StyleSheet, Text,
-    TouchableOpacity, View, Platform, StatusBar
+    TouchableOpacity, View, Platform, StatusBar, ActivityIndicator
 } from 'react-native'
 import React from 'react'
 import testImage from '../assets/favicon.png';
@@ -8,10 +8,40 @@ import tub from '../assets/tub.png';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons'
 import Cards from '../components/Cards'
 import SmallDealCart from '../components/SmallDealCart';
+import DealCart from '../components/DealCart'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRoute } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux'
+import { setAction } from '../action'
 
 const WishList = ({ navigation }) => {
+    const [Deals, setDeals] = React.useState(null)
+    const [Hotels, setHotels] = React.useState(null)
+    const brands = useSelector(state => state.brands)
+    const [Route, setRoute] = React.useState('all')
+    const action = useSelector(state => state.pageSettings.action)
+    const dispatch = useDispatch()
+
+    React.useEffect(() => {
+        getData('deals').then((data) => {
+            if (data) {
+                setDeals(data)
+            } else {
+                setDeals([])
+            }
+        })
+        getData('hotels').then((data) => {
+            if (data) {
+                setHotels(data)
+            } else {
+                setHotels([])
+            }
+        })
+    }, [action])
+
     return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}>
             <StatusBar barStyle='light-content' />
             <View style={{
                 padding: 10,
@@ -28,55 +58,165 @@ const WishList = ({ navigation }) => {
                     </TouchableOpacity>
                     <Text style={{ fontWeight: 'bold', fontSize: 17, marginLeft: 10 }}>Wishlist</Text>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    if (Route == 'all') {
+                        storeData('hotels', []);
+                        storeData('deals', []).then(() => {
+                            dispatch(setAction(!action))
+                        })
+                    } else if (Route == 'hotels') {
+                        setHotels('hotels', []).then(() => {
+                            dispatch(setAction(!action))
+                        })
+                    } else {
+                        setDeals('deals', []).then(() => {
+                            dispatch(setAction(!action))
+                        })
+                    }
+                }}>
                     <SimpleLineIcons name='trash' size={24} style={{ color: 'rgb(200,200,200)', margin: 10 }} />
                 </TouchableOpacity>
             </View>
-            <ScrollView horizontal={true}>
+            <ScrollView showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false} horizontal={true}>
                 <View style={{ width: 20 }}></View>
-                <TouchableOpacity style={[styles.category, styles.categoryActive]}>
-                    <Text style={[styles.categoryText, styles.categoryTextActive]}>All</Text>
+                <TouchableOpacity onPress={() => {
+                    setRoute('all')
+                }} style={[styles.category,
+                Route == 'all' ? styles.categoryActive : styles.category]}>
+                    <Text style={[styles.categoryText,
+                    Route == 'all' ? styles.categoryTextActive : styles.categoryText]}>All</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.category]}>
-                    <Text style={[styles.categoryText]}>Hotels</Text>
+                <TouchableOpacity onPress={() => {
+                    setRoute('hotels')
+                }} style={[styles.category,
+                Route == 'hotels' ? styles.categoryActive : styles.category]}>
+                    <Text style={[styles.categoryText,
+                    Route == 'hotels' ? styles.categoryTextActive : styles.categoryText]}>Hotels</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.category]}>
-                    <Text style={[styles.categoryText]}>Deals</Text>
+                <TouchableOpacity onPress={() => {
+                    setRoute('deals')
+                }} style={[styles.category,
+                Route == 'deals' ? styles.categoryActive : styles.category]}>
+                    <Text style={[styles.categoryText,
+                    Route == 'deals' ? styles.categoryTextActive : styles.categoryText]}>Deals</Text>
                 </TouchableOpacity>
             </ScrollView>
-            <View style={{ marginTop: 15 }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Deals</Text>
-                <ScrollView horizontal={true} >
-                    <View style={{ width: 10 }}></View>
-                    {
-                        //repeat the deals slide here --------------
-                    }
-                    <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
-                        img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
-                        title='Flat 25% OFF on all orders'
-                    />
-                    <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
-                        img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
-                        title='Flat 25% OFF on all orders'
-                    />
-                    <SmallDealCart icon='https://www.kindpng.com/picc/m/310-3105450_special-offer-banner-png-transparent-png.png'
-                        img='https://www.daily-sun.com/assets/news_images/2019/09/23/Dailysun-2019-04-22-14.jpg'
-                        title='Flat 25% OFF on all orders'
-                    />
-                </ScrollView>
-                <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Hotels</Text>
-                <View>
-                    {
-                        //repeat the image card here -------------
-                    }
-                    <Cards navigation={navigation} img={tub} title="On the go"
-                        address="Alibaug, Maharashtra" />
-                    <Cards navigation={navigation} img={tub} title="On the go"
-                        address="Alibaug, Maharashtra" />
-                    <Cards navigation={navigation} img={tub} title="On the go"
-                        address="Alibaug, Maharashtra" />
-                </View>
-            </View>
+            {
+                Route == 'all' ? (
+                    <View style={{ marginTop: 15 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Deals</Text>
+                        <ScrollView showsVerticalScrollIndicator={false}
+                            showsHorizontalScrollIndicator={false} horizontal={true} >
+                            <View style={{ width: 10 }}></View>
+                            {
+                                //repeat the deals slide here --------------
+                                Deals ? (
+                                    Deals.length > 0 ? (
+                                        Deals.map((doc, i) => (
+                                            <SmallDealCart key={doc.id}
+                                                img={doc.image}
+                                                title={doc.name}
+                                                navigation={navigation}
+                                                data={doc}
+                                            />
+                                        ))
+                                    ) : (
+                                        <Text style={{
+                                            marginLeft: 20,
+                                            color: '#808080',
+                                            fontFamily: 'PlusJakartaSans',
+                                            fontSize: 15
+                                        }}>Empty List</Text>
+                                    )
+                                ) : (
+                                    <ActivityIndicator size="large" color="#FA454B" />
+                                )
+                            }
+                        </ScrollView>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Hotels</Text>
+                        <View>
+                            {
+                                //repeat the image card here -------------
+                                Hotels ? (
+                                    Hotels.length > 0 ? (
+                                        Hotels.map(doc => (
+                                            <Cards key={doc.id} doc={doc} navigation={navigation}
+                                                img={{ uri: doc.image }} title={doc.name}
+                                                address={doc.address} rating={doc.ratings} />
+                                        ))
+                                    ) : (
+                                        <Text style={{
+                                            marginLeft: 30,
+                                            color: '#808080',
+                                            fontFamily: 'PlusJakartaSans',
+                                            fontSize: 15
+                                        }}>Empty List</Text>
+                                    )
+                                ) : (
+                                    <ActivityIndicator size="large" color="#FA454B" />
+                                )
+                            }
+                        </View>
+                    </View>
+                ) : Route == 'hotels' ? (
+                    <View style={{ marginTop: 15 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Hotels</Text>
+                        <View>
+                            {
+                                //repeat the image card here -------------
+                                Hotels ? (
+                                    Hotels.length > 0 ? (
+                                        Hotels.map(doc => (
+                                            <Cards key={doc.id} doc={doc} navigation={navigation}
+                                                img={{ uri: doc.image }} title={doc.name}
+                                                address={doc.address} rating={doc.ratings} />
+                                        ))
+                                    ) : (
+                                        <Text style={{
+                                            marginLeft: 20,
+                                            color: '#808080',
+                                            fontFamily: 'PlusJakartaSans',
+                                            fontSize: 15
+                                        }}>Empty List</Text>
+                                    )
+                                ) : (
+                                    <ActivityIndicator size="large" color="#FA454B" />
+                                )
+                            }
+                        </View>
+                    </View>
+                ) : (
+                    <View style={{ marginTop: 15 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Deals</Text>
+                        <View style={{
+                            alignItems: 'center'
+                        }} >
+                            {
+                                //repeat the deals slide here --------------
+                                Deals ? (
+                                    Deals.length > 0 ? (
+                                        Deals.map((doc, i) => (
+                                            <DealCart data={doc} key={doc.id} headLine={doc.name}
+                                                category={doc.brand} img={doc.image} navigation={navigation}
+                                            />
+                                        ))
+                                    ) : (
+                                        <Text style={{
+                                            marginLeft: 20,
+                                            color: '#808080',
+                                            fontFamily: 'PlusJakartaSans',
+                                            fontSize: 15
+                                        }}>Empty List</Text>
+                                    )
+                                ) : (
+                                    <ActivityIndicator size="large" color="#FA454B" />
+                                )
+                            }
+                        </View>
+                    </View>
+                )
+            }
         </ScrollView>
     )
 }
@@ -112,3 +252,19 @@ const styles = StyleSheet.create({
         color: '#FB444B',
     }
 })
+export const storeData = async (key, value) => {
+    try {
+        const jsonValue = JSON.stringify(value)
+        await AsyncStorage.setItem(key, jsonValue)
+    } catch (e) {
+        // saving error
+    }
+}
+export const getData = async (key) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem(key)
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+        // error reading value
+    }
+}

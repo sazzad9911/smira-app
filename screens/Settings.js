@@ -8,10 +8,16 @@ import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { SvgXml } from 'react-native-svg'
+import { getAuth,signOut } from 'firebase/auth';
+import app from './../firebase';
+import { useDispatch } from 'react-redux';
+import { setAnimatedLoader } from '../action';
 
 const Settings = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
     const [checked1, setChecked1] = useState(false);
+    const auth=getAuth(app)
+    const dispatch = useDispatch()
 
     const redeemHistory = `
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -163,7 +169,13 @@ const Settings = ({ navigation }) => {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25 }}>
+                <TouchableOpacity onPress={() => {
+                    dispatch(setAnimatedLoader(true))
+                    signOut(auth).then(() => {
+                        navigation.navigate('SignIn')
+                        dispatch(setAnimatedLoader(false))
+                    })
+                }} style={{ flexDirection: 'row', marginTop: 25 }}>
                     <View style={{ flex: 1 }}>
                         <AntDesign name="login"
                             size={24} color="black"

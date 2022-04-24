@@ -9,20 +9,27 @@ const window = Dimensions.get('window')
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import app from '../firebase'
 import { SvgXml } from 'react-native-svg'
+import {useDispatch} from 'react-redux'
+import {setAnimatedLoader} from '../action'
+
 const SignIn = ({ navigation }) => {
     const [email, setEmail] = React.useState(null)
     const [password, setPassword] = React.useState(null)
 
     const auth = getAuth(app);
+    const dispatch = useDispatch()
     const signIn = () => {
         if (!email || !password) {
             Alert.alert('Wrong!', 'Please fill all the fields');
             return
         }
+        dispatch(setAnimatedLoader(true));
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredentials) => {
+                dispatch(setAnimatedLoader(false));
                 navigation.navigate('Dashboard');
             }).catch((error) => {
+                dispatch(setAnimatedLoader(false));
                 Alert.alert('Error', error.code)
                 console.log('Error: SignIn.js->' + error.code)
             })

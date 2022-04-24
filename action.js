@@ -84,3 +84,15 @@ export const setBottomSheet=(doc)=>{
     playload:doc
   }
 }
+export const setAnimatedLoader=(doc)=>{
+  return{
+    type:'SET_ANIMATED_LOADER',
+    playload:doc
+  }
+}
+export const setAction=(doc)=>{
+  return{
+    type:'SET_ACTION',
+    playload:doc
+  }
+}

@@ -52,8 +52,8 @@ const Filter = (props) => {
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             {
                                 brands ? (
-                                    brands.map(b => (
-                                        <Brands title={b.name} />
+                                    brands.map((b,i) => (
+                                        <Brands key={i} title={b.name} />
                                     ))
                                 ) : (
                                     <View></View>
@@ -96,7 +96,7 @@ const Ratings = (props) => {
             
         }}>
             <AntDesign name="star" size={18} color={props.color} />
-            <Text style={{ marginLeft: 5,fontFamily: 'PlusJakartaSans' }}>{props.title}</Text>
+            <Text style={{ marginLeft: 5,fontFamily: 'PlusJakartaSans',color:'#808080', }}>{props.title}</Text>
         </TouchableOpacity>
     )
 }
@@ -117,9 +117,10 @@ const Category = (props) => {
             flexDirection: 'row',
             margin: 5,
             backgroundColor: category == props.title ? 'rgba(73, 246, 5, 0.269)' : '#ffff',
+            color:'#808080',
             borderColor:'#D8D8D8'
         }}>
-            <Text style={{ marginLeft: 5,fontFamily: 'PlusJakartaSans' }}>{props.title}</Text>
+            <Text style={{ marginLeft: 5,fontFamily: 'PlusJakartaSans',color:'#808080', }}>{props.title}</Text>
         </TouchableOpacity>
     )
 }
@@ -139,9 +140,11 @@ const Brands = (props) => {
             alignItems: 'center',
             flexDirection: 'row',
             margin: 5,
-            backgroundColor: brand == props.title ? 'rgba(73, 246, 5, 0.269)' : '#ffff'
+            backgroundColor: brand == props.title ? 'rgba(73, 246, 5, 0.269)' : '#ffff',
+            color:'#808080',
+            borderColor:'#D8D8D8'
         }}>
-            <Text style={{ marginLeft: 5 }}>{props.title}</Text>
+            <Text style={{ marginLeft: 5,color:'#808080',  }}>{props.title}</Text>
         </TouchableOpacity>
     )
 }

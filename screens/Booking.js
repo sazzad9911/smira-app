@@ -25,14 +25,19 @@ const Booking = (props) => {
     const auth = getAuth(app);
     const [loader,setLoader] =React.useState(false)
 
+    const convertDate=(date)=>{
+        let data='';
+        return data=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+(date.getDate())
+    }
 
     const Confirm = () => {
         setLoader(true)
+        
         postData(url + '/setData', {
             auth: auth.currentUser,
             tableName: 'hotel_booking',
             columns: ['check_in', 'check_out', 'adult', 'children', 'room', 'date', 'user_id','hotel_id'],
-            values: [CheckIn, CheckOut, count, count1, count2, new Date(), auth.currentUser.uid,params.id]
+            values: [convertDate(CheckIn), convertDate(CheckOut), count, count1, count2, convertDate(new Date()), auth.currentUser.uid,params.id]
         }).then(data => {
             if (data.insertId) {
                 setLoader(false)
@@ -51,7 +56,7 @@ const Booking = (props) => {
 
     return ( 
         <View style={{
-            paddingLeft: 10, paddingRight: 10
+            backgroundColor:'white'
         }}>
             <ScrollView>
                 <View style={style.view}>
@@ -154,7 +159,7 @@ const Booking = (props) => {
                                 height: 50,
                                 width: 50,
                                 borderRadius: 30,
-                                backgroundColor: '#FFFF',
+                                backgroundColor: '#F5F5F5',
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
@@ -206,7 +211,7 @@ const Booking = (props) => {
                                 height: 50,
                                 width: 50,
                                 borderRadius: 30,
-                                backgroundColor: '#FFFF',
+                                backgroundColor: '#F5F5F5',
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
@@ -259,7 +264,7 @@ const Booking = (props) => {
                                     height: 50,
                                     width: 50,
                                     borderRadius: 30,
-                                    backgroundColor: '#FFFF',
+                                    backgroundColor: '#F5F5F5',
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}>

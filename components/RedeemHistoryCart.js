@@ -8,7 +8,21 @@ import {useSelector} from 'react-redux'
 const RedeemHistoryCart = (props) => {
     const [modalVisible, setmodalVisible] = React.useState(false)
     const deals= useSelector(state => state.deals)
+    const date=new Date(props.data.date)
+    const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    const [data,setData]= React.useState(null)
+    const purches_id=props.data.purches_id
 
+    React.useEffect(() => {
+        
+        if(deals){
+            deals.forEach(doc=>{
+                if(doc.deal.id == purches_id){
+                    setData(doc.deal)
+                }
+            })
+        }
+    },[deals])
 
     return (
         <View style={{margin:10, marginLeft: 20 }}>
@@ -20,19 +34,19 @@ const RedeemHistoryCart = (props) => {
                             width: 70,
                             borderRadius: 50,
                         }}
-                        source={{ uri: props.img }}
+                        source={{ uri: props.data.image }}
                     />
                 </View>
                 <View style={{ flex: 3, marginTop: 10 }}>
                     <Text style={{ fontSize: 15, color: '#585858',
-                    fontFamily: 'PlusJakartaSansBold'}}>{props.title}</Text>
+                    fontFamily: 'PlusJakartaSansBold'}}>{props.data.name}</Text>
                     <Text
                         style={{
                             fontSize: 15,
                             color: '#808080',
                             marginTop: 10,
                             fontFamily:'PlusJakartaSans'
-                        }}>{props.date}</Text>
+                        }}>{date.getDate()+' '+Months[date.getMonth()]+' '+date.getFullYear()}</Text>
                 </View>
                 <View style={{ flex: 1, marginTop: 20 }}>
                     <AntDesign name="right" size={20} color="black"
@@ -49,9 +63,9 @@ const RedeemHistoryCart = (props) => {
             {
                 props.type=='coupon'?
                 (
-                    <DealCoupon close={setmodalVisible}/>
+                    <DealCoupon data={data} close={setmodalVisible}/>
                 ):(
-                    <BookingHistory close={setmodalVisible}/>
+                    <BookingHistory data={props.data} close={setmodalVisible}/>
                 )
             }
             </Modal>
