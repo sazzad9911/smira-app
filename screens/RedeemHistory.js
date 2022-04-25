@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet,ActivityIndicator } from 'react-native'
+import { View, Text, Image, ScrollView, StyleSheet, ActivityIndicator } from 'react-native'
 import Picture from '../assets/10.jpg'
 import RedeemHistoryCart from '../components/RedeemHistoryCart';
 import { useSelector } from 'react-redux'
@@ -19,9 +19,9 @@ const RedeemHistory = () => {
             orderColumn: 'date',
         }).then((data) => {
             if (Array.isArray(data)) {
-                let arr=[]
+                let arr = []
                 data.forEach((item) => {
-                    if(item.uid==auth.currentUser.uid) {
+                    if (item.uid == auth.currentUser.uid) {
                         arr.push(item)
                     }
                 })
@@ -70,18 +70,22 @@ const RedeemHistory = () => {
                         )
                 }
             </View>
-            <View style={{ borderWidth: 0.5, margin: 15, borderColor: '#F5F5F5' }}>
+            <View style={{ borderWidth: 0.7, margin: 15, borderColor: '#F5F5F5' }}>
             </View>
             {
                 //must be include the props types,title,date and image
                 RedeemHistory ? (
                     RedeemHistory.map((doc, index) => (
-                        <RedeemHistoryCart key={index}
-                            type={doc.purches_type=='deals'?"coupon":"hotel"}
-                            data={doc}/>
-                            
+                        <View key={index}>
+                            <RedeemHistoryCart 
+                                type={doc.purches_type == 'deals' ? "coupon" : "hotel"}
+                                data={doc} />
+                            <View style={{ borderWidth: 0.7, margin: 1,
+                             borderColor: '#F5F5F5',marginLeft:15,marginRight:15 }}></View>
+                        </View>
+
                     ))
-                ):(
+                ) : (
                     <ActivityIndicator size="large" color="#FA454B" />
                 )
             }
