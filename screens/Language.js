@@ -2,24 +2,32 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { Feather } from '@expo/vector-icons';
 import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps';
+import { useSelector, useDispatch} from 'react-redux';
+import { setLanguage } from './../action';
 
-const Language = () => {
+const Language = (props) => {
     const [Check, setCheck] = React.useState('English (Default)')
+    const pageSettings= useSelector(state => state.pageSettings)
+    const navigation = props.navigation
+    const dispatch = useDispatch()
+    //console.log(pageSettings)
     return (
         <ScrollView style={{backgroundColor: 'white',height: '100%'}}>
-            <List value={Check}
-                onChange={(val) => setCheck(val)}
+            <List value={pageSettings.language}
+                onChange={(val) => dispatch(setLanguage('English (Default)'))}
                 title='English (Default)'
             />
-            <List value={Check}
-                onChange={(val) => setCheck(val)}
+            <List value={pageSettings.language}
+                onChange={(val) => dispatch(setLanguage('Hindi'))}
                 title='Hindi'
             />
-            <List value={Check}
-                onChange={(val) => setCheck(val)}
+            <List value={pageSettings.language}
+                onChange={(val) => dispatch(setLanguage('Marathi'))}
                 title='Marathi'
             />
-            <TouchableOpacity style={{
+            <TouchableOpacity onPress={()=>{
+                navigation.goBack();
+            }} style={{
                marginTop:'135%'
             }}>
                 <View style={{

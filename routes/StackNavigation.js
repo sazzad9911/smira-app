@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
 import Onboarding from './../screens/Onboarding';
 import SignUp from './../screens/SignUp';
 import SignIn from './../screens/SignIn';
@@ -9,13 +8,28 @@ import { View, Text, Dimensions, TouchableOpacity, ScrollView } from 'react-nati
 import AnimatedLoader from 'react-native-animated-loader'
 import { useSelector, useDispatch } from 'react-redux'
 const Stack = createStackNavigator();
+import { getData, storeData } from '../screens/WishList'
 const window = Dimensions.get('window')
+import { setPageSettings } from '../action';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 
 const StackNavigation = () => {
-
+    const pageSettings = useSelector(state => state.pageSettings)
+    const dispatch = useDispatch()
+    React.useEffect(() => {
+        getData('pageSettings').then((data) => {
+            if (!data) {
+                storeData('pageSettings', pageSettings)
+            } else {
+                //console.log(data);
+                //storeData('pageSettings', pageSettings)
+                dispatch(setPageSettings(data));
+            }
+        })
+    }, [])
 
     return (
-        <NavigationContainer>
+        <NavigationContainer theme={pageSettings.darkMode ? DarkTheme : DefaultTheme}>
             <Stack.Navigator>
                 <Stack.Screen options={{ headerShown: false }} name="Onboarding" component={Onboarding} />
                 <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
@@ -33,15 +47,17 @@ import { Category } from '../components/Bottom';
 import HotelBooking from '../components/HotelBooking';
 import ShortBy from '../components/ShortBy';
 import Filter from '../components/Filter';
+import { backgroundColor,subTextColor } from './../assets/color';
 
 const Dashboard = ({ navigation }) => {
     const bottomSheetRef = React.useRef();
     const bottomSheet = useSelector(state => state.pageSettings.bottomSheet)
-    const loader=useSelector(state => state.pageSettings.loader)
+    const loader = useSelector(state => state.pageSettings.loader)
     const dispatch = useDispatch()
+    const pageSettings = useSelector(state => state.pageSettings)
 
     // variables
-    const snapPoints = React.useMemo(() => ['10%', '30%', '60%', '80%', '95%'], []);
+    const snapPoints = React.useMemo(() => ['30%', '30%', '50%', '50%', '80%', '95%'], []);
     const [open, setOpen] = React.useState(1)
 
     // callbacks
@@ -51,17 +67,22 @@ const Dashboard = ({ navigation }) => {
         }
     }, []);
     return (
-        <View style={{ width: window.width, height: window.height }}>
+        <View style={{
+            width: window.width, height: window.height,
+            backgroundColor: backgroundColor(pageSettings.darkMode)
+        }}>
             <DrawerApp />
-            <BottomSheet
+            <BottomSheet backgroundStyle={{ backgroundColor: backgroundColor(pageSettings.darkMode) }}
+                handleIndicatorStyle={{backgroundColor: subTextColor(pageSettings.darkMode)}}
                 ref={bottomSheetRef}
-                index={bottomSheet ? 1 : -1}
+                index={bottomSheet == 'filter' ? 2 : bottomSheet == 'category' ?
+                    3 : bottomSheet == 'calendar' ? 5 : bottomSheet == 'shortBy' ? 1 : -1}
                 snapPoints={snapPoints}
                 onChange={handleSheetChanges}
                 enableHandlePanningGesture={true}
                 enablePanDownToClose={true}
             >
-                <BottomSheetScrollView>
+                <BottomSheetScrollView style={{ backgroundColor: backgroundColor(pageSettings.darkMode) }}>
                     {
                         bottomSheet == 'category' ? (
                             <Category navigation={navigation}

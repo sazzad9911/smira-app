@@ -716,14 +716,14 @@ const styles = StyleSheet.create({
 
     },
     cartImg: {
-        height: 190,
-        width: 180,
+        height: 250,
+        width: 240,
         borderRadius: 10,
         borderRadius: 5
     },
     cart: {
-        height: 190,
-        width: 180,
+        height: 250,
+        width: 240,
         marginTop: 10,
         marginRight: 10,
         marginBottom: 40,

@@ -21,7 +21,7 @@ const SmallDealCart = (props) => {
 
     return (
         <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={{
-            height: 140, width: 200, backgroundColor: 'white', borderRadius: 10,
+            height: 160, width: 250, backgroundColor: 'white', borderRadius: 10,
             shadowColor: 'gray',
             shadowOffset: {
                 width: 2,
@@ -35,16 +35,18 @@ const SmallDealCart = (props) => {
             marginLeft: 3,
             marginRight: 3
         }}>
-            <Image source={{ uri: props.img }} style={{ height: 80, width: 200, borderRadius: 10 }} />
+            <Image source={{ uri: props.img }} style={{ height: 100, width: 250, borderRadius: 10 }} />
             <View style={{ height: 60, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
                 {
                     Brand ? (
-                        <Image source={{ uri: Brand.image }} style={{ height: 40, width: 40, borderRadius: 25, backgroundColor: 'red' }} />
+                        <Image source={{ uri: Brand.image }} style={{ height: 40,
+                         width: 40, borderRadius: 25, backgroundColor: 'red',marginLeft: 10 }} />
                     ):(
                         <View style={{ height: 40, width: 40, borderRadius: 25, backgroundColor: 'red' }} />
                     )
                 }
-                <Text style={{ width: 140, fontFamily: 'PlusJakartaSansBold', fontSize: 13, lineHeight: 16, alignItems: 'center', color: '#000000', fontWeight: '700' }}>{props.title}</Text>
+                <Text style={{ width: 130, fontFamily: 'PlusJakartaSansBold', fontSize: 14, lineHeight: 16,
+                 alignItems: 'center', color: '#000000', fontWeight: '700' }}>{props.title}</Text>
             </View>
             <Modal onRequestClose={() => setModalVisible(!modalVisible)} visible={modalVisible}>
                 <DealCoupon navigation={navigation} data={props.data} close={setModalVisible} />

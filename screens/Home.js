@@ -24,6 +24,9 @@ import {
 } from '../components/Icon';
 import { FamilyCode } from './Account';
 import {setLoader} from '../action'
+import { backgroundColor, textColor } from './../assets/color';
+import { useSelector } from 'react-redux';
+
 
 
 const window = Dimensions.get('window')
@@ -37,6 +40,7 @@ const Home = ({ navigation }) => {
   const [BrandDeal, setBrandDeal] = React.useState(null)
   const [Hotel, setHotel] = React.useState(null)
   const dispatch = useDispatch()
+  const darkMode= useSelector(state => state.pageSettings.darkMode)
   
 
   React.useEffect(() => {
@@ -132,7 +136,7 @@ const Home = ({ navigation }) => {
     })
   }, [])
   return (
-    <ScrollView showsVerticalScrollIndicator={false}
+    <ScrollView style={{backgroundColor:backgroundColor(darkMode)}} showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}>
       <StatusBar animated={true} backgroundColor='#FA454B' />
       <TouchableOpacity style={{
@@ -145,9 +149,13 @@ const Home = ({ navigation }) => {
         <SvgXml
           style={{
             marginRight: 20,
-            marginLeft: 5
+            marginLeft: 5,
           }}
-          xml={`<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+          xml={darkMode?`<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M8.83188 1.5C5.32322 1.5 2.47888 4.25814 2.47888 7.66049C2.47888 11.0628 5.32322 13.821 8.83188 13.821C12.3406 13.821 15.1849 11.0628 15.1849 7.66049C15.1849 4.25814 12.3406 1.5 8.83188 1.5ZM0.932007 7.66049C0.932007 3.42972 4.4689 0 8.83188 0C13.1949 0 16.7318 3.42972 16.7318 7.66049C16.7318 11.8913 13.1949 15.321 8.83188 15.321C4.4689 15.321 0.932007 11.8913 0.932007 7.66049Z" fill="white"/>
+           <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2408 12.2963C13.5424 12.003 14.0321 12.0024 14.3346 12.2949L17.1286 14.9972C17.431 15.2897 17.4316 15.7646 17.13 16.0578C16.8283 16.3511 16.3386 16.3517 16.0362 16.0592L13.2422 13.3569C12.9398 13.0644 12.9391 12.5896 13.2408 12.2963Z" fill="white"/>
+            </svg>
+          `:`<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.83188 1.5C5.32322 1.5 2.47888 4.25814 2.47888 7.66049C2.47888 11.0628 5.32322 13.821 8.83188 13.821C12.3406 13.821 15.1849 11.0628 15.1849 7.66049C15.1849 4.25814 12.3406 1.5 8.83188 1.5ZM0.932007 7.66049C0.932007 3.42972 4.4689 0 8.83188 0C13.1949 0 16.7318 3.42972 16.7318 7.66049C16.7318 11.8913 13.1949 15.321 8.83188 15.321C4.4689 15.321 0.932007 11.8913 0.932007 7.66049Z" fill="black"/>
            <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2408 12.2963C13.5424 12.003 14.0321 12.0024 14.3346 12.2949L17.1286 14.9972C17.431 15.2897 17.4316 15.7646 17.13 16.0578C16.8283 16.3511 16.3386 16.3517 16.0362 16.0592L13.2422 13.3569C12.9398 13.0644 12.9391 12.5896 13.2408 12.2963Z" fill="black"/>
             </svg>
@@ -248,7 +256,8 @@ const Home = ({ navigation }) => {
             borderWidth: 1, borderColor: 'rgb(220,220,220)', height: 75,
             width: 80, borderRadius: 10, margin: 5,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            backgroundColor: darkMode?'rgb(220,220,220)':''
           }}>
             <View style={{
               borderWidth: 1,
@@ -287,7 +296,8 @@ const Home = ({ navigation }) => {
             fontSize: 16,
             paddingHorizontal: 5,
             paddingVertical: 15,
-            paddingLeft: 10
+            paddingLeft: 10,
+            color: textColor(darkMode)
           }}>Deals Near You</Text>
           <TouchableOpacity style={style.outline} onPress={() => {
             navigation.navigate('Category Single', { title: 'Deals Near You' })
@@ -365,7 +375,8 @@ const Home = ({ navigation }) => {
         </ScrollView>
       </LinearGradient>
 
-      <View style={{ width: '100%', backgroundColor: 'rgb(245,245,245)', paddingTop: 15, paddingBottom: 15 }}>
+      <View style={{ width: '100%', 
+       paddingTop: 15, paddingBottom: 15 }}>
 
         <View style={{ paddingLeft: 10, paddingRight: 10 }}>
           <View style={{
@@ -379,7 +390,8 @@ const Home = ({ navigation }) => {
               fontSize: 16,
               paddingHorizontal: 5,
               paddingVertical: 15,
-              paddingLeft: 10
+              paddingLeft: 10,
+              color:textColor(darkMode)
             }}>Popular Deals</Text>
             <TouchableOpacity style={style.outline} onPress={() => {
               navigation.navigate('Category Single', { title: 'Popular Deals' })
@@ -417,7 +429,8 @@ const Home = ({ navigation }) => {
             fontWeight: 'bold',
             padding: 10,
             paddingLeft: 20,
-            fontFamily: 'PlusJakartaSansBold'
+            fontFamily: 'PlusJakartaSansBold',
+            color:textColor(darkMode)
           }}>Popular Hotels</Text>
           <TouchableOpacity style={style.outline} onPress={() => {
             navigation.navigate('Category Single', { title: 'Popular Hotels' })
@@ -450,6 +463,7 @@ const Home = ({ navigation }) => {
 export default Home
 
 export const IconsSet = (props) => {
+  const darkMode= useSelector(state => state.pageSettings.darkMode)
   return (
     <TouchableOpacity onPress={props.onPress} style={[{
       borderWidth: 1,
@@ -457,14 +471,15 @@ export const IconsSet = (props) => {
       width: 82, borderRadius: 10, margin: 5,
       justifyContent: 'center',
       alignItems: 'center',
-      padding: 5
+      padding: 5,
+      backgroundColor: darkMode?'rgb(220,220,220)':'white'
     }, props.style]}>
       <SvgXml height="40" width="45" style={{ margin: 5 }} xml={props.icon} />
       <Text style={{
         fontSize: 11,
         fontFamily: 'PlusJakartaSans',
         lineHeight: 14,
-        color: '#000000',
+        color: 'black',
         fontWeight: '500'
       }}>{props.name}</Text>
     </TouchableOpacity>

@@ -30,21 +30,21 @@ const RedeemHistoryCart = (props) => {
                 <View style={{ flex: 1 }}>
                     <Image
                         style={{
-                            height: 70,
-                            width: 70,
-                            borderRadius: 50,
+                            height: 60,
+                            width: 60,
+                            borderRadius: 30,
                         }}
                         source={{ uri: props.data.image }}
                     />
                 </View>
-                <View style={{ flex: 3, marginTop: 10 }}>
+                <View style={{ flex: 3, marginTop: 5,marginLeft:10}}>
                     <Text style={{ fontSize: 15, color: '#585858',
                     fontFamily: 'PlusJakartaSansBold'}}>{props.data.name}</Text>
                     <Text
                         style={{
                             fontSize: 15,
                             color: '#808080',
-                            marginTop: 10,
+                            marginTop: 3,
                             fontFamily:'PlusJakartaSans'
                         }}>{date.getDate()+' '+Months[date.getMonth()]+' '+date.getFullYear()}</Text>
                 </View>

@@ -1,6 +1,6 @@
 import {
     Button, Image, ScrollView, StyleSheet, Text,
-    Touchable, TouchableOpacity, View,Linking
+    Touchable, TouchableOpacity, View, Linking
 } from 'react-native';
 import React from 'react';
 import {
@@ -13,6 +13,7 @@ import { Category } from './Bottom';
 import { useSelector } from 'react-redux';
 import { SvgXml } from 'react-native-svg';
 import Background from '../assets/Background.png'
+import { subTextColor, textColor, backgroundColor } from './../assets/color';
 
 const DrawerMenu = ({ navigation }) => {
     const onNavigate = (screen) => {
@@ -20,10 +21,62 @@ const DrawerMenu = ({ navigation }) => {
     }
     const [dropdown, setDropdown] = React.useState(false)
     const user = useSelector(state => state.user)
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
+
+    const styles = StyleSheet.create({
+        container: {
+            padding: 20,
+            paddingBottom: 50
+        },
+        profilePicture: {
+            height: 65,
+            width: 65,
+            borderRadius: 32.5,
+            marginRight: 13
+        },
+        metaContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingBottom: 15,
+            marginTop: 30
+        },
+        horiContainer: {
+            flexDirection: 'column',
+        },
+        membership: {
+            fontSize: 15,
+            color: textColor(darkMode),
+            marginTop: 5,
+            fontWeight: '500'
+        },
+        navTab: {
+            flexDirection: 'row',
+            alignItems: "center",
+        },
+        tabIco: {
+            margin: 15,
+            color: 'rgb(170,170,170)'
+        },
+        tabIcoGold: {
+            margin: 15,
+            color: 'gold'
+        },
+        tabIco2: {
+            color: 'rgb(255,255,255)'
+        },
+        tabIco3: {
+            color: 'rgb(215,215,215)'
+        },
+        navTabText: {
+            color: subTextColor(darkMode),
+            fontSize: 16
+        }
+    });
+
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}>
+        <ScrollView style={{backgroundColor:backgroundColor(darkMode)}} showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}>
             <View style={[styles.container]}>
                 <TouchableOpacity style={[styles.metaContainer]}
                     onPress={() => onNavigate('Account')}>
@@ -31,7 +84,7 @@ const DrawerMenu = ({ navigation }) => {
                         uri: user && user[0].image ?
                             user[0].image : 'https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png'
                     }}
-                        style={[styles.profilePicture]} />           
+                        style={[styles.profilePicture]} />
 
                     <View style={{
                         flexDirection: 'row',
@@ -42,34 +95,35 @@ const DrawerMenu = ({ navigation }) => {
                         <View style={[styles.horiContainer]}>
                             <Text style={{
                                 fontWeight: '600',
-                                fontSize: 20
+                                fontSize: 20,
+                                color:textColor(darkMode)
                             }}>{user && user[0].name ? user[0].name : '-'}</Text>
                             {
                                 user && user[0].membership_type == 'Gold Membership' ? (
                                     <Text style={[styles.membership]}>
-                                        <Text style={{ color: '#FFB92E' }}>Gold </Text>
+                                        <Text style={{ color: '#FFB92E', fontFamily: 'PlusJakartaSansBold', }}>Gold </Text>
                                         Member</Text>
-                                ) : user && user[0].membership_type == 'Platinum Membership' ? (
+                                ) : user && user[0].membership_type == 'Platinum MembershipBold' ? (
                                     <Text style={[styles.membership]}>
-                                        <Text style={{ color: '#A2B0CD' }}>Platinum </Text>
+                                        <Text style={{ color: '#A2B0CD', fontFamily: 'PlusJakartaSansBold', }}>Platinum </Text>
                                         Member</Text>
-                                ) : user && user[0].membership_type == 'Diamond Membership' ? (
+                                ) : user && user[0].membership_type == 'Diamond MembershipBold' ? (
                                     <Text style={[styles.membership]}>
-                                        <Text style={{ color: '#48A6DB' }}>Diamond </Text>
+                                        <Text style={{ color: '#48A6DB', fontFamily: 'PlusJakartaSansBold', }}>Diamond </Text>
                                         Member</Text>
-                                ) : user && user[0].membership_type == 'Silver Membership' ? (
+                                ) : user && user[0].membership_type == 'Silver MembershipBold' ? (
                                     <Text style={[styles.membership]}>
-                                        <Text style={{ color: '#FC444B' }}>Slider </Text>
+                                        <Text style={{ color: '#FC444B', fontFamily: 'PlusJakartaSansBold', }}>Slider </Text>
                                         Member</Text>
                                 ) :
                                     (
                                         <Text style={[styles.membership]}>
-                                            <Text style={{ color: 'black' }}>Non </Text>
+                                            <Text style={{ color: textColor(darkMode), fontFamily: 'PlusJakartaSansBold', }}>Non </Text>
                                             Member</Text>
                                     )
                             }
                         </View>
-                        <MaterialIcons style={[styles.tabIco3]} name='navigate-next' size={35} />
+                        <MaterialIcons style={[styles.tabIco3, { marginLeft: 25 }]} name='navigate-next' size={35} />
                     </View>
                 </TouchableOpacity>
                 <View style={{
@@ -79,9 +133,9 @@ const DrawerMenu = ({ navigation }) => {
                     marginBottom: 10
                 }}></View>
                 <TouchableOpacity style={[styles.navTab]} onPress={() => {
-                    if(user && user.starting_date){
+                    if (user && user.starting_date) {
                         navigation.navigate('MemberShipInfo')
-                    }else{
+                    } else {
                         navigation.navigate('MemberShipOnboarding')
                     }
                 }}>
@@ -221,7 +275,7 @@ const DrawerMenu = ({ navigation }) => {
                         top: 0,
                         borderRadius: 10
                     }} source={Background} />
-                    <View style={{padding: 20}}>
+                    <View style={{ padding: 20 }}>
                         <Text style={{ color: 'white', fontWeight: '600', fontSize: 17 }}>Become a member and</Text>
                         <Text style={{ color: 'white', fontSize: 30, fontWeight: 'bold' }}>Save More</Text>
                         <View style={{ height: 20 }}></View>
@@ -242,52 +296,3 @@ const DrawerMenu = ({ navigation }) => {
 
 export default DrawerMenu;
 
-const styles = StyleSheet.create({
-    container: {
-        padding: 20,
-        paddingBottom: 50
-    },
-    profilePicture: {
-        height: 65,
-        width: 65,
-        borderRadius: 32.5,
-        marginRight: 13
-    },
-    metaContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingBottom: 15,
-        marginTop: 30
-    },
-    horiContainer: {
-        flexDirection: 'column',
-    },
-    membership: {
-        fontSize: 15,
-        color: 'rgb(90,90,90)',
-        marginTop: 5,
-        fontWeight: '500'
-    },
-    navTab: {
-        flexDirection: 'row',
-        alignItems: "center",
-    },
-    tabIco: {
-        margin: 15,
-        color: 'rgb(170,170,170)'
-    },
-    tabIcoGold: {
-        margin: 15,
-        color: 'gold'
-    },
-    tabIco2: {
-        color: 'rgb(255,255,255)'
-    },
-    tabIco3: {
-        color: 'rgb(215,215,215)'
-    },
-    navTabText: {
-        color: 'rgb(50,50,50)',
-        fontSize: 16
-    }
-});

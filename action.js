@@ -96,3 +96,27 @@ export const setAction=(doc)=>{
     playload:doc
   }
 }
+export const setTheme=(doc)=>{
+  return{
+    type:'SET_THEME',
+    playload:doc
+  }
+}
+export const setLanguage=(doc)=>{
+  return{
+    type:'SET_LANGUAGE',
+    playload:doc
+  }
+}
+export const setNotification=(doc)=>{
+  return{
+    type:'SET_NOTIFICATION',
+    playload:doc
+  }
+}
+export const setPageSettings=(doc)=>{
+  return{
+    type:'SET_PAGE_SETTINGS',
+    playload:doc
+  }
+}

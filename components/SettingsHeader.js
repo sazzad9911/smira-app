@@ -2,16 +2,19 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Platform } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import { SvgXml } from 'react-native-svg';
+import { useSelector } from 'react-redux';
+import { backgroundColor } from '../assets/color';
+import { textColor } from './../assets/color';
 
 const SettingsHeader = (props) => {
     const name = props.route.name;
     const navigation = props.navigation;
-
+    const darkMode=useSelector(state=>state.pageSettings.darkMode)
     return (
         <View style={{
             height: Platform.OS == 'ios' ? 120 : 50,
             flexDirection: 'row',
-            backgroundColor:'white'
+            backgroundColor:backgroundColor(darkMode)
         }}>
             <TouchableOpacity onPress={() => {
                 navigation.goBack();
@@ -33,6 +36,7 @@ const SettingsHeader = (props) => {
                     marginLeft: -40,
                     fontSize: 16,
                     fontFamily: 'PlusJakartaSansBold',
+                    color:textColor(darkMode)
                 }}>{name}</Text>
             </View>
         </View>

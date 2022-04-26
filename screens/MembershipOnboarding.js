@@ -3,18 +3,19 @@ import React from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { HotelMemberCart } from './Hotel'
 import Brands from '../components/Brands'
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons';
-import {setFamilyCode} from '../action'
+import { setFamilyCode } from '../action'
 
 const MembershipOnboarding = ({ navigation }) => {
     const brands = useSelector(state => state.brands)
     const hotels = useSelector(state => state.hotels)
+    const length=brands.length
     const dispatch = useDispatch()
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
+            showsHorizontalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
             <TouchableOpacity onPress={() => {
                 navigation.navigate('Home')
             }} style={{
@@ -78,15 +79,16 @@ const MembershipOnboarding = ({ navigation }) => {
                         fontSize: 14,
                     }}>Have a family code?</Text>
                     <Text style={{
-                        textDecorationLine: 'underline', color: '#FC444B',
+                        color: '#FC444B',
                         fontFamily: 'PlusJakartaSans',
-                        fontSize: 14
+                        fontSize: 14,
                     }} onPress={() => {
                         dispatch(setFamilyCode(true))
-                    }}>Apply it there</Text>
+                    }}>Apply it here</Text>
+                    <View style={{ backgroundColor: '#FC444B', height: 1, width: 80, marginTop: 2 }}></View>
                 </View>
                 <View style={{
-                    marginTop: 15,
+                    marginTop: 25,
                     marginBottom: 5,
                     borderWidth: 0.5,
                     borderColor: 'rgb(220,220,220)',
@@ -99,44 +101,38 @@ const MembershipOnboarding = ({ navigation }) => {
                 }}>
                     <Text style={{
                         fontFamily: 'PlusJakartaSansBold',
-                        fontSize: 16,
-                        marginBottom: 5
+                        fontSize: 18
                     }}>Save on top brands</Text>
                     <Text style={{
-                        fontSize: 11,
+                        fontSize: 14,
                         fontFamily: 'PlusJakartaSans',
-                        fontWeight: '500'
                     }}>Save big on most popular brands with us</Text>
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}
-    showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', paddingLeft: 15 }}>
-                    {
-                        brands ? (
-                            brands.map((doc, i) => (
-                                <View key={i} style={{ margin: 5 }}>
-                                    <Brands key={i} img={doc.image} />
-                                </View>
-                            ))
-                        ) : (
-                            <ActivityIndicator size="large" color="#FA454B" />
-                        )
-                    }
-                    <View style={{width:20}}></View>
-                </ScrollView>
-                <ScrollView showsVerticalScrollIndicator={false}
-    showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', paddingLeft: 15 }}>
-                    {
-                        brands ? (
-                            brands.reverse().map((doc, i) => (
-                                <View key={i} style={{ margin: 5 }}>
-                                    <Brands key={i} img={doc.image} />
-                                </View>
-                            ))
-                        ) : (
-                            <ActivityIndicator size="large" color="#FA454B" />
-                        )
-                    }
-                    <View style={{width:20}}></View>
+                    showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', paddingLeft: 15 }}>
+                    <View style={{ flexDirection: 'row' }}>
+                        {
+                            brands ? (
+                                brands.map((doc, i) => (
+                                    <View  key={i}>
+                                        <View style={{ margin: 5 }}>
+                                            <Brands key={i} img={doc.image} />
+                                        </View>
+                                        <View style={{ width: 20 }}></View>
+                                        <View style={{ margin: 5 }}>
+                                            <Brands key={i} img={brands[1].image} />
+                                        </View>
+                                    </View>
+                                ))
+                            ) : (
+                                <ActivityIndicator size="large" color="#FA454B" />
+                            )
+                        }
+                    </View>
+                    
+                    <View style={{ flexDirection: 'row' }}>
+
+                    </View>
                 </ScrollView>
                 <View style={{ width: '100%', backgroundColor: '#F5F5F5', paddingTop: 25, paddingBottom: 20 }}>
 
@@ -155,7 +151,7 @@ const MembershipOnboarding = ({ navigation }) => {
                         }}>Save big on most luxury hotels with us</Text>
                     </View>
                     <ScrollView showsVerticalScrollIndicator={false}
-    showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', margin: 15 }}>
+                        showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', margin: 15 }}>
                         {
                             hotels ? (
                                 hotels.map((doc, i) => (
@@ -165,6 +161,7 @@ const MembershipOnboarding = ({ navigation }) => {
                                 <ActivityIndicator size="large" color="#FA454B" />
                             )
                         }
+                        <View style={{width:20}}></View>
                     </ScrollView>
                 </View>
                 <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
@@ -185,7 +182,7 @@ const MembershipOnboarding = ({ navigation }) => {
                         <Text style={{ fontSize: 14, fontFamily: 'PlusJakartaSansBold', color: '#585858', fontWeight: '500' }}>
                             Still have questions?
                         </Text>
-                        <TouchableOpacity onPress={() =>{
+                        <TouchableOpacity onPress={() => {
                             navigation.navigate('Talk To Us')
                         }}>
                             <Text style={{ textAlign: 'center', color: '#FC444B', fontSize: 14, fontWeight: '500', fontFamily: 'PlusJakartaSansBold', textDecorationLine: 'underline', }}>

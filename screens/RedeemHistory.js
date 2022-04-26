@@ -38,50 +38,49 @@ const RedeemHistory = () => {
                         height: 100,
                         width: 100,
                         borderRadius: 50,
+                        marginBottom: 10
                     }}
                     source={{ uri: user && user[0].image ? user[0].image : 'https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg' }}
                 />
                 <Text
                     style={{
-                        fontSize: 18, fontFamily: 'PlusJakartaSansBold', margin: 5
+                        fontSize: 18, fontFamily: 'PlusJakartaSansBold', margin: 2
                     }}>{user && user[0].name ? user[0].name : 'Loading...'}</Text>
                 {
                     user && user[0].membership_type == 'Gold Membership' ? (
                         <Text style={[styles.membership]}>
-                            <Text style={{ color: '#FFB92E' }}>Gold </Text>
+                            <Text style={{ color: '#FFB92E', fontFamily: 'PlusJakartaSansBold', }}>Gold </Text>
                             Member</Text>
-                    ) : user && user[0].membership_type == 'Platinum Membership' ? (
+                    ) : user && user[0].membership_type == 'Platinum MembershipBold' ? (
                         <Text style={[styles.membership]}>
-                            <Text style={{ color: '#A2B0CD' }}>Platinum </Text>
+                            <Text style={{ color: '#A2B0CD', fontFamily: 'PlusJakartaSansBold', }}>Platinum </Text>
                             Member</Text>
-                    ) : user && user[0].membership_type == 'Diamond Membership' ? (
+                    ) : user && user[0].membership_type == 'Diamond MembershipBold' ? (
                         <Text style={[styles.membership]}>
-                            <Text style={{ color: '#48A6DB' }}>Diamond </Text>
+                            <Text style={{ color: '#48A6DB', fontFamily: 'PlusJakartaSansBold', }}>Diamond </Text>
                             Member</Text>
-                    ) : user && user[0].membership_type == 'Silver Membership' ? (
+                    ) : user && user[0].membership_type == 'Silver MembershipBold' ? (
                         <Text style={[styles.membership]}>
-                            <Text style={{ color: '#FC444B' }}>Slider </Text>
+                            <Text style={{ color: '#FC444B', fontFamily: 'PlusJakartaSansBold', }}>Slider </Text>
                             Member</Text>
                     ) :
                         (
                             <Text style={[styles.membership]}>
-                                <Text style={{ color: 'black' }}>Non </Text>
+                                <Text style={{ color: 'black', fontFamily: 'PlusJakartaSansBold', }}>Non </Text>
                                 Member</Text>
                         )
                 }
             </View>
-            <View style={{ borderWidth: 0.7, margin: 15, borderColor: '#F5F5F5' }}>
+            <View style={{ borderWidth: 0.7, margin: 15, marginTop: 30, borderColor: '#F5F5F5' }}>
             </View>
             {
                 //must be include the props types,title,date and image
                 RedeemHistory ? (
                     RedeemHistory.map((doc, index) => (
                         <View key={index}>
-                            <RedeemHistoryCart 
+                            <RedeemHistoryCart
                                 type={doc.purches_type == 'deals' ? "coupon" : "hotel"}
                                 data={doc} />
-                            <View style={{ borderWidth: 0.7, margin: 1,
-                             borderColor: '#F5F5F5',marginLeft:15,marginRight:15 }}></View>
                         </View>
 
                     ))
@@ -99,6 +98,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: 'rgb(90,90,90)',
         marginTop: 5,
-        fontWeight: '500'
+        fontFamily: 'PlusJakartaSans',
     },
 })

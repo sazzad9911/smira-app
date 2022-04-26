@@ -17,7 +17,7 @@ const App = () => {
   if (!fontsLoaded) {
     return <Text>Loading..</Text>;
   }
-  
+
   return (
     <Provider store={store}>
       <StackNavigation />
