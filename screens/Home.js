@@ -257,7 +257,7 @@ const Home = ({ navigation }) => {
             width: 80, borderRadius: 10, margin: 5,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: darkMode?'rgb(220,220,220)':''
+            backgroundColor: darkMode?'rgb(220,220,220)':'transparent'
           }}>
             <View style={{
               borderWidth: 1,

@@ -1,22 +1,26 @@
 import React from 'react';
 import { View, ScrollView, Text } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
+import {useSelector,useDispatch} from 'react-redux'
+import { backgroundColor, textColor } from './../assets/color';
 
 const ConfirmMessage = (props) => {
     const params = props.route.params;
+    const darkMode= useSelector(state => state.pageSettings.darkMode)
     return (
         <View>
             <View style={{
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100%',
-                backgroundColor: 'white'
+                backgroundColor: backgroundColor(darkMode)
             }}>
                 <AntDesign name="checkcircle" size={50} color="red" />
                 <Text style={{
                     fontSize: 20,
                     fontWeight: '700',
-                    marginTop: 20
+                    marginTop: 20,
+                    color:textColor(darkMode)
                 }}>Confirmation!</Text>
                 <Text style={{
                     fontSize: 14,

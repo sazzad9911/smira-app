@@ -1,88 +1,178 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView,
-     Dimensions, Button, TouchableOpacity, TextInput } from 'react-native'
+import {
+    Text, View, StyleSheet, ScrollView,
+    Dimensions, Button, TouchableOpacity, TextInput, Alert
+} from 'react-native'
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { backgroundColor, textColor } from './../assets/color';
 const window = Dimensions.get('window')
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    isValid,
+    isExpirationDateValid,
+    isSecurityCodeValid,
+    getCreditCardNameByNumber,
+} from 'creditcard.js';
+import { postData, url, setUser, setAnimatedLoader } from '../action';
+import { getAuth } from 'firebase/auth';
+import app from '../firebase';
 
 
 const CheckOut = (props) => {
     const params = props.route.params
     const darkMode = useSelector(state => state.pageSettings.darkMode)
-    const membership= useSelector(state => state.membership)
-    const [Membership,setMemberships] =React.useState(null)
+    const membership = useSelector(state => state.membership)
+    const [Membership, setMemberships] = React.useState(null)
+    const [CardNumber, setCardNumber] = React.useState(null)
+    const [Expiry, setExpiry] = React.useState(null)
+    const [CVV, setCVV] = React.useState(null)
+    const [PromoCode, setPromoCode] = React.useState(null)
+    const [Access, setAccess] = React.useState(false)
+    const auth = getAuth(app);
+    const dispatch = useDispatch()
+    const navigation = props.navigation
+    const date = new Date()
+    const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    const user = useSelector(state => state.user)
 
     React.useEffect(() => {
         if (membership) {
-            membership.forEach(member=>{
-                if(member.id==params.id){
+            membership.forEach(member => {
+                if (member.id == params.id) {
                     setMemberships(member)
                 }
             })
         }
-    },[membership])
+    }, [membership])
+
+    const checkCard = () => {
+        if (user && user[0].membership_type) {
+            Alert.alert('Opps!', 'You have already started your trial.')
+            return
+        }
+        let date = Expiry.split('/')
+        // returns true
+        if (isValid(CardNumber)) {
+            Alert.alert('Opps!', 'Invalid Card Number')
+            return
+        }
+        if (!isExpirationDateValid(date[0], date[1])) {
+            Alert.alert('Opps!', 'Invalid expiry date');
+            return
+        }
+        if (!isSecurityCodeValid(CardNumber, CVV)) {
+            Alert.alert('Opps!', 'Invalid Card number and CVV')
+            return
+        }
+        dispatch(setAnimatedLoader(true))
+        let newDate = new Date()
+        newDate = newDate.getFullYear() + '-' + (newDate.getMonth() + 2) + '-' + newDate.getDate()
+        postData(url + '/updateData', {
+            tableName: 'user',
+            columns: ['membership_type', 'starting_date', 'ending_date'],
+            values: [params.type, convertDate(new Date()), newDate],
+            condition: "uid=" + "'" + auth.currentUser.uid + "'"
+        }).then(response => {
+            postData(url + '/getData', {
+                tableName: 'user',
+                condition: "uid=" + "'" + auth.currentUser.uid + "'"
+            }).then(response => {
+                if (Array.isArray(response)) {
+                    dispatch(setUser(response))
+                    dispatch(setAnimatedLoader(false))
+                    return navigation.navigate('Confirm Message', {
+                        text1: 'You have successfully parched.',
+                        text2: 'We make charge from next month.'
+                    })
+                }
+                dispatch(setAnimatedLoader(false))
+            })
+        })
+    }
+    const convertDate = (date) => {
+        let data = '';
+        return data = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate())
+    }
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}>
-            <View style={[styles.main,{ backgroundColor:backgroundColor(darkMode)}]}>
+            showsHorizontalScrollIndicator={false}>
+            <View style={[styles.main, { backgroundColor: backgroundColor(darkMode) }]}>
                 <View>
-                    <Text style={[styles.text1,{
-                        color:textColor(darkMode)
+                    <Text style={[styles.text1, {
+                        color: textColor(darkMode)
                     }]}>Start your 30-days trial now!</Text>
                     <Text style={styles.text2}>We won't charge you today.Your payment day will be on{" "}
-                        <Text style={[styles.text3, { color: params.color }]}>April 5,2022.</Text>
+                        <Text style={[styles.text3, { color: params.color }]}>
+                            {Months[date.getMonth() + 1] + ' ' + date.getDate() + ' ' + date.getFullYear()}.</Text>
                     </Text>
                 </View>
                 <View style={styles.box}>
                     <View style={styles.logo1}>
                         <FontAwesome name="rupee" size={24} color={textColor(darkMode)} /><Text>
-                        <Text style={[styles.rupee,{ color:textColor(darkMode)}]}>
-                        {Membership?Membership.price:""}</Text><Text style={{color:'#585858'}}>/2 years</Text></Text>
+                            <Text style={[styles.rupee, { color: textColor(darkMode) }]}>
+                                {Membership ? Membership.price : ""}</Text>
+                            <Text style={{ color: '#585858' }}>/2 years</Text></Text>
                     </View>
                     <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} /><Text style={styles.underrupee}>Stays upto 40 nights</Text>
+                        <AntDesign name="checkcircle" size={24} color={params.color} />
+                        <Text style={styles.underrupee}>Stays upto 40 nights</Text>
                     </View>
                     <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} /><Text style={styles.underrupee}>Valid on any 5 hotels</Text>
+                        <AntDesign name="checkcircle" size={24} color={params.color} />
+                        <Text style={styles.underrupee}>Valid on any 5 hotels</Text>
                     </View>
                     <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} /><Text style={styles.underrupee}>Family access upto 3 accounts</Text>
+                        <AntDesign name="checkcircle" size={24} color={params.color} />
+                        <Text style={styles.underrupee}>Family access upto 3 accounts</Text>
                     </View>
                     <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} /><Text style={styles.underrupee}>10 days prior to reservation</Text>
+                        <AntDesign name="checkcircle" size={24} color={params.color} />
+                        <Text style={styles.underrupee}>10 days prior to reservation</Text>
                     </View>
                     <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} /><Text style={styles.underrupee}>Weekends booking</Text>
+                        <AntDesign name="checkcircle" size={24} color={params.color} />
+                        <Text style={styles.underrupee}>Weekends booking</Text>
                     </View>
                     <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} /><Text style={styles.underrupee}>Peak days booking</Text>
+                        <AntDesign name="checkcircle" size={24} color={params.color} />
+                        <Text style={styles.underrupee}>Peak days booking</Text>
                     </View>
                 </View>
                 <View style={{ width: window.width }}>
                     <Text style={styles.underboxtext}>Payment Method</Text>
                 </View>
-                <TouchableOpacity>
-                    <View style={[styles.button1, { backgroundColor: params.color }]}>
-                        <Text style={styles.button1text}>TRY IT FOR 30 DAYS</Text>
+                <TouchableOpacity disabled={CardNumber && Expiry && CVV ? false : true} onPress={() => {
+                    checkCard()
+                }}>
+                    <View style={[styles.button1, {
+                        backgroundColor: CardNumber && Expiry && CVV ? params.color : 'transparent',
+                        borderWidth: 1,
+                        borderColor: params.color
+                    }]}>
+                        <Text style={[styles.button1text, {
+                            color: textColor(darkMode)
+                        }]}>TRY IT FOR 30 DAYS</Text>
                     </View>
                 </TouchableOpacity>
                 <View style={styles.card}>
                     <Text style={styles.text2}>Card Number</Text>
-                    <TextInput style={styles.input} placeholder='0000 0000 0000 0000' />
+                    <TextInput keyboardType='number-pad' onChangeText={setCardNumber}
+                        style={styles.input} placeholder='0000 0000 0000 0000' />
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ flex: 2 }}>
                             <Text style={styles.text2}>Expiry Date</Text>
-                            <TextInput style={styles.input} placeholder='MM/YY' />
+                            <TextInput onChangeText={setExpiry}
+                                style={styles.input} placeholder='MM/YYYY' />
                         </View>
                         <View style={{ flex: 1, marginLeft: 10 }}>
                             <Text style={styles.text2}>CVV</Text>
-                            <TextInput style={styles.input} placeholder='....' />
+                            <TextInput onChangeText={setCVV}
+                                style={styles.input} placeholder='....' />
                         </View>
                     </View>
                 </View>
-                <View style={{marginBottom:50}}>
+                <View style={{ marginBottom: 50 }}>
                     <TextInput style={styles.input1} placeholder='Promo Code' />
                 </View>
             </View>
@@ -96,14 +186,14 @@ const styles = StyleSheet.create({
         padding: 5,
         alignItems: "center",
         width: window.width,
-        backgroundColor:'#ffffff'
+        backgroundColor: '#ffffff'
     },
 
 
     text1: {
         fontSize: 20,
         fontFamily: 'PlusJakartaSansBold',
-        fontWeight:'500',
+        fontWeight: '500',
         margin: 10,
         justifyContent: "center",
         alignItems: "center",
@@ -111,7 +201,7 @@ const styles = StyleSheet.create({
 
     text2: {
         fontSize: 14,
-        fontWeight:'500',
+        fontWeight: '500',
         margin: 10,
         color: '#585858',
         fontFamily: 'PlusJakartaSans',
@@ -120,7 +210,7 @@ const styles = StyleSheet.create({
     text3: {
         color: '#FC444B',
         fontSize: 14,
-        fontWeight:'500',
+        fontWeight: '500',
         fontFamily: 'PlusJakartaSans',
     },
 
@@ -143,13 +233,13 @@ const styles = StyleSheet.create({
     rupee: {
         fontSize: 30,
         fontFamily: 'PlusJakartaSansBold',
-        fontWeight:'500'
+        fontWeight: '500'
     },
 
     underrupee: {
         fontSize: 14,
         fontFamily: 'PlusJakartaSans',
-        fontWeight:'500',
+        fontWeight: '500',
         marginLeft: 15,
         color: '#585858'
     },
@@ -157,7 +247,7 @@ const styles = StyleSheet.create({
     underboxtext: {
         fontSize: 14,
         fontFamily: 'PlusJakartaSansBold',
-        fontWeight:'500',
+        fontWeight: '500',
         margin: 25,
         color: '#585858'
     },
@@ -174,7 +264,7 @@ const styles = StyleSheet.create({
     button1text: {
         fontSize: 13,
         fontFamily: 'PlusJakartaSans',
-        fontWeight:'500',
+        fontWeight: '500',
         color: `#ffffff`,
         textAlign: "center"
     },
@@ -192,16 +282,16 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 14,
         fontFamily: 'PlusJakartaSans',
-        fontWeight:'500',
+        fontWeight: '500',
         height: 50,
         backgroundColor: '#f5f5f5',
         borderRadius: 30,
         padding: 10,
     },
     input1: {
-        
+
         fontFamily: 'PlusJakartaSans',
-        fontWeight:'500',
+        fontWeight: '500',
         height: 50,
         backgroundColor: '#ffffff',
         borderRadius: 10,

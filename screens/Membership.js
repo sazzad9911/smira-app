@@ -83,7 +83,8 @@ const MembershipSlide = (props) => {
                 <Text style={style.textMargin}>Family access upto {props.account} accounts</Text>
                 <Text style={style.textMargin}>Benefits worth of ₹{props.amount}</Text>
 
-                <TouchableOpacity onPress={() => navigation.navigate('Checkout', { color: props.headcolor,id:props.data.id })}>
+                <TouchableOpacity onPress={() => navigation.navigate('Checkout', { color: props.headcolor,
+                id:props.data.id,type:props.data.type })}>
                     <View style={[style.bottomButton, {
                         backgroundColor: props.Buttoncolor,
                     }]}>
