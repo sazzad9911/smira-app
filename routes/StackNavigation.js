@@ -88,7 +88,7 @@ const Dashboard = ({ navigation }) => {
                             <Category navigation={navigation}
                                 close={handleSheetChanges} />
                         ) : bottomSheet == 'calendar' ? (
-                            <HotelBooking navigation={navigation} />
+                            <HotelBooking close={handleSheetChanges} navigation={navigation} />
                         ) : bottomSheet == 'filter' ? (
                             <Filter close={handleSheetChanges} />
                         ) : bottomSheet == 'shortBy' ? (

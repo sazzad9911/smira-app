@@ -227,7 +227,7 @@ const DrawerMenu = ({ navigation }) => {
                         `}
                         height="22"
                         width="22" />
-                    <Text style={[styles.navTabText]}>Setting</Text>
+                    <Text style={[styles.navTabText]}>Settings</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.navTab]} onPress={() => {
                     Linking.openURL('https://www.google.com')

@@ -1,4 +1,7 @@
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Platform, ActivityIndicator } from 'react-native'
+import {
+    ScrollView, StyleSheet, Text, View,
+    TouchableOpacity, Platform, ActivityIndicator, Image
+} from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { HotelMemberCart } from './Hotel'
@@ -6,16 +9,19 @@ import Brands from '../components/Brands'
 import { useSelector, useDispatch } from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons';
 import { setFamilyCode } from '../action'
+import Background from '../assets/Background.png'
+import { backgroundColor, textColor } from './../assets/color';
 
 const MembershipOnboarding = ({ navigation }) => {
     const brands = useSelector(state => state.brands)
     const hotels = useSelector(state => state.hotels)
-    const length=brands.length
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
+    const length = brands ? brands.length : 0
     const dispatch = useDispatch()
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
+            showsHorizontalScrollIndicator={false} style={{ backgroundColor: backgroundColor(darkMode) }}>
             <TouchableOpacity onPress={() => {
                 navigation.navigate('Home')
             }} style={{
@@ -25,51 +31,68 @@ const MembershipOnboarding = ({ navigation }) => {
                 <AntDesign name='close' size={24} style={{
                     flex: 1,
                     margin: 15,
+                    color: textColor(darkMode)
                 }} />
             </TouchableOpacity>
 
             <View style={{ marginBottom: 15 }}>
-                <Text style={{ textAlign: 'center', fontSize: 14, marginBottom: 7, fontFamily: 'PlusJakartaSans', lineHeight: 20 }}>You’re invited to become</Text>
+                <Text style={{
+                    textAlign: 'center',
+                    fontSize: 14, marginBottom: 7,
+                    fontFamily: 'PlusJakartaSans',
+                    lineHeight: 20, color: textColor(darkMode)
+                }}>You’re invited to become</Text>
                 <Text style={{
                     textAlign: 'center', fontSize: 24,
                     fontFamily: 'PlusJakartaSansBold',
+                    color: textColor(darkMode)
                 }}><Text style={{ color: '#F33B41', fontWeight: '600' }}>SmiraClub</Text> Member</Text>
             </View>
             <View style={{ alignItems: 'center' }}>
-                <View style={{
-                    backgroundColor: '#F33B41', borderRadius: 10, height: 250, width: '90%',
-                    flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between',
-                    paddingTop: 10, paddingBottom: 20, shadowOffset: {
-                        width: 5,
-                        height: 5
-                    },
-                    shadowColor: 'gray',
-                    shadowOpacity: 0.5,
-                    shadowRadius: 5,
-                    elevation: 10
-                }}>
-                    <View style={{ flex: 0.5 }}></View>
-                    <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                        <Text style={{ fontFamily: 'PlusJakartaSansBold', color: 'white', fontSize: 32, }}>Worth of ₹ 1 lakh</Text>
-                        <View style={{ width: '80%', borderColor: 'rgba(255, 255, 255, 0.3)', borderWidth: 0.5, marginBottom: 10, marginTop: 10 }}></View>
-                        <Text style={{
-                            color: 'white',
-                            fontFamily: 'PlusJakartaSans',
-                            fontSize: 14,
-                        }}>Unlimited enjoyment • Unlimited savings!</Text>
-                    </View>
-                    <View style={{ flex: 1 }}></View>
-                    <TouchableOpacity style={{
-                        backgroundColor: 'white', width: '90%', flex: 1, borderRadius: 7,
-                        justifyContent: 'center', alignItems: 'center'
-                    }} onPress={() => {
-                        navigation.navigate('Choose Your Membership')
+                <View style={{ height: 250, width: '90%', borderRadius: 10 }}>
+                    <Image source={Background} style={{
+                        height: '100%', width: '100%',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        borderRadius: 10
+                    }} />
+                    <View style={{
+                        borderRadius: 10, width: '100%', height: '100%',
+                        flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between',
+                        paddingTop: 10, paddingBottom: 20, shadowOffset: {
+                            width: 5,
+                            height: 5
+                        },
+                        shadowColor: 'gray',
+                        shadowOpacity: 0.5,
+                        shadowRadius: 5,
+                        elevation: 10
                     }}>
-                        <Text style={{
-                            fontSize: 16,
-                            fontFamily: 'PlusJakartaSans',
-                        }}>Claim your free month</Text>
-                    </TouchableOpacity>
+
+                        <View style={{ flex: 0.5 }}></View>
+                        <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                            <Text style={{ fontFamily: 'PlusJakartaSansBold', color: 'white', fontSize: 32, }}>Worth of ₹ 1 lakh</Text>
+                            <View style={{ width: '80%', borderColor: 'rgba(255, 255, 255, 0.3)', borderWidth: 0.5, marginBottom: 10, marginTop: 10 }}></View>
+                            <Text style={{
+                                color: 'white',
+                                fontFamily: 'PlusJakartaSans',
+                                fontSize: 14,
+                            }}>Unlimited enjoyment • Unlimited savings!</Text>
+                        </View>
+                        <View style={{ flex: 1 }}></View>
+                        <TouchableOpacity style={{
+                            backgroundColor: 'white', width: '90%', flex: 1, borderRadius: 7,
+                            justifyContent: 'center', alignItems: 'center'
+                        }} onPress={() => {
+                            navigation.navigate('Choose Your Membership')
+                        }}>
+                            <Text style={{
+                                fontSize: 16,
+                                fontFamily: 'PlusJakartaSans',
+                            }}>Claim your free month</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 15, }}>
                     <Text style={{
@@ -101,11 +124,13 @@ const MembershipOnboarding = ({ navigation }) => {
                 }}>
                     <Text style={{
                         fontFamily: 'PlusJakartaSansBold',
-                        fontSize: 18
+                        fontSize: 18,
+                        color: textColor(darkMode)
                     }}>Save on top brands</Text>
                     <Text style={{
                         fontSize: 14,
                         fontFamily: 'PlusJakartaSans',
+                        color: textColor(darkMode)
                     }}>Save big on most popular brands with us</Text>
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}
@@ -114,7 +139,7 @@ const MembershipOnboarding = ({ navigation }) => {
                         {
                             brands ? (
                                 brands.map((doc, i) => (
-                                    <View  key={i}>
+                                    <View key={i}>
                                         <View style={{ margin: 5 }}>
                                             <Brands key={i} img={doc.image} />
                                         </View>
@@ -129,12 +154,12 @@ const MembershipOnboarding = ({ navigation }) => {
                             )
                         }
                     </View>
-                    
+
                     <View style={{ flexDirection: 'row' }}>
 
                     </View>
                 </ScrollView>
-                <View style={{ width: '100%', backgroundColor: '#F5F5F5', paddingTop: 25, paddingBottom: 20 }}>
+                <View style={{ width: '100%', backgroundColor: backgroundColor(darkMode), paddingTop: 25, paddingBottom: 20 }}>
 
                     <View style={{ width: '100%', }}>
                         <Text style={{
@@ -142,12 +167,14 @@ const MembershipOnboarding = ({ navigation }) => {
                             fontFamily: 'PlusJakartaSansBold',
                             fontWeight: '700',
                             paddingLeft: 10,
+                            color: textColor(darkMode)
                         }}>Free Stays at Executive Hotels</Text>
                         <Text style={{
                             paddingLeft: 10,
                             fontSize: 11,
                             fontFamily: 'PlusJakartaSans',
-                            fontWeight: '500'
+                            fontWeight: '500',
+                            color: textColor(darkMode)
                         }}>Save big on most luxury hotels with us</Text>
                     </View>
                     <ScrollView showsVerticalScrollIndicator={false}
@@ -161,7 +188,7 @@ const MembershipOnboarding = ({ navigation }) => {
                                 <ActivityIndicator size="large" color="#FA454B" />
                             )
                         }
-                        <View style={{width:20}}></View>
+                        <View style={{ width: 20 }}></View>
                     </ScrollView>
                 </View>
                 <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
@@ -171,7 +198,8 @@ const MembershipOnboarding = ({ navigation }) => {
                         marginBottom: 35,
                         fontSize: 18,
                         fontFamily: 'PlusJakartaSansBold',
-                        fontWeight: '700'
+                        fontWeight: '700',
+                        color: textColor(darkMode)
                     }}>FAQs</Text>
 
                     <Quiz />

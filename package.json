@@ -21,6 +21,7 @@
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "@react-navigation/stack": "^6.1.1",
+    "creditcard.js": "^3.0.16",
     "expo": "~44.0.0",
     "expo-clipboard": "^2.1.1",
     "expo-firebase-recaptcha": "^2.1.0",

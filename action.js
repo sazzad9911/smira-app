@@ -120,3 +120,9 @@ export const setPageSettings=(doc)=>{
     playload:doc
   }
 }
+export const setMembership=(doc)=>{
+  return{
+    type:'SET_MEMBERSHIP',
+    playload:doc
+  }
+}

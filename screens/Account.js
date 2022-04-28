@@ -20,6 +20,8 @@ import {
   mailIcon, birthdayIcon, cityIcon, memberIcon
 } from '../components/Icon'
 import { getStorage, ref, uploadString, getDownloadURL, uploadBytes } from 'firebase/storage'
+import { backgroundColor } from '../assets/color';
+import { textColor } from './../assets/color';
 
 function Account({ navigation }) {
 
@@ -73,7 +75,7 @@ function Account({ navigation }) {
     postData(url + '/updateData', {
       tableName: 'user',
       columns: [key],
-      values: [value], 
+      values: [value],
       condition: "uid=" + "'" + auth.currentUser.uid + "'"
     }).then(data => {
       postData(url + '/getData', {
@@ -122,7 +124,7 @@ function Account({ navigation }) {
             };
             xhr.open('GET', url);
             xhr.send();
-            Save('image',url);
+            Save('image', url);
           })
       });
     }
@@ -202,7 +204,7 @@ function Account({ navigation }) {
             } else {
               setGender('Male')
             }
-            Save('gender', Gender=='Male'?'Female':'Male')
+            Save('gender', Gender == 'Male' ? 'Female' : 'Male')
           }}
           style={[styles.formRow]}>
           <View style={[styles.imageStyle, Gender === "" ? styles.imageStyleEmptyStyle : '']} >
@@ -280,6 +282,7 @@ export const FamilyCode = () => {
   const [ShowModal, setShowModal] = useState(true)
   const { height, width } = Dimensions.get('screen')
   const [MembershipFamilyCode, setMembershipFamilyCode] = useState("")
+  const darkMode = useSelector(state => state.pageSettings.darkMode)
   return (
     <Modal
       animationType='fade'
@@ -294,17 +297,25 @@ export const FamilyCode = () => {
         height: height, width: width, padding: 16, backgroundColor: 'rgba(0, 0, 0, 0.357)'
       }}>
         <View style={{
-          width: '100%', backgroundColor: 'white',
+          width: '100%', backgroundColor: backgroundColor(darkMode),
           shadowColor: '#000', shadowOpacity: 0.7, shadowRadius: 10, shadowOffset: {
             height: 3, width: 3
           }, borderRadius: 10, elevation: 10
         }}>
-          <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-end', padding: 15 }}>
-            <MaterialCommunityIcons name='close' size={28} onPress={() => {
+          <TouchableOpacity style={{
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            padding: 15,
+          }}>
+            <MaterialCommunityIcons color={textColor(darkMode)} name='close' size={28} onPress={() => {
               dispatch(setFamilyCode(!familyCode))
             }} />
           </TouchableOpacity>
-          <Text style={{ textAlign: 'center', fontSize: 18, marginBottom: 20 }}>Membership Family Code</Text>
+          <Text style={{
+            textAlign: 'center',
+            fontSize: 18,
+            marginBottom: 20, color: textColor(darkMode)
+          }}>Membership Family Code</Text>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <TextInput
               placeholder='XXXX-XXXX-XXXX-XXXX'
@@ -312,9 +323,10 @@ export const FamilyCode = () => {
               value={MembershipFamilyCode}
               onChangeText={text => setMembershipFamilyCode(text)}
               style={{
-                width: '80%', backgroundColor: 'rgb(245,245,245)', height: 40,
+                width: '80%', backgroundColor: backgroundColor(darkMode), height: 40,
                 borderRadius: 20, paddingLeft: 20, paddingRight: 20, textAlign: 'center'
-                , marginBottom: 5,
+                , marginBottom: 5, color: textColor(darkMode),borderWidth:1,
+                 borderColor:textColor(darkMode)
               }} />
           </View>
           {

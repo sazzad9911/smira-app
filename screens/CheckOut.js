@@ -1,24 +1,45 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView, Dimensions, Button, TouchableOpacity, TextInput } from 'react-native'
+import { Text, View, StyleSheet, ScrollView,
+     Dimensions, Button, TouchableOpacity, TextInput } from 'react-native'
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
+import { backgroundColor, textColor } from './../assets/color';
 const window = Dimensions.get('window')
+import { useSelector } from 'react-redux';
+
 
 const CheckOut = (props) => {
     const params = props.route.params
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
+    const membership= useSelector(state => state.membership)
+    const [Membership,setMemberships] =React.useState(null)
+
+    React.useEffect(() => {
+        if (membership) {
+            membership.forEach(member=>{
+                if(member.id==params.id){
+                    setMemberships(member)
+                }
+            })
+        }
+    },[membership])
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
-            <View style={styles.main}>
+            <View style={[styles.main,{ backgroundColor:backgroundColor(darkMode)}]}>
                 <View>
-                    <Text style={styles.text1}>Start your 30-days trial now!</Text>
+                    <Text style={[styles.text1,{
+                        color:textColor(darkMode)
+                    }]}>Start your 30-days trial now!</Text>
                     <Text style={styles.text2}>We won't charge you today.Your payment day will be on{" "}
                         <Text style={[styles.text3, { color: params.color }]}>April 5,2022.</Text>
                     </Text>
                 </View>
                 <View style={styles.box}>
                     <View style={styles.logo1}>
-                        <FontAwesome name="rupee" size={24} color="black" /><Text><Text style={styles.rupee}>2999</Text ><Text style={{color:'#585858'}}>/2 years</Text></Text>
+                        <FontAwesome name="rupee" size={24} color={textColor(darkMode)} /><Text>
+                        <Text style={[styles.rupee,{ color:textColor(darkMode)}]}>
+                        {Membership?Membership.price:""}</Text><Text style={{color:'#585858'}}>/2 years</Text></Text>
                     </View>
                     <View style={styles.logo1}>
                         <AntDesign name="checkcircle" size={24} color={params.color} /><Text style={styles.underrupee}>Stays upto 40 nights</Text>

@@ -1,22 +1,49 @@
 import React from 'react';
-import { View, Text, ScrollView, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
-import {useDispatch} from 'react-redux'
+import { View, Text, ScrollView, Dimensions, 
+    TouchableOpacity, StyleSheet,ActivityIndicator } from 'react-native';
+import {useDispatch,useSelector} from 'react-redux'
 import {setFamilyCode} from '../action'
+import { backgroundColor, textColor } from './../assets/color';
+import {postData, url,setMembership} from '../action'
 
 
 const Membership = ({ navigation }) => {
     const dispatch= useDispatch()
+    const darkMode= useSelector(state => state.pageSettings.darkMode)
+    const [Membership,setMemberships]= React.useState(null)
+
+    React.useEffect(() => {
+        postData(url +'/getData',{
+            tableName: 'membership',
+        }).then(membership =>{
+            if(Array.isArray(membership)){
+                setMemberships(membership)
+                return dispatch(setMembership(membership))
+            }
+        })
+    },[])
     return (
-        <View style={style.body}>
+        <View style={[style.body,{backgroundColor:backgroundColor(darkMode)}]}>
             <ScrollView showsVerticalScrollIndicator={false}
     showsHorizontalScrollIndicator={false} style={{ width: '100%' }}>
-                <Text style={style.bodyHeaderText}>Claim Your <Text style={{
+                <Text style={[style.bodyHeaderText,{
+                    color:textColor(darkMode)
+                }]}>Claim Your <Text style={{
                     color: '#FA454B'
                 }}>Free Month</Text></Text>
                 <View style={{ alignItems: 'center' }}>
-                    <MembershipSlide navigation={navigation} headcolor='#FA454B' night='40' hotel='5' account='3' amount='50000' Buttoncolor='#FA454B'></MembershipSlide>
-                    <MembershipSlide navigation={navigation} headcolor='#D4B931' night='50' hotel='6' account='4' amount='60000' Buttoncolor='#D4B931'></MembershipSlide>
-                    <MembershipSlide navigation={navigation} headcolor='#31D485' night='60' hotel='7' account='5' amount='70000' Buttoncolor='#31D485'></MembershipSlide>
+                    {
+                        Membership?(
+                            Membership.map((member,i)=>(
+                                <MembershipSlide key={i} data={member} navigation={navigation} headcolor={member.color}
+                                 night={member.night} hotel={member.hotel} account={member.account} 
+                                 amount={member.price} Buttoncolor={member.color}></MembershipSlide>
+                            ))
+                        ):(
+                            <ActivityIndicator size="large" color="#FA454B" />
+                        )
+                    }
+                    
                 </View>
                 <Text style={{
                     marginTop: 10,
@@ -42,16 +69,21 @@ export default Membership;
 const MembershipSlide = (props) => {
     const navigation = props.navigation
     const { height, width } = Dimensions.get('screen');
+    const darkMode= useSelector(state => state.pageSettings.darkMode)
     return (
-        <View style={style.slideView}>
+        <View style={[style.slideView,{
+            backgroundColor:backgroundColor(darkMode)
+        }]}>
             <View style={style.slideContent}>
-                <Text style={style.slideContentHead}><Text style={{ color: props.headcolor }}>Silver</Text> Membership</Text>
+                <Text style={[style.slideContentHead,{
+                    color:textColor(darkMode)
+                }]}><Text style={{ color: props.headcolor }}>Silver</Text> Membership</Text>
                 <Text style={style.textMargin}>Hotel stays of up to {props.night} nights</Text>
                 <Text style={style.textMargin}>Valid on any {props.hotel} hotels</Text>
                 <Text style={style.textMargin}>Family access upto {props.account} accounts</Text>
                 <Text style={style.textMargin}>Benefits worth of ₹{props.amount}</Text>
 
-                <TouchableOpacity onPress={() => navigation.navigate('Checkout', { color: props.headcolor })}>
+                <TouchableOpacity onPress={() => navigation.navigate('Checkout', { color: props.headcolor,id:props.data.id })}>
                     <View style={[style.bottomButton, {
                         backgroundColor: props.Buttoncolor,
                     }]}>
@@ -117,7 +149,6 @@ const style = StyleSheet.create({
         alignItems: 'center',
         height: '100%',
         width: '100%',
-        backgroundColor: 'white'
     },
     bodyHeaderText: {
         fontSize: 22,

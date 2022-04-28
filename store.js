@@ -6,6 +6,7 @@ import recentSearch from './Reducers/recentSearch';
 import loader from './Reducers/loader';
 import user from './Reducers/user';
 import pageSettings from './Reducers/pageSettings';
+import membership from './Reducers/membership';
 
 const combine=combineReducers({
     brands: brands,
@@ -15,6 +16,7 @@ const combine=combineReducers({
     loader: loader,
     user: user,
     pageSettings: pageSettings,
+    membership: membership
 })
 
 const store=createStore(combine);
