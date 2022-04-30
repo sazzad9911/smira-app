@@ -5,13 +5,14 @@ import {
 import React from 'react'
 import userImage from '../assets/10.jpg';
 import { Entypo, Ionicons } from '@expo/vector-icons';
-import { useSelector } from 'react-redux'
+import { useSelector ,useDispatch} from 'react-redux'
 import { backgroundColor, textColor } from './../assets/color';
-import { postData, url } from '../action';
+import { postData, url,setFamilyCode } from '../action';
 
 const MemberShipInfo = ({ navigation }) => {
   const user = useSelector(state => state.user)
   const darkMode = useSelector(state => state.pageSettings.darkMode)
+  const dispatch = useDispatch()
   //console.log(user)
 
   const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -154,10 +155,12 @@ const MemberShipInfo = ({ navigation }) => {
             <Entypo name="chevron-with-circle-right" size={28} color="white" />
           </View>
         </TouchableOpacity>
-        <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+        <TouchableOpacity onPress={()=>{
+          dispatch(setFamilyCode(true))
+        }} style={{ alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
           <Text style={{ fontSize: 16, color: '#585858' }}>Have a family code?</Text>
           <Text style={{ color: '#FC444B', textDecorationLine: 'underline', fontSize: 16, marginTop: 10 }}>Apply it here</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   )

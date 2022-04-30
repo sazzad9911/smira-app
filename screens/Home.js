@@ -57,7 +57,7 @@ const Home = ({ navigation }) => {
       console.log('Home.js->' + err.code)
       return data
     })
-  }, [])
+  }, [Brand])
   React.useEffect(() => {
     let data = postData(url + "/getData", {
       tableName: "slider"
