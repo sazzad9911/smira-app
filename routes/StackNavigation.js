@@ -27,9 +27,13 @@ const StackNavigation = () => {
             }
         })
     }, [])
-
+    const theme = { //like this
+        colors: {
+          background: "transparent",
+        },
+      };
     return (
-        <NavigationContainer theme={pageSettings.darkMode ? DarkTheme : DefaultTheme}>
+        <NavigationContainer theme={theme}>
             <Stack.Navigator>
                 <Stack.Screen options={{ headerShown: false }} name="Onboarding" component={Onboarding} />
                 <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
@@ -41,13 +45,9 @@ const StackNavigation = () => {
 };
 
 export default StackNavigation;
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { setBottomSheet } from '../action'
-import { Category } from '../components/Bottom';
-import HotelBooking from '../components/HotelBooking';
-import ShortBy from '../components/ShortBy';
-import Filter from '../components/Filter';
-import { backgroundColor,subTextColor } from './../assets/color';
+import BottomDrawer from './BottomDrawer';
+import { backgroundColor, subTextColor } from './../assets/color';
 
 const Dashboard = ({ navigation }) => {
     const bottomSheetRef = React.useRef();
@@ -57,48 +57,34 @@ const Dashboard = ({ navigation }) => {
     const pageSettings = useSelector(state => state.pageSettings)
 
     // variables
-    const snapPoints = React.useMemo(() => ['30%', '30%', '50%', '50%', '80%', '95%'], []);
+    const calender = React.useMemo(() => ['10%', '95%'], []);
+    const category = React.useMemo(() => ['10%', '45%'], []);
+    const filter = React.useMemo(() => ['10%', '55%'], []);
+    const shortBy = React.useMemo(() => ['10%', '30%'], []);
     const [open, setOpen] = React.useState(1)
 
     // callbacks
-    const handleSheetChanges = React.useCallback((index) => {
-        if (index === -1 || index == false) {
-            dispatch(setBottomSheet(null))
-        }
-    }, []);
+   
     return (
         <View style={{
             width: window.width, height: window.height,
             backgroundColor: backgroundColor(pageSettings.darkMode)
         }}>
             <DrawerApp />
-            <BottomSheet backgroundStyle={{ backgroundColor: backgroundColor(pageSettings.darkMode) }}
-                handleIndicatorStyle={{backgroundColor: subTextColor(pageSettings.darkMode)}}
-                ref={bottomSheetRef}
-                index={bottomSheet == 'filter' ? 2 : bottomSheet == 'category' ?
-                    3 : bottomSheet == 'calendar' ? 5 : bottomSheet == 'shortBy' ? 1 : -1}
-                snapPoints={snapPoints}
-                onChange={handleSheetChanges}
-                enableHandlePanningGesture={true}
-                enablePanDownToClose={true}
-            >
-                <BottomSheetScrollView style={{ backgroundColor: backgroundColor(pageSettings.darkMode) }}>
-                    {
-                        bottomSheet == 'category' ? (
-                            <Category navigation={navigation}
-                                close={handleSheetChanges} />
-                        ) : bottomSheet == 'calendar' ? (
-                            <HotelBooking close={handleSheetChanges} navigation={navigation} />
-                        ) : bottomSheet == 'filter' ? (
-                            <Filter close={handleSheetChanges} />
-                        ) : bottomSheet == 'shortBy' ? (
-                            <ShortBy />
-                        ) : (
-                            <Text style={{ textAlign: 'center' }}>Nothing</Text>
-                        )
-                    }
-                </BottomSheetScrollView>
-            </BottomSheet>
+            {
+                bottomSheet=='calendar'?(
+                    <BottomDrawer snapPoints={calender} navigation={navigation}/>
+                ): bottomSheet == 'category'?(
+                    <BottomDrawer snapPoints={category} navigation={navigation}/>
+                ):bottomSheet == 'filter' ?(
+                    <BottomDrawer snapPoints={filter} navigation={navigation}/>
+                ):bottomSheet == 'shortBy' ?(
+                    <BottomDrawer snapPoints={shortBy} navigation={navigation}/>
+                ):
+                (
+                    <View></View>
+                )
+            }
             <AnimatedLoader
                 visible={loader}
                 overlayColor="rgba(255,255,255,0.75)"

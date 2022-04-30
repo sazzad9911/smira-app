@@ -12,6 +12,7 @@ import PopularHotel from './PopularHotel';
 import PopularDeal from './PopularDeal';
 import SearchBottom from './../components/SearchBottom';
 import Bottom from './../components/Bottom';
+import { backgroundColor, textColor } from './../assets/color';
 
 const CategorySingleRoute = (props) => {
     const title = props.route.params.title;
@@ -62,26 +63,28 @@ const CategorySingleRoute = (props) => {
 
 export default CategorySingleRoute;
 export const Header = (props) => {
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
     return (
-        <View>
+        <View style={{backgroundColor:backgroundColor(darkMode)}}>
             <View style={{
                 flexDirection: 'row',
-                marginTop: Platform.OS == 'ios' ? 50 : 5,
+                marginTop: Platform.OS == 'ios' ? 60 : 15,
                 alignItems: 'center'
             }}>
                 <View style={{
                     width: Dimensions.get('screen').width - 60
                 }}>
                     <Text style={{
-                        color: 'black',
+                        color: textColor(darkMode),
                         fontSize: 24,
                         fontWeight: '800',
-                        marginLeft: 5
+                        marginLeft: 5,
+                        fontFamily: 'PlusJakartaSansBold',
                     }}> {props.title}</Text>
                 </View>
 
                 <TouchableOpacity onPress={props.navigation.goBack}>
-                    <AntDesign name="close" size={30} color="black" />
+                    <AntDesign name="close" size={30} color={textColor(darkMode)}/>
                 </TouchableOpacity>
             </View>
             <View style={[styles.content, { marginLeft: 10 }]}>
@@ -94,9 +97,10 @@ export const Header = (props) => {
                     width="22" />
                 <Text style={{
                     fontSize: 16,
-                    color: '#000000',
+                    color: textColor(darkMode),
                     fontWeight: '500',
-                    marginLeft: 5
+                    marginLeft: 5,
+                    fontFamily: 'PlusJakartaSans',
                 }}>
                     Free for Members
                 </Text>

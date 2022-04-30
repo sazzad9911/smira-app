@@ -20,35 +20,37 @@ import Brands from '../components/Brands';
 import SmallDealCart from '../components/SmallDealCart';
 import { setRecentSearch } from '../action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AntDesign } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
 
 
-export const storeData = async (key,value) => {
+export const storeData = async (key, value) => {
   try {
     const jsonValue = JSON.stringify(value)
     await AsyncStorage.setItem(key, jsonValue)
   } catch (e) {
     // saving error
-    console.log('Error: Search.js->'+e.message)
+    console.log('Error: Search.js->' + e.message)
   }
 }
 
 export const getData = async (key) => {
-try {
-  const jsonValue = await AsyncStorage.getItem(key)
-  return jsonValue != null ? JSON.parse(jsonValue) : null;
-} catch(e) {
-  // error reading value
-  console.log('Error: Search.js->'+e.message)
+  try {
+    const jsonValue = await AsyncStorage.getItem(key)
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
+    console.log('Error: Search.js->' + e.message)
+  }
 }
-}
- 
+
 const Search = ({ navigation }) => {
   const [SearchParam, setSearchParams] = useState('Type')
 
   return (
     SearchParam != 'Type' ?
       (
-        <Tab.Navigator tabBar={(props) => <SearchBottom {...props}/>}>
+        <Tab.Navigator tabBar={(props) => <SearchBottom {...props} />}>
           <Tab.Screen options={{ headerShown: false }} name="SearchHotel" component={SearchHotel} />
           <Tab.Screen options={{
             headerShown: false
@@ -73,16 +75,18 @@ const Hotels = (props) => {
   const brands = useSelector(state => state.brands)
   const deals = useSelector(state => state.deals)
   const [search, setSearch] = React.useState('')
-  const [data,setData] = React.useState(null)
-  React.useEffect(()=>{
+  const [data, setData] = React.useState(null)
+  const navigation = props.navigation
+  const [selectedLanguage, setSelectedLanguage] = useState();
+  React.useEffect(() => {
     getData('search').then((data) => {
-      if(Array.isArray(data)){
+      if (Array.isArray(data)) {
         setData(data)
-      }else{
+      } else {
         setData([])
       }
     })
-  },[])
+  }, [])
   return (
     <ScrollView>
       <View style={{
@@ -97,37 +101,67 @@ const Hotels = (props) => {
         }}>
 
 
-          <TextInput value={search} onChangeText={setSearch} style={{ flex: 5, paddingLeft: 20 }}
-            placeholder="Search" placeholderTextColor={'rgb(130,130,130)'} />
-          <TouchableOpacity
-            onPress={() => {
-              const get=getData('search').then((data) => {
-                if(data){
+          <TextInput value={search} onChangeText={setSearch} onEndEditing={() => {
+            
+            const get = getData('search').then((data) => {
+              if (data) {
                 let arr = data;
                 arr.push(search);
-                  storeData('search', arr).catch(err=>{
-                    console.log('Error: Search.js->'+err.message);
-                  })
-              }else{
+                storeData('search', arr).catch(err => {
+                  console.log('Error: Search.js->' + err.message);
+                }).then(() => {
+                  props.setSearchParams('Hotels')
+                })
+              } else {
                 let arr = [];
                 arr.push(search);
                 storeData('search', arr).catch(err => {
-                  console.log('Error: Search.js->'+err.message)
+                  console.log('Error: Search.js->' + err.message)
+                }).then(()=> {
+                  props.setSearchParams('Hotels')
                 })
               }
-              })
-              if (props.SearchParam === 'Hotels') {
-                props.setSearchParams('Deals')
-              } else {
-                props.setSearchParams('Hotels')
+            })
+          }} style={{
+            flex: 6, paddingLeft: 20,
+            height: '100%'
+          }}
+            placeholder="Search" placeholderTextColor={'rgb(130,130,130)'} />
+          <View style={{
+            flex: 3, backgroundColor: 'rgb(220,220,220)', height: '100%',
+            borderTopRightRadius: 30, borderBottomRightRadius: 30, overflow: 'hidden'
+          }}>
+            <Picker
+              mode='dropdown'
+              selectedValue={props.SearchParam}
+              onValueChange={(itemValue, itemIndex) =>
+                props.setSearchParams(itemValue)
               }
-            }}
-            style={{
-              flex: 2, backgroundColor: 'rgb(220,220,220)', height: '100%',
-              borderTopRightRadius: 30, borderBottomRightRadius: 30, justifyContent: 'center', alignItems: 'center'
-            }}>
-            <Text style={{ color: 'rgb(130,130,130)', }}>{props.SearchParam}</Text>
-          </TouchableOpacity>
+              style={{ color: '#808080' }}
+              itemStyle={{ width: '100%', backgroundColor: 'rgb(220,220,220)' }}>
+              <Picker.Item label="Hotels" value="Hotels" />
+              <Picker.Item label="Deals" value="Deals" />
+            </Picker>
+          </View>
+          {
+            /*
+  <TouchableOpacity
+             onPress={() => {
+               
+               if (props.SearchParam === 'Hotels') {
+                 props.setSearchParams('Deals')
+               } else {
+                 props.setSearchParams('Hotels')
+               }
+             }}
+             style={{
+               flex: 2, backgroundColor: 'rgb(220,220,220)', height: '100%',
+               borderTopRightRadius: 30, borderBottomRightRadius: 30, justifyContent: 'center', alignItems: 'center'
+             }}>
+             <Text style={{ color: 'rgb(130,130,130)', }}>{props.SearchParam}</Text>
+           </TouchableOpacity>
+            */
+          }
         </View>
 
         <TouchableOpacity onPress={() => {
@@ -136,26 +170,27 @@ const Hotels = (props) => {
           <MaterialIcons name="close" size={24} color="white" />
         </TouchableOpacity>
       </View>
+
       <View style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20, paddingBottom: 10 }}>
         <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Recent</Text>
       </View>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 10, paddingRight: 10 }}>
         {
-          data?(
-            data.slice(Math.max(data.length - 7, 0)).map((doc,i) => {
-            return (
-              <TouchableOpacity onPress={() => {
-                setSearch(doc)
-              }} key={i} style={{
-                borderColor: 'rgb(200,200,200)', borderWidth: 1, paddingLeft: 20,
-                paddingRight: 20, paddingTop: 10, paddingBottom: 10, borderRadius: 20,
-                margin: 3.5
-              }}>
-                <Text style={{ color: 'rgb(130,130,130)' }}>{doc}</Text>
-              </TouchableOpacity>
-            );
-          })
-          ):(
+          data ? (
+            data.slice(Math.max(data.length - 7, 0)).map((doc, i) => {
+              return (
+                <TouchableOpacity onPress={() => {
+                  setSearch(doc)
+                }} key={i} style={{
+                  borderColor: 'rgb(200,200,200)', borderWidth: 1, paddingLeft: 20,
+                  paddingRight: 20, paddingTop: 10, paddingBottom: 10, borderRadius: 20,
+                  margin: 3.5
+                }}>
+                  <Text style={{ color: 'rgb(130,130,130)' }}>{doc}</Text>
+                </TouchableOpacity>
+              );
+            })
+          ) : (
             <ActivityIndicator size="large" color="#FA454B" />
           )
         }
@@ -164,13 +199,23 @@ const Hotels = (props) => {
         colors={['#E00006', '#FB8B97']}
         start={[0, 1]} end={[1, 0]}
       >
-        <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 20, paddingTop: 20, paddingBottom: 8 }}>
+        <View style={{
+          flex: 1, justifyContent: 'space-between',
+          paddingLeft: 20, paddingTop: 20,
+          paddingBottom: 8, flexDirection: 'row'
+        }}>
           <View>
             <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Save on top brands</Text>
             <Text style={{ color: 'white', marginTop: 5, }}>Save big on most popular brands with us</Text>
           </View>
+          <TouchableOpacity style={style.outline} onPress={() => {
+            navigation.navigate('OurBrand')
+          }}>
+            <AntDesign name="right" size={20} color="black" />
+          </TouchableOpacity>
         </View>
-        <ScrollView style={{ flex: 3, marginBottom: 10 }} horizontal={true}>
+        <ScrollView showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false} style={{ flex: 3, marginBottom: 10 }} horizontal={true}>
           <View style={{ width: 10 }}></View>
           {
             brands ? (
@@ -187,7 +232,8 @@ const Hotels = (props) => {
       </LinearGradient>
       <View>
         <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20, marginBottom: 10, marginLeft: 20, marginRight: 20 }}>Your Deals</Text>
-        <ScrollView horizontal={true} >
+        <ScrollView showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false} horizontal={true} >
           <View style={{ width: 10 }}></View>
           {
             deals ? (
@@ -195,6 +241,8 @@ const Hotels = (props) => {
                 <SmallDealCart key={d.deal.id} icon={d.brand.image}
                   img={d.deal.image}
                   title={d.deal.name}
+                  navigation={navigation}
+                  data={d.deal}
                 />
               ))
             ) : (
@@ -207,3 +255,13 @@ const Hotels = (props) => {
     </ScrollView>
   )
 }
+const style = StyleSheet.create({
+  outline: {
+    borderRadius: 15,
+    height: 28, width: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#D8D8D8',
+    marginRight: 15
+  },
+})

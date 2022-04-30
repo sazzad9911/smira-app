@@ -3,9 +3,11 @@ import { View, ScrollView,ActivityIndicator } from 'react-native'
 import Cards from '../components/Cards'
 import { useSelector } from 'react-redux';
 import { postData, url } from '../action';
+import { backgroundColor } from './../assets/color';
 
 const PopularHotel = (props) => {
     const navigation = props.navigation
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
     const [Hotels, setHotels] = React.useState(null)
     React.useEffect(() => {
         let func =postData(url + "/getData", {
@@ -20,7 +22,7 @@ const PopularHotel = (props) => {
         })
     }, [])
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: backgroundColor(darkMode)}}>
             <View >
                 {
                     Hotels ? (

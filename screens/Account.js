@@ -20,8 +20,9 @@ import {
   mailIcon, birthdayIcon, cityIcon, memberIcon
 } from '../components/Icon'
 import { getStorage, ref, uploadString, getDownloadURL, uploadBytes } from 'firebase/storage'
-import { backgroundColor } from '../assets/color';
+import { backgroundColor, subTextColor } from '../assets/color';
 import { textColor } from './../assets/color';
+import { Picker } from '@react-native-picker/picker';
 
 function Account({ navigation }) {
 
@@ -38,6 +39,8 @@ function Account({ navigation }) {
   const dispatch = useDispatch()
   const familyCode = useSelector(state => state.pageSettings.familyCode);
   const storage = getStorage(app);
+
+
 
   //console.log(familyCode)
   useEffect(() => {
@@ -61,6 +64,8 @@ function Account({ navigation }) {
     }
     if (user && user[0].gender) {
       setGender(user[0].gender)
+    }else{
+      setGender('Gender')
     }
   }, [])
 
@@ -195,7 +200,7 @@ function Account({ navigation }) {
             }} style={[styles.formInput, Email === "" ? styles.fontEmptyStyle : '']} />
         </View>
 
-        <TouchableOpacity
+        <View
           onPress={() => {
             if (Gender === 'Male') {
               setGender('Female')
@@ -204,24 +209,36 @@ function Account({ navigation }) {
             } else {
               setGender('Male')
             }
-            Save('gender', Gender == 'Male' ? 'Female' : 'Male')
+            
           }}
           style={[styles.formRow]}>
           <View style={[styles.imageStyle, Gender === "" ? styles.imageStyleEmptyStyle : '']} >
             <MaterialCommunityIcons
               name={`${Gender.toLowerCase() === 'male' ? 'gender-male' :
                 Gender.toLocaleLowerCase() === 'female' ? 'gender-female' : 'checkbox-blank-circle-outline'}`} size={22}
-              style={[Gender === "" ? styles.inactiveIcon : styles.activeIcon]} />
+              style={[Gender === "Gender" ? styles.inactiveIcon : styles.activeIcon]} />
           </View>
           <View style={[styles.formInput, {
             justifyContent: 'space-between',
             flexDirection: 'row',
             alignItems: 'center'
-          }, Gender === "" ? styles.fontEmptyStyle : '']}>
-            <Text>{Gender}</Text>
-            <AntDesign name="down" size={20} color="black" />
+          }, Gender === "Gender" ? styles.fontEmptyStyle : '']}>
+            <Picker style={{
+              width:'100%',
+              height:'100%',
+              color:Gender!='Gender'?'black':'rgb(130,130,130)'
+            }}
+              selectedValue={Gender}
+              onValueChange={(itemValue, itemIndex) =>{
+                setGender(itemValue)
+                Save('gender', itemValue)
+              }}>
+              <Picker.Item label="Gender" value="Gender" />
+              <Picker.Item label="Male" value="Male" />
+              <Picker.Item label="Female" value="Female" />
+            </Picker>
           </View>
-        </TouchableOpacity>
+        </View>
         <View style={[styles.formRow]}>
           <View style={[styles.imageStyle, Dob === "" ? styles.imageStyleEmptyStyle : '']} >
             <SvgXml xml={birthdayIcon} height="25" width="20" style={[Dob === "" ? styles.inactiveIcon : styles.activeIcon]} />
@@ -314,7 +331,8 @@ export const FamilyCode = () => {
           <Text style={{
             textAlign: 'center',
             fontSize: 18,
-            marginBottom: 20, color: textColor(darkMode)
+            marginBottom: 20, color: textColor(darkMode),
+            fontFamily: 'PlusJakartaSans'
           }}>Membership Family Code</Text>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <TextInput
@@ -323,10 +341,9 @@ export const FamilyCode = () => {
               value={MembershipFamilyCode}
               onChangeText={text => setMembershipFamilyCode(text)}
               style={{
-                width: '80%', backgroundColor: backgroundColor(darkMode), height: 40,
+                width: '80%', backgroundColor: '#f5f5f5', height: 40,
                 borderRadius: 20, paddingLeft: 20, paddingRight: 20, textAlign: 'center'
-                , marginBottom: 5, color: textColor(darkMode),borderWidth:1,
-                 borderColor:textColor(darkMode)
+                , marginBottom: 5, color: textColor(darkMode),
               }} />
           </View>
           {
@@ -396,6 +413,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginTop: 10,
     marginBottom: 10,
+    height:60
   },
   formInput: {
     flex: 6,

@@ -11,11 +11,13 @@ import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { postData, url } from '../action';
 import Brands from '../components/Brands';
+import { backgroundColor } from './../assets/color';
 
 const OurBrand = (props) => {
     const navigation = props.navigation
     const dispatch = useDispatch()
     const [Brand, setBrand] = React.useState(null)
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
     React.useEffect(() => {
         postData(url + "/getData", {
             tableName: "brands",
@@ -29,7 +31,7 @@ const OurBrand = (props) => {
         })
     }, [])
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor:backgroundColor(darkMode) }}>
             <View style={{
                 flexDirection: 'row',
                 flexWrap: 'wrap',

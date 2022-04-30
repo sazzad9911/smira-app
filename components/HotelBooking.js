@@ -12,7 +12,7 @@ import { getAuth } from 'firebase/auth'
 import app from '../firebase';
 import AnimatedLoader from "react-native-animated-loader";
 import { useSelector } from 'react-redux';
-import { textColor,subTextColor,backgroundColor } from './../assets/color';
+import { textColor, subTextColor, backgroundColor } from './../assets/color';
 
 const HotelBooking = (props) => {
     const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -29,11 +29,11 @@ const HotelBooking = (props) => {
     const auth = getAuth(app);
     const [loader, setLoader] = React.useState(false)
     const navigation = props.navigation;
-    const [submit,setSubmit] = React.useState(false)
+    const [submit, setSubmit] = React.useState(false)
 
-    const convertDate=(date)=>{
-        let data='';
-        return data=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+(date.getDate())
+    const convertDate = (date) => {
+        let data = '';
+        return data = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate())
     }
     const Confirm = () => {
         setLoader(true)
@@ -102,7 +102,7 @@ const HotelBooking = (props) => {
             height: 100,
             width: 1,
             marginLeft: 35,
-    
+
         },
         view3: {
             marginTop: 20,
@@ -115,31 +115,26 @@ const HotelBooking = (props) => {
             borderColor: '#D8D8D8',
             padding: 5,
             borderRadius: 30,
-            width: 350,
-            marginLeft: 30,
             paddingLeft: 20,
-            color:textColor(darkMode)
+            color: textColor(darkMode)
         },
         input: {
             height: 50,
             margin: 10,
             padding: 5,
             borderRadius: 30,
-            width: 350,
-            marginLeft: 30,
             paddingLeft: 20,
-            backgroundColor:'#F5F5F5',
+            backgroundColor: '#F5F5F5',
             borderWidth: 1,
             borderColor: '#D8D8D8',
         },
-        inputAcctive:{
+        inputAcctive: {
             height: 50,
             margin: 10,
             borderWidth: 1,
             borderColor: '#D8D8D8',
             padding: 5,
             borderRadius: 30,
-            width: 350,
             marginLeft: 30,
             paddingLeft: 20,
         },
@@ -152,7 +147,7 @@ const HotelBooking = (props) => {
             backgroundColor: backgroundColor(darkMode),
             justifyContent: 'center',
             alignItems: 'center',
-    
+
         },
         viewEnd: {
             height: 50,
@@ -170,7 +165,6 @@ const HotelBooking = (props) => {
         },
         overRest: {
             height: 50,
-            width: 350,
             zIndex: 1,
             marginLeft: 25,
             backgroundColor: 'white',
@@ -188,7 +182,7 @@ const HotelBooking = (props) => {
     return (
         <View>
             <View style={style.view}>
-                <Text style={[style.Text,{color:textColor(darkMode)}]}>Hotel Booking Enquiry</Text>
+                <Text style={[style.Text, { color: textColor(darkMode) }]}>Hotel Booking Enquiry</Text>
             </View>
             <View style={{
                 height: 140
@@ -240,19 +234,21 @@ const HotelBooking = (props) => {
                 }}>Check-in</Text>
                 <TouchableOpacity onPress={() => {
                     setIn(true)
-                }} style={[style.input, { justifyContent: 'center',
-                backgroundColor:!CheckIn?'#f5f5f5':'transparent' }]}>
+                }} style={[style.input, {
+                    justifyContent: 'center',
+                    backgroundColor: !CheckIn ? '#f5f5f5' : 'transparent'
+                }]}>
                     {
                         In ? (
-                            <RNDateTimePicker value={CheckIn?CheckIn:new Date()}
+                            <RNDateTimePicker value={CheckIn ? CheckIn : new Date()}
                                 onChange={(event, date) => {
                                     setIn(false)
                                     setCheckIn(date);
 
                                 }} />
                         ) : (
-                            <Text style={{color:textColor(darkMode)}}>{CheckIn?CheckIn.getDate() + " "
-                                + Months[CheckIn.getMonth()] + " " + CheckIn.getFullYear():''}</Text>
+                            <Text style={{ color: textColor(darkMode) }}>{CheckIn ? CheckIn.getDate() + " "
+                                + Months[CheckIn.getMonth()] + " " + CheckIn.getFullYear() : ''}</Text>
                         )
                     }
                 </TouchableOpacity>
@@ -268,21 +264,24 @@ const HotelBooking = (props) => {
                 }}>Check-out</Text>
                 <TouchableOpacity onPress={() => {
                     setOut(true)
-                }} style={[style.input, { justifyContent: 'center',
-                backgroundColor:!CheckOut?'#f5f5f5':'transparent'  }]}>
+                }} style={[style.input, {
+                    justifyContent: 'center',
+                    backgroundColor: !CheckOut ? '#f5f5f5' : 'transparent'
+                }]}>
                     {
                         Out ? (
-                            <RNDateTimePicker value={CheckOut?CheckOut:new Date()}
+                            <RNDateTimePicker value={CheckOut ? CheckOut : new Date()}
+                                minimumDate={CheckIn ? CheckIn : new Date()}
                                 onChange={(event, date) => {
                                     setOut(false)
                                     setCheckOut(date);
 
                                 }} />
                         ) : (
-                            <Text style={{color:textColor(darkMode)}}>{CheckOut?CheckOut.getDate() + " "
-                                + Months[CheckOut.getMonth()] + " " + CheckOut.getFullYear():''}</Text>
+                            <Text style={{ color: textColor(darkMode) }}>{CheckOut ? CheckOut.getDate() + " "
+                                + Months[CheckOut.getMonth()] + " " + CheckOut.getFullYear() : ''}</Text>
                         )
-                   }
+                    }
                 </TouchableOpacity>
             </View>
 
@@ -294,7 +293,7 @@ const HotelBooking = (props) => {
                     marginLeft: 20, marginTop: 20
                 }}>
                     <View style={{ flex: 2, }}>
-                        <Text style={{ fontSize: 18,color: subTextColor(darkMode) }}>Adults</Text>
+                        <Text style={{ fontSize: 18, color: subTextColor(darkMode) }}>Adults</Text>
                         <Text style={{
                             fontSize: 12,
                             color: '#808080',
@@ -350,7 +349,7 @@ const HotelBooking = (props) => {
                     marginLeft: 20, marginTop: 20
                 }}>
                     <View style={{ flex: 2 }}>
-                        <Text style={{ fontSize: 18,color: subTextColor(darkMode) }}>Children</Text>
+                        <Text style={{ fontSize: 18, color: subTextColor(darkMode) }}>Children</Text>
                         <Text style={{
                             fontSize: 12,
                             color: '#808080',
@@ -406,7 +405,7 @@ const HotelBooking = (props) => {
                     marginLeft: 20, marginTop: 20
                 }}>
                     <View style={{ flex: 2 }}>
-                        <Text style={{ fontSize: 18,color: subTextColor(darkMode) }}>Rooms</Text>
+                        <Text style={{ fontSize: 18, color: subTextColor(darkMode) }}>Rooms</Text>
                         <Text style={{ fontSize: 15, color: 'rgb(100,100,100)', }}></Text>
                     </View>
                     <View style={{
@@ -462,7 +461,7 @@ const HotelBooking = (props) => {
                     }]}>
                     <Text style={[style.viewtext, {
                         color: count > 0 && count2 > 0 && text ? '#ffff' : textColor(darkMode)
-                    }]}>{submit?'DONE':'SUBMIT'}</Text>
+                    }]}>{submit ? 'DONE' : 'SUBMIT'}</Text>
                 </TouchableOpacity>
             </View>
             <AnimatedLoader

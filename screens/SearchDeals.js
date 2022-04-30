@@ -1,6 +1,8 @@
 
-import { Image, ScrollView, StyleSheet, Text, TextInput,
-   TouchableOpacity, View, Platform, Dimensions,ActivityIndicator } from 'react-native'
+import {
+  Image, ScrollView, StyleSheet, Text, TextInput,
+  TouchableOpacity, View, Platform, Dimensions, ActivityIndicator
+} from 'react-native'
 import React, { useState } from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -10,6 +12,7 @@ import SearchBottom from '../components/SearchBottom';
 import { getData, storeData } from './Search'
 import { useSelector, useDispatch } from 'react-redux';
 import { postData, url, setLoader } from '../action';
+import { Picker } from '@react-native-picker/picker';
 // import ActionSheet from '../components/ActionSheet';
 const window = Dimensions.get('window')
 
@@ -55,7 +58,7 @@ const SearchDeals = (props) => {
         justifyContent: 'space-between',
         paddingHorizontal: 10
       }}>
-        <Text>{DealData? DealData.length:'0'} Deals Found</Text>
+        <Text>{DealData ? DealData.length : '0'} Deals Found</Text>
         <View style={{ flexDirection: 'row' }}>
           <MaterialIcons name="verified" size={24} color="green" />
           <Text style={{ marginLeft: 5 }}>Free For Members</Text>
@@ -74,7 +77,7 @@ const SearchDeals = (props) => {
                   category={doc.brand} img={doc.image}
                 />
               ))
-            ):(
+            ) : (
               <ActivityIndicator size="large" color="#FA454B" />
             )
           }
@@ -104,17 +107,30 @@ export const Header = (props) => {
 
         <TextInput value={props.search} onChangeText={props.onChange} style={{ flex: 5, paddingLeft: 20 }}
           placeholder="Search" placeholderTextColor={'rgb(130,130,130)'} />
-        <TouchableOpacity
-          onPress={() => {
-            dispatch(setLoader('SearchHotel'))
-            navigation.navigate('SearchHotel')
-          }}
-          style={{
-            flex: 2, backgroundColor: 'rgb(220,220,220)', height: '100%',
-            borderTopRightRadius: 30, borderBottomRightRadius: 30, justifyContent: 'center', alignItems: 'center'
-          }}>
-          <Text style={{ color: 'rgb(130,130,130)', }}>{SearchParam}</Text>
-        </TouchableOpacity>
+        <View style={{
+          flex: 3, backgroundColor: 'rgb(220,220,220)', height: '100%',
+          borderTopRightRadius: 30, borderBottomRightRadius: 30, overflow: 'hidden'
+        }}>
+          <Picker
+            mode='dropdown'
+            selectedValue={SearchParam}
+            onValueChange={(itemValue, itemIndex) => {
+              if (itemValue == 'Hotels') {
+                dispatch(setLoader('SearchHotel'))
+                navigation.navigate('SearchHotel')
+                setSearchParams(itemValue)
+              } else {
+                dispatch(setLoader('SearchDeal'))
+                navigation.navigate('SearchDeal')
+                setSearchParams(itemValue)
+              }
+            }}
+            style={{ color: '#808080' }}
+            itemStyle={{ width: '100%', backgroundColor: 'rgb(220,220,220)' }}>
+            <Picker.Item label="Hotels" value="Hotels" />
+            <Picker.Item label="Deals" value="Deals" />
+          </Picker>
+        </View>
       </View>
 
       <TouchableOpacity onPress={() => {

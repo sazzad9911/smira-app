@@ -4,6 +4,7 @@ import { MaterialCommunityIcons, MaterialIcons, Ionicons } from '@expo/vector-ic
 import { getData, storeData } from '../screens/WishList'
 import { useSelector, useDispatch } from 'react-redux'
 import { setAction } from '../action'
+import { textColor } from './../assets/color';
 
 const Cards = (props) => {
     const navigation = props.navigation;
@@ -11,6 +12,7 @@ const Cards = (props) => {
     const [Hotels, setHotels] = React.useState(null)
     const dispatch = useDispatch()
     const action = useSelector(state => state.pageSettings.action)
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
 
     React.useEffect(() => {
         getData('hotels').then((data) => {
@@ -91,6 +93,7 @@ const Cards = (props) => {
                         fontSize: 18,
                         marginVertical: 5,
                         fontFamily: 'PlusJakartaSansBold',
+                        color:textColor(darkMode)
                     }}>{props.title}</Text>
                     <Text style={{
                         fontWeight: '400', fontSize: 12, color: '#808080',

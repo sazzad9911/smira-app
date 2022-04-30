@@ -6,6 +6,7 @@ import { Rect } from 'react-native-svg';
 import {getData, storeData} from '../screens/WishList'
 import{useSelector,useDispatch} from 'react-redux'
 import {setAction} from '../action'
+import { backgroundColor, textColor } from './../assets/color';
 const window = Dimensions.get('window')
 
 const DealCart = (props) => {
@@ -15,6 +16,7 @@ const DealCart = (props) => {
     const [Deals,setDeals]=React.useState(null);
     const dispatch = useDispatch()
     const action= useSelector(state => state.pageSettings.action)
+    const darkMode= useSelector(state => state.pageSettings.darkMode)
 
     React.useEffect(() => {
         getData('deals').then((data) => {
@@ -34,7 +36,7 @@ const DealCart = (props) => {
         <View style={{
             width: window.width - 30,
             margin: 10,
-            backgroundColor: 'white',
+            backgroundColor: backgroundColor(darkMode),
             borderRadius: 10
         }}> 
             <Image style={{
@@ -86,7 +88,8 @@ const DealCart = (props) => {
                         fontFamily: 'PlusJakartaSansBold',
                         fontWeight:'700',
                         fontSize: 16,
-                        marginBottom: 5
+                        marginBottom: 5,
+                        color:textColor(darkMode)
                     }}>{props.headLine}</Text>
                     <Text style={{
                         color:'#808080',

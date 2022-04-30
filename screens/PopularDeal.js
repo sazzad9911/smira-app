@@ -3,10 +3,12 @@ import { View,ScrollView,ActivityIndicator } from 'react-native';
 import DealCart from '../components/DealCart'
 import { useSelector } from 'react-redux';
 import { postData, url } from '../action';
+import { backgroundColor } from './../assets/color';
 
 const PopularDeal = (props) => {
     const navigation = props.navigation
     const [DealData, setDealData] = React.useState(null)
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
     React.useEffect(() => {
         postData(url + "/getData", {
             tableName: 'deals',
@@ -19,7 +21,9 @@ const PopularDeal = (props) => {
         })
     }, [])
     return (
-        <ScrollView>
+        <ScrollView style={{
+            backgroundColor: backgroundColor(darkMode)
+        }}>
             <View >
                 {
                     DealData ? (

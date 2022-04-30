@@ -115,19 +115,19 @@ const Settings = ({ navigation }) => {
                             <View style={{ flexDirection: 'row' }}>
 
                                 {
-                                    user && user[0].membership_type == 'Gold Membership' ? (
+                                    user && user[0].membership_type == 'gold' ? (
                                         <Text style={[styles.membership]}>
                                             <Text style={{ color: '#FFB92E', fontFamily: 'PlusJakartaSansBold', }}>Gold </Text>
                                             Member</Text>
-                                    ) : user && user[0].membership_type == 'Platinum MembershipBold' ? (
+                                    ) : user && user[0].membership_type == 'platinum' ? (
                                         <Text style={[styles.membership]}>
                                             <Text style={{ color: '#A2B0CD', fontFamily: 'PlusJakartaSansBold', }}>Platinum </Text>
                                             Member</Text>
-                                    ) : user && user[0].membership_type == 'Diamond MembershipBold' ? (
+                                    ) : user && user[0].membership_type == 'diamond' ? (
                                         <Text style={[styles.membership]}>
                                             <Text style={{ color: '#48A6DB', fontFamily: 'PlusJakartaSansBold', }}>Diamond </Text>
                                             Member</Text>
-                                    ) : user && user[0].membership_type == 'Silver MembershipBold' ? (
+                                    ) : user && user[0].membership_type == 'silver' ? (
                                         <Text style={[styles.membership]}>
                                             <Text style={{ color: '#FC444B', fontFamily: 'PlusJakartaSansBold', }}>Slider </Text>
                                             Member</Text>
@@ -162,8 +162,8 @@ const Settings = ({ navigation }) => {
                         }}>Redeem History</Text>
                     </View>
                     <View style={{ flex: 1 }}>
-                        <AntDesign name="right" size={20} 
-                        color="black" style={{ marginLeft: 30, color: '#D8D8D8' }} />
+                        <AntDesign name="right" size={20}
+                            color="black" style={{ marginLeft: 30, color: '#D8D8D8' }} />
 
                     </View>
                 </TouchableOpacity>
@@ -174,7 +174,7 @@ const Settings = ({ navigation }) => {
                 }} style={{ flexDirection: 'row', marginTop: 25 }}>
                     <View style={{ flex: 1 }}>
                         <SvgXml xml={forgetPassword} height="20" width="20"
-                         style={{ marginLeft: 30, color: '#D8D8D8', marginLeft: 0 }} />
+                            style={{ marginLeft: 30, color: '#D8D8D8', marginLeft: 0 }} />
                     </View>
                     <View style={{ flex: 4 }}>
                         <Text style={{
@@ -183,15 +183,15 @@ const Settings = ({ navigation }) => {
                         }}>Forgot Password</Text>
                     </View>
                     <View style={{ flex: 1 }}>
-                        <AntDesign name="right" size={20} color="black" 
-                        style={{ marginLeft: 30, color: '#D8D8D8' }} />
+                        <AntDesign name="right" size={20} color="black"
+                            style={{ marginLeft: 30, color: '#D8D8D8' }} />
                     </View>
                 </TouchableOpacity>
                 <View style={{ borderWidth: 0.5, margin: 15, borderColor: '#F5F5F5', marginTop: 40 }}>
                 </View>
 
                 <View>
-                    <Text style={{ fontSize: 16, fontFamily: 'PlusJakartaSansBold',color: textColor(darkMode) }}>Settings</Text>
+                    <Text style={{ fontSize: 16, fontFamily: 'PlusJakartaSansBold', color: textColor(darkMode) }}>Settings</Text>
                 </View>
 
                 <TouchableOpacity onPress={() => {

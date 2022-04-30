@@ -330,7 +330,8 @@ const Home = ({ navigation }) => {
         colors={['#E00006', '#FB8B97']}
         start={[0, 1]} end={[1, 0]}
       >
-        <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 20, paddingTop: 20, paddingBottom: 8 }}>
+        <View style={{ flex: 1, justifyContent: 'center',
+         paddingLeft: 20, paddingTop: 20, paddingBottom: 8 }}>
           <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between',

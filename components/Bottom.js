@@ -27,7 +27,7 @@ const Bottom = (props) => {
             <View style={[styles.center_view,{ backgroundColor:darkMode?'black':'#f5f5f5'}]}>
             </View>
             <TouchableOpacity onPress={() => {
-                setActive('calendar')
+                //setActive('calendar')
                 dispatch(setBottomSheet('calendar'))
             }} style={styles.center}>
                 <Feather name="calendar" size={27} color="#ffff" />
@@ -36,12 +36,13 @@ const Bottom = (props) => {
                 <TouchableOpacity onPress={() => {
                     setActive('explore')
                     navigation.navigate('Home')
+                    dispatch(setBottomSheet('explore'))
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <SvgXml xml={active == 'explore' ? activeExplore : inactiveExplore} height="20" width="20" />
                     <Text style={{ color: active == 'explore' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Explore</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
-                    setActive('category')
+                    //setActive('category')
                     dispatch(setBottomSheet('category'))
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <SvgXml xml={active == 'category' ? activeCategory : inactiveCategory} height="20" width="20" />
@@ -50,7 +51,7 @@ const Bottom = (props) => {
             </View>
             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }}>
                 <TouchableOpacity onPress={() => {
-                    setActive('membership')
+                    //setActive('membership')
                    if(user && user[0].starting_date){
                     navigation.navigate('MemberShipInfo')
                    }else{
@@ -61,7 +62,7 @@ const Bottom = (props) => {
                     <Text style={{ color: active == 'membership' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Membership</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
-                    setActive('call')
+                    //setActive('call')
                     Linking.openURL(`tel:+8801761143991`)
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <SvgXml xml={active == 'call' ? activeCall : inactiveCall} height="20" width="20" />
@@ -86,7 +87,8 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         elevation: 5,
         marginVertical: 5,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginBottom:20
     },
     center_view: {
         position: 'absolute',

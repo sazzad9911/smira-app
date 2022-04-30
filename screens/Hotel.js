@@ -3,7 +3,7 @@ import {
     View, Dimensions, Text, TouchableOpacity, Image,
     StyleSheet, ScrollView, ActivityIndicator, Alert, Modal, Platform
 } from 'react-native'
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import Unorderedlist from 'react-native-unordered-list';
 import { AntDesign, EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { color } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
@@ -12,6 +12,8 @@ import { useRoute } from '@react-navigation/native';
 import Gallery from 'react-native-image-gallery';
 import { SvgXml } from 'react-native-svg'
 import { getData, storeData } from '../screens/WishList'
+import { useSelector, useDispatch } from 'react-redux'
+import {textColor,subTextColor,backgroundColor} from '../assets/color'
 
 const Hotel = (props) => {
     const params = props.route.params
@@ -26,11 +28,12 @@ const Hotel = (props) => {
     const route = useRoute();
     const [Images, setImages] = React.useState(null)
     const [ModalVisible, setModalVisible] = React.useState(false);
-    const [color, setcolor]= React.useState(params.like?true:false);
+    const [color, setcolor] = React.useState(params.like ? true : false);
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
 
     React.useEffect(() => {
         if (params.id) {
-            let first=postData(url + '/getData', {
+            let first = postData(url + '/getData', {
                 tableName: 'hotels',
                 condition: "id=" + "'" + params.id + "'"
             }).then(data => {
@@ -43,7 +46,7 @@ const Hotel = (props) => {
                 return first
             })
             ///--------------------------------------
-            const second=postData(url + '/getData', {
+            const second = postData(url + '/getData', {
                 tableName: 'hotels',
                 condition: "id<>" + "'" + params.id + "'"
             }).then(data => {
@@ -54,7 +57,7 @@ const Hotel = (props) => {
                 return second
             })
             ///-----------------------------------
-            const third=postData(url + '/getData', {
+            const third = postData(url + '/getData', {
                 tableName: 'hotel_reviews',
                 condition: "hotel_id=" + "'" + params.id + "'"
             }).then(data => {
@@ -65,7 +68,7 @@ const Hotel = (props) => {
                 return third
             })
             //get hotels images
-            const forth=postData(url + '/getData', {
+            const forth = postData(url + '/getData', {
                 tableName: 'hotel_photos',
                 condition: "hotel_id=" + "'" + params.id + "'"
             }).then(data => {
@@ -84,7 +87,7 @@ const Hotel = (props) => {
 
     React.useEffect(() => {
         setcolor(params.like)
-    },[params.like])
+    }, [params.like])
     const [Hotels, setHotels] = React.useState(null)
 
     React.useEffect(() => {
@@ -99,19 +102,19 @@ const Hotel = (props) => {
                 setHotels([])
             }
         })
-    }, [])
+    }, [params.id + route])
     return (
 
         <View style={{
             width: window.width,
             height: window.height,
-            backgroundColor:'white'
+            backgroundColor: backgroundColor(darkMode)
         }}>
-            <ScrollView style={{width: '100%'}}>
+            <ScrollView style={{ width: '100%' }}>
                 <View style={styles.body}>
                     <View style={styles.bodyTop}>
-                        <TouchableOpacity disabled={Images && Images.length>0?false: true} style={styles.image} onPress={() => {
-                           setModalVisible(true)
+                        <TouchableOpacity disabled={Images && Images.length > 0 ? false : true} style={styles.image} onPress={() => {
+                            setModalVisible(true)
                         }}>
 
                             {
@@ -185,7 +188,7 @@ const Hotel = (props) => {
                             <Text style={styles.textHead}>
                                 Description
                             </Text>
-                            <Text style={[styles.textDescr, { height: Read ? 'auto' : 50 }]}>
+                            <Text style={[styles.textDescr, { height: Read ? 'auto' : 55 }]}>
                                 {Hotel ? Hotel[0].description : ''}
                             </Text>
                             <TouchableOpacity onPress={() => {
@@ -201,9 +204,11 @@ const Hotel = (props) => {
                                 <Text style={{
                                     fontSize: 15,
                                     color: 'rgb(100,100,100)',
+                                    fontFamily: 'PlusJakartaSans'
                                 }}>Check-in</Text>
                                 <Text style={{
                                     fontSize: 25,
+                                    fontFamily: 'PlusJakartaSansBold'
                                 }}>{Hotel ? Hotel[0].check_in : ''}</Text>
                             </View>
                             <View style={styles.view2}></View>
@@ -211,9 +216,11 @@ const Hotel = (props) => {
                                 <Text style={{
                                     fontSize: 15,
                                     color: 'rgb(100,100,100)',
+                                    fontFamily: 'PlusJakartaSans'
                                 }}>Check-out</Text>
                                 <Text style={{
                                     fontSize: 25,
+                                    fontFamily: 'PlusJakartaSansBold'
                                 }}>{Hotel ? Hotel[0].check_out : ''}</Text>
                             </View>
                         </View>
@@ -223,7 +230,18 @@ const Hotel = (props) => {
                                 longitude: -122.4324,
                                 latitudeDelta: 0.0922,
                                 longitudeDelta: 0.0421,
-                            }} style={styles.map} />
+                            }} style={styles.map}>
+                                <Marker
+                                    coordinate={{
+                                        latitude: 37.78825,
+                                        longitude: -122.4324,
+                                        latitudeDelta: 0.0922,
+                                        longitudeDelta: 0.0421,
+                                    }}
+                                    pinColor={"white"}
+                                    title={"You are here"}
+                                />
+                            </MapView>
                         </View>
                         <View style={styles.nearbyView}>
                             <Text style={styles.nearbyText}>
@@ -244,15 +262,21 @@ const Hotel = (props) => {
 
                             </View>
                         </View>
-                        <View style={styles.contentTop}>
-                            <Text style={styles.hotelName}>Reviews </Text>
-                            <View style={styles.contentTopLeftBox2}>
-                                <TouchableOpacity>
-                                    <AntDesign name="star" size={15} color="white" />
-                                </TouchableOpacity>
-                                <Text style={styles.contentTopLeftBoxText}>{Hotel ? Hotel[0].ratings : '0'}</Text>
-                            </View>
-                        </View>
+                        {
+                            Ratings && Ratings.length > 0 ? (
+                                <View style={styles.contentTop}>
+                                    <Text style={styles.hotelName}>Reviews </Text>
+                                    <View style={styles.contentTopLeftBox2}>
+                                        <TouchableOpacity>
+                                            <AntDesign name="star" size={15} color="white" />
+                                        </TouchableOpacity>
+                                        <Text style={styles.contentTopLeftBoxText}>{Hotel ? Hotel[0].ratings : '0'}</Text>
+                                    </View>
+                                </View>
+                            ) : (
+                                <View></View>
+                            )
+                        }
                         {
                             Ratings ? (
                                 Ratings.map((doc, i) => {
@@ -288,7 +312,8 @@ const Hotel = (props) => {
                             color: '#000000',
                             fontSize: 18,
                             fontWeight: '600',
-                            marginBottom: 10
+                            marginBottom: 10,
+                            fontFamily: 'PlusJakartaSansBold'
                         }}>
                             Other hotels nearby
                         </Text>
@@ -323,7 +348,7 @@ const Hotel = (props) => {
             </ScrollView>
             <View style={{
                 backgroundColor: 'white',
-                height: 60,
+                height: 80,
                 paddingHorizontal: 30,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -333,10 +358,11 @@ const Hotel = (props) => {
                 },
                 shadowColor: 'black',
                 shadowOpacity: 0.3,
-                shadowRadius:5,
-                elevation:5
+                shadowRadius: 5,
+                elevation: 5,
+                paddingBottom:20
             }}>
-                <TouchableOpacity onPress={() =>{ //navigation.navigate('Review', {
+                <TouchableOpacity onPress={() => { //navigation.navigate('Review', {
                     //id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address })} 
                     setcolor(!color);
                     if (!color) {
@@ -350,7 +376,7 @@ const Hotel = (props) => {
                         storeData('hotels', arr);
                         //console.log(arr);
                     }
-                    }} style={{
+                }} style={{
                     borderWidth: 1,
                     borderColor: '#E2E2E2',
                     width: 60,
@@ -359,7 +385,7 @@ const Hotel = (props) => {
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
-                    <AntDesign name="hearto" size={24} color={color?"#FC444B":"#808080"} />
+                    <AntDesign name="hearto" size={24} color={color ? "#FC444B" : "#808080"} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Booking', {
                     id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address,
@@ -374,7 +400,8 @@ const Hotel = (props) => {
                 }}>
                     <Text style={{
                         color: 'white',
-                        fontSize: 18
+                        fontSize: 18,
+                        fontFamily: 'PlusJakartaSans'
                     }}>Book Now</Text>
                 </TouchableOpacity>
             </View>
@@ -445,6 +472,7 @@ export const HotelMemberCart = (props) => {
                         color: '#FFFFFF',
                         fontWeight: '400',
                         marginLeft: 4,
+                        fontFamily: 'PlusJakartaSans'
                     }}>
                         {props.data ? props.data.type : "Free for Members"}
                     </Text>
@@ -456,7 +484,8 @@ export const HotelMemberCart = (props) => {
 
 const HotelMember = ({ doc }) => {
     const [Rating, setRating] = React.useState(null);
-    const [User, setUser] = React.useState(null);
+    const [user, setUser] = React.useState(null);
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
 
     React.useEffect(() => {
         let arr = []
@@ -485,31 +514,50 @@ const HotelMember = ({ doc }) => {
                 <Image
                     style={styles.tinyLogo}
                     source={{
-                        uri: User && User[0].image ?
-                            User[0].image : 'https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2021/08/blank-profile-picture-png.png'
+                        uri: user && user[0].image ?
+                            user[0].image : 'https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2021/08/blank-profile-picture-png.png'
                     }}
                 />
                 <View style={{
-                    width:'70%',
-                    paddingLeft:20
+                    width: '70%',
+                    paddingLeft: 20
                 }}>
                     <Text style={{
-                        fontSize: 14,
-                        fontWeight: '700',
-                        color: '#292929'
-                    }}>
-                        {User ? User[0].name : ''}
-                    </Text>
-                    <Text style={{
-                        fontSize: 14,
-                        fontWeight: '700',
-                        color: '#CBCBCB'
-                    }}>
-                        {User && User[0].membership_type ? User[0].membership_type : 'No Membership'}
-                    </Text>
+                        fontWeight: '600',
+                        fontSize: 16,
+                        color: textColor(darkMode),
+                        fontFamily: 'PlusJakartaSansBold'
+                    }}>{user && user[0].name ? user[0].name : '-'}</Text>
+                    {
+                        user && user[0].membership_type == 'gold' ? (
+                            <Text style={[styles.membership]}>
+                                <Text style={{ color: '#FFB92E', fontFamily: 'PlusJakartaSansBold', }}>Gold </Text>
+                                Member</Text>
+                        ) : user && user[0].membership_type == 'platinum' ? (
+                            <Text style={[styles.membership]}>
+                                <Text style={{ color: '#A2B0CD', fontFamily: 'PlusJakartaSansBold', }}>Platinum </Text>
+                                Member</Text>
+                        ) : user && user[0].membership_type == 'diamond' ? (
+                            <Text style={[styles.membership]}>
+                                <Text style={{ color: '#48A6DB', fontFamily: 'PlusJakartaSansBold', }}>Diamond </Text>
+                                Member</Text>
+                        ) : user && user[0].membership_type == 'silver' ? (
+                            <Text style={[styles.membership]}>
+                                <Text style={{ color: '#FC444B', fontFamily: 'PlusJakartaSansBold', }}>Slider </Text>
+                                Member</Text>
+                        ) :
+                            (
+                                <Text style={[styles.membership]}>
+                                    <Text style={{ color: textColor(darkMode), fontFamily: 'PlusJakartaSansBold', }}>Non </Text>
+                                    Member</Text>
+                            )
+                    }
                 </View>
-                <View style={{ flexDirection: 'row',height:'100%',
-                alignItems: 'center',justifyContent: 'center'}}>
+                <View style={{
+                    flexDirection: 'row', height: '100%',
+                    alignItems: 'center', justifyContent: 'center',
+                    marginTop: 3
+                }}>
                     {
                         Rating ? (
                             Rating.map((doc, j) => (
@@ -560,11 +608,12 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 13,
         marginTop: 6,
+        fontFamily: 'PlusJakartaSans'
 
     },
     content: {
         marginTop: 430,
-        width:'100%',
+        width: '100%',
     },
     contentTop: {
         flexDirection: 'row',
@@ -590,7 +639,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         display: 'flex',
         alignItems: 'center',
-        color: '#000000'
+        color: '#000000',
+        fontFamily: 'PlusJakartaSansBold'
     },
     iconBackground: {
         width: 30,
@@ -621,6 +671,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         marginBottom: 15,
         overflow: 'hidden',
+        fontFamily: 'PlusJakartaSans'
     },
     time: {
         borderWidth: .5,
@@ -648,16 +699,16 @@ const styles = StyleSheet.create({
         width: '45%'
     },
     map: {
-        width: '100%',
-        height: Dimensions.get('window').height - 750,
-        borderRadius: 20
-
+        height: 150,
+        width: '100%'
     },
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 20
+        marginBottom: 20,
+        borderRadius: 15,
+        overflow: 'hidden'
     },
     nearbyView: {
 
@@ -667,16 +718,18 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '700',
         marginBottom: 15,
+        fontFamily: 'PlusJakartaSansBold'
 
     },
     nearbyTextDescrView: {
         marginLeft: 15,
-        marginBottom: 70
+        marginBottom: 40
     },
     nearbyTextDescr: {
         fontSize: 14,
         fontWeight: '500',
-        color: '#777777'
+        color: '#777777',
+        fontFamily: 'PlusJakartaSansBold'
     },
     contentTopLeftBox2: {
         width: 60,
@@ -697,13 +750,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 20,
-        width: '90%'
+        width: '90%',
+        fontFamily: 'PlusJakartaSansBold'
     },
     textDescr1: {
         color: '#808080',
         fontSize: 14,
         fontWeight: '500',
-        marginBottom: 10
+        marginBottom: 10,
+        fontFamily: 'PlusJakartaSans'
     },
     showMoreButton: {
         borderRadius: 20,
@@ -734,17 +789,19 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         height: '100%',
         justifyContent: 'flex-end',
-        paddingBottom: 8
+        paddingBottom: 8,
+        fontFamily: 'PlusJakartaSans'
     },
     showMoreButtonText: {
         color: '#CACACA',
         fontSize: 12,
-        fontWeight: '500'
+        fontWeight: '500',
+        fontFamily: 'PlusJakartaSansBold'
     },
     post: {
         marginBottom: 5,
         marginTop: 5,
-        padding: 5,
+        padding: 10,
         width: '92%'
     }
 })

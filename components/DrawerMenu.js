@@ -75,7 +75,7 @@ const DrawerMenu = ({ navigation }) => {
 
 
     return (
-        <ScrollView style={{backgroundColor:backgroundColor(darkMode)}} showsVerticalScrollIndicator={false}
+        <ScrollView style={{ backgroundColor: backgroundColor(darkMode) }} showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}>
             <View style={[styles.container]}>
                 <TouchableOpacity style={[styles.metaContainer]}
@@ -96,22 +96,22 @@ const DrawerMenu = ({ navigation }) => {
                             <Text style={{
                                 fontWeight: '600',
                                 fontSize: 20,
-                                color:textColor(darkMode)
+                                color: textColor(darkMode)
                             }}>{user && user[0].name ? user[0].name : '-'}</Text>
                             {
-                                user && user[0].membership_type == 'Gold Membership' ? (
+                                user && user[0].membership_type == 'gold' ? (
                                     <Text style={[styles.membership]}>
                                         <Text style={{ color: '#FFB92E', fontFamily: 'PlusJakartaSansBold', }}>Gold </Text>
                                         Member</Text>
-                                ) : user && user[0].membership_type == 'Platinum MembershipBold' ? (
+                                ) : user && user[0].membership_type == 'platinum' ? (
                                     <Text style={[styles.membership]}>
                                         <Text style={{ color: '#A2B0CD', fontFamily: 'PlusJakartaSansBold', }}>Platinum </Text>
                                         Member</Text>
-                                ) : user && user[0].membership_type == 'Diamond MembershipBold' ? (
+                                ) : user && user[0].membership_type == 'diamond' ? (
                                     <Text style={[styles.membership]}>
                                         <Text style={{ color: '#48A6DB', fontFamily: 'PlusJakartaSansBold', }}>Diamond </Text>
                                         Member</Text>
-                                ) : user && user[0].membership_type == 'Silver MembershipBold' ? (
+                                ) : user && user[0].membership_type == 'silver' ? (
                                     <Text style={[styles.membership]}>
                                         <Text style={{ color: '#FC444B', fontFamily: 'PlusJakartaSansBold', }}>Slider </Text>
                                         Member</Text>
