@@ -469,15 +469,15 @@ export const IconsSet = (props) => {
     <TouchableOpacity onPress={props.onPress} style={[{
       borderWidth: 1,
       borderColor: 'rgb(220,220,220)', height: 75,
-      width: 82, borderRadius: 10, margin: 5,
+      width: 80, borderRadius: 10, margin: 5,
       justifyContent: 'center',
       alignItems: 'center',
       padding: 5,
       backgroundColor: darkMode?'rgb(220,220,220)':'white'
     }, props.style]}>
-      <SvgXml height="40" width="45" style={{ margin: 5 }} xml={props.icon} />
+      <SvgXml height="39" width="43" style={{ margin: 5 }} xml={props.icon} />
       <Text style={{
-        fontSize: 11,
+        fontSize: 10,
         fontFamily: 'PlusJakartaSans',
         lineHeight: 14,
         color: 'black',

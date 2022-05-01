@@ -131,8 +131,8 @@ import { backgroundColor } from './../assets/color';
 export const Category = (props) => {
     const navigation = props.navigation;
     const [tab, setTab] = React.useState(null)
-    const navigate = () => {
-        navigation.navigate('Category Single', { title: tab })
+    const navigate = (n) => {
+        navigation.navigate(n, { title: tab })
         props.close(false)
     }
     return (
@@ -149,61 +149,61 @@ export const Category = (props) => {
                     backgroundColor: tab == 'Popular Hotel' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
                     setTab('Popular Hotel')
-                    navigate()
+                    navigate('Hotels')
                 }} name='Hotels' icon={Hotels} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Restaurant' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
                     setTab('Restaurant')
-                    navigate()
+                    navigate('Restaurants')
                 }} name='Restaurants' icon={Restaurant} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Games' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    setTab('Games')
-                    navigate()
+                    //setTab('Games')
+                    //navigate()
                 }} name='Games' icon={Games} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Shopping' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    setTab('Shopping')
-                    navigate()
+                    //setTab('Shopping')
+                   // navigate()
                 }} name='Shopping' icon={Shopping} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Villas' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    setTab('Villas')
-                    navigate()
+                    //setTab('Villas')
+                    //navigate()
                 }} name='Villas' icon={Villas} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Camping' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    setTab('Camping')
-                    navigate()
+                    //setTab('Camping')
+                   // navigate()
                 }} name='Camping' icon={Camping} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Travel' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    setTab('Travel')
-                    navigate()
+                    //setTab('Travel')
+                   // navigate()
                 }} name='Travel' icon={Travel} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Health' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    setTab('Health')
-                    navigate()
+                   // setTab('Health')
+                   // navigate()
                 }} name='Health' icon={Health} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Spa & Salons' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    setTab('Spa & Salons')
-                    navigate()
+                    //setTab('Spa & Salons')
+                   // navigate()
                 }} name='Spa & Salons' icon={Spa_Salons} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Services' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    setTab('Services')
-                    navigate()
+                   // setTab('Services')
+                  //  navigate()
                 }} name='Services' icon={Services} />
             </View>
         </View>
