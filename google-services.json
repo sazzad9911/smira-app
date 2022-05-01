@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:686443341701:android:ce75f2bcf2265f25ed46ec",
+        "mobilesdk_app_id": "1:686443341701:android:2004b972818cbb8fed46ec",
         "android_client_info": {
-          "package_name": "com.example.app"
+          "package_name": "com.scientistx.smira"
         }
       },
       "oauth_client": [
@@ -20,7 +20,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB9hjwzuQRxukHEgik65_Z8cupewpdEtNI"
+          "current_key": "AIzaSyDzD_42JeZY3Q4gMc3Nol6v78HvQOAI6kw"
         }
       ],
       "services": {

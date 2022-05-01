@@ -2,7 +2,7 @@
   "expo": {
     "name": "Smira Club",
     "slug": "hotelbookingapp",
-    "version": "1.0.0",
+    "version": "6.4.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -20,7 +20,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.example.app",
+      "bundleIdentifier": "com.scientistx.smira",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.686443341701-kvbrmfmruh0fgj0dd2c2cujfa0o8ftj8"
@@ -33,7 +33,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.example.app",
+      "package": "com.scientistx.smira",
       "googleServicesFile": "./google-services.json"
     },
     "web": {
