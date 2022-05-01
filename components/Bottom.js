@@ -63,7 +63,7 @@ const Bottom = (props) => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     //setActive('call')
-                    Linking.openURL(`tel:+8801761143991`)
+                    Linking.openURL(`tel:+919821116669`)
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <SvgXml xml={active == 'call' ? activeCall : inactiveCall} height="20" width="20" />
                     <Text style={{ color: active == 'call' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Call Us</Text>
