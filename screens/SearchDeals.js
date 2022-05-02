@@ -108,7 +108,7 @@ export const Header = (props) => {
         <TextInput value={props.search} onChangeText={props.onChange} style={{ flex: 5, paddingLeft: 20 }}
           placeholder="Search" placeholderTextColor={'rgb(130,130,130)'} />
         <View style={{
-          flex: 3, backgroundColor: 'rgb(220,220,220)', height: '100%',
+          flex: 3, backgroundColor: '#f5f5f5', height: '100%',
           borderTopRightRadius: 30, borderBottomRightRadius: 30, overflow: 'hidden'
         }}>
           <Picker

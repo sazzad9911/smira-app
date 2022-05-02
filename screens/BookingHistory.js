@@ -6,25 +6,25 @@ import {
     TouchableOpacity, TextInput
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { postData,url } from '../action';
-import {useSelector} from 'react-redux';
+import { postData, url } from '../action';
+import { useSelector } from 'react-redux';
 
 const window = Dimensions.get('window')
 
 const BookingHistory = (props) => {
     const [CheckIn, setCheckIn] = React.useState('')
     const [CheckOut, setCheckOut] = React.useState('')
-    const [data,setData]= React.useState(null)
-    const hotels=useSelector(state => state.hotels)
-    const [Hotel,setHotel]= React.useState(null)
+    const [data, setData] = React.useState(null)
+    const hotels = useSelector(state => state.hotels)
+    const [Hotel, setHotel] = React.useState(null)
 
-    React.useEffect(()=>{
-        if(props.data){
-            postData(url +'/getData',{
-                tableName:'hotel_booking',
-                conditions:"id ="+"'"+props.data.purches_id+"'"
-            }).then(result=>{
-                if(Array.isArray(result)){
+    React.useEffect(() => {
+        if (props.data) {
+            postData(url + '/getData', {
+                tableName: 'hotel_booking',
+                conditions: "id =" + "'" + props.data.purches_id + "'"
+            }).then(result => {
+                if (Array.isArray(result)) {
                     setData(result[0])
                     setCheckIn(convertDate(result[0].check_in))
                     setCheckOut(convertDate(result[0].check_out))
@@ -32,16 +32,16 @@ const BookingHistory = (props) => {
                 }
             })
         }
-    },[])
-    const convertDate=(date)=>{
-        date=new Date(date)
-        let Months=['Jan', 'Feb', 'Mar', 'Apr', 'May','Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov','Dec']
-        let data=''
-        return data=date.getDate()+' '+Months[date.getMonth()]+' '+date.getFullYear()
+    }, [])
+    const convertDate = (date) => {
+        date = new Date(date)
+        let Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        let data = ''
+        return data = date.getDate() + ' ' + Months[date.getMonth()] + ' ' + date.getFullYear()
     }
-    const handleHotels=(id)=>{
+    const handleHotels = (id) => {
         hotels.forEach(element => {
-            if(element.id==id){
+            if (element.id == id) {
                 setHotel(element)
             }
         });
@@ -52,7 +52,8 @@ const BookingHistory = (props) => {
             <View style={[style.container, {
                 marginTop: Platform.OS == 'ios' ? 45 : 5
             }]}>
-                <TouchableOpacity onPress={() => props.close(false)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => props.close(false)}
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
                     <AntDesign name="left" size={24} color="black" />
                 </TouchableOpacity>
@@ -60,119 +61,138 @@ const BookingHistory = (props) => {
                     <Text style={style.font}>Booking History</Text>
                 </View>
             </View>
-            <ScrollView >
-                <View style={style.view}>
-                    <Text style={style.Text}>{Hotel?Hotel.name:''}</Text>
-                    <Text style={style.Text1}>{Hotel?Hotel.address:''}</Text>
-                </View>
-                <View style={style.view1}>
-                    <View style={style.view3}>
+            <ScrollView>
+                <View style={{
+                    paddingHorizontal:20
+                }}>
+                    <View style={style.view}>
+                        <Text style={style.Text}>{Hotel ? Hotel.name : ''}</Text>
+                        <Text style={style.Text1}>{Hotel ? Hotel.address : ''}</Text>
+                    </View>
+                    <View style={style.view1}>
+                        <View style={style.view3}>
+                            <Text style={{
+                                fontSize: 12,
+                                color: 'rgb(100,100,100)',
+                                fontFamily: 'PlusJakartaSans',
+                            }}>Check-in</Text>
+                            <Text style={{
+                                fontSize: 18,
+                                fontFamily: 'PlusJakartaSansBold',
+                            }}>{Hotel ? Hotel.check_in : ''}</Text>
+                        </View>
+                        <View style={style.view2}></View>
+                        <View style={style.view3}>
+                            <Text style={{
+                                fontSize: 12,
+                                color: 'rgb(100,100,100)',
+                                fontFamily: 'PlusJakartaSans',
+                            }}>Check-out</Text>
+                            <Text style={{
+                                fontSize: 18,
+                                fontFamily: 'PlusJakartaSansBold',
+                            }}>{Hotel ? Hotel.check_out : ''}</Text>
+                        </View>
+                    </View>
+                    <View>
                         <Text style={{
-                            fontSize: 12,
+                            fontSize: 15,
                             color: 'rgb(100,100,100)',
+                            marginTop: 20,
+                            marginLeft: 40,
                             fontFamily: 'PlusJakartaSans',
                         }}>Check-in</Text>
-                        <Text style={{
-                            fontSize: 18,
-                            fontFamily: 'PlusJakartaSansBold',
-                        }}>{Hotel?Hotel.check_in:''}</Text>
+                        <TextInput editable={false} selectTextOnFocus={false}
+                            style={[style.input, { paddingLeft: 30 }]}
+                            value={CheckIn}
+                            onChangeText={(val) =>
+                                setCheckIn(val)}
+                        />
                     </View>
-                    <View style={style.view2}></View>
-                    <View style={style.view3}>
+
+                    <View>
                         <Text style={{
-                            fontSize: 12,
+                            fontSize: 15,
                             color: 'rgb(100,100,100)',
+                            marginTop: 20,
+                            marginLeft: 40,
                             fontFamily: 'PlusJakartaSans',
                         }}>Check-out</Text>
-                        <Text style={{
-                            fontSize: 18,
-                            fontFamily: 'PlusJakartaSansBold',
-                        }}>{Hotel?Hotel.check_out:''}</Text>
-                    </View>
-                </View>
-                <View >
-                    <Text style={{
-                        fontSize: 12,
-                        color: 'rgb(100,100,100)',
-                        marginTop: 50,
-                        marginLeft: 40,
-                        fontFamily: 'PlusJakartaSans',
-                    }}>Check-in</Text>
-                    <TextInput
-                        style={[style.input,{paddingLeft: 20}]}
-                        value={CheckIn}
-                        onChangeText={(val) =>
-                            setCheckIn(val)}
-                    />
-                </View>
-
-                <View >
-                    <Text style={{
-                        fontSize: 12,
-                        color: 'rgb(100,100,100)',
-                        marginTop: 20,
-                        marginLeft: 40,
-                        fontFamily: 'PlusJakartaSans',
-                    }}>Check-out</Text>
-                    <TextInput
-                        style={[style.input,{paddingLeft: 20}]}
-                        value={CheckOut}
-                        onChangeText={(val) =>
-                            setCheckOut(val)}
-                    />
-                </View>
-
-                <View>
-                    <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20, marginTop: 50 }}>
-                        <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 14,fontFamily: 'PlusJakartaSans'}}>Adults</Text>
-                            <Text style={{ fontSize: 12,
-                             color: 'rgb(100,100,100)',
-                             fontFamily: 'PlusJakartaSans' }}>Older 12 years</Text>
-                        </View>
-                        <View style={style.view4}>
-                            <Text style={{ fontSize: 14,
-                            fontFamily: 'PlusJakartaSans' }}>{data?data.adult:''}</Text>
-                        </View>
+                        <TextInput editable={false} selectTextOnFocus={false}
+                            style={[style.input, { paddingLeft: 30 }]}
+                            value={CheckOut}
+                            onChangeText={(val) =>
+                                setCheckOut(val)}
+                        />
                     </View>
 
-                    <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20 }}>
-                        <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 14,
-                            fontFamily: 'PlusJakartaSans' }}>Children</Text>
-                            <Text style={{ fontSize: 12, 
-                            color: 'rgb(100,100,100)',
-                            fontFamily: 'PlusJakartaSans'
-                             }}>5-12 years old</Text>
+                    <View>
+                        <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20, marginTop: 20 }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={{ fontSize: 14, fontFamily: 'PlusJakartaSans' }}>Adults</Text>
+                                <Text style={{
+                                    fontSize: 12,
+                                    color: 'rgb(100,100,100)',
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>Older 12 years</Text>
+                            </View>
+                            <View style={style.view4}>
+                                <Text style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>{data ? data.adult : ''}</Text>
+                            </View>
                         </View>
-                        <View style={style.view4}>
-                            <Text style={{ fontSize: 14,
-                            fontFamily: 'PlusJakartaSans' }}>{data?data.children:''}</Text>
-                        </View>
-                    </View>
 
-                    <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20 }}>
-                        <View style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 14,
-                            fontFamily: 'PlusJakartaSans' }}>Rooms</Text>
-                            <Text style={{ fontSize: 12,
-                             color: 'rgb(100,100,100)',
-                             fontFamily: 'PlusJakartaSans' }}></Text>
+                        <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20 }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>Children</Text>
+                                <Text style={{
+                                    fontSize: 12,
+                                    color: 'rgb(100,100,100)',
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>5-12 years old</Text>
+                            </View>
+                            <View style={style.view4}>
+                                <Text style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>{data ? data.children : ''}</Text>
+                            </View>
                         </View>
-                        <View style={style.view4}>
-                            <Text style={{ fontSize: 14,
-                            fontFamily: 'PlusJakartaSans' }}>{data?data.room:''}</Text>
-                        </View>
-                    </View>
-                    <TouchableOpacity>
-                        <View style={style.viewEnd}>
-                            <Text style={style.viewtext}>BOOKING ID #{data?data.id:''}</Text>
-                        </View>
-                    </TouchableOpacity>
 
-                    <View style={{
-                        height: 175,
-                    }}></View>
+                        <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20 }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>Rooms</Text>
+                                <Text style={{
+                                    fontSize: 12,
+                                    color: 'rgb(100,100,100)',
+                                    fontFamily: 'PlusJakartaSans'
+                                }}></Text>
+                            </View>
+                            <View style={style.view4}>
+                                <Text style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>{data ? data.room : ''}</Text>
+                            </View>
+                        </View>
+                        <TouchableOpacity>
+                            <View style={style.viewEnd}>
+                                <Text style={style.viewtext}>BOOKING ID #{data ? data.id : ''}</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <View style={{
+                            height: 75,
+                        }}></View>
+                    </View>
                 </View>
 
             </ScrollView>
@@ -219,20 +239,23 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         color: 'rgb(100,100,100)',
-        borderColor: '#D8D8D8'
+        borderColor: '#D8D8D8',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     view2: {
         borderWidth: .5,
         height: 70,
         width: 1,
-        borderColor: '#D8D8D8'
+        borderColor: '#D8D8D8',
 
     },
     view3: {
         marginTop: 10,
-        flex:2,
         justifyContent: 'center',
-        alignItems: 'center',
+        width: 100,
+        margin: 10,
+        marginHorizontal: 50
     },
     input: {
         height: 50,
@@ -242,7 +265,7 @@ const style = StyleSheet.create({
         borderRadius: 30,
         borderColor: '#D8D8D8',
         fontFamily: 'PlusJakartaSans',
-        fontSize:13,
+        fontSize: 13,
     },
     view4: {
         height: 40,

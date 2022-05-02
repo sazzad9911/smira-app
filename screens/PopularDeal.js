@@ -24,7 +24,7 @@ const PopularDeal = (props) => {
         <ScrollView style={{
             backgroundColor: backgroundColor(darkMode)
         }}>
-            <View >
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 {
                     DealData ? (
                         DealData.map(doc => (

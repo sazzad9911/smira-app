@@ -13,8 +13,9 @@ import Gallery from 'react-native-image-gallery';
 import { SvgXml } from 'react-native-svg'
 import { getData, storeData } from '../screens/WishList'
 import { useSelector, useDispatch } from 'react-redux'
-import {textColor,subTextColor,backgroundColor} from '../assets/color'
-
+import { textColor, subTextColor, backgroundColor } from '../assets/color'
+import { LinearGradient } from 'expo-linear-gradient';
+import { parking, tv, wifi, heart, redHeart } from '../components/Icon'
 const Hotel = (props) => {
     const params = props.route.params
     const navigation = props.navigation;
@@ -113,6 +114,21 @@ const Hotel = (props) => {
             <ScrollView style={{ width: '100%' }}>
                 <View style={styles.body}>
                     <View style={styles.bodyTop}>
+                        <TouchableOpacity style={{
+                            top: Platform.OS == 'ios' ? 60 : 20,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            height: 35,
+                            width: 35,
+                            borderRadius: 25,
+                            margin: 5,
+                            position: 'absolute',
+                            left: 10,
+                            zIndex: 1
+                        }} onPress={() => navigation.goBack()}>
+                            <AntDesign name="left" size={25} color="white" />
+                        </TouchableOpacity>
                         <TouchableOpacity disabled={Images && Images.length > 0 ? false : true} style={styles.image} onPress={() => {
                             setModalVisible(true)
                         }}>
@@ -133,10 +149,21 @@ const Hotel = (props) => {
                                     <ActivityIndicator size="large" color="#FA454B" />
                                 )
                             }
+                            <LinearGradient style={{
+                                height: '100%',
+                                width: '100%',
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                borderRadius: 10
+                            }} start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }}
+                                colors={['transparent', 'rgba(0, 0, 0, 0.12)', '#0000008d']}>
+
+                            </LinearGradient>
                         </TouchableOpacity>
 
                         <View style={styles.imageButtomIcon}>
-                            <Text style={styles.imageButtomIconText}> 0/{Images ? Images.length : '1'}</Text>
+                            <Text style={styles.imageButtomIconText}> 1/{Images ? Images.length + 1 : '1'}</Text>
                         </View>
 
                     </View>
@@ -149,7 +176,11 @@ const Hotel = (props) => {
                             </TouchableOpacity>
                         </View>
                         <View>
-                            <Text style={{ color: '#808080' }}>
+                            <Text style={{
+                                color: '#808080',
+                                fontFamily: 'PlusJakartaSans',
+                                fontSize: 15
+                            }}>
                                 {Hotel ? Hotel[0].address : ''}
                             </Text>
                             <View style={styles.icon}>
@@ -159,19 +190,19 @@ const Hotel = (props) => {
                                             if (doc == 'wifi') {
                                                 return (
                                                     <View key={i} style={styles.iconBackground}>
-                                                        <AntDesign name="wifi" size={20} color="black" />
+                                                        <SvgXml xml={wifi} height="20" width="20" />
                                                     </View>
                                                 )
                                             } else if (doc == 'tv') {
                                                 return (
                                                     <View key={i} style={styles.iconBackground}>
-                                                        <MaterialIcons name="monitor" size={20} color="#808080" />
+                                                        <SvgXml xml={tv} height="20" width="20" />
                                                     </View>
                                                 )
                                             } else {
                                                 return (
                                                     <View key={i} style={styles.iconBackground}>
-                                                        <EvilIcons name="sc-pinterest" size={26} color="#808080" />
+                                                        <SvgXml xml={parking} height="20" width="20" />
                                                     </View>
                                                 )
                                             }
@@ -188,44 +219,53 @@ const Hotel = (props) => {
                             <Text style={styles.textHead}>
                                 Description
                             </Text>
-                            <Text style={[styles.textDescr, { height: Read ? 'auto' : 55 }]}>
+                            <Text style={[styles.textDescr, {
+                                height: Read ? 'auto' : 60,
+                                textAlign: 'justify'
+                            }]}>
                                 {Hotel ? Hotel[0].description : ''}
                             </Text>
                             <TouchableOpacity onPress={() => {
                                 setRead(!Read)
                             }}>
-                                <Text style={{ color: 'red' }}>
+                                <Text style={{
+                                    color: 'red',
+                                    fontSize: 16,
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>
                                     {!Read ? 'Read More' : 'Read Less'}
                                 </Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.time}>
-                            <View style={styles.view3}>
+                            <View style={[styles.view3, {
+                            }]}>
                                 <Text style={{
-                                    fontSize: 15,
+                                    fontSize: 12,
                                     color: 'rgb(100,100,100)',
                                     fontFamily: 'PlusJakartaSans'
                                 }}>Check-in</Text>
                                 <Text style={{
-                                    fontSize: 25,
+                                    fontSize: 20,
                                     fontFamily: 'PlusJakartaSansBold'
                                 }}>{Hotel ? Hotel[0].check_in : ''}</Text>
                             </View>
                             <View style={styles.view2}></View>
-                            <View style={styles.view3}>
+                            <View style={[styles.view3, {
+                            }]}>
                                 <Text style={{
-                                    fontSize: 15,
+                                    fontSize: 12,
                                     color: 'rgb(100,100,100)',
                                     fontFamily: 'PlusJakartaSans'
                                 }}>Check-out</Text>
                                 <Text style={{
-                                    fontSize: 25,
+                                    fontSize: 20,
                                     fontFamily: 'PlusJakartaSansBold'
                                 }}>{Hotel ? Hotel[0].check_out : ''}</Text>
                             </View>
                         </View>
                         <View style={styles.container}>
-                            <MapView initialRegion={{
+                            <MapView scrollEnabled={false} initialRegion={{
                                 latitude: 37.78825,
                                 longitude: -122.4324,
                                 latitudeDelta: 0.0922,
@@ -244,18 +284,29 @@ const Hotel = (props) => {
                             </MapView>
                         </View>
                         <View style={styles.nearbyView}>
-                            <Text style={styles.nearbyText}>
+                            <Text style={[styles.textHead, { marginTop: 10, marginBottom: 10 }]}>
                                 What's nearby
                             </Text>
                             <View style={styles.nearbyTextDescrView}>
 
                                 <Unorderedlist>
-                                    <Text style={styles.nearbyTextDescr}>
+                                    <Text style={{
+                                        color: '#808080',
+                                        fontSize: 16,
+                                        overflow: 'hidden',
+                                        fontFamily: 'PlusJakartaSans',
+                                        marginBottom: 5
+                                    }}>
                                         500m away from Sai Baba Mandir
                                     </Text>
                                 </Unorderedlist>
                                 <Unorderedlist>
-                                    <Text style={styles.nearbyTextDescr}>
+                                    <Text style={{
+                                        color: '#808080',
+                                        fontSize: 16,
+                                        overflow: 'hidden',
+                                        fontFamily: 'PlusJakartaSans'
+                                    }}>
                                         200m away from Shirdi Bus Stop
                                     </Text>
                                 </Unorderedlist>
@@ -264,9 +315,9 @@ const Hotel = (props) => {
                         </View>
                         {
                             Ratings && Ratings.length > 0 ? (
-                                <View style={styles.contentTop}>
+                                <View style={[styles.contentTop, { marginTop: 20, marginBottom: 20 }]}>
                                     <Text style={styles.hotelName}>Reviews </Text>
-                                    <View style={styles.contentTopLeftBox2}>
+                                    <View style={styles.contentTopLeftBox}>
                                         <TouchableOpacity>
                                             <AntDesign name="star" size={15} color="white" />
                                         </TouchableOpacity>
@@ -348,7 +399,7 @@ const Hotel = (props) => {
             </ScrollView>
             <View style={{
                 backgroundColor: 'white',
-                height: 80,
+                height: 90,
                 paddingHorizontal: 30,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -360,7 +411,7 @@ const Hotel = (props) => {
                 shadowOpacity: 0.3,
                 shadowRadius: 5,
                 elevation: 5,
-                paddingBottom:20
+                paddingBottom: 20
             }}>
                 <TouchableOpacity onPress={() => { //navigation.navigate('Review', {
                     //id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address })} 
@@ -379,8 +430,8 @@ const Hotel = (props) => {
                 }} style={{
                     borderWidth: 1,
                     borderColor: '#E2E2E2',
-                    width: 60,
-                    height: 50,
+                    flex: 1,
+                    height: 60,
                     borderRadius: 20,
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -392,11 +443,12 @@ const Hotel = (props) => {
                     check_in: Hotel[0].check_in, check_out: Hotel[0].check_out
                 })} style={{
                     backgroundColor: '#64B657',
-                    width: 240,
-                    height: 50,
+                    flex: 4,
+                    height: 60,
                     borderRadius: 30,
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    marginLeft: 10
                 }}>
                     <Text style={{
                         color: 'white',
@@ -411,7 +463,6 @@ const Hotel = (props) => {
 
 export default Hotel;
 
-import { LinearGradient } from 'expo-linear-gradient';
 
 export const HotelMemberCart = (props) => {
     const navigation = props.navigation
@@ -438,41 +489,42 @@ export const HotelMemberCart = (props) => {
 
             </LinearGradient>
 
-            <View style={styles.cartText}>
+            <View style={[styles.cartText, { paddingLeft: 5 }]}>
 
                 <View style={{ overflow: 'hidden', marginBottom: 5 }}>
                     <Text style={{
                         fontSize: 18,
                         fontFamily: 'PlusJakartaSansBold',
                         color: '#FFFFFF',
-                        lineHeight: 20,
+                        lineHeight: 25,
                     }}>{props.data ? props.data.name : "-----"}
                     </Text>
                     <Text style={{
                         fontSize: 12,
                         fontFamily: 'PlusJakartaSans',
                         color: '#FFFFFF',
-                        lineHeight: 20
+                        lineHeight: 25,
+                        fontWeight: '400'
                     }}>
                         {props.data ? props.data.address : "---"}
                     </Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <SvgXml
-                        style={[styles.tabIco]}
+                        style={[styles.tabIco, { marginRight: 10 }]}
                         xml={`<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.49972 14.9995C6.92295 14.9995 6.34693 14.7805 5.90666 14.3433L5.35914 13.7957C5.14688 13.5842 4.86262 13.4672 4.56111 13.4665H3.79083C2.54579 13.4665 1.5325 12.4532 1.5325 11.2081V10.4371C1.53175 10.1363 1.41475 9.85209 1.20249 9.63833L0.663969 9.10056C-0.218063 8.22378 -0.221813 6.79048 0.655719 5.90769L1.20324 5.35942C1.41475 5.14717 1.53175 4.86291 1.5325 4.56139V3.79187C1.5325 2.54607 2.54579 1.53278 3.79083 1.53278H4.56186C4.86262 1.53278 5.14613 1.41578 5.35989 1.20202L5.89916 0.664252C6.77594 -0.217781 8.2085 -0.222281 9.09203 0.656001L9.63955 1.20352C9.85256 1.41578 10.1361 1.53278 10.4368 1.53278H11.2079C12.4529 1.53278 13.4662 2.54607 13.4662 3.79187V4.56214C13.4669 4.86291 13.5839 5.14717 13.7962 5.36092L14.3347 5.89944C14.7615 6.32396 14.9977 6.88948 15 7.49325C15.0015 8.09327 14.7705 8.65804 14.3497 9.08481C14.3422 9.09231 14.3355 9.10056 14.328 9.10731L13.7955 9.63983C13.5839 9.85209 13.4669 10.1363 13.4662 10.4379V11.2081C13.4662 12.4532 12.4529 13.4665 11.2079 13.4665H10.4368C10.1361 13.4672 9.85181 13.5842 9.6388 13.7965L9.09953 14.335C8.66001 14.7775 8.07949 14.9995 7.49972 14.9995Z" fill="#64B657"/>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.03235 6.03871C5.9086 6.16247 5.74809 6.22922 5.57034 6.22922C5.40383 6.22922 5.24032 6.16097 5.10907 6.03796C4.98457 5.91421 4.91406 5.7447 4.91406 5.57295C4.91406 5.40944 4.98307 5.24143 5.10457 5.11168C5.17132 5.04418 5.25082 4.99317 5.33033 4.96617C5.55684 4.86267 5.8576 4.92342 6.0361 5.11093C6.09986 5.17468 6.14861 5.24443 6.18086 5.31719C6.21611 5.39519 6.23411 5.48369 6.23411 5.57295C6.23411 5.75145 6.16286 5.91721 6.03235 6.03871ZM9.8932 5.10801C9.63744 4.853 9.22118 4.853 8.96542 5.10801L5.11028 8.96315C4.85452 9.21891 4.85452 9.63517 5.11028 9.89168C5.23478 10.0154 5.39904 10.0837 5.57454 10.0837C5.75005 10.0837 5.91431 10.0154 6.03806 9.89168L9.8932 6.03654C10.149 5.78003 10.149 5.36451 9.8932 5.10801ZM9.67989 8.82348C9.43688 8.72147 9.14887 8.77697 8.95686 8.96898C8.91711 9.01548 8.86086 9.08748 8.82261 9.17224C8.78211 9.26374 8.77686 9.36199 8.77686 9.428C8.77686 9.494 8.78211 9.5915 8.82261 9.68301C8.86011 9.76701 8.90511 9.83526 8.96436 9.89451C9.10012 10.0205 9.25762 10.0843 9.43313 10.0843C9.59964 10.0843 9.76314 10.0168 9.8974 9.89151C10.0167 9.77226 10.0819 9.60725 10.0819 9.428C10.0819 9.24799 10.0167 9.08373 9.89665 8.96373C9.83064 8.89848 9.75114 8.84748 9.67989 8.82348Z" fill="white"/>
                         </svg>
                         `}
-                        height="15"
-                        width="15" />
+                        height="20"
+                        width="20" />
                     <Text style={{
-                        fontSize: 14,
+                        fontSize: 12,
+                        fontFamily: 'PlusJakartaSans',
                         color: '#FFFFFF',
-                        fontWeight: '400',
-                        marginLeft: 4,
-                        fontFamily: 'PlusJakartaSans'
+                        lineHeight: 20,
+                        fontWeight: '600'
                     }}>
                         {props.data ? props.data.type : "Free for Members"}
                     </Text>
@@ -486,6 +538,7 @@ const HotelMember = ({ doc }) => {
     const [Rating, setRating] = React.useState(null);
     const [user, setUser] = React.useState(null);
     const darkMode = useSelector(state => state.pageSettings.darkMode)
+    const [Name, setName] = React.useState('')
 
     React.useEffect(() => {
         let arr = []
@@ -508,6 +561,21 @@ const HotelMember = ({ doc }) => {
             Alert.alert('Error', err.code)
         })
     }, [])
+
+    React.useEffect(() => {
+        if (user) {
+            let name = ''
+            for (var i = 0; i < user[0].name.length; i++) {
+                if (i < 17) {
+                    name = name + user[0].name[i]
+                } else {
+                    name = name + '...';
+                    break;
+                }
+            }
+            setName(name)
+        }
+    }, [user])
     return (
         <View style={styles.post}>
             <View style={styles.postHead}>
@@ -527,9 +595,10 @@ const HotelMember = ({ doc }) => {
                         fontSize: 16,
                         color: textColor(darkMode),
                         fontFamily: 'PlusJakartaSansBold'
-                    }}>{user && user[0].name ? user[0].name : '-'}</Text>
+                    }}>{Name}</Text>
                     {
                         user && user[0].membership_type == 'gold' ? (
+
                             <Text style={[styles.membership]}>
                                 <Text style={{ color: '#FFB92E', fontFamily: 'PlusJakartaSansBold', }}>Gold </Text>
                                 Member</Text>
@@ -556,7 +625,8 @@ const HotelMember = ({ doc }) => {
                 <View style={{
                     flexDirection: 'row', height: '100%',
                     alignItems: 'center', justifyContent: 'center',
-                    marginTop: 3
+                    marginTop: 3,
+                    marginLeft: 15
                 }}>
                     {
                         Rating ? (
@@ -587,7 +657,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     image: {
-        height: 400,
+        height: 450,
         width: '100%',
         position: 'absolute',
         borderRadius: 10,
@@ -598,32 +668,34 @@ const styles = StyleSheet.create({
         width: 48,
         height: 30,
         left: 330,
-        top: 355,
+        top: 410,
         borderRadius: 15,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     imageButtomIconText: {
         alignItems: 'center',
         textAlign: 'center',
         color: 'white',
         fontSize: 13,
-        marginTop: 6,
         fontFamily: 'PlusJakartaSans'
 
     },
     content: {
-        marginTop: 430,
+        marginTop: 480,
         width: '100%',
+        paddingHorizontal: 15
     },
     contentTop: {
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
     contentTopLeftBox: {
-        width: 60,
-        height: 30,
-        backgroundColor: 'green',
-        borderRadius: 15,
+        minWidth: 65,
+        height: 35,
+        backgroundColor: '#64B657',
+        borderRadius: 19,
         marginLeft: '20%',
         flexDirection: 'row',
         alignItems: 'center',
@@ -632,11 +704,10 @@ const styles = StyleSheet.create({
     contentTopLeftBoxText: {
         fontSize: 11,
         color: 'white',
-        marginLeft: 5
+        marginLeft: 7
     },
     hotelName: {
-        fontWeight: '700',
-        fontSize: 20,
+        fontSize: 22,
         display: 'flex',
         alignItems: 'center',
         color: '#000000',
@@ -646,7 +717,7 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
         borderRadius: 15,
-        backgroundColor: '#D8D8D8',
+        backgroundColor: '#F5F5F5',
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: 5
@@ -656,19 +727,18 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     contentDescrip: {
-        width: '90%'
+        width: '100%'
     },
     textHead: {
         color: '#292929',
-        fontSize: 16,
-        fontWeight: '700',
+        fontSize: 17,
         marginTop: 30,
-        marginBottom: 15
+        marginBottom: 5,
+        fontFamily: 'PlusJakartaSansBold'
     },
     textDescr: {
         color: '#808080',
-        fontSize: 14,
-        fontWeight: '500',
+        fontSize: 16,
         marginBottom: 15,
         overflow: 'hidden',
         fontFamily: 'PlusJakartaSans'
@@ -683,20 +753,19 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         color: 'rgb(100,100,100)',
-        borderColor: '#D8D8D8'
+        borderColor: '#D8D8D8',
+        height: 100
     },
     view2: {
         borderWidth: .5,
         width: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 20,
-        borderColor: '#D8D8D8'
+        borderColor: '#D8D8D8',
+        marginHorizontal: 40
     },
     view3: {
         justifyContent: 'center',
-        alignItems: 'center',
-        width: '45%'
     },
     map: {
         height: 150,
@@ -789,7 +858,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         height: '100%',
         justifyContent: 'flex-end',
-        paddingBottom: 8,
+        paddingBottom: 15,
         fontFamily: 'PlusJakartaSans'
     },
     showMoreButtonText: {
@@ -803,5 +872,10 @@ const styles = StyleSheet.create({
         marginTop: 5,
         padding: 10,
         width: '92%'
+    },
+    membership: {
+        fontFamily: 'PlusJakartaSans',
+        fontSize: 16,
+        color: '#666666'
     }
 })

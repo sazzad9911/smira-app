@@ -89,7 +89,6 @@ const Cards = (props) => {
                     marginLeft: 8
                 }}>
                     <Text style={{
-                        fontWeight: '700',
                         fontSize: 18,
                         marginVertical: 5,
                         fontFamily: 'PlusJakartaSansBold',

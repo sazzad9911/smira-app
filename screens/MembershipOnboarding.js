@@ -11,6 +11,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { setFamilyCode } from '../action'
 import Background from '../assets/Background.png'
 import { backgroundColor, textColor } from './../assets/color';
+import { arrowUp, arrowDown } from '../components/Icon'
+import { SvgXml } from 'react-native-svg'
 
 const MembershipOnboarding = ({ navigation }) => {
     const brands = useSelector(state => state.brands)
@@ -42,11 +44,19 @@ const MembershipOnboarding = ({ navigation }) => {
                     fontFamily: 'PlusJakartaSans',
                     lineHeight: 20, color: textColor(darkMode)
                 }}>You’re invited to become</Text>
-                <Text style={{
-                    textAlign: 'center', fontSize: 24,
-                    fontFamily: 'PlusJakartaSansBold',
-                    color: textColor(darkMode)
-                }}><Text style={{ color: '#F33B41', fontWeight: '600' }}>SmiraClub</Text> Member</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', }}>
+                    <Text style={{
+                        color: '#F33B41',
+                        fontSize: 24,
+                        fontFamily: 'PlusJakartaSansBold',
+                    }}>SmiraClub</Text>
+                    <Text style={{
+                        textAlign: 'center', fontSize: 24,
+                        fontFamily: 'PlusJakartaSans',
+                        color: textColor(darkMode),
+                        fontWeight: '600'
+                    }}> Member</Text>
+                </View>
             </View>
             <View style={{ alignItems: 'center' }}>
                 <View style={{ height: 250, width: '90%', borderRadius: 10 }}>
@@ -72,7 +82,11 @@ const MembershipOnboarding = ({ navigation }) => {
 
                         <View style={{ flex: 0.5 }}></View>
                         <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                            <Text style={{ fontFamily: 'PlusJakartaSansBold', color: 'white', fontSize: 32, }}>Worth of ₹ 1 lakh</Text>
+                            <Text style={{
+                                fontFamily: 'PlusJakartaSansBold',
+                                color: 'white',
+                                fontSize: 32,
+                            }}>Worth of ₹ 1 lakh</Text>
                             <View style={{ width: '80%', borderColor: 'rgba(255, 255, 255, 0.3)', borderWidth: 0.5, marginBottom: 10, marginTop: 10 }}></View>
                             <Text style={{
                                 color: 'white',
@@ -120,7 +134,8 @@ const MembershipOnboarding = ({ navigation }) => {
                 <View style={{
                     justifyContent: 'flex-start',
                     width: '100%',
-                    padding: 15
+                    padding: 15,
+                    paddingLeft: 26
                 }}>
                     <Text style={{
                         fontFamily: 'PlusJakartaSansBold',
@@ -159,26 +174,26 @@ const MembershipOnboarding = ({ navigation }) => {
 
                     </View>
                 </ScrollView>
-                <View style={{ width: '100%', backgroundColor: backgroundColor(darkMode), paddingTop: 25, paddingBottom: 20 }}>
+                <View style={{
+                    width: '100%', backgroundColor: '#f5f5f5',
+                    paddingTop: 25, paddingBottom: 5, paddingLeft: 15, marginTop: 10
+                }}>
 
-                    <View style={{ width: '100%', }}>
+                    <View style={{ width: '100%', paddingLeft: 9 }}>
                         <Text style={{
-                            fontSize: 16,
                             fontFamily: 'PlusJakartaSansBold',
-                            fontWeight: '700',
-                            paddingLeft: 10,
-                            color: textColor(darkMode)
+                            fontSize: 18,
+                            color: textColor(darkMode),
+
                         }}>Free Stays at Executive Hotels</Text>
                         <Text style={{
-                            paddingLeft: 10,
-                            fontSize: 11,
+                            fontSize: 14,
                             fontFamily: 'PlusJakartaSans',
-                            fontWeight: '500',
                             color: textColor(darkMode)
                         }}>Save big on most luxury hotels with us</Text>
                     </View>
                     <ScrollView showsVerticalScrollIndicator={false}
-                        showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', margin: 15 }}>
+                        showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', marginTop: 10 }}>
                         {
                             hotels ? (
                                 hotels.map((doc, i) => (
@@ -196,24 +211,43 @@ const MembershipOnboarding = ({ navigation }) => {
                     <Text style={{
                         marginTop: 30,
                         marginBottom: 35,
-                        fontSize: 18,
-                        fontFamily: 'PlusJakartaSansBold',
+                        fontSize: 22,
+                        fontFamily: 'PlusJakartaSans',
                         fontWeight: '700',
                         color: textColor(darkMode)
                     }}>FAQs</Text>
 
-                    <Quiz />
-                    <Quiz />
-                    <Quiz />
+                    <Quiz question="What are the benefits of a SmiraClub membership?"
+                        answer="SmiraClub Membership is an all-inclusive membership program that offers
+                    a variety of deals and hotel stays. Members receive substantial discounts on 
+                    a variety of services provided by popular brands, as well as unlimited hotel stays in more than 30 cities across India. Members also receive priority assistance from us."/>
+                    <Quiz question="What are the benefits of Family Code Access feature?"
+                        answer="SmiraClub Membership is an all-inclusive membership program that offers a variety of deals and hotel stays. Members receive substantial discounts on a variety of services provided by popular brands, as well as unlimited hotel stays in more than 30 cities across India. Members also receive priority assistance from us." />
+                    <Quiz question="Are there any restrictions on the free hotel stays?"
+                        answer="SmiraClub Membership is an all-inclusive membership program that offers
+                    a variety of deals and hotel stays. Members receive substantial discounts on 
+                    a variety of services provided by popular brands, as well as unlimited hotel stays in more than 30 cities across India. Members also receive priority assistance from us." />
                     <View style={{ flex: 1 }}></View>
                     <View style={{ marginTop: 30, marginBottom: 50 }}>
-                        <Text style={{ fontSize: 14, fontFamily: 'PlusJakartaSansBold', color: '#585858', fontWeight: '500' }}>
+                        <Text style={{
+                            fontSize: 14,
+                            fontWeight: '600',
+                            color: '#393939',
+                            fontFamily: 'PlusJakartaSans',
+                        }}>
                             Still have questions?
                         </Text>
                         <TouchableOpacity onPress={() => {
                             navigation.navigate('Talk To Us')
                         }}>
-                            <Text style={{ textAlign: 'center', color: '#FC444B', fontSize: 14, fontWeight: '500', fontFamily: 'PlusJakartaSansBold', textDecorationLine: 'underline', }}>
+                            <Text style={{
+                                textAlign: 'center',
+                                color: '#FC444B',
+                                fontSize: 14,
+                                fontWeight: '600',
+                                fontFamily: 'PlusJakartaSans',
+                                textDecorationLine: 'underline',
+                            }}>
                                 Talk to Us
                             </Text>
                         </TouchableOpacity>
@@ -228,7 +262,7 @@ const MembershipOnboarding = ({ navigation }) => {
 export default MembershipOnboarding
 
 const styles = StyleSheet.create({})
-const Quiz = () => {
+const Quiz = (props) => {
     const [height, setHeight] = React.useState(0)
     return (
         <View style={{
@@ -237,10 +271,10 @@ const Quiz = () => {
             backgroundColor: '#F9F9F9',
             borderRadius: 10,
             flexDirection: 'row',
-            paddingLeft: 15,
-            paddingRight: 15,
+            paddingLeft: 20,
+            paddingRight: 0,
             paddingTop: 20,
-            paddingBottom: 20,
+            paddingBottom: 12,
             marginTop: 10
         }}>
             <View style={{
@@ -253,11 +287,12 @@ const Quiz = () => {
                     alignItems: 'center',
                 }}>
                     <Text style={{
-                        fontSize: 13,
-                        fontWeight: '500',
+                        fontSize: 14,
+                        fontWeight: '600',
                         color: '#393939',
-                        fontFamily: 'PlusJakartaSansBold',
-                    }}>What are the benefits of a SmiraClub membership?</Text>
+                        fontFamily: 'PlusJakartaSans',
+                        marginRight: 15,
+                    }}>{props.question}</Text>
                     <TouchableOpacity onPress={() => {
                         if (height == 0) {
                             setHeight('auto')
@@ -265,7 +300,13 @@ const Quiz = () => {
                             setHeight(0)
                         }
                     }}>
-                        <MaterialIcons name={height ? "keyboard-arrow-up" : "keyboard-arrow-down"} size={30} color="black" />
+                        {
+                            height == 0 ? (
+                                <SvgXml xml={arrowDown} height="12" width="12" />
+                            ) : (
+                                <SvgXml xml={arrowUp} height="12" width="12" />
+                            )
+                        }
                     </TouchableOpacity>
                 </View>
                 <Text style={{
@@ -273,8 +314,9 @@ const Quiz = () => {
                     marginTop: 15,
                     fontSize: 12,
                     fontFamily: 'PlusJakartaSans',
-                    height: height
-                }}>SmiraClub Membership is an all-inclusive membership program that offers a variety of deals and hotel stays. Members receive substantial discounts on a variety of services provided by popular brands, as well as unlimited hotel stays in more than 30 cities across India. Members also receive priority assistance from us.
+                    height: height,
+                    lineHeight: 20
+                }}>{props.answer}
                 </Text>
             </View>
             <View style={{ flex: 1 }}></View>

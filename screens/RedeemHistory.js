@@ -6,12 +6,14 @@ import { useSelector } from 'react-redux'
 import { postData, url } from '../action'
 import { getAuth } from 'firebase/auth';
 import app from '../firebase';
+import {textColor} from '../assets/color'
 
 
 const RedeemHistory = () => {
     const user = useSelector(state => state.user)
     const [RedeemHistory, setRedeemHistory] = React.useState(null)
     const auth = getAuth(app);
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
 
     React.useEffect(() => {
         const fun = postData(url + '/getData', {

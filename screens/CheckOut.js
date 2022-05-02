@@ -16,6 +16,7 @@ import {
 import { postData, url, setUser, setAnimatedLoader } from '../action';
 import { getAuth } from 'firebase/auth';
 import app from '../firebase';
+import RadioButtonRN from 'radio-buttons-react-native';
 
 
 const CheckOut = (props) => {
@@ -93,90 +94,115 @@ const CheckOut = (props) => {
         let data = '';
         return data = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate())
     }
-
+    const data = [
+        {
+            label: 'Pay now with UPI, Netbanking & Wallet',
+            accessibilityLabel: 'Your label'
+        },
+        {
+            label: 'Pay later with credit or debit card',
+            accessibilityLabel: 'Your label'
+        }
+    ];
     return (
-        <ScrollView showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}>
-            <View style={[styles.main, { backgroundColor: backgroundColor(darkMode) }]}>
-                <View>
-                    <Text style={[styles.text1, {
-                        color: textColor(darkMode)
-                    }]}>Start your 30-days trial now!</Text>
-                    <Text style={styles.text2}>We won't charge you today.Your payment day will be on{" "}
-                        <Text style={[styles.text3, { color: params.color }]}>
-                            {Months[date.getMonth() + 1] + ' ' + date.getDate() + ' ' + date.getFullYear()}.</Text>
-                    </Text>
-                </View>
-                <View style={styles.box}>
-                    <View style={styles.logo1}>
-                        <FontAwesome name="rupee" size={24} color={textColor(darkMode)} /><Text>
-                            <Text style={[styles.rupee, { color: textColor(darkMode) }]}>
-                                {Membership ? Membership.price : ""}</Text>
-                            <Text style={{ color: '#585858' }}>/2 years</Text></Text>
-                    </View>
-                    <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} />
-                        <Text style={styles.underrupee}>Stays upto 40 nights</Text>
-                    </View>
-                    <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} />
-                        <Text style={styles.underrupee}>Valid on any 5 hotels</Text>
-                    </View>
-                    <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} />
-                        <Text style={styles.underrupee}>Family access upto 3 accounts</Text>
-                    </View>
-                    <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} />
-                        <Text style={styles.underrupee}>10 days prior to reservation</Text>
-                    </View>
-                    <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} />
-                        <Text style={styles.underrupee}>Weekends booking</Text>
-                    </View>
-                    <View style={styles.logo1}>
-                        <AntDesign name="checkcircle" size={24} color={params.color} />
-                        <Text style={styles.underrupee}>Peak days booking</Text>
-                    </View>
-                </View>
-                <View style={{ width: window.width }}>
-                    <Text style={styles.underboxtext}>Payment Method</Text>
-                </View>
-                <TouchableOpacity disabled={CardNumber && Expiry && CVV ? false : true} onPress={() => {
-                    checkCard()
-                }}>
-                    <View style={[styles.button1, {
-                        backgroundColor: CardNumber && Expiry && CVV ? params.color : 'transparent',
-                        borderWidth: 1,
-                        borderColor: params.color
-                    }]}>
-                        <Text style={[styles.button1text, {
+        <View style={{ alignItems: 'center' }}>
+            <ScrollView showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}>
+                <View style={[styles.main, { backgroundColor: backgroundColor(darkMode) }]}>
+                    <View>
+                        <Text style={[styles.text1, {
                             color: textColor(darkMode)
-                        }]}>TRY IT FOR 30 DAYS</Text>
+                        }]}>Start your 30-days trial now!</Text>
+                        <Text style={styles.text2}>We won't charge you today.Your payment day will be on{" "}
+                            <Text style={[styles.text3, { color: params.color }]}>
+                                {Months[date.getMonth() + 1] + ' ' + date.getDate() + ' ' + date.getFullYear()}.</Text>
+                        </Text>
                     </View>
-                </TouchableOpacity>
-                <View style={styles.card}>
-                    <Text style={styles.text2}>Card Number</Text>
-                    <TextInput keyboardType='number-pad' onChangeText={setCardNumber}
-                        style={styles.input} placeholder='0000 0000 0000 0000' />
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flex: 2 }}>
-                            <Text style={styles.text2}>Expiry Date</Text>
-                            <TextInput onChangeText={setExpiry}
-                                style={styles.input} placeholder='MM/YYYY' />
+                    <View style={styles.box}>
+                        <View style={styles.logo1}>
+                            <FontAwesome name="rupee" size={24} color={textColor(darkMode)} /><Text>
+                                <Text style={[styles.rupee, { color: textColor(darkMode) }]}>
+                                    {Membership ? Membership.price : ""}</Text>
+                                <Text style={{ color: '#585858' }}>/2 years</Text></Text>
                         </View>
-                        <View style={{ flex: 1, marginLeft: 10 }}>
-                            <Text style={styles.text2}>CVV</Text>
-                            <TextInput onChangeText={setCVV}
-                                style={styles.input} placeholder='....' />
+                        <View style={styles.logo1}>
+                            <AntDesign name="checkcircle" size={24} color={params.color} />
+                            <Text style={styles.underrupee}>Stays upto 40 nights</Text>
                         </View>
+                        <View style={styles.logo1}>
+                            <AntDesign name="checkcircle" size={24} color={params.color} />
+                            <Text style={styles.underrupee}>Valid on any 5 hotels</Text>
+                        </View>
+                        <View style={styles.logo1}>
+                            <AntDesign name="checkcircle" size={24} color={params.color} />
+                            <Text style={styles.underrupee}>Family access upto 3 accounts</Text>
+                        </View>
+                        <View style={styles.logo1}>
+                            <AntDesign name="checkcircle" size={24} color={params.color} />
+                            <Text style={styles.underrupee}>10 days prior to reservation</Text>
+                        </View>
+                        <View style={styles.logo1}>
+                            <AntDesign name="checkcircle" size={24} color={params.color} />
+                            <Text style={styles.underrupee}>Weekends booking</Text>
+                        </View>
+                        <View style={styles.logo1}>
+                            <AntDesign name="checkcircle" size={24} color={params.color} />
+                            <Text style={styles.underrupee}>Peak days booking</Text>
+                        </View>
+                    </View>
+                    <View style={{ width: window.width }}>
+                        <Text style={styles.underboxtext}>Payment Method</Text>
+                        <RadioButtonRN style={{
+                            marginLeft: 10
+                        }}
+                            activeColor={params.color}
+                            box={false}
+                            data={data}
+                            selectedBtn={(e) => console.log(e)}
+                        />
+                    </View>
+
+                    <View style={styles.card}>
+                        <Text style={styles.text2}>Card Number</Text>
+                        <TextInput keyboardType='number-pad' onChangeText={setCardNumber}
+                            style={styles.input} placeholder='0000 0000 0000 0000' />
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={styles.text2}>Expiry Date</Text>
+                                <TextInput onChangeText={setExpiry}
+                                    style={styles.input} placeholder='MM/YYYY' />
+                            </View>
+                            <View style={{ flex: 1, marginLeft: 10 }}>
+                                <Text style={styles.text2}>CVV</Text>
+                                <TextInput onChangeText={setCVV}
+                                    style={styles.input} placeholder='....' />
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{ marginBottom: 50 }}>
+                        <TextInput style={styles.input1} placeholder='Promo Code' />
                     </View>
                 </View>
-                <View style={{ marginBottom: 50 }}>
-                    <TextInput style={styles.input1} placeholder='Promo Code' />
+                <View style={{ height: 40 }}></View>
+            </ScrollView>
+            <TouchableOpacity style={{
+                position: 'absolute',
+                bottom: 30,
+                zIndex: 1
+            }} disabled={CardNumber && Expiry && CVV ? false : true} onPress={() => {
+                checkCard()
+            }}>
+                <View style={[styles.button1, {
+                    backgroundColor: CardNumber && Expiry && CVV ? params.color : 'white',
+                    borderWidth: 1,
+                    borderColor: params.color
+                }]}>
+                    <Text style={[styles.button1text, {
+                        color: CardNumber && Expiry && CVV ? 'white' : 'black',
+                    }]}>TRY IT FOR 30 DAYS</Text>
                 </View>
-            </View>
-        </ScrollView>
+            </TouchableOpacity>
+        </View>
     );
 };
 
@@ -273,9 +299,7 @@ const styles = StyleSheet.create({
         width: window.width - 30,
         marginTop: 25,
         borderRadius: 10,
-        borderBottomWidth: 1,
-        borderLeftWidth: 1,
-        borderRightWidth: 1,
+        borderWidth: 1,
         padding: 10,
         borderColor: '#D8D8D8'
     },

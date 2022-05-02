@@ -26,7 +26,8 @@ const DrawerMenu = ({ navigation }) => {
     const styles = StyleSheet.create({
         container: {
             padding: 20,
-            paddingBottom: 50
+            paddingBottom: 50,
+            paddingTop:0
         },
         profilePicture: {
             height: 65,
@@ -38,7 +39,7 @@ const DrawerMenu = ({ navigation }) => {
             flexDirection: 'row',
             alignItems: 'center',
             paddingBottom: 15,
-            marginTop: 30
+            marginTop: 20
         },
         horiContainer: {
             flexDirection: 'column',

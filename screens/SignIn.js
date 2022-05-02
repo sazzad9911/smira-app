@@ -15,12 +15,13 @@ import {setAnimatedLoader} from '../action'
 const SignIn = ({ navigation }) => {
     const [email, setEmail] = React.useState(null)
     const [password, setPassword] = React.useState(null)
+    const [text,setText] =React.useState('')
 
     const auth = getAuth(app);
     const dispatch = useDispatch()
     const signIn = () => {
         if (!email || !password) {
-            Alert.alert('Wrong!', 'Please fill all the fields');
+            setText('Please fill all the fields')
             return
         }
         dispatch(setAnimatedLoader(true));
@@ -30,7 +31,7 @@ const SignIn = ({ navigation }) => {
                 navigation.navigate('Dashboard');
             }).catch((error) => {
                 dispatch(setAnimatedLoader(false));
-                Alert.alert('Error', error.code)
+                setText('Invalid user information.')
                 console.log('Error: SignIn.js->' + error.code)
             })
     }
@@ -79,7 +80,7 @@ const SignIn = ({ navigation }) => {
                     }}>Login to your existing account</Text>
                 </View>
 
-                <View >
+                <View style={{justifyContent: 'center',alignItems: 'center'}}>
                     <TextInput onChangeText={setEmail}
                         style={{
                             height: 60,
@@ -96,7 +97,7 @@ const SignIn = ({ navigation }) => {
                         placeholder="Email Address"
                     />
 
-                    <TextInput onChangeText={setPassword}
+                    <TextInput secureTextEntry={true} onChangeText={setPassword}
                         style={{
                             height: 60,
                             marginHorizontal: 20,
@@ -112,6 +113,11 @@ const SignIn = ({ navigation }) => {
                         }}
                         placeholder="Password"
                     />
+                    <Text style={{
+                        color:'red',
+                        fontFamily:'PlusJakartaSans',
+                        fontSize:14
+                    }}>{text}</Text>
                     <TouchableOpacity onPress={signIn}>
 
                         <View style={{
@@ -137,11 +143,11 @@ const SignIn = ({ navigation }) => {
                                 fontWeight: '500',
                                 lineHeight: 18,
                                 fontFamily: 'PlusJakartaSans',
-                            }}>LogIn</Text>
+                            }}>Login</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{
+                <TouchableOpacity onPress={() =>navigation.navigate('Forget Password')} style={{
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
@@ -202,7 +208,8 @@ const SignIn = ({ navigation }) => {
                             lineHeight: 18,
                             fontFamily: 'PlusJakartaSans',
                             color: 'red',
-                        }}>SignUp</Text>
+                            marginLeft:5
+                        }}>Signup</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{

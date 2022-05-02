@@ -20,6 +20,7 @@ const CreateUser = (props) => {
     const [Password, setPassword] = React.useState()
     const [Name, setName] = React.useState()
     const [visibility, setVisibility] = React.useState(false);
+    const [text, setText] =React.useState('')
 
     const googleIcon = `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path fill-rule="evenodd" clip-rule="evenodd" d="M25.2408 13.6111C25.2559 12.7518 25.1654 11.894 24.9714 11.056H13.002V15.6941H20.0279C19.7589 17.3374 18.8176 18.8019 17.4215 19.7489L17.397 19.9043L21.1818 22.7785L21.4438 22.8041C23.8518 20.6239 25.2403 17.4159 25.2403 13.6111" fill="#4285F4"/>
@@ -34,7 +35,7 @@ const CreateUser = (props) => {
                 marginTop: 40,
             }}>
                 <View style={{
-                    marginTop: '15%',
+                    marginTop: '5%',
                     marginLeft: '85%'
                 }}>
                     <TouchableOpacity onPress={() => {
@@ -104,7 +105,7 @@ const CreateUser = (props) => {
 
                             }}
                         />
-                        <TextInput onChangeText={setPassword} placeholder='Password'
+                        <TextInput secureTextEntry={true} onChangeText={setPassword} placeholder='Password'
                             style={{
                                 height: 60,
                                 marginHorizontal: 25,
@@ -122,10 +123,16 @@ const CreateUser = (props) => {
                         />
 
                     </View>
-
+                    <Text style={{
+                        marginLeft: 55,
+                        color: 'red',
+                        fontFamily: 'PlusJakartaSans',
+                        fontSize: 14,
+                        marginTop:10
+                    }}>{text}</Text>
                     <TouchableOpacity onPress={() => {
                         if (!Email || !Password || !Name) {
-                            Alert.alert("Opps!", "Please fill all the fields")
+                            setText('Please fill all the fields.')
                             return
                         }
                         setVisibility(true)
@@ -143,7 +150,7 @@ const CreateUser = (props) => {
                                     navigation.navigate('Dashboard')
                                 })
                             }).catch(err => {
-                                Alert.alert('Error', err.code)
+                                setText('Email address is invalid.')
                                 setVisibility(false)
                                 //console.log(err.message)
                             })
@@ -157,8 +164,7 @@ const CreateUser = (props) => {
                             alignItems: 'center',
                             flexDirection: 'row',
                             backgroundColor: '#FC444B',
-                            marginTop: 40,
-
+                            marginTop: 30,
                         }}>
                             <Text style={{
                                 color: 'white',
@@ -220,6 +226,7 @@ const CreateUser = (props) => {
                                 lineHeight: 18,
                                 fontFamily: 'PlusJakartaSans',
                                 color: 'red',
+                                marginLeft: 5
                             }}>Login</Text>
                         </TouchableOpacity>
                     </View>

@@ -8,7 +8,7 @@ import { SvgXml } from 'react-native-svg';
 import {activeExplore,inactiveExplore,activeCategory,
     inactiveCategory,
     activeMembership,
-    inactiveMembership,activeCall,inactiveCall} from './Icon'
+    inactiveMembership,activeCall,inactiveCall,calender} from './Icon'
 import {useSelector, useDispatch} from 'react-redux';
 import {setBottomSheet} from '../action'
 import { textColor } from '../assets/color';
@@ -30,22 +30,22 @@ const Bottom = (props) => {
                 //setActive('calendar')
                 dispatch(setBottomSheet('calendar'))
             }} style={styles.center}>
-                <Feather name="calendar" size={27} color="#ffff" />
+                <SvgXml xml={active == 'category' ? calender : calender} height="30" width="30" />
             </TouchableOpacity>
-            <View style={{ flex: 1, flexDirection: 'row', marginRight: 40 }}>
+            <View style={{ flex: 1, flexDirection: 'row', marginRight: 30 }}>
                 <TouchableOpacity onPress={() => {
                     setActive('explore')
                     navigation.navigate('Home')
                     dispatch(setBottomSheet('explore'))
-                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <SvgXml xml={active == 'explore' ? activeExplore : inactiveExplore} height="20" width="20" />
+                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginLeft:10 }}>
+                    <SvgXml xml={active == 'explore' ? activeExplore : inactiveExplore} height="25" width="25" />
                     <Text style={{ color: active == 'explore' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Explore</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     //setActive('category')
                     dispatch(setBottomSheet('category'))
-                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <SvgXml xml={active == 'category' ? activeCategory : inactiveCategory} height="20" width="20" />
+                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginRight:20 }}>
+                    <SvgXml xml={active == 'category' ? activeCategory : inactiveCategory} height="25" width="25" />
                     <Text style={{ color: active == 'category' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Category</Text>
                 </TouchableOpacity>
             </View>
@@ -57,15 +57,15 @@ const Bottom = (props) => {
                    }else{
                     navigation.navigate('MemberShipOnboarding')
                    }
-                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <SvgXml xml={active == 'membership' ? activeMembership : inactiveMembership} height="20" width="20" />
+                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginLeft:10 }}>
+                    <SvgXml xml={active == 'membership' ? activeMembership : inactiveMembership} height="25" width="25" />
                     <Text style={{ color: active == 'membership' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Membership</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     //setActive('call')
                     Linking.openURL(`tel:+919821116669`)
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <SvgXml xml={active == 'call' ? activeCall : inactiveCall} height="20" width="20" />
+                    <SvgXml xml={active == 'call' ? activeCall : inactiveCall} height="25" width="25" />
                     <Text style={{ color: active == 'call' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Call Us</Text>
                 </TouchableOpacity>
             </View>

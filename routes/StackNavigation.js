@@ -12,6 +12,8 @@ import { getData, storeData } from '../screens/WishList'
 const window = Dimensions.get('window')
 import { setPageSettings } from '../action';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import SettingsHeader from '../components/SettingsHeader';
+import ForgetPassword from "../screens/ForgetPassword";
 
 const StackNavigation = () => {
     const pageSettings = useSelector(state => state.pageSettings)
@@ -39,6 +41,7 @@ const StackNavigation = () => {
                 <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
                 <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
                 <Stack.Screen options={{ headerShown: false }} name="Dashboard" component={Dashboard} />
+                <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword} />
             </Stack.Navigator>
         </NavigationContainer>
     );
@@ -59,7 +62,7 @@ const Dashboard = ({ navigation }) => {
     // variables
     const calender = React.useMemo(() => ['10%', '95%'], []);
     const category = React.useMemo(() => ['10%', '45%'], []);
-    const filter = React.useMemo(() => ['10%', '55%'], []);
+    const filter = React.useMemo(() => ['10%', '60%'], []);
     const shortBy = React.useMemo(() => ['10%', '30%'], []);
     const [open, setOpen] = React.useState(1)
 

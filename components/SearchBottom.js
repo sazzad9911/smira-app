@@ -17,10 +17,10 @@ const SearchBottom = (props) => {
     return (
         <View style={{
             width: window.width,
-            height: 90,
+            height: 95,
             backgroundColor: backgroundColor(darkMode),
             padding: 10,
-            paddingBottom: 20,
+            paddingBottom: 25,
             shadowColor: "#000",
             shadowOffset: {
                 width: 0,
@@ -40,9 +40,9 @@ const SearchBottom = (props) => {
                 }} style={{
                     borderColor: '#D8D8D8',
                     borderWidth: 1,
-                    width: 65,
+                    flex: 1,
                     marginRight: 10,
-                    height: 50,
+                    height: 60,
                     borderRadius: 30,
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -54,18 +54,30 @@ const SearchBottom = (props) => {
                 }} style={{
                     borderColor: '#D8D8D8',
                     borderWidth: 1,
-                    width: 245,
+                    flex: 3,
                     marginRight: 10,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: 50,
+                    height: 60,
                     borderRadius: 30,
-                    marginLeft: 20,
-                    fontFamily: 'PlusJakartaSans'
+                    marginLeft: 5,
+                    fontFamily: 'PlusJakartaSans',
+                    flexDirection: 'row',
                 }}>
                     <Text style={{
-                        color: textColor(darkMode)
-                    }}>Brands     |     Filters</Text>
+                        color: textColor(darkMode),
+                        fontFamily: 'PlusJakartaSans'
+                    }}>Brands</Text>
+                        <View style={{
+                            width: 1,
+                            height: '50%',
+                            backgroundColor: '#D8D8D8',
+                            marginHorizontal:30
+                        }}></View>
+                        <Text style={{
+                        color: textColor(darkMode),
+                        fontFamily: 'PlusJakartaSans'
+                    }}>Filters</Text>
                 </TouchableOpacity>
             </View>
         </View>

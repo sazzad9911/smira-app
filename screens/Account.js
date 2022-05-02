@@ -223,7 +223,7 @@ function Account({ navigation }) {
             flexDirection: 'row',
             alignItems: 'center'
           }, Gender === "Gender" ? styles.fontEmptyStyle : '']}>
-            <Picker style={{
+            <Picker mode='dropdown' style={{
               width:'100%',
               height:'100%',
               color:Gender!='Gender'?'black':'rgb(130,130,130)'
@@ -336,14 +336,14 @@ export const FamilyCode = () => {
           }}>Membership Family Code</Text>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <TextInput
-              placeholder='XXXX-XXXX-XXXX-XXXX'
+              placeholder='XXXX - XXXX - XXXX - XXXX'
               placeholderTextColor={'rgb(130,130,130)'}
               value={MembershipFamilyCode}
               onChangeText={text => setMembershipFamilyCode(text)}
               style={{
-                width: '80%', backgroundColor: '#f5f5f5', height: 40,
-                borderRadius: 20, paddingLeft: 20, paddingRight: 20, textAlign: 'center'
-                , marginBottom: 5, color: textColor(darkMode),
+                width: '80%', backgroundColor: '#f5f5f5', height: 50,
+                borderRadius: 25, paddingLeft: 20, paddingRight: 20, textAlign: 'center'
+                , marginBottom: 5, color: textColor(darkMode),fontSize:16,
               }} />
           </View>
           {
@@ -358,7 +358,7 @@ export const FamilyCode = () => {
 
             }} style={{
               justifyContent: 'center', alignItems: 'center', backgroundColor: '#FB444B',
-              width: '80%', height: 40, borderRadius: 20, marginBottom: 30
+              width: '80%', height: 50, borderRadius: 25, marginBottom: 30
             }}>
               <Text style={{ color: 'white', fontSize: 15, }}
               >ADD FAMILY</Text>

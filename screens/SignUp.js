@@ -18,6 +18,7 @@ import AnimatedLoader from "react-native-animated-loader";
 import { postData, url } from '../action'
 import CreateUser from './CreateUser';
 import { SvgXml } from 'react-native-svg'
+import LoginScreen from '../assets/LoginScreen.png'
 //import * as Google from 'expo-google-app-auth';
 const auth = getAuth(app);
 const window = Dimensions.get('window')
@@ -64,7 +65,7 @@ const SignUp = (props) => {
                             height: 450,
                             width: window.width,
                         }}
-                        source={Screen}
+                        source={LoginScreen}
                     />
                 </View>
                 <View>
@@ -72,19 +73,20 @@ const SignUp = (props) => {
                         setOTP(true);
                         setModalVisible(true)
                     }} style={{
-                        height: 60,
-                        margin: 20,
+                        height: 70,
+                        margin: 8,
                         marginTop: '10%',
                         padding: 10,
                         borderRadius: 40,
                         alignItems: 'center',
                         flexDirection: 'row',
                         borderColor: '#E8E8E8',
-                        borderWidth: 2
+                        borderWidth: 2,
+                        marginHorizontal: 20,
 
                     }}>
 
-                        <SvgXml xml={phoneIcon} height="30" width="30" style={{ marginLeft: 30, color: '#D8D8D8', }} />
+                        <SvgXml xml={phoneIcon} height="35" width="35" style={{ marginLeft: 30, color: '#D8D8D8', }} />
                         <Text style={{
                             color: 'black',
                             fontSize: 14,
@@ -92,23 +94,24 @@ const SignUp = (props) => {
                             fontWeight: '500',
                             lineHeight: 18,
                             fontFamily: 'PlusJakartaSans',
-                        }}>SignUp with OTP</Text>
+                        }}>Signup with OTP</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => {
                         setOTP(false);
                         setModalVisible(true)
                     }} style={{
-                        height: 60,
-                        margin: 20,
+                        height: 70,
+                        margin: 8,
                         padding: 10,
                         borderRadius: 40,
                         alignItems: 'center',
                         flexDirection: 'row',
                         borderColor: '#E8E8E8',
-                        borderWidth: 2
+                        borderWidth: 2,
+                        marginHorizontal: 20,
                     }}>
-                        <SvgXml xml={emailIcon} height="30" width="30" style={{ marginLeft: 30, color: '#D8D8D8', }} />
+                        <SvgXml xml={emailIcon} height="35" width="35" style={{ marginLeft: 30, color: '#D8D8D8', }} />
                         <Text style={{
                             color: 'black',
                             fontSize: 14,
@@ -116,14 +119,15 @@ const SignUp = (props) => {
                             fontWeight: '500',
                             fontFamily: 'PlusJakartaSans',
                             lineHeight: 18,
-                        }}>SignUp with Email</Text>
+                        }}>Signup with Email</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => {
 
                     }} style={{
-                        height: 60,
-                        margin: 20,
+                        height: 70,
+                        margin: 8,
+                        marginHorizontal: 20,
                         padding: 10,
                         borderRadius: 40,
                         alignItems: 'center',
@@ -133,7 +137,7 @@ const SignUp = (props) => {
                         borderWidth: 2
                     }}>
 
-                        <SvgXml xml={googleIcon} height="30" width="30" style={{ marginLeft: 30, color: '#D8D8D8', }} />
+                        <SvgXml xml={googleIcon} height="30" width="30" style={{ marginLeft: 33, color: '#D8D8D8', }} />
                         <Text style={{
                             color: 'black',
                             fontSize: 14,
@@ -141,7 +145,7 @@ const SignUp = (props) => {
                             fontWeight: '500',
                             lineHeight: 18,
                             fontFamily: 'PlusJakartaSans',
-                        }}>SignUp with Google</Text>
+                        }}>Signup with Google</Text>
                     </TouchableOpacity>
 
                     <View style={{
@@ -163,6 +167,7 @@ const SignUp = (props) => {
                                 fontWeight: '500',
                                 lineHeight: 18,
                                 fontFamily: 'PlusJakartaSans',
+                                marginLeft: 5
                             }}>Login</Text>
                         </TouchableOpacity>
                     </View>
@@ -208,6 +213,7 @@ const SignUpWithOtp = (props) => {
     const [message, showMessage] = React.useState();
     const attemptInvisibleVerification = false;
     const [visibility, setVisibility] = React.useState(false);
+    const [text, setText] = React.useState('')
 
     const navigation = props.navigation
 
@@ -217,7 +223,7 @@ const SignUpWithOtp = (props) => {
                 marginTop: 40,
             }}>
                 <View style={{
-                    marginTop: '15%',
+                    marginTop: '5%',
                     marginLeft: '85%'
                 }}>
                     <TouchableOpacity onPress={() => {
@@ -237,7 +243,7 @@ const SignUpWithOtp = (props) => {
                         fontWeight: '500',
                         lineHeight: 30,
                         fontFamily: 'PlusJakartaSans',
-                    }}>SignUp with OTP</Text>
+                    }}>Signup with OTP</Text>
                     <Text style={{
                         fontSize: 12,
                         fontWeight: '400',
@@ -247,7 +253,7 @@ const SignUpWithOtp = (props) => {
                     }}>Register your new account</Text>
                 </View>
 
-                <View >
+                <View>
                     <View style={{
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -277,7 +283,7 @@ const SignUpWithOtp = (props) => {
                     <TouchableOpacity onPress={
                         async () => {
                             if (!verificationCode) {
-                                Alert.alert('Error', 'Type verificationCode first');
+                                //Alert.alert('Error', 'Type verificationCode first');
                                 return;
                             }
                             setVisibility(true);
@@ -294,13 +300,13 @@ const SignUpWithOtp = (props) => {
                                             columns: ['phone', 'uid'],
                                             values: [userCredential.user.phoneNumber, userCredential.user.uid]
                                         }).then(data => {
-                                            Alert.alert('Success!', 'Sign Up completed successfully')
+                                            // Alert.alert('Success!', 'Sign Up completed successfully')
                                             setVisibility(false)
                                             navigation.navigate('Dashboard');
                                         })
                                     })
                             } catch (err) {
-                                Alert.alert(err.code, err.message)
+                                //Alert.alert(err.code, err.message)
                                 setVisibility(false)
                             }
                         }
@@ -312,11 +318,13 @@ const SignUpWithOtp = (props) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row',
-                        backgroundColor: '#FC444B',
-                        width: window.width - 50
+                        backgroundColor:verificationCode && verificationCode.length==6?'#FC444B':'#ffff',
+                        width: window.width - 50,
+                        borderWidth:1,
+                        borderColor:'#fc444b'
                     }}>
                         <Text style={{
-                            color: 'white',
+                            color: verificationCode && verificationCode.length==6?'#ffff':'#FC444B',
                             fontSize: 14,
 
                             fontWeight: '500',
@@ -326,6 +334,15 @@ const SignUpWithOtp = (props) => {
                         }}>SUBMIT</Text>
                     </TouchableOpacity>
                 </View>
+                <AnimatedLoader
+                    visible={visibility}
+                    overlayColor="rgba(255,255,255,0.75)"
+                    source={require("../assets/9997-infinity-loader.json")}
+                    animationStyle={styles.lottie}
+                    speed={1}
+                >
+                    <Text>Loading...</Text>
+                </AnimatedLoader>
             </View>
         )
     } else {
@@ -336,10 +353,10 @@ const SignUpWithOtp = (props) => {
                 <FirebaseRecaptchaVerifierModal
                     ref={recaptchaVerifier}
                     firebaseConfig={app.options}
-                // attemptInvisibleVerification
+                    attemptInvisibleVerification={true}
                 />
                 <View style={{
-                    marginTop: '15%',
+                    marginTop: '5%',
                     marginLeft: '85%'
                 }}>
                     <TouchableOpacity onPress={() => props.close(false)}>
@@ -357,7 +374,7 @@ const SignUpWithOtp = (props) => {
                         fontWeight: '500',
                         lineHeight: 30,
                         fontFamily: 'PlusJakartaSans',
-                    }}>SignUp with OTP</Text>
+                    }}>Signup with OTP</Text>
                     <Text style={{
                         fontSize: 12,
                         fontWeight: '400',
@@ -381,34 +398,42 @@ const SignUpWithOtp = (props) => {
                             paddingLeft: 30,
                             paddingRight: 30,
                             fontSize: 14,
+                            marginBottom: 10
                         }}
                         placeholder="Mobile Number"
                     />
-
+                    <Text style={{
+                        marginLeft: 55,
+                        color: 'red',
+                        fontFamily: 'PlusJakartaSans',
+                        fontSize: 14
+                    }}>{text}</Text>
                     <TouchableOpacity onPress={async () => {
 
                         //setVisibility(true)
                         if (!phoneNumber) {
-                            Alert.alert('Error', 'It looks like you have a phone number')
+                            setText('Mobile number is invalid.')
                             return;
                         }
-                        if (phoneNumber.length != 13) {
-                            Alert.alert('Error', 'Invalid phone number');
+                        if (phoneNumber.length != 10) {
+                            setText('Mobile number is invalid.')
                             return;
                         }
+                        setVisibility(true)
                         try {
                             const phoneProvider = new PhoneAuthProvider(auth);
                             const verificationId = await phoneProvider.verifyPhoneNumber(
-                                phoneNumber,
+                                '+91' + phoneNumber,
                                 recaptchaVerifier.current
                             );
                             setNext(true)
                             setVerificationId(verificationId);
-                            Alert.alert('Success', 'We sent a verification code to your phone number')
+                            setText('We sent a verification code to your phone number')
                             setVisibility(false)
                         } catch (err) {
-                            Alert.alert(err.message)
+                            setText(err.code)
                             setVisibility(false)
+                            console.log(err.message)
                         }
 
 
@@ -432,6 +457,29 @@ const SignUpWithOtp = (props) => {
                                 fontFamily: 'PlusJakartaSans',
                             }}>NEXT</Text>
                         </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 20,
+                }}>
+                    <Text style={{
+                        fontSize: 14,
+                        fontWeight: '500',
+                        lineHeight: 18,
+                        fontFamily: 'PlusJakartaSans',
+                    }}>Already a Member?</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+                        <Text style={{
+                            fontSize: 14,
+                            color: '#FC444B',
+                            fontWeight: '500',
+                            lineHeight: 18,
+                            fontFamily: 'PlusJakartaSans',
+                            marginLeft: 5
+                        }}>Login</Text>
                     </TouchableOpacity>
                 </View>
                 <AnimatedLoader

@@ -18,14 +18,17 @@ const Filter = (props) => {
             justifyContent: 'center',
         }}>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30 }}>
+            <View style={{
+                flexDirection: 'row', justifyContent: 'space-between',
+                marginBottom: 30, alignItems: 'center'
+            }}>
                 <Text style={styles.text}>Filter</Text>
                 <TouchableOpacity onPress={() => {
                     dispatch(setRating(null))
                     dispatch(setCategory(null))
                     dispatch(setBrand(null))
                 }}>
-                    <Text style={{ color: 'red' }}>Clerar All</Text>
+                    <Text style={{ color: 'red', fontFamily: 'PlusJakartaSans', }}>Clear All</Text>
                 </TouchableOpacity>
 
             </View>
@@ -33,11 +36,11 @@ const Filter = (props) => {
                 route == 'SearchHotel' ? (
                     <>
                         <Text style={styles.headline}>Ratings</Text>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                            <Ratings color='green' title='5-4' />
-                            <Ratings color='blue' title='4-3' />
-                            <Ratings color='yellow' title='3-2' />
-                            <Ratings color='red' title='2-1' />
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 10 }}>
+                            <Ratings color='#64B657' title='5-4' />
+                            <Ratings color='#B2DBAC' title='4-3' />
+                            <Ratings color='#FBDD73' title='3-2' />
+                            <Ratings color='#E47768' title='2-1' />
                         </View>
                         <Text style={styles.headline}>Categories</Text>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
@@ -52,7 +55,7 @@ const Filter = (props) => {
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             {
                                 brands ? (
-                                    brands.map((b,i) => (
+                                    brands.map((b, i) => (
                                         <Brands key={i} title={b.name} />
                                     ))
                                 ) : (
@@ -65,10 +68,16 @@ const Filter = (props) => {
             }
             <TouchableOpacity onPress={() => {
                 props.close(false)
-            }} style={[styles.button,{
-                marginTop:route == 'SearchHotel' ?'10%':'20%'
-            }]}>
-                <Text style={[styles.headline, { color: '#ffff' }]}>APPLY</Text>
+            }} style={{
+                marginTop: route == 'SearchHotel' ? '10%' : '20%',
+                backgroundColor:'#FC444B',
+                borderRadius: 30,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height:55
+            }}>
+                <Text style={{ color: '#ffff',margin:10,
+                fontFamily: 'PlusJakartaSans',fontSize:16}}>APPLY</Text>
             </TouchableOpacity>
         </View>
     );
@@ -91,12 +100,12 @@ const Ratings = (props) => {
             alignItems: 'center',
             flexDirection: 'row',
             margin: 5,
-            backgroundColor: ratings == props.title[0] ? 'rgba(73, 246, 5, 0.269)' : '#ffff',
-            borderColor:'#D8D8D8'
-            
+            backgroundColor: ratings == props.title[0] ? '#64B657' : '#ffff',
+            borderColor: '#D8D8D8'
+
         }}>
-            <AntDesign name="star" size={18} color={props.color} />
-            <Text style={{ marginLeft: 5,fontFamily: 'PlusJakartaSans',color:'#808080', }}>{props.title}</Text>
+            <AntDesign name="star" size={18} color={ratings == props.title[0] ? '#ffff' : props.color} />
+            <Text style={{ marginLeft: 5, fontFamily: 'PlusJakartaSans', color: ratings == props.title[0] ? '#ffff' : '#808080', }}>{props.title}</Text>
         </TouchableOpacity>
     )
 }
@@ -109,18 +118,21 @@ const Category = (props) => {
             dispatch(setCategory(props.title));
         }} style={{
             borderWidth: 1,
-            borderRadius: 20,
-            width: 100,
-            height: 40,
+            borderRadius: 25,
+            height: 45,
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'row',
             margin: 5,
-            backgroundColor: category == props.title ? 'rgba(73, 246, 5, 0.269)' : '#ffff',
-            color:'#808080',
-            borderColor:'#D8D8D8'
+            color: '#808080',
+            borderColor: category == props.title ? '#FC444B' : '#D8D8D8',
+            padding: 10,
+            minWidth:100
         }}>
-            <Text style={{ marginLeft: 5,fontFamily: 'PlusJakartaSans',color:'#808080', }}>{props.title}</Text>
+            <Text style={{
+                fontFamily: 'PlusJakartaSans',
+                color: category == props.title ? '#FC444B' : '#808080',
+            }}>{props.title}</Text>
         </TouchableOpacity>
     )
 }
@@ -140,25 +152,25 @@ const Brands = (props) => {
             alignItems: 'center',
             flexDirection: 'row',
             margin: 5,
-            backgroundColor: brand == props.title ? 'rgba(73, 246, 5, 0.269)' : '#ffff',
-            color:'#808080',
-            borderColor:'#D8D8D8'
+            backgroundColor: brand == props.title ? '#64B657' : '#ffff',
+            color: '#808080',
+            borderColor: '#D8D8D8'
         }}>
-            <Text style={{ marginLeft: 5,color:'#808080',  }}>{props.title}</Text>
+            <Text style={{ marginLeft: 5, color: brand == props.title ? '#ffff' : '#808080', }}>{props.title}</Text>
         </TouchableOpacity>
     )
 }
 const styles = StyleSheet.create({
     text: {
         fontSize: 20,
-        fontWeight: '800',
         margin: 5,
         fontFamily: 'PlusJakartaSansBold'
     },
     headline: {
         fontSize: 18,
         margin: 5,
-        fontFamily: 'PlusJakartaSans'
+        fontFamily: 'PlusJakartaSans',
+        marginBottom: 20,
     },
     button: {
         backgroundColor: '#FC444B',

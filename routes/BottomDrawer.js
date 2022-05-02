@@ -4,7 +4,7 @@ import { Category } from '../components/Bottom';
 import HotelBooking from '../components/HotelBooking';
 import ShortBy from '../components/ShortBy';
 import Filter from '../components/Filter';
-import { backgroundColor, subTextColor } from './../assets/color';
+import { backgroundColor, subTextColor, textColor } from './../assets/color';
 import { useSelector, useDispatch } from 'react-redux'
 import { View, Text, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
 import { setBottomSheet } from '../action'
@@ -13,7 +13,7 @@ const BottomDrawer = (props) => {
     const bottomSheetRef = React.useRef();
     const bottomSheet = useSelector(state => state.pageSettings.bottomSheet)
     const pageSettings = useSelector(state => state.pageSettings)
-    const navigation= props.navigation
+    const navigation = props.navigation
     const dispatch = useDispatch()
     const handleSheetChanges = React.useCallback((index) => {
         if (index === -1 || index == false) {
@@ -30,22 +30,28 @@ const BottomDrawer = (props) => {
             enableHandlePanningGesture={true}
             enablePanDownToClose={true}
         >
-            <BottomSheetScrollView style={{ backgroundColor: backgroundColor(pageSettings.darkMode) }}>
+            <BottomSheetScrollView style={{
+                backgroundColor: textColor(!pageSettings.darkMode),
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                shadowOpacity:{height: 1,width: 1},
+                shadowRadius: 5,elevation:5,shadowOpacity:.6,shadowColor:'#0000'
+            }}>
                 {
                     bottomSheet == 'category' ? (
                         <Category navigation={navigation}
-                            close={()=>{}} />
+                            close={() => { }} />
                     ) : bottomSheet == 'calendar' ? (
-                        <HotelBooking  close={()=>{}} navigation={navigation} />
+                        <HotelBooking close={() => { }} navigation={navigation} />
                     ) : bottomSheet == 'filter' ? (
-                        <Filter  close={()=>{}} />
+                        <Filter close={() => { }} />
                     ) : bottomSheet == 'shortBy' ? (
                         <ShortBy />
                     ) : (
                         <Text style={{ textAlign: 'center' }}>Nothing</Text>
                     )
                 }
-                <View style={{height:10}}></View>
+                <View style={{ height: 10 }}></View>
             </BottomSheetScrollView>
         </BottomSheet>
     );

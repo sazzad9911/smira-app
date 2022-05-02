@@ -79,6 +79,7 @@ const DealCart = (props) => {
             </TouchableOpacity>
             <View style={{
                 flexDirection: 'row',
+                alignItems: 'center'
             }}>
                 <View style={{
                     flex: 4,
@@ -86,15 +87,14 @@ const DealCart = (props) => {
                 }}>
                     <Text style={{
                         fontFamily: 'PlusJakartaSansBold',
-                        fontWeight:'700',
-                        fontSize: 16,
+                        fontSize: 18,
                         marginBottom: 5,
                         color:textColor(darkMode)
                     }}>{props.headLine}</Text>
                     <Text style={{
                         color:'#808080',
                         fontFamily: 'PlusJakartaSans',
-                        fontSize:12,
+                        fontSize:14,
                         fontWeight:'400'
                     }}>{props.category}</Text>
                 </View>

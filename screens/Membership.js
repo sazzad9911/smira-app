@@ -70,6 +70,7 @@ const MembershipSlide = (props) => {
     const navigation = props.navigation
     const { height, width } = Dimensions.get('screen');
     const darkMode= useSelector(state => state.pageSettings.darkMode)
+    const data=props.data
     return (
         <View style={[style.slideView,{
             backgroundColor:backgroundColor(darkMode)
@@ -77,7 +78,7 @@ const MembershipSlide = (props) => {
             <View style={style.slideContent}>
                 <Text style={[style.slideContentHead,{
                     color:textColor(darkMode)
-                }]}><Text style={{ color: props.headcolor }}>Silver</Text> Membership</Text>
+                }]}><Text style={{ color: props.headcolor }}>{data.name}</Text> Membership</Text>
                 <Text style={style.textMargin}>Hotel stays of up to {props.night} nights</Text>
                 <Text style={style.textMargin}>Valid on any {props.hotel} hotels</Text>
                 <Text style={style.textMargin}>Family access upto {props.account} accounts</Text>

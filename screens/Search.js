@@ -102,7 +102,7 @@ const Hotels = (props) => {
 
 
           <TextInput value={search} onChangeText={setSearch} onEndEditing={() => {
-            
+
             const get = getData('search').then((data) => {
               if (data) {
                 let arr = data;
@@ -117,7 +117,7 @@ const Hotels = (props) => {
                 arr.push(search);
                 storeData('search', arr).catch(err => {
                   console.log('Error: Search.js->' + err.message)
-                }).then(()=> {
+                }).then(() => {
                   props.setSearchParams('Hotels')
                 })
               }
@@ -128,7 +128,7 @@ const Hotels = (props) => {
           }}
             placeholder="Search" placeholderTextColor={'rgb(130,130,130)'} />
           <View style={{
-            flex: 3, backgroundColor: 'rgb(220,220,220)', height: '100%',
+            flex: 3, backgroundColor: '#f5f5f5', height: '100%',
             borderTopRightRadius: 30, borderBottomRightRadius: 30, overflow: 'hidden'
           }}>
             <Picker
@@ -205,8 +205,11 @@ const Hotels = (props) => {
           paddingBottom: 8, flexDirection: 'row'
         }}>
           <View>
-            <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Save on top brands</Text>
-            <Text style={{ color: 'white', marginTop: 5, }}>Save big on most popular brands with us</Text>
+            <Text style={{ color: 'white', fontSize: 18, fontFamily: 'PlusJakartaSansBold' }}>Save on Top Brands</Text>
+            <Text style={{
+              color: 'white', marginBottom: 10,
+              fontFamily: 'PlusJakartaSans', fontSize: 12
+            }}>Save big on most popular brands with us</Text>
           </View>
           <TouchableOpacity style={style.outline} onPress={() => {
             navigation.navigate('OurBrand')
@@ -229,9 +232,21 @@ const Hotels = (props) => {
             )
           }
         </ScrollView>
+        <View style={{ height: 20 }}></View>
       </LinearGradient>
       <View>
-        <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20, marginBottom: 10, marginLeft: 20, marginRight: 20 }}>Your Deals</Text>
+        <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between'}}>
+          <Text style={{
+            fontFamily: 'PlusJakartaSansBold', fontSize: 18, marginTop: 20,
+            marginBottom: 10, marginLeft: 20, marginRight: 20
+          }}>Popular Deals</Text>
+          <TouchableOpacity style={style.outline} onPress={() => {
+            navigation.navigate('Category Single', { title: 'Popular Deals' })
+            dispatch(setLoader('PopularDeal'))
+          }}>
+            <AntDesign name="right" size={20} color="black" />
+          </TouchableOpacity>
+        </View>
         <ScrollView showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false} horizontal={true} >
           <View style={{ width: 10 }}></View>

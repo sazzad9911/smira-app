@@ -46,7 +46,7 @@ const SmallDealCart = (props) => {
                     )
                 }
                 <Text style={{ width: 130, fontFamily: 'PlusJakartaSansBold', fontSize: 14, lineHeight: 16,
-                 alignItems: 'center', color: '#000000', fontWeight: '700' }}>{props.title}</Text>
+                 alignItems: 'center', color: '#000000'}}>{props.title}</Text>
             </View>
             <Modal onRequestClose={() => setModalVisible(!modalVisible)} visible={modalVisible}>
                 <DealCoupon navigation={navigation} data={props.data} close={setModalVisible} />

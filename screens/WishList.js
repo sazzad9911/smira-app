@@ -13,6 +13,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRoute } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux'
 import { setAction } from '../action'
+import { SvgXml } from 'react-native-svg';
+import { emptyWishlist } from '../components/Icon'
 
 const WishList = ({ navigation }) => {
     const [Deals, setDeals] = React.useState(null)
@@ -56,7 +58,7 @@ const WishList = ({ navigation }) => {
                     }}>
                         <Ionicons name='chevron-back-sharp' size={24} style={{ color: 'rgb(100,100,100)' }} />
                     </TouchableOpacity>
-                    <Text style={{ fontWeight: 'bold', fontSize: 17, marginLeft: 10 }}>Wishlist</Text>
+                    <Text style={{ fontFamily:'PlusJakartaSansBold', fontSize: 17, marginLeft: 10 }}>Wishlist</Text>
                 </View>
                 <TouchableOpacity onPress={() => {
                     if (Route == 'all') {
@@ -104,61 +106,89 @@ const WishList = ({ navigation }) => {
             </ScrollView>
             {
                 Route == 'all' ? (
-                    <View style={{ marginTop: 15 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Deals</Text>
-                        <ScrollView showsVerticalScrollIndicator={false}
-                            showsHorizontalScrollIndicator={false} horizontal={true} >
-                            <View style={{ width: 10 }}></View>
-                            {
-                                //repeat the deals slide here --------------
-                                Deals ? (
-                                    Deals.length > 0 ? (
-                                        Deals.map((doc, i) => (
-                                            <SmallDealCart key={doc.id}
-                                                img={doc.image}
-                                                title={doc.name}
-                                                navigation={navigation}
-                                                data={doc}
-                                            />
-                                        ))
-                                    ) : (
-                                        <Text style={{
-                                            marginLeft: 20,
-                                            color: '#808080',
-                                            fontFamily: 'PlusJakartaSans',
-                                            fontSize: 15
-                                        }}>Empty List</Text>
-                                    )
-                                ) : (
-                                    <ActivityIndicator size="large" color="#FA454B" />
-                                )
-                            }
+                    Hotels && Hotels.length == 0 && Deals && Deals.length == 0 ? (
+                        <ScrollView>
+                            <View style={{
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                marginTop: '60%'
+                            }}>
+                                <SvgXml xml={emptyWishlist} height="70" width="70" />
+                                <Text style={{
+                                    fontFamily: 'PlusJakartaSansBold',
+                                    fontSize: 20,
+                                    marginTop: 10
+                                }}>Your wishlist is empty</Text>
+                                <Text style={{
+                                    marginTop: 8,
+                                    color: '#585858',
+                                    fontFamily: 'PlusJakartaSans',
+                                }}>Tap <Text style={{ color: 'red' }}>heart</Text> button to start saving</Text>
+                                <Text style={{
+                                    color: '#585858',
+                                    fontFamily: 'PlusJakartaSans',
+                                }}>your favorite deals</Text>
+                            </View>
                         </ScrollView>
-                        <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Hotels</Text>
-                        <View>
-                            {
-                                //repeat the image card here -------------
-                                Hotels ? (
-                                    Hotels.length > 0 ? (
-                                        Hotels.map(doc => (
-                                            <Cards key={doc.id} doc={doc} navigation={navigation}
-                                                img={{ uri: doc.image }} title={doc.name}
-                                                address={doc.address} rating={doc.ratings} />
-                                        ))
+                    ) : (
+                        <View style={{ marginTop: 15 }}>
+                            {Deals && Deals.length == 0 ? (<View></View>) : (
+                                <Text style={{ fontFamily: 'PlusJakartaSansBold', fontSize: 18, margin: 20,
+                                marginBottom:10 }}>Your deals</Text>
+                            )}
+                            <ScrollView showsVerticalScrollIndicator={false}
+                                showsHorizontalScrollIndicator={false} horizontal={true} >
+                                <View style={{ width: 10 }}></View>
+                                {
+                                    //repeat the deals slide here --------------
+                                    Deals ? (
+                                        Deals.length > 0 ? (
+                                            Deals.map((doc, i) => (
+                                                <SmallDealCart key={doc.id}
+                                                    img={doc.image}
+                                                    title={doc.name}
+                                                    navigation={navigation}
+                                                    data={doc}
+                                                />
+                                            ))
+                                        ) : (
+                                            <View></View>
+                                        )
                                     ) : (
-                                        <Text style={{
-                                            marginLeft: 30,
-                                            color: '#808080',
-                                            fontFamily: 'PlusJakartaSans',
-                                            fontSize: 15
-                                        }}>Empty List</Text>
+                                        <ActivityIndicator size="large" color="#FA454B" />
                                     )
-                                ) : (
-                                    <ActivityIndicator size="large" color="#FA454B" />
-                                )
-                            }
+                                }
+                            </ScrollView>
+                            <View style={{
+                                height:1,
+                                backgroundColor:'#F5F5F5',
+                                marginLeft:10,
+                                marginRight:10,
+                                marginTop:10,
+                                marginBottom:10
+                            }}></View>
+                            <Text style={{ fontFamily: 'PlusJakartaSansBold', fontSize: 18, 
+                            margin: 20,marginBottom:10 }}>{Hotels && Hotels.length == 0 ? '' : 'Your hotels'}</Text>
+                            <View>
+                                {
+                                    //repeat the image card here -------------
+                                    Hotels ? (
+                                        Hotels.length > 0 ? (
+                                            Hotels.map(doc => (
+                                                <Cards key={doc.id} doc={doc} navigation={navigation}
+                                                    img={{ uri: doc.image }} title={doc.name}
+                                                    address={doc.address} rating={doc.ratings} />
+                                            ))
+                                        ) : (
+                                            <View></View>
+                                        )
+                                    ) : (
+                                        <ActivityIndicator size="large" color="#FA454B" />
+                                    )
+                                }
+                            </View>
                         </View>
-                    </View>
+                    )
                 ) : Route == 'hotels' ? (
                     <View style={{ marginTop: 15 }}>
                         <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Hotels</Text>
@@ -236,6 +266,7 @@ const styles = StyleSheet.create({
     },
     categoryText: {
         color: 'rgb(150,150,150)',
+        fontFamily: 'PlusJakartaSans',
     },
 
     categoryActive: {
