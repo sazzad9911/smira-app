@@ -202,7 +202,7 @@ const Home = ({ navigation }) => {
       <View>
         <View style={{
           flexDirection: 'row', flexWrap: 'wrap',
-          alignItems: 'center', padding: 10,paddingLeft:20
+          alignItems: 'center',padding:10,marginHorizontal:10
         }}>
           {
             //icon set
@@ -254,7 +254,7 @@ const Home = ({ navigation }) => {
             setMore(!More)
           }} style={{
             borderWidth: 1, borderColor: 'rgb(220,220,220)', height: 75,
-            width: 80, borderRadius: 10, margin: 5,
+            width: window.width/4-20, borderRadius: 10, margin: 5,
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: darkMode ? 'rgb(220,220,220)' : 'transparent'
@@ -462,11 +462,12 @@ export default Home
 
 export const IconsSet = (props) => {
   const darkMode = useSelector(state => state.pageSettings.darkMode)
+  const width=window.width
   return (
     <TouchableOpacity onPress={props.onPress} style={[{
       borderWidth: 1,
       borderColor: 'rgb(220,220,220)', height: 75,
-      width: 80, borderRadius: 10, margin: 5,
+      width:width/4-20 , borderRadius: 10, margin: 5,
       justifyContent: 'center',
       alignItems: 'center',
       padding: 5,
@@ -474,11 +475,10 @@ export const IconsSet = (props) => {
     }, props.style]}>
       <SvgXml height="39" width="43" style={{ margin: 5 }} xml={props.icon} />
       <Text style={{
-        fontSize: 10,
+        fontSize: 9,
         fontFamily: 'PlusJakartaSans',
         lineHeight: 14,
         color: 'black',
-        fontWeight: '500'
       }}>{props.name}</Text>
     </TouchableOpacity>
   );
