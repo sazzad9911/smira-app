@@ -160,7 +160,7 @@ const MembershipOnboarding = ({ navigation }) => {
                                         </View>
                                         <View style={{ width: 20 }}></View>
                                         <View style={{ margin: 5 }}>
-                                            <Brands key={i} img={brands[1].image} />
+                                            <Brands key={i} img={brands[brands.length-(i+1)].image} />
                                         </View>
                                     </View>
                                 ))
