@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ImageBackground } from 'react-native'
+import { View, Text, TouchableOpacity, ImageBackground, Modal } from 'react-native'
 import { MaterialCommunityIcons, MaterialIcons, Ionicons } from '@expo/vector-icons'
 import { getData, storeData } from '../screens/WishList'
 import { useSelector, useDispatch } from 'react-redux'
 import { setAction } from '../action'
 import { textColor } from './../assets/color';
+import Hotel from '../screens/Hotel';
 
 const Cards = (props) => {
     const navigation = props.navigation;
@@ -13,6 +14,9 @@ const Cards = (props) => {
     const dispatch = useDispatch()
     const action = useSelector(state => state.pageSettings.action)
     const darkMode = useSelector(state => state.pageSettings.darkMode)
+    const [modalVisible, setModalVisible] = React.useState(false)
+    const data =props.doc
+    console.log(data)
 
     React.useEffect(() => {
         getData('hotels').then((data) => {
@@ -71,8 +75,6 @@ const Cards = (props) => {
 
                         )
                     }
-
-
                 </TouchableOpacity>
                 <View style={{
                     flexDirection: 'row', alignItems: 'center', backgroundColor: '#64B657', padding: 10,
@@ -92,16 +94,14 @@ const Cards = (props) => {
                         fontSize: 18,
                         marginVertical: 5,
                         fontFamily: 'PlusJakartaSansBold',
-                        color:textColor(darkMode)
+                        color: textColor(darkMode)
                     }}>{props.title}</Text>
                     <Text style={{
                         fontWeight: '400', fontSize: 12, color: '#808080',
                         fontFamily: 'PlusJakartaSans'
                     }}>{props.address}</Text>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('Hotel', {
-                    id: props.doc.id, like: Favor
-                })} style={{
+                <TouchableOpacity onPress={() => setModalVisible(true)} style={{
                     backgroundColor: 'rgb(220,220,220)',
                     height: 40,
                     width: 40,
@@ -112,6 +112,9 @@ const Cards = (props) => {
                     <MaterialIcons name='navigate-next' size={22} />
                 </TouchableOpacity>
             </View>
+            <Modal visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
+                <Hotel data={data} navigation={navigation} close={setModalVisible} />
+            </Modal>
         </View>
     )
 }

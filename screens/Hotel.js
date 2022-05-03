@@ -1,14 +1,13 @@
 import React from 'react';
 import {
     View, Dimensions, Text, TouchableOpacity, Image,
-    StyleSheet, ScrollView, ActivityIndicator, Alert, Modal, Platform
+    StyleSheet, ScrollView, ActivityIndicator, Alert, Modal, Platform,
 } from 'react-native'
 import MapView, { Marker } from 'react-native-maps';
 import Unorderedlist from 'react-native-unordered-list';
 import { AntDesign, EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { color } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import { postData, url } from '../action'
-import { useRoute } from '@react-navigation/native';
 import Gallery from 'react-native-image-gallery';
 import { SvgXml } from 'react-native-svg'
 import { getData, storeData } from '../screens/WishList'
@@ -17,93 +16,70 @@ import { textColor, subTextColor, backgroundColor } from '../assets/color'
 import { LinearGradient } from 'expo-linear-gradient';
 import { parking, tv, wifi, heart, redHeart } from '../components/Icon'
 const Hotel = (props) => {
-    const params = props.route.params
     const navigation = props.navigation;
     const window = Dimensions.get('window')
-    const [Hotel, setHotel] = React.useState(null)
+    const [Hotel, setHotel] = React.useState(props.data)
     const [conditions, setConditions] = React.useState(null)
     const [Read, setRead] = React.useState(false)
     const [OtherHotels, setOtherHotels] = React.useState(null)
     const [Ratings, setRatings] = React.useState(null);
     const [limit, setLimit] = React.useState(3);
-    const route = useRoute();
     const [Images, setImages] = React.useState(null)
     const [ModalVisible, setModalVisible] = React.useState(false);
-    const [color, setcolor] = React.useState(params.like ? true : false);
+    const [color, setcolor] = React.useState(false);
     const darkMode = useSelector(state => state.pageSettings.darkMode)
+    const hotels = useSelector(state => state.hotels)
+    const [Favor, setFavor] = React.useState(false)
 
     React.useEffect(() => {
-        if (params.id) {
-            let first = postData(url + '/getData', {
-                tableName: 'hotels',
-                condition: "id=" + "'" + params.id + "'"
-            }).then(data => {
-                if (Array.isArray(data)) {
-                    let arr = data[0].conditions.split(',');
-                    setConditions(arr)
-                    return setHotel(data)
-                }
-                console.log('Hotel.js->' + data.message)
-                return first
-            })
-            ///--------------------------------------
-            const second = postData(url + '/getData', {
-                tableName: 'hotels',
-                condition: "id<>" + "'" + params.id + "'"
-            }).then(data => {
-                if (Array.isArray(data)) {
-                    return setOtherHotels(data)
-                }
-                console.log('Hotel.js->' + data.message)
-                return second
-            })
-            ///-----------------------------------
-            const third = postData(url + '/getData', {
-                tableName: 'hotel_reviews',
-                condition: "hotel_id=" + "'" + params.id + "'"
-            }).then(data => {
-                if (Array.isArray(data)) {
-                    return setRatings(data)
-                }
-                console.log('Hotel.js->' + data.message)
-                return third
-            })
-            //get hotels images
-            const forth = postData(url + '/getData', {
-                tableName: 'hotel_photos',
-                condition: "hotel_id=" + "'" + params.id + "'"
-            }).then(data => {
-                if (Array.isArray(data)) {
-                    let arr = []
-                    data.forEach(doc => {
-                        arr.push({ source: { uri: doc.url } })
-                    })
-                    return setImages(arr);
-                }
-                console.log(data.message)
-                return forth
-            })
+        if (Hotel) {
+            let arr = Hotel.conditions.split(',')
+            setConditions(arr)
         }
-    }, [params.id + route])
-
-    React.useEffect(() => {
-        setcolor(params.like)
-    }, [params.like])
+        if (hotels) {
+            let otherHotels = hotels.filter(element => element.id != Hotel.id)
+            setOtherHotels(otherHotels)
+        }
+        const third = postData(url + '/getData', {
+            tableName: 'hotel_reviews',
+            condition: "hotel_id=" + "'" + Hotel.id + "'"
+        }).then(data => {
+            if (Array.isArray(data)) {
+                return setRatings(data)
+            }
+            console.log('Hotel.js->' + data.message)
+            return third
+        })
+        const forth = postData(url + '/getData', {
+            tableName: 'hotel_photos',
+            condition: "hotel_id=" + "'" + Hotel.id + "'"
+        }).then(data => {
+            if (Array.isArray(data)) {
+                let arr = []
+                data.forEach(doc => {
+                    arr.push({ source: { uri: doc.url } })
+                })
+                return setImages(arr);
+            }
+            console.log(data.message)
+            return forth
+        })
+    }, [hotels])
     const [Hotels, setHotels] = React.useState(null)
-
     React.useEffect(() => {
         getData('hotels').then((data) => {
             if (data) {
                 setHotels(data)
-                if (data.find(element => element.id == props.doc.id)) {
+                if (data.find(element => element.id == Hotel.id)) {
                     setFavor(true);
+                    setcolor(true);
                 }
             } else {
                 storeData('hotels', [])
                 setHotels([])
             }
         })
-    }, [params.id + route])
+    }, [])
     return (
 
         <View style={{
@@ -126,7 +102,7 @@ const Hotel = (props) => {
                             position: 'absolute',
                             left: 10,
                             zIndex: 1
-                        }} onPress={() => navigation.goBack()}>
+                        }} onPress={() => props.close(false)}>
                             <AntDesign name="left" size={25} color="white" />
                         </TouchableOpacity>
                         <TouchableOpacity disabled={Images && Images.length > 0 ? false : true} style={styles.image} onPress={() => {
@@ -142,7 +118,7 @@ const Hotel = (props) => {
                                             borderRadius: 10,
                                         }}
                                         source={{
-                                            uri: Hotel[0].image,
+                                            uri: Hotel.image,
                                         }}
                                     />
                                 ) : (
@@ -169,10 +145,10 @@ const Hotel = (props) => {
                     </View>
                     <View style={styles.content}>
                         <View style={styles.contentTop}>
-                            <Text style={styles.hotelName}>{Hotel ? Hotel[0].name : ''} </Text>
+                            <Text style={styles.hotelName}>{Hotel ? Hotel.name : ''} </Text>
                             <TouchableOpacity style={styles.contentTopLeftBox}>
                                 <AntDesign name="star" size={15} color="white" />
-                                <Text style={styles.contentTopLeftBoxText}>{Hotel ? Hotel[0].ratings : '0'}</Text>
+                                <Text style={styles.contentTopLeftBoxText}>{Hotel ? Hotel.ratings : '0'}</Text>
                             </TouchableOpacity>
                         </View>
                         <View>
@@ -181,7 +157,7 @@ const Hotel = (props) => {
                                 fontFamily: 'PlusJakartaSans',
                                 fontSize: 15
                             }}>
-                                {Hotel ? Hotel[0].address : ''}
+                                {Hotel ? Hotel.address : ''}
                             </Text>
                             <View style={styles.icon}>
                                 {
@@ -223,7 +199,7 @@ const Hotel = (props) => {
                                 height: Read ? 'auto' : 60,
                                 textAlign: 'justify'
                             }]}>
-                                {Hotel ? Hotel[0].description : ''}
+                                {Hotel ? Hotel.description : ''}
                             </Text>
                             <TouchableOpacity onPress={() => {
                                 setRead(!Read)
@@ -248,7 +224,7 @@ const Hotel = (props) => {
                                 <Text style={{
                                     fontSize: 20,
                                     fontFamily: 'PlusJakartaSansBold'
-                                }}>{Hotel ? Hotel[0].check_in : ''}</Text>
+                                }}>{Hotel ? Hotel.check_in : ''}</Text>
                             </View>
                             <View style={styles.view2}></View>
                             <View style={[styles.view3, {
@@ -261,7 +237,7 @@ const Hotel = (props) => {
                                 <Text style={{
                                     fontSize: 20,
                                     fontFamily: 'PlusJakartaSansBold'
-                                }}>{Hotel ? Hotel[0].check_out : ''}</Text>
+                                }}>{Hotel ? Hotel.check_out : ''}</Text>
                             </View>
                         </View>
                         <View style={styles.container}>
@@ -321,7 +297,7 @@ const Hotel = (props) => {
                                         <TouchableOpacity>
                                             <AntDesign name="star" size={15} color="white" />
                                         </TouchableOpacity>
-                                        <Text style={styles.contentTopLeftBoxText}>{Hotel ? Hotel[0].ratings : '0'}</Text>
+                                        <Text style={styles.contentTopLeftBoxText}>{Hotel ? Hotel.ratings : '0'}</Text>
                                     </View>
                                 </View>
                             ) : (
@@ -418,12 +394,12 @@ const Hotel = (props) => {
                     setcolor(!color);
                     if (!color) {
                         let arr = Hotels
-                        arr.push(Hotel[0])
+                        arr.push(Hotel)
                         setHotels(arr)
                         //console.log(Deals)
                         storeData('hotels', Hotels)
                     } else {
-                        let arr = Hotels.filter(element => element.id != Hotel[0].id);
+                        let arr = Hotels.filter(element => element.id != Hotel.id);
                         storeData('hotels', arr);
                         //console.log(arr);
                     }
@@ -439,8 +415,8 @@ const Hotel = (props) => {
                     <AntDesign name="hearto" size={24} color={color ? "#FC444B" : "#808080"} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Booking', {
-                    id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address,
-                    check_in: Hotel[0].check_in, check_out: Hotel[0].check_out
+                    id: Hotel.id, name: Hotel.name, address: Hotel.address,
+                    check_in: Hotel.check_in, check_out: Hotel.check_out
                 })} style={{
                     backgroundColor: '#64B657',
                     flex: 4,
@@ -466,71 +442,76 @@ export default Hotel;
 
 export const HotelMemberCart = (props) => {
     const navigation = props.navigation
+    const [modalVisible, setModalVisible] = React.useState(false)
+    const data = props.data
     return (
-        <TouchableOpacity onPress={() => {
-            navigation.navigate('Hotel', {
-                id: props.data.id
-            })
-        }} style={styles.cart}>
-            <Image
-                style={styles.cartImg}
-                source={{
-                    uri: props.data ? props.data.image : 'https://cdna.artstation.com/p/assets/images/images/016/681/028/large/mohd-ashraf-classic-black-1.jpg?1553066591',
-                }}
-            />
-            <LinearGradient style={{
-                height: '100%',
-                width: '100%',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                borderRadius: 10
-            }} start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} colors={['rgba(15, 15, 15, 0.311)', 'rgba(15, 15, 15, 0.466)', '#000']}>
+        <View>
+            <TouchableOpacity onPress={() => {
+                setModalVisible(true)
+            }} style={styles.cart}>
+                <Image
+                    style={styles.cartImg}
+                    source={{
+                        uri: props.data ? props.data.image : 'https://cdna.artstation.com/p/assets/images/images/016/681/028/large/mohd-ashraf-classic-black-1.jpg?1553066591',
+                    }}
+                />
+                <LinearGradient style={{
+                    height: '100%',
+                    width: '100%',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    borderRadius: 10
+                }} start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} colors={['rgba(15, 15, 15, 0.311)', 'rgba(15, 15, 15, 0.466)', '#000']}>
 
-            </LinearGradient>
+                </LinearGradient>
 
-            <View style={[styles.cartText, { paddingLeft: 5 }]}>
+                <View style={[styles.cartText, { paddingLeft: 5 }]}>
 
-                <View style={{ overflow: 'hidden', marginBottom: 5 }}>
-                    <Text style={{
-                        fontSize: 18,
-                        fontFamily: 'PlusJakartaSansBold',
-                        color: '#FFFFFF',
-                        lineHeight: 25,
-                    }}>{props.data ? props.data.name : "-----"}
-                    </Text>
-                    <Text style={{
-                        fontSize: 12,
-                        fontFamily: 'PlusJakartaSans',
-                        color: '#FFFFFF',
-                        lineHeight: 25,
-                        fontWeight: '400'
-                    }}>
-                        {props.data ? props.data.address : "---"}
-                    </Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <SvgXml
-                        style={[styles.tabIco, { marginRight: 10 }]}
-                        xml={`<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <View style={{ overflow: 'hidden', marginBottom: 5 }}>
+                        <Text style={{
+                            fontSize: 18,
+                            fontFamily: 'PlusJakartaSansBold',
+                            color: '#FFFFFF',
+                            lineHeight: 25,
+                        }}>{props.data ? props.data.name : "-----"}
+                        </Text>
+                        <Text style={{
+                            fontSize: 12,
+                            fontFamily: 'PlusJakartaSans',
+                            color: '#FFFFFF',
+                            lineHeight: 25,
+                            fontWeight: '400'
+                        }}>
+                            {props.data ? props.data.address : "---"}
+                        </Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <SvgXml
+                            style={[styles.tabIco, { marginRight: 10 }]}
+                            xml={`<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.49972 14.9995C6.92295 14.9995 6.34693 14.7805 5.90666 14.3433L5.35914 13.7957C5.14688 13.5842 4.86262 13.4672 4.56111 13.4665H3.79083C2.54579 13.4665 1.5325 12.4532 1.5325 11.2081V10.4371C1.53175 10.1363 1.41475 9.85209 1.20249 9.63833L0.663969 9.10056C-0.218063 8.22378 -0.221813 6.79048 0.655719 5.90769L1.20324 5.35942C1.41475 5.14717 1.53175 4.86291 1.5325 4.56139V3.79187C1.5325 2.54607 2.54579 1.53278 3.79083 1.53278H4.56186C4.86262 1.53278 5.14613 1.41578 5.35989 1.20202L5.89916 0.664252C6.77594 -0.217781 8.2085 -0.222281 9.09203 0.656001L9.63955 1.20352C9.85256 1.41578 10.1361 1.53278 10.4368 1.53278H11.2079C12.4529 1.53278 13.4662 2.54607 13.4662 3.79187V4.56214C13.4669 4.86291 13.5839 5.14717 13.7962 5.36092L14.3347 5.89944C14.7615 6.32396 14.9977 6.88948 15 7.49325C15.0015 8.09327 14.7705 8.65804 14.3497 9.08481C14.3422 9.09231 14.3355 9.10056 14.328 9.10731L13.7955 9.63983C13.5839 9.85209 13.4669 10.1363 13.4662 10.4379V11.2081C13.4662 12.4532 12.4529 13.4665 11.2079 13.4665H10.4368C10.1361 13.4672 9.85181 13.5842 9.6388 13.7965L9.09953 14.335C8.66001 14.7775 8.07949 14.9995 7.49972 14.9995Z" fill="#64B657"/>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.03235 6.03871C5.9086 6.16247 5.74809 6.22922 5.57034 6.22922C5.40383 6.22922 5.24032 6.16097 5.10907 6.03796C4.98457 5.91421 4.91406 5.7447 4.91406 5.57295C4.91406 5.40944 4.98307 5.24143 5.10457 5.11168C5.17132 5.04418 5.25082 4.99317 5.33033 4.96617C5.55684 4.86267 5.8576 4.92342 6.0361 5.11093C6.09986 5.17468 6.14861 5.24443 6.18086 5.31719C6.21611 5.39519 6.23411 5.48369 6.23411 5.57295C6.23411 5.75145 6.16286 5.91721 6.03235 6.03871ZM9.8932 5.10801C9.63744 4.853 9.22118 4.853 8.96542 5.10801L5.11028 8.96315C4.85452 9.21891 4.85452 9.63517 5.11028 9.89168C5.23478 10.0154 5.39904 10.0837 5.57454 10.0837C5.75005 10.0837 5.91431 10.0154 6.03806 9.89168L9.8932 6.03654C10.149 5.78003 10.149 5.36451 9.8932 5.10801ZM9.67989 8.82348C9.43688 8.72147 9.14887 8.77697 8.95686 8.96898C8.91711 9.01548 8.86086 9.08748 8.82261 9.17224C8.78211 9.26374 8.77686 9.36199 8.77686 9.428C8.77686 9.494 8.78211 9.5915 8.82261 9.68301C8.86011 9.76701 8.90511 9.83526 8.96436 9.89451C9.10012 10.0205 9.25762 10.0843 9.43313 10.0843C9.59964 10.0843 9.76314 10.0168 9.8974 9.89151C10.0167 9.77226 10.0819 9.60725 10.0819 9.428C10.0819 9.24799 10.0167 9.08373 9.89665 8.96373C9.83064 8.89848 9.75114 8.84748 9.67989 8.82348Z" fill="white"/>
                         </svg>
                         `}
-                        height="20"
-                        width="20" />
-                    <Text style={{
-                        fontSize: 12,
-                        fontFamily: 'PlusJakartaSans',
-                        color: '#FFFFFF',
-                        lineHeight: 20,
-                        fontWeight: '600'
-                    }}>
-                        {props.data ? props.data.type : "Free for Members"}
-                    </Text>
+                            height="20"
+                            width="20" />
+                        <Text style={{
+                            fontSize: 12,
+                            fontFamily: 'PlusJakartaSans',
+                            color: '#FFFFFF',
+                            lineHeight: 20,
+                            fontWeight: '600'
+                        }}>
+                            {props.data ? props.data.type : "Free for Members"}
+                        </Text>
+                    </View>
                 </View>
-            </View>
-        </TouchableOpacity>
+            </TouchableOpacity>
+            <Modal visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
+                <Hotel data={data} navigation={navigation} close={setModalVisible} />
+            </Modal>
+        </View>
     );
 };
 
