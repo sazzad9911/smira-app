@@ -16,6 +16,7 @@ import SettingsHeader from '../components/SettingsHeader';
 import ForgetPassword from "../screens/ForgetPassword";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import app from '../firebase'
+import Membership from '../screens/Membership';
 
 const StackNavigation = () => {
     const pageSettings = useSelector(state => state.pageSettings)
@@ -63,7 +64,7 @@ const StackNavigation = () => {
                 <Text>Loading...</Text>
             </AnimatedLoader>
         )
-    } else if (user == 'ok') {
+    } else if (user == 'ok') { 
         return (
             <NavigationContainer theme={theme}>
                 <Stack.Navigator>
@@ -72,6 +73,7 @@ const StackNavigation = () => {
                     <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
                     <Stack.Screen options={{ headerShown: false }} name="Dashboard" component={Dashboard} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Choose Your Membership" component={Membership} />
                 </Stack.Navigator>
             </NavigationContainer>
         )
@@ -84,6 +86,7 @@ const StackNavigation = () => {
                 <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
                 <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
                 <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword} />
+                <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Choose Your Membership" component={Membership} />
             </Stack.Navigator>
         </NavigationContainer>
     );

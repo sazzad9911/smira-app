@@ -150,16 +150,16 @@ const MembershipOnboarding = ({ navigation }) => {
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', paddingLeft: 15 }}>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row',marginLeft: -10}}>
                         {
                             brands ? (
                                 brands.map((doc, i) => (
                                     <View key={i}>
-                                        <View style={{ margin: 5 }}>
+                                        <View style={{ margin: 0 }}>
                                             <Brands key={i} img={doc.image} />
                                         </View>
-                                        <View style={{ width: 20 }}></View>
-                                        <View style={{ margin: 5 }}>
+                                        <View style={{ width: 0 }}></View>
+                                        <View style={{ margin: 0 }}>
                                             <Brands key={i} img={brands[brands.length-(i+1)].image} />
                                         </View>
                                     </View>
@@ -265,7 +265,13 @@ const styles = StyleSheet.create({})
 const Quiz = (props) => {
     const [height, setHeight] = React.useState(0)
     return (
-        <View style={{
+        <TouchableOpacity onPress={() => {
+            if (height == 0) {
+                setHeight('auto')
+            } else {
+                setHeight(0)
+            }
+        }} style={{
             minHeight: 80,
             width: '90%',
             backgroundColor: '#F9F9F9',
@@ -293,13 +299,7 @@ const Quiz = (props) => {
                         fontFamily: 'PlusJakartaSans',
                         marginRight: 15,
                     }}>{props.question}</Text>
-                    <TouchableOpacity onPress={() => {
-                        if (height == 0) {
-                            setHeight('auto')
-                        } else {
-                            setHeight(0)
-                        }
-                    }}>
+                    <View>
                         {
                             height == 0 ? (
                                 <SvgXml xml={arrowDown} height="12" width="12" />
@@ -307,7 +307,7 @@ const Quiz = (props) => {
                                 <SvgXml xml={arrowUp} height="12" width="12" />
                             )
                         }
-                    </TouchableOpacity>
+                    </View>
                 </View>
                 <Text style={{
                     color: 'gray',
@@ -320,6 +320,6 @@ const Quiz = (props) => {
                 </Text>
             </View>
             <View style={{ flex: 1 }}></View>
-        </View>
+        </TouchableOpacity>
     )
 }

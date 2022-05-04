@@ -62,10 +62,9 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ headerShown: false }} name="MemberShipInfo" component={MemberShipInfo} />
         <Drawer.Screen options={{ headerShown: false }} name="PlansList" component={PlansList} />
         <Drawer.Screen options={{ headerShown: false }} name="RoomDetail" component={RoomDetail} />
-        <Drawer.Screen options={{ headerShown: false }} name="WishList" component={WishList} />
+        <Drawer.Screen options={{ headerShown: false }} name="WishList" component={WishList} /> 
         <Drawer.Screen options={{ headerShown: false }} name="Rooms" component={Rooms} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Settings" component={Settings} />
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Choose Your Membership" component={Membership} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Checkout" component={CheckOut} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword} />
