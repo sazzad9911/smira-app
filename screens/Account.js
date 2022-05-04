@@ -62,8 +62,10 @@ function Account({ navigation }) {
     if (user && user[0].birth_day) {
       setDob(user[0].birth_day)
     }
-    if (user && user[0].gender) {
-      setGender(user[0].gender)
+    if (user && user[0].gender == 'Male') {
+      setGender('Male')
+    } else if (user && user[0].gender == 'Female') {
+      setGender('Female')
     }else{
       setGender('Gender')
     }
@@ -200,16 +202,18 @@ function Account({ navigation }) {
             }} style={[styles.formInput, Email === "" ? styles.fontEmptyStyle : '']} />
         </View>
 
-        <View
+        <TouchableOpacity
           onPress={() => {
             if (Gender === 'Male') {
               setGender('Female')
+              Save('gender', 'Female')
             } else if (Gender === 'Female') {
               setGender('Male')
+              Save('gender', 'Male')
             } else {
               setGender('Male')
             }
-            
+
           }}
           style={[styles.formRow]}>
           <View style={[styles.imageStyle, Gender === "" ? styles.imageStyleEmptyStyle : '']} >
@@ -223,22 +227,12 @@ function Account({ navigation }) {
             flexDirection: 'row',
             alignItems: 'center'
           }, Gender === "Gender" ? styles.fontEmptyStyle : '']}>
-            <Picker mode='dropdown' style={{
-              width:'100%',
-              height:'100%',
-              color:Gender!='Gender'?'black':'rgb(130,130,130)'
-            }}
-              selectedValue={Gender}
-              onValueChange={(itemValue, itemIndex) =>{
-                setGender(itemValue)
-                Save('gender', itemValue)
-              }}>
-              <Picker.Item label="Gender" value="Gender" />
-              <Picker.Item label="Male" value="Male" />
-              <Picker.Item label="Female" value="Female" />
-            </Picker>
+            <Text style={{
+              color:'#808080',
+            }}>{Gender}</Text>
+            <AntDesign name="down" size={20} color="black" />
           </View>
-        </View>
+        </TouchableOpacity>
         <View style={[styles.formRow]}>
           <View style={[styles.imageStyle, Dob === "" ? styles.imageStyleEmptyStyle : '']} >
             <SvgXml xml={birthdayIcon} height="25" width="20" style={[Dob === "" ? styles.inactiveIcon : styles.activeIcon]} />
@@ -285,7 +279,7 @@ function Account({ navigation }) {
           <Text style={[{ color: 'red', textTransform: 'uppercase' }]}>Log out</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ backgroundColor: 'white', minHeight: 100 }}></View>
+      <View style={{ backgroundColor: 'white', minHeight: 10 }}></View>
     </ScrollView>
   )
 }
@@ -343,7 +337,7 @@ export const FamilyCode = () => {
               style={{
                 width: '80%', backgroundColor: '#f5f5f5', height: 50,
                 borderRadius: 25, paddingLeft: 20, paddingRight: 20, textAlign: 'center'
-                , marginBottom: 5, color: textColor(darkMode),fontSize:16,
+                , marginBottom: 5, color: textColor(darkMode), fontSize: 16,
               }} />
           </View>
           {
@@ -413,7 +407,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginTop: 10,
     marginBottom: 10,
-    height:60
+    height: 60
   },
   formInput: {
     flex: 6,

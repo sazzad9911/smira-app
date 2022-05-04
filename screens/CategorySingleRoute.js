@@ -16,7 +16,7 @@ import { backgroundColor, textColor } from './../assets/color';
 
 const CategorySingleRoute = (props) => {
     const title = props.route.params.title;
-    const navigation = props.navigation
+    const navigation = props.navigation 
     //console.log(title)
     const Direction = () => {
         if (title == 'Popular Hotels') {

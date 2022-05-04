@@ -33,7 +33,7 @@ const DealCart = (props) => {
     },[action])
 
     return (
-        <View style={{
+        <TouchableOpacity onPress={() => setmodalVisible(true)} style={{
             width: window.width - 30,
             margin: 10,
             backgroundColor: backgroundColor(darkMode),
@@ -98,7 +98,7 @@ const DealCart = (props) => {
                         fontWeight:'400'
                     }}>{props.category}</Text>
                 </View>
-                <TouchableOpacity onPress={() => setmodalVisible(true)} style={{
+                <View style={{
                     justifyContent: 'center',
                     alignItems: 'center',
                     backgroundColor: 'rgba(216, 216, 216, 1)',
@@ -108,12 +108,12 @@ const DealCart = (props) => {
                     margin: 5
                 }}>
                     <AntDesign name="right" size={24} color="black" />
-                </TouchableOpacity>
+                </View>
             </View>
             <Modal visible={modalVisible} onPress={() => setmodalVisible(!modalVisible)}>
                 <DealCoupon navigation={navigation} data={props.data} close={setmodalVisible} />
             </Modal>
-        </View>
+        </TouchableOpacity>
     );
 };
 

@@ -25,7 +25,7 @@ const Membership = ({ navigation }) => {
     return (
         <View style={[style.body,{backgroundColor:backgroundColor(darkMode)}]}>
             <ScrollView showsVerticalScrollIndicator={false}
-    showsHorizontalScrollIndicator={false} style={{ width: '100%' }}>
+                 showsHorizontalScrollIndicator={false} style={{ width: '100%' }}>
                 <Text style={[style.bodyHeaderText,{
                     color:textColor(darkMode)
                 }]}>Claim Your <Text style={{
@@ -35,7 +35,8 @@ const Membership = ({ navigation }) => {
                     {
                         Membership?(
                             Membership.map((member,i)=>(
-                                <MembershipSlide key={i} data={member} navigation={navigation} headcolor={member.color}
+                                <MembershipSlide key={i} data={member} navigation={navigation} 
+                                headcolor={member.color=='#FC444B'?'black':member.color}
                                  night={member.night} hotel={member.hotel} account={member.account} 
                                  amount={member.price} Buttoncolor={member.color}></MembershipSlide>
                             ))

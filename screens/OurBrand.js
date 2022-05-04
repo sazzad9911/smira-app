@@ -41,7 +41,7 @@ const OurBrand = (props) => {
                     Brand ? (
                         Brand.map(d => (
                             <View key={d.id} style={{
-                                margin:10
+                                margin:5
                             }}>
                                 <Brands key={d.id} data={d} img={d.image} />
                             </View>

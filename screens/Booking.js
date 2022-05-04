@@ -53,6 +53,7 @@ const Booking = (props) => {
             if (data.insertId) {
                 setLoader(false)
                 setConfirm(true)
+                return
             }
             setLoader(false)
             Alert.alert('Opps!', data.message)

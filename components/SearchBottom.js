@@ -23,12 +23,11 @@ const SearchBottom = (props) => {
             paddingBottom: 25,
             shadowColor: "#000",
             shadowOffset: {
-                width: 0,
-                height: 1,
+                width: 1,
+                height: 0,
             },
             shadowOpacity: 0.22,
             shadowRadius: 5,
-
             elevation: 9,
         }}>
             <View style={{

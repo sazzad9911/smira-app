@@ -33,7 +33,7 @@ const Cards = (props) => {
     }, [action])
 
     return (
-        <View style={{
+        <TouchableOpacity onPress={() => setModalVisible(true)} style={{
             alignItems: 'center',
             paddingLeft: 10,
             paddingRight: 10,
@@ -101,7 +101,7 @@ const Cards = (props) => {
                         fontFamily: 'PlusJakartaSans'
                     }}>{props.address}</Text>
                 </View>
-                <TouchableOpacity onPress={() => setModalVisible(true)} style={{
+                <View style={{
                     backgroundColor: 'rgb(220,220,220)',
                     height: 40,
                     width: 40,
@@ -110,12 +110,12 @@ const Cards = (props) => {
                     alignItems: 'center'
                 }}>
                     <MaterialIcons name='navigate-next' size={22} />
-                </TouchableOpacity>
+                </View>
             </View>
             <Modal visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
                 <Hotel data={data} navigation={navigation} close={setModalVisible} />
             </Modal>
-        </View>
+        </TouchableOpacity>
     )
 }
 

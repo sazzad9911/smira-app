@@ -200,39 +200,44 @@ const Hotels = (props) => {
         start={[0, 1]} end={[1, 0]}
       >
         <View style={{
-          flex: 1, justifyContent: 'space-between',
-          paddingLeft: 20, paddingTop: 20,
-          paddingBottom: 8, flexDirection: 'row'
+          flex: 1, justifyContent: 'center',
+          paddingLeft: 20, paddingTop: 20, paddingBottom: 8
         }}>
-          <View>
-            <Text style={{ color: 'white', fontSize: 18, fontFamily: 'PlusJakartaSansBold' }}>Save on Top Brands</Text>
-            <Text style={{
-              color: 'white', marginBottom: 10,
-              fontFamily: 'PlusJakartaSans', fontSize: 12
-            }}>Save big on most popular brands with us</Text>
-          </View>
-          <TouchableOpacity style={style.outline} onPress={() => {
-            navigation.navigate('OurBrand')
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingRight: 23,
           }}>
-            <AntDesign name="right" size={20} color="black" />
-          </TouchableOpacity>
+            <View>
+              <Text style={{ color: 'white', fontSize: 18, fontFamily: 'PlusJakartaSansBold' }}>Save on Top Brands</Text>
+              <Text style={{
+                color: 'white', marginBottom: 4,
+                fontFamily: 'PlusJakartaSans', fontSize: 12
+              }}>Save big on most popular brands with us</Text>
+            </View>
+
+            <TouchableOpacity style={style.outline} onPress={() => {
+              navigation.navigate('OurBrand')
+            }}>
+              <AntDesign name="right" size={20} color="black" />
+            </TouchableOpacity>
+
+          </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false} style={{ flex: 3, marginBottom: 10 }} horizontal={true}>
-          <View style={{ width: 10 }}></View>
+          showsHorizontalScrollIndicator={false} style={{ flex: 3, marginBottom: 10, marginTop: 5 }} horizontal={true}>
+          <View style={{ width: 0 }}></View>
           {
             brands ? (
-              brands.map(brand => {
-                return (
-                  <Brands key={brand.id} data={brand} img={brand.image} />
-                );
-              })
+              brands.map(d => (
+                <Brands key={d.id} data={d} img={d.image} />
+              ))
             ) : (
               <ActivityIndicator size="large" color="#FA454B" />
             )
           }
         </ScrollView>
-        <View style={{ height: 20 }}></View>
+        <View style={{ height: 0 }}></View>
       </LinearGradient>
       <View>
         <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between'}}>

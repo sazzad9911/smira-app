@@ -217,10 +217,12 @@ const Home = ({ navigation }) => {
             //icon set
           }
           <IconsSet onPress={() => {
-            navigation.navigate('Hotels')
+            navigation.navigate('Category Single', { title: 'Hotels' })
+            dispatch(setLoader('Hotels'))
           }} name="Hotels" icon={Hotels} />
           <IconsSet onPress={() => {
-            navigation.navigate('Restaurants')
+            navigation.navigate('Category Single', { title: 'Restaurants' })
+            dispatch(setLoader('Restaurants'))
           }} name="Restaurant" icon={Restaurant} />
           <IconsSet onPress={() => {
             //navigation.navigate('Category Single', { title: 'Games' })
@@ -304,7 +306,7 @@ const Home = ({ navigation }) => {
             fontFamily: 'PlusJakartaSansBold',
             fontSize: 16,
             paddingHorizontal: 5,
-            paddingVertical: 15,
+            paddingVertical: 15, 
             paddingLeft: 10,
             color: textColor(darkMode)
           }}>Deals Near You</Text>
@@ -365,8 +367,8 @@ const Home = ({ navigation }) => {
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false} style={{ flex: 3, marginBottom: 20, marginTop: 15 }} horizontal={true}>
-          <View style={{ width: 10 }}></View>
+          showsHorizontalScrollIndicator={false} style={{ flex: 3, marginBottom: 10, marginTop: 5 }} horizontal={true}>
+          <View style={{ width: 0 }}></View>
           {
             Brand ? (
               Brand.map(d => (
@@ -377,7 +379,7 @@ const Home = ({ navigation }) => {
             )
           }
         </ScrollView>
-        <View style={{ height: 10 }}></View>
+        <View style={{ height: 0 }}></View>
       </LinearGradient>
 
       <View style={{

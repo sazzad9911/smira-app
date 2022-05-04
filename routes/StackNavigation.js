@@ -14,10 +14,25 @@ import { setPageSettings } from '../action';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import SettingsHeader from '../components/SettingsHeader';
 import ForgetPassword from "../screens/ForgetPassword";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import app from '../firebase'
 
 const StackNavigation = () => {
     const pageSettings = useSelector(state => state.pageSettings)
     const dispatch = useDispatch()
+    const [user, setUser] = React.useState(null)
+    React.useEffect(() => {
+        const auth = getAuth(app);
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                setUser(user);
+                //navigation.navigate('Dashboard')
+            } else {
+                //navigation.navigate('Onboarding')
+                setUser('ok')
+            }
+        })
+    }, [])
     React.useEffect(() => {
         getData('pageSettings').then((data) => {
             if (!data) {
@@ -31,16 +46,43 @@ const StackNavigation = () => {
     }, [])
     const theme = { //like this
         colors: {
-          background: "transparent",
+            background: "transparent",
         },
-      };
+    };
+    if (!user) {
+        return (
+            <AnimatedLoader
+                visible={true}
+                overlayColor="rgba(255,255,255,0.75)"
+                source={require("../assets/9997-infinity-loader.json")}
+                animationStyle={{
+                    height: 100, width: 100,
+                }}
+                speed={1}
+            >
+                <Text>Loading...</Text>
+            </AnimatedLoader>
+        )
+    } else if (user == 'ok') {
+        return (
+            <NavigationContainer theme={theme}>
+                <Stack.Navigator>
+                    <Stack.Screen options={{ headerShown: false }} name="Onboarding" component={Onboarding} />
+                    <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
+                    <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
+                    <Stack.Screen options={{ headerShown: false }} name="Dashboard" component={Dashboard} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        )
+    }
     return (
         <NavigationContainer theme={theme}>
             <Stack.Navigator>
+                <Stack.Screen options={{ headerShown: false }} name="Dashboard" component={Dashboard} />
                 <Stack.Screen options={{ headerShown: false }} name="Onboarding" component={Onboarding} />
                 <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
                 <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
-                <Stack.Screen options={{ headerShown: false }} name="Dashboard" component={Dashboard} />
                 <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword} />
             </Stack.Navigator>
         </NavigationContainer>
@@ -67,7 +109,7 @@ const Dashboard = ({ navigation }) => {
     const [open, setOpen] = React.useState(1)
 
     // callbacks
-   
+
     return (
         <View style={{
             width: window.width, height: window.height,
@@ -75,18 +117,18 @@ const Dashboard = ({ navigation }) => {
         }}>
             <DrawerApp />
             {
-                bottomSheet=='calendar'?(
-                    <BottomDrawer snapPoints={calender} navigation={navigation}/>
-                ): bottomSheet == 'category'?(
-                    <BottomDrawer snapPoints={category} navigation={navigation}/>
-                ):bottomSheet == 'filter' ?(
-                    <BottomDrawer snapPoints={filter} navigation={navigation}/>
-                ):bottomSheet == 'shortBy' ?(
-                    <BottomDrawer snapPoints={shortBy} navigation={navigation}/>
-                ):
-                (
-                    <View></View>
-                )
+                bottomSheet == 'calendar' ? (
+                    <BottomDrawer snapPoints={calender} navigation={navigation} />
+                ) : bottomSheet == 'category' ? (
+                    <BottomDrawer snapPoints={category} navigation={navigation} />
+                ) : bottomSheet == 'filter' ? (
+                    <BottomDrawer snapPoints={filter} navigation={navigation} />
+                ) : bottomSheet == 'shortBy' ? (
+                    <BottomDrawer snapPoints={shortBy} navigation={navigation} />
+                ) :
+                    (
+                        <View></View>
+                    )
             }
             <AnimatedLoader
                 visible={loader}

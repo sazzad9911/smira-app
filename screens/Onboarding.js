@@ -18,17 +18,7 @@ const Onboarding = (props) => {
     const [data, setData] = React.useState([
         0, 1, 2, 3
     ])
-    React.useEffect(() => {
-        const auth = getAuth(app);
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                setUser(user);
-                navigation.navigate('Dashboard')
-            } else {
-                setUser('ok')
-            }
-        })
-    }, [])
+    
 
     return (
         <ScrollView style={{ backgroundColor: 'white' }}>
@@ -102,26 +92,7 @@ const Onboarding = (props) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            {
-                user == 'ok' ? (
-                    <View></View>
-                ) :
-                    user && user.uid ? (
-                        <View></View>
-                    ) : (
-                        <AnimatedLoader
-                            visible={true}
-                            overlayColor="rgba(255,255,255,0.75)"
-                            source={require("../assets/9997-infinity-loader.json")}
-                            animationStyle={{
-                                height: 100, width: 100,
-                            }}
-                            speed={1}
-                        >
-                            <Text>Loading...</Text>
-                        </AnimatedLoader>
-                    )
-            }
+            
         </ScrollView>
     );
 };
