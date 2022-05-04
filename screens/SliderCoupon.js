@@ -11,7 +11,7 @@ import { getAuth } from 'firebase/auth'
 import { postData, url } from '../action'
 import app from '../firebase'
 
-const DealCoupon = (props) => {
+const SliderCoupon = (props) => {
     const data = props.data;
     const brands = useSelector(state => state.brands)
     const [Brand, setBrand] = React.useState(null)
@@ -20,17 +20,16 @@ const DealCoupon = (props) => {
     const auth = getAuth(app);
     const navigation = props.navigation
     const [loader, setLoader] = React.useState(false)
+    const deals = useSelector(state => state.deals)
+    const [Data, setData] = React.useState(null)
 
     React.useEffect(() => {
-        if(!data) {
-            return
+        if(deals) {
+           let data=deals.filter(e=>e.deal.id==props.data.deal_id)
+           setData(data[0])
+           //console.log(data)
         }
-        brands.forEach(brand => {
-            if (brand.id === data.brand_id) {
-                setBrand(brand)
-            }
-        })
-    }, [brands+data])
+    }, [deals])
     const copyToClipboard = (code) => {
         try {
             Clipboard.setString(code)
@@ -57,14 +56,14 @@ const DealCoupon = (props) => {
                 <ScrollView>
                     <View>
                         <Image
-                            source={{ uri: data&&data.image?data.image:'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/food-offer-banner-design-template-855e1f46293f2f2af6edec050a679d39_screen.jpg?ts=1625718620' }} style={{ width: '100%', height: 300 }} />
+                            source={{ uri: Data&&Data.deal?Data.deal.image:'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/food-offer-banner-design-template-855e1f46293f2f2af6edec050a679d39_screen.jpg?ts=1625718620' }} style={{ width: '100%', height: 300 }} />
 
                         <View style={styles.content}>
                             <View style={styles.logo}>
                                 {
-                                    Brand ? (
+                                    Data ? (
                                         <Image borderRadius={60}
-                                            source={{ uri: Brand.image }} style={{ width: 100, height: 100 }} />
+                                            source={{ uri: Data.brand.image }} style={{ width: 100, height: 100 }} />
                                     ) : (
                                         <ActivityIndicator size="large" color="#FA454B" />
                                     )
@@ -72,26 +71,26 @@ const DealCoupon = (props) => {
                             </View>
                             <View style={{alignItems: "center"}}>
                                 <Text style={styles.headingText}>
-                                    {data&&data.name?data.name:'Flat 45 % OFF On All Orders'}
+                                    {Data&&Data.deal.name?Data.deal.name:'Flat 45 % OFF On All Orders'}
                                 </Text>
                                 <Text style={styles.subText}>
-                                    {data&&data.brand?data.brand:'We are happy to serve you special offers with the following terms and conditions.It is the responsibility of a customer to read, understand and remain knowledgeable of the '}
+                                    {Data&&Data.deal.brand?Data.deal.brand:'We are happy to serve you special offers with the following terms and conditions.It is the responsibility of a customer to read, understand and remain knowledgeable of the '}
                                 </Text>
                                 <View style={styles.input}>
                                     <Text style={{ textAlign: 'center', fontSize: 18 }}>
-                                        {data&&data.code ? data.code : 'NO PROMO CODE'}
+                                        {Data&&Data.deal.code ? Data.deal.code : 'NO PROMO CODE'}
                                     </Text>
                                 </View>
                                 <TouchableOpacity disabled={Code ? true : false} onPress={() => {
-                                    if (data.code) {
-                                        copyToClipboard(data.code)
+                                    if (Data.deal.code) {
+                                        copyToClipboard(Data.deal.code)
                                     } else {
                                         setLoader(true);
                                         postData(url + '/setData', {
                                             auth: auth.currentUser,
                                             tableName: 'book_appointment',
                                             columns: ['uid', 'deal_id', 'date'],
-                                            values: [auth.currentUser.uid, data.id, new Date()]
+                                            values: [auth.currentUser.uid, Data.deal.id, new Date()]
                                         }).then(data => {
                                             if (data && data.insertId) {
                                                 setLoader(false);
@@ -115,7 +114,7 @@ const DealCoupon = (props) => {
                                             ) : (
                                                 <Text style={styles.viewtext}>
                                                     {
-                                                        data&&data.code ? 'COPY CODE' : 'BOOK APPOINTMENT'
+                                                        Data&&Data.deal.code ? 'COPY CODE' : 'BOOK APPOINTMENT'
                                                     }</Text>
                                             )
                                         }
@@ -135,7 +134,7 @@ const DealCoupon = (props) => {
                             height: Read ? 'auto' : 97, overflow: 'hidden', fontSize: 14,
                             fontFamily: 'PlusJakartaSans',
                         }]}>
-                            {data&&data.conditions?data.conditions:'We are happy to serve you special offers with the foll owing terms and cond itions. It is the responsibility of a customer to read, unde rstand and remain know ledg ea ble of the understand and remain knowle dgea bled gea bledgeable thn owle dge able of t and remainn knowledg eable of the unde rstand and remain knowle dgeable of the f sdk warwaf a sfasfsdf asfsf '}
+                            {Data&&Data.deal.conditions?Data.deal.conditions:'We are happy to serve you special offers with the foll owing terms and cond itions. It is the responsibility of a customer to read, unde rstand and remain know ledg ea ble of the understand and remain knowle dgea bled gea bledgeable thn owle dge able of t and remainn knowledg eable of the unde rstand and remain knowle dgeable of the f sdk warwaf a sfasfsdf asfsf '}
                         </Text>
                         <TouchableOpacity onPress={() => {
                             setRead(!Read)
@@ -167,7 +166,7 @@ const DealCoupon = (props) => {
     );
 };
 
-export default DealCoupon;
+export default SliderCoupon;
 const styles = StyleSheet.create({
     icon: {
         position: 'absolute',

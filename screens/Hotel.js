@@ -4,9 +4,7 @@ import {
     StyleSheet, ScrollView, ActivityIndicator, Alert, Modal, Platform,
 } from 'react-native'
 import MapView, { Marker } from 'react-native-maps';
-import Unorderedlist from 'react-native-unordered-list';
 import { AntDesign, EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { color } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import { postData, url } from '../action'
 import Gallery from 'react-native-image-gallery';
 import { SvgXml } from 'react-native-svg'
@@ -18,7 +16,7 @@ import { parking, tv, wifi, heart, redHeart } from '../components/Icon'
 const Hotel = (props) => {
     const navigation = props.navigation;
     const window = Dimensions.get('window')
-    const [Hotel, setHotel] = React.useState(props.data)
+    const [hotel, setHotel] = React.useState(props.data)
     const [conditions, setConditions] = React.useState(null)
     const [Read, setRead] = React.useState(false)
     const [OtherHotels, setOtherHotels] = React.useState(null)
@@ -32,27 +30,26 @@ const Hotel = (props) => {
     const [Favor, setFavor] = React.useState(false)
 
     React.useEffect(() => {
-        if (Hotel) {
-            let arr = Hotel.conditions.split(',')
+        if (hotel) {
+            let arr = hotel.conditions.split(',')
             setConditions(arr)
         }
         if (hotels) {
-            let otherHotels = hotels.filter(element => element.id != Hotel.id)
+            let otherHotels = hotels.filter(element => element.id != hotel.id)
             setOtherHotels(otherHotels)
         }
-        const third = postData(url + '/getData', {
+        postData(url + '/getData', {
             tableName: 'hotel_reviews',
-            condition: "hotel_id=" + "'" + Hotel.id + "'"
+            condition: "hotel_id=" + "'" + hotel.id + "'"
         }).then(data => {
             if (Array.isArray(data)) {
                 return setRatings(data)
             }
             console.log('Hotel.js->' + data.message)
-            return third
         })
-        const forth = postData(url + '/getData', {
+        postData(url + '/getData', {
             tableName: 'hotel_photos',
-            condition: "hotel_id=" + "'" + Hotel.id + "'"
+            condition: "hotel_id=" + "'" + hotel.id + "'"
         }).then(data => {
             if (Array.isArray(data)) {
                 let arr = []
@@ -62,7 +59,6 @@ const Hotel = (props) => {
                 return setImages(arr);
             }
             console.log(data.message)
-            return forth
         })
     }, [hotels])
     const [Hotels, setHotels] = React.useState(null)
@@ -70,7 +66,7 @@ const Hotel = (props) => {
         getData('hotels').then((data) => {
             if (data) {
                 setHotels(data)
-                if (data.find(element => element.id == Hotel.id)) {
+                if (data.find(element => element.id == hotel.id)) {
                     setFavor(true);
                     setcolor(true);
                 }
@@ -87,291 +83,311 @@ const Hotel = (props) => {
             height: window.height,
             backgroundColor: backgroundColor(darkMode)
         }}>
-            <ScrollView style={{ width: '100%' }}>
-                <View style={styles.body}>
-                    <View style={styles.bodyTop}>
-                        <TouchableOpacity style={{
-                            top: Platform.OS == 'ios' ? 60 : 20,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                            height: 35,
-                            width: 35,
-                            borderRadius: 25,
-                            margin: 5,
-                            position: 'absolute',
-                            left: 10,
-                            zIndex: 1
-                        }} onPress={() => props.close(false)}>
-                            <AntDesign name="left" size={25} color="white" />
-                        </TouchableOpacity>
-                        <TouchableOpacity disabled={Images && Images.length > 0 ? false : true} style={styles.image} onPress={() => {
-                            setModalVisible(true)
-                        }}>
+            <ScrollView>
+                <TouchableOpacity style={{
+                    top: Platform.OS == 'ios' ? 60 : 20,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    height: 35,
+                    width: 35,
+                    borderRadius: 25,
+                    margin: 5,
+                    position: 'absolute',
+                    left: 10,
+                    zIndex: 1
+                }} onPress={() => props.close(false)}>
+                    <AntDesign name="left" size={25} color="white" />
+                </TouchableOpacity>
+                <TouchableOpacity disabled={Images && Images.length > 0 ? false : true} onPress={() => {
+                    setModalVisible(true)
+                }} style={{
+                    margin: 10,
+                    height: 450,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    {
+                        hotel ? (
+                            <Image source={{ uri: hotel.image }}
+                                style={{ height: '100%', width: '100%', borderRadius: 10 }} />
+                        ) : (
+                            <ActivityIndicator size="large" color="#FA454B" />
+                        )
+                    }
+                    <LinearGradient style={{
+                        height: '100%',
+                        width: '100%',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        borderRadius: 10
+                    }} start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }}
+                        colors={['rgba(0, 0, 0, 0.12)', 'rgba(0, 0, 0, 0.12)', '#0000008d']}>
 
-                            {
-                                Hotel ? (
-                                    <Image onPress={() => console.log('press')}
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            borderRadius: 10,
-                                        }}
-                                        source={{
-                                            uri: Hotel.image,
-                                        }}
-                                    />
-                                ) : (
-                                    <ActivityIndicator size="large" color="#FA454B" />
-                                )
-                            }
-                            <LinearGradient style={{
-                                height: '100%',
-                                width: '100%',
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                borderRadius: 10
-                            }} start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }}
-                                colors={['transparent', 'rgba(0, 0, 0, 0.12)', '#0000008d']}>
-
-                            </LinearGradient>
-                        </TouchableOpacity>
-
-                        <View style={styles.imageButtomIcon}>
-                            <Text style={styles.imageButtomIconText}> 1/{Images ? Images.length + 1 : '1'}</Text>
-                        </View>
-
+                    </LinearGradient>
+                    <View style={{
+                        minWidth: 50,
+                        height: 30,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        position: 'absolute',
+                        bottom: 10,
+                        right: 10,
+                        borderRadius: 15,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{
+                            color: '#ffff'
+                        }}> 1/{Images ? Images.length + 1 : '1'}</Text>
                     </View>
-                    <View style={styles.content}>
-                        <View style={styles.contentTop}>
-                            <Text style={styles.hotelName}>{Hotel ? Hotel.name : ''} </Text>
-                            <TouchableOpacity style={styles.contentTopLeftBox}>
-                                <AntDesign name="star" size={15} color="white" />
-                                <Text style={styles.contentTopLeftBoxText}>{Hotel ? Hotel.ratings : '0'}</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View>
-                            <Text style={{
-                                color: '#808080',
-                                fontFamily: 'PlusJakartaSans',
-                                fontSize: 15
-                            }}>
-                                {Hotel ? Hotel.address : ''}
-                            </Text>
-                            <View style={styles.icon}>
-                                {
-                                    conditions ? (
-                                        conditions.map((doc, i) => {
-                                            if (doc == 'wifi') {
-                                                return (
-                                                    <View key={i} style={styles.iconBackground}>
-                                                        <SvgXml xml={wifi} height="20" width="20" />
-                                                    </View>
-                                                )
-                                            } else if (doc == 'tv') {
-                                                return (
-                                                    <View key={i} style={styles.iconBackground}>
-                                                        <SvgXml xml={tv} height="20" width="20" />
-                                                    </View>
-                                                )
-                                            } else {
-                                                return (
-                                                    <View key={i} style={styles.iconBackground}>
-                                                        <SvgXml xml={parking} height="20" width="20" />
-                                                    </View>
-                                                )
-                                            }
-                                        })
-                                    ) : (
-                                        <ActivityIndicator size="small" color="#FA454B" />
+                </TouchableOpacity>
+                <View style={{ flexDirection: 'row', margin: 20 }}>
+                    <View style={{ flex: 5 }}>
+                        <Text style={{
+                            fontSize: 22,
+                            fontFamily: 'PlusJakartaSansBold'
+                        }}>{hotel ? hotel.name : ''}</Text>
+                        <Text style={styles.lineText}>{hotel ? hotel.address : ''}</Text>
+                    </View>
+                    <View style={{
+                        flex: 1,
+                        height: 35,
+                        backgroundColor: '#64B657',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        borderRadius: 20
+                    }}>
+                        <AntDesign name="star" size={15} color="white" />
+                        <Text style={{
+                            fontSize: 12,
+                            color: 'white',
+                            marginLeft: 5
+                        }}>{hotel ? hotel.ratings : '0'}</Text>
+                    </View>
+                </View>
+                <View style={{
+                    flexDirection: 'row',
+                    marginLeft: 20,
+                    marginBottom: 20
+                }}>
+                    {
+                        conditions ? (
+                            conditions.map((doc, i) => {
+                                if (doc == 'wifi') {
+                                    return (
+                                        <View key={i} style={styles.iconBackground}>
+                                            <SvgXml xml={wifi} height="20" width="20" />
+                                        </View>
+                                    )
+                                } else if (doc == 'tv') {
+                                    return (
+                                        <View key={i} style={styles.iconBackground}>
+                                            <SvgXml xml={tv} height="20" width="20" />
+                                        </View>
+                                    )
+                                } else {
+                                    return (
+                                        <View key={i} style={styles.iconBackground}>
+                                            <SvgXml xml={parking} height="20" width="20" />
+                                        </View>
                                     )
                                 }
-
-
-                            </View>
-                        </View>
-                        <View style={styles.contentDescrip}>
-                            <Text style={styles.textHead}>
-                                Description
-                            </Text>
-                            <Text style={[styles.textDescr, {
-                                height: Read ? 'auto' : 60,
-                                textAlign: 'justify'
-                            }]}>
-                                {Hotel ? Hotel.description : ''}
-                            </Text>
-                            <TouchableOpacity onPress={() => {
-                                setRead(!Read)
-                            }}>
-                                <Text style={{
-                                    color: 'red',
-                                    fontSize: 16,
-                                    fontFamily: 'PlusJakartaSans'
-                                }}>
-                                    {!Read ? 'Read More' : 'Read Less'}
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.time}>
-                            <View style={[styles.view3, {
-                            }]}>
-                                <Text style={{
-                                    fontSize: 12,
-                                    color: 'rgb(100,100,100)',
-                                    fontFamily: 'PlusJakartaSans'
-                                }}>Check-in</Text>
-                                <Text style={{
-                                    fontSize: 20,
-                                    fontFamily: 'PlusJakartaSansBold'
-                                }}>{Hotel ? Hotel.check_in : ''}</Text>
-                            </View>
-                            <View style={styles.view2}></View>
-                            <View style={[styles.view3, {
-                            }]}>
-                                <Text style={{
-                                    fontSize: 12,
-                                    color: 'rgb(100,100,100)',
-                                    fontFamily: 'PlusJakartaSans'
-                                }}>Check-out</Text>
-                                <Text style={{
-                                    fontSize: 20,
-                                    fontFamily: 'PlusJakartaSansBold'
-                                }}>{Hotel ? Hotel.check_out : ''}</Text>
-                            </View>
-                        </View>
-                        <View style={styles.container}>
-                            <MapView scrollEnabled={false} initialRegion={{
+                            })
+                        ) : (
+                            <ActivityIndicator size="small" color="#FA454B" />
+                        )
+                    }
+                </View>
+                <View style={{
+                    marginHorizontal: 20,
+                    marginTop: 10
+                }}>
+                    <Text style={styles.lineHead}>Description</Text>
+                    <Text style={[styles.lineText, {
+                        textAlign: 'justify',
+                        height: Read ? 'auto' : 80,
+                        marginBottom: 7,
+                        marginTop: 7
+                    }]}>{hotel ? hotel.description : ''}</Text>
+                    <TouchableOpacity onPress={() => {
+                        setRead(!Read)
+                    }}>
+                        <Text style={{
+                            color: 'red',
+                            fontSize: 16,
+                            fontFamily: 'PlusJakartaSans'
+                        }}>
+                            {!Read ? 'Read More' : 'Read Less'}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{
+                    margin: 20,
+                    borderWidth: 1,
+                    borderColor: '#D8D8D8',
+                    borderRadius: 10,
+                    height: 90,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'row'
+                }}>
+                    <View style={{
+                        marginRight: 40
+                    }}>
+                        <Text style={{
+                            fontSize: 13,
+                            color: '#808080'
+                        }}>Check-in</Text>
+                        <Text style={{
+                            fontSize: 18,
+                            fontFamily: 'PlusJakartaSansBold'
+                        }}>{hotel ? hotel.check_in : ''}</Text>
+                    </View>
+                    <View style={{
+                        width: 1,
+                        backgroundColor: '#D8D8D8',
+                        height: 70
+                    }}></View>
+                    <View style={{
+                        marginLeft: 40
+                    }}>
+                        <Text style={{
+                            fontSize: 13,
+                            color: '#808080'
+                        }}>Check-in</Text>
+                        <Text style={{
+                            fontSize: 18,
+                            fontFamily: 'PlusJakartaSansBold'
+                        }}>{hotel ? hotel.check_in : ''}</Text>
+                    </View>
+                </View>
+                <View style={{
+                    marginHorizontal: 20,
+                    borderRadius: 20,
+                    overflow: 'hidden',
+                    marginBottom: 20
+                }}>
+                    <MapView scrollEnabled={false} initialRegion={{
+                        latitude: 37.78825,
+                        longitude: -122.4324,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }} style={styles.map}/>
+                    {
+                        /*
+                            <Marker
+                            coordinate={{
                                 latitude: 37.78825,
                                 longitude: -122.4324,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            }} style={styles.map}>
-                                <Marker
-                                    coordinate={{
-                                        latitude: 37.78825,
-                                        longitude: -122.4324,
-                                        latitudeDelta: 0.0922,
-                                        longitudeDelta: 0.0421,
-                                    }}
-                                    pinColor={"white"}
-                                    title={"You are here"}
-                                />
-                            </MapView>
-                        </View>
-                        <View style={styles.nearbyView}>
-                            <Text style={[styles.textHead, { marginTop: 10, marginBottom: 10 }]}>
-                                What's nearby
-                            </Text>
-                            <View style={styles.nearbyTextDescrView}>
-
-                                <Unorderedlist>
-                                    <Text style={{
-                                        color: '#808080',
-                                        fontSize: 16,
-                                        overflow: 'hidden',
-                                        fontFamily: 'PlusJakartaSans',
-                                        marginBottom: 5
-                                    }}>
-                                        500m away from Sai Baba Mandir
-                                    </Text>
-                                </Unorderedlist>
-                                <Unorderedlist>
-                                    <Text style={{
-                                        color: '#808080',
-                                        fontSize: 16,
-                                        overflow: 'hidden',
-                                        fontFamily: 'PlusJakartaSans'
-                                    }}>
-                                        200m away from Shirdi Bus Stop
-                                    </Text>
-                                </Unorderedlist>
-
+                            }}
+                            pinColor={"white"}
+                            title={"You are here"}
+                        />
+                    */
+                    }
+                </View>
+                <View style={{
+                    marginHorizontal: 20,
+                }}>
+                    <Text style={[styles.lineHead, { marginBottom: 10 }]}>What's nearby</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
+                        <View style={{
+                            height: 7, width: 7, borderRadius: 5, backgroundColor: '#292929', margin: 5,
+                        }}></View>
+                        <Text style={styles.lineText}>500m away from Sai Baba Mandir</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
+                        <View style={{
+                            height: 7, width: 7, borderRadius: 5, backgroundColor: '#292929', margin: 5,
+                        }}></View>
+                        <Text style={styles.lineText}>200m away from Shirdi Bus Stop</Text>
+                    </View>
+                </View>
+                {
+                    Ratings && Ratings.length > 0 ? (
+                        <View style={{ flexDirection: 'row', margin: 20 }}>
+                            <View style={{ flex: 5 }}>
+                                <Text style={styles.lineHead}>Reviews</Text>
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                height: 35,
+                                backgroundColor: '#64B657',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                borderRadius: 20
+                            }}>
+                                <AntDesign name="star" size={15} color="white" />
+                                <Text style={{
+                                    fontSize: 12,
+                                    color: 'white',
+                                    marginLeft: 5
+                                }}>{hotel ? hotel.ratings : '0'}</Text>
                             </View>
                         </View>
-                        {
-                            Ratings && Ratings.length > 0 ? (
-                                <View style={[styles.contentTop, { marginTop: 20, marginBottom: 20 }]}>
-                                    <Text style={styles.hotelName}>Reviews </Text>
-                                    <View style={styles.contentTopLeftBox}>
-                                        <TouchableOpacity>
-                                            <AntDesign name="star" size={15} color="white" />
-                                        </TouchableOpacity>
-                                        <Text style={styles.contentTopLeftBoxText}>{Hotel ? Hotel.ratings : '0'}</Text>
-                                    </View>
+                    ) : (
+                        <View></View>
+                    )
+                }
+                <View style={{ marginHorizontal: 20 }}>
+                    {
+                        Ratings ? (
+                            Ratings.map((doc, i) => {
+                                if (i < limit) {
+                                    return <HotelMember doc={doc} key={i} />
+                                } else {
+                                    return <View key={i}></View>
+                                }
+                            })
+                        ) : (
+                            <ActivityIndicator size="large" color="#FA454B" />
+                        )
+                    }
+                </View>
+                <View style={{ alignItems: 'center', marginBottom: 30 }}>
+                    {
+                        Ratings && Ratings.length > limit ? (
+                            <TouchableOpacity onPress={() => {
+                                setLimit(limit + 3);
+                            }}>
+                                <View style={styles.showMoreButton}>
+                                    <Text style={styles.showMoreButtonText}>
+                                        Show More
+                                    </Text>
                                 </View>
-                            ) : (
-                                <View></View>
-                            )
-                        }
+                            </TouchableOpacity>
+                        ) : (
+                            <View>
+                            </View>
+                        )
+                    }
+                </View>
+                <View style={{ marginHorizontal: 20 }}>
+                    <Text style={{
+                        color: '#000000',
+                        fontSize: 18,
+                        fontWeight: '600',
+                        marginBottom: 10,
+                        fontFamily: 'PlusJakartaSansBold'
+                    }}>
+                        Other hotels nearby
+                    </Text>
+                    <ScrollView showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false} horizontal={true}>
                         {
-                            Ratings ? (
-                                Ratings.map((doc, i) => {
-                                    if (i < limit) {
-                                        return <HotelMember doc={doc} key={i} />
-                                    } else {
-                                        return <View key={i}></View>
-                                    }
-                                })
+                            OtherHotels ? (
+                                OtherHotels.map(d => (
+                                    <HotelMemberCart key={d.id} data={d} />
+                                ))
                             ) : (
                                 <ActivityIndicator size="large" color="#FA454B" />
                             )
                         }
-                        <View style={{ alignItems: 'center', marginBottom: 30 }}>
-                            {
-                                Ratings && Ratings.length > limit ? (
-                                    <TouchableOpacity onPress={() => {
-                                        setLimit(limit + 3);
-                                    }}>
-                                        <View style={styles.showMoreButton}>
-                                            <Text style={styles.showMoreButtonText}>
-                                                Show More
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                ) : (
-                                    <View>
-                                    </View>
-                                )
-                            }
-                        </View>
-                        <Text style={{
-                            color: '#000000',
-                            fontSize: 18,
-                            fontWeight: '600',
-                            marginBottom: 10,
-                            fontFamily: 'PlusJakartaSansBold'
-                        }}>
-                            Other hotels nearby
-                        </Text>
-                        <ScrollView horizontal={true}>
-                            {
-                                OtherHotels ? (
-                                    OtherHotels.map(d => (
-                                        <HotelMemberCart key={d.id} data={d} />
-                                    ))
-                                ) : (
-                                    <ActivityIndicator size="large" color="#FA454B" />
-                                )
-                            }
-                        </ScrollView>
-                    </View>
+                    </ScrollView>
                 </View>
-                <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
-                    <TouchableOpacity onPress={() => setModalVisible(!ModalVisible)} style={{
-                        paddingLeft: 10,
-                        height: 40,
-                        justifyContent: 'center',
-                        backgroundColor: '#FC444B',
-                        marginTop: Platform.OS == 'ios' ? 40 : 0
-                    }}>
-                        <AntDesign name="arrowleft" size={24} color="black" />
-                    </TouchableOpacity>
-                    <Gallery
-                        style={{ flex: 1, backgroundColor: 'black' }}
-                        images={Images}
-                    />
-                </Modal>
             </ScrollView>
             <View style={{
                 backgroundColor: 'white',
@@ -387,19 +403,19 @@ const Hotel = (props) => {
                 shadowOpacity: 0.3,
                 shadowRadius: 5,
                 elevation: 5,
-                paddingBottom: 20
+                paddingBottom: 20,
             }}>
                 <TouchableOpacity onPress={() => { //navigation.navigate('Review', {
                     //id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address })} 
                     setcolor(!color);
                     if (!color) {
                         let arr = Hotels
-                        arr.push(Hotel)
+                        arr.push(hotel)
                         setHotels(arr)
                         //console.log(Deals)
                         storeData('hotels', Hotels)
                     } else {
-                        let arr = Hotels.filter(element => element.id != Hotel.id);
+                        let arr = Hotels.filter(element => element.id != hotel.id);
                         storeData('hotels', arr);
                         //console.log(arr);
                     }
@@ -415,8 +431,8 @@ const Hotel = (props) => {
                     <AntDesign name="hearto" size={24} color={color ? "#FC444B" : "#808080"} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Booking', {
-                    id: Hotel.id, name: Hotel.name, address: Hotel.address,
-                    check_in: Hotel.check_in, check_out: Hotel.check_out
+                    id: hotel.id, name: hotel.name, address: hotel.address,
+                    check_in: hotel.check_in, check_out: hotel.check_out
                 })} style={{
                     backgroundColor: '#64B657',
                     flex: 4,
@@ -433,6 +449,21 @@ const Hotel = (props) => {
                     }}>Book Now</Text>
                 </TouchableOpacity>
             </View>
+            <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
+                <TouchableOpacity onPress={() => setModalVisible(!ModalVisible)} style={{
+                    paddingLeft: 10,
+                    height: 40,
+                    justifyContent: 'center',
+                    backgroundColor: '#FC444B',
+                    marginTop: Platform.OS == 'ios' ? 40 : 0
+                }}>
+                    <AntDesign name="arrowleft" size={24} color="black" />
+                </TouchableOpacity>
+                <Gallery
+                    style={{ flex: 1, backgroundColor: 'black' }}
+                    images={Images}
+                />
+            </Modal>
         </View>
     );
 };
@@ -629,6 +660,15 @@ const HotelMember = ({ doc }) => {
     );
 };
 const styles = StyleSheet.create({
+    lineHead: {
+        fontSize: 18,
+        fontFamily: 'PlusJakartaSansBold'
+    },
+    lineText: {
+        fontSize: 15,
+        fontFamily: 'PlusJakartaSans',
+        color: '#808080'
+    },
     body: {
         width: '100%',
         alignItems: 'center',

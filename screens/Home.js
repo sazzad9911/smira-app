@@ -1,6 +1,6 @@
 import {
   Image, ScrollView, StyleSheet, Text,
-  TouchableOpacity, View, StatusBar, Dimensions, ActivityIndicator
+  TouchableOpacity, View, StatusBar, Dimensions, ActivityIndicator, Modal
 } from 'react-native'
 import React, { useState, useCallback, useMemo, useRef } from 'react'
 import { AntDesign } from '@expo/vector-icons'
@@ -26,6 +26,7 @@ import { FamilyCode } from './Account';
 import { setLoader } from '../action'
 import { backgroundColor, textColor } from './../assets/color';
 import { useSelector } from 'react-redux';
+import SliderCoupon from './SliderCoupon';
 
 
 
@@ -38,10 +39,13 @@ const Home = ({ navigation }) => {
   const [image, setImage] = React.useState(null)
   const [Brand, setBrand] = React.useState(null)
   const [BrandDeal, setBrandDeal] = React.useState(null)
+  const [Deals, storeDeals]= React.useState(null)
   const [Hotel, setHotel] = React.useState(null)
   const dispatch = useDispatch()
   const darkMode = useSelector(state => state.pageSettings.darkMode)
-
+  const [modalVisible, setModalVisible] = React.useState(false)
+  const [SliderData, setSliderData] = React.useState(null)
+  //
 
   React.useEffect(() => {
     let data = postData(url + "/getData", {
@@ -102,6 +106,7 @@ const Home = ({ navigation }) => {
       orderColumn: "date"
     }).then(data => {
       if (Array.isArray(data)) {
+        storeDeals(data);
         let arr = []
         data.map((data) => {
           Brand.map(b => {
@@ -191,6 +196,10 @@ const Home = ({ navigation }) => {
                 ImageComponentStyle={{
                   borderRadius: 10,
                 }}
+                onCurrentImagePressed={index => {
+                  setSliderData(slider[index])
+                  setModalVisible(true)
+                }}
               />
             )
           }
@@ -202,7 +211,7 @@ const Home = ({ navigation }) => {
       <View>
         <View style={{
           flexDirection: 'row', flexWrap: 'wrap',
-          alignItems: 'center',padding:10,marginHorizontal:10
+          alignItems: 'center', padding: 10, marginHorizontal: 10
         }}>
           {
             //icon set
@@ -254,7 +263,7 @@ const Home = ({ navigation }) => {
             setMore(!More)
           }} style={{
             borderWidth: 1, borderColor: 'rgb(220,220,220)', height: 75,
-            width: window.width/4-20, borderRadius: 10, margin: 5,
+            width: window.width / 4 - 20, borderRadius: 10, margin: 5,
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: darkMode ? 'rgb(220,220,220)' : 'transparent'
@@ -340,11 +349,11 @@ const Home = ({ navigation }) => {
             paddingRight: 23,
           }}>
             <View>
-            <Text style={{ color: 'white', fontSize: 18, fontFamily: 'PlusJakartaSansBold' }}>Save on Top Brands</Text>
-            <Text style={{
-              color: 'white', marginBottom: 4,
-              fontFamily: 'PlusJakartaSans', fontSize: 12
-            }}>Save big on most popular brands with us</Text>
+              <Text style={{ color: 'white', fontSize: 18, fontFamily: 'PlusJakartaSansBold' }}>Save on Top Brands</Text>
+              <Text style={{
+                color: 'white', marginBottom: 4,
+                fontFamily: 'PlusJakartaSans', fontSize: 12
+              }}>Save big on most popular brands with us</Text>
             </View>
 
             <TouchableOpacity style={style.outline} onPress={() => {
@@ -368,7 +377,7 @@ const Home = ({ navigation }) => {
             )
           }
         </ScrollView>
-        <View style={{height:10}}></View>
+        <View style={{ height: 10 }}></View>
       </LinearGradient>
 
       <View style={{
@@ -453,7 +462,9 @@ const Home = ({ navigation }) => {
         </ScrollView>
       </View>
       <FamilyCode />
-
+      <Modal visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
+        <SliderCoupon navigation={navigation} data={SliderData} close={setModalVisible} />
+      </Modal>
     </ScrollView>
   )
 }
@@ -462,12 +473,12 @@ export default Home
 
 export const IconsSet = (props) => {
   const darkMode = useSelector(state => state.pageSettings.darkMode)
-  const width=window.width
+  const width = window.width
   return (
     <TouchableOpacity onPress={props.onPress} style={[{
       borderWidth: 1,
       borderColor: 'rgb(220,220,220)', height: 75,
-      width:width/4-20 , borderRadius: 10, margin: 5,
+      width: width / 4 - 20, borderRadius: 10, margin: 5,
       justifyContent: 'center',
       alignItems: 'center',
       padding: 5,

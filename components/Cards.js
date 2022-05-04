@@ -16,7 +16,7 @@ const Cards = (props) => {
     const darkMode = useSelector(state => state.pageSettings.darkMode)
     const [modalVisible, setModalVisible] = React.useState(false)
     const data =props.doc
-    console.log(data)
+    //console.log(data)
 
     React.useEffect(() => {
         getData('hotels').then((data) => {
