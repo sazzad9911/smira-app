@@ -29,6 +29,7 @@ const SearchBottom = (props) => {
             shadowOpacity: 0.22,
             shadowRadius: 5,
             elevation: 9,
+            marginBottom: -5
         }}>
             <View style={{
                 flexDirection: 'row',
