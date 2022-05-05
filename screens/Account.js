@@ -22,7 +22,7 @@ import {
 import { getStorage, ref, uploadString, getDownloadURL, uploadBytes } from 'firebase/storage'
 import { backgroundColor, subTextColor } from '../assets/color';
 import { textColor } from './../assets/color';
-import { Picker } from '@react-native-picker/picker';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 function Account({ navigation }) {
 
@@ -39,6 +39,8 @@ function Account({ navigation }) {
   const dispatch = useDispatch()
   const familyCode = useSelector(state => state.pageSettings.familyCode);
   const storage = getStorage(app);
+  const [DateOpen, setDateOpen] = useState(false)
+  const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 
 
@@ -60,13 +62,16 @@ function Account({ navigation }) {
       setLocation(user[0].address)
     }
     if (user && user[0].birth_day) {
-      setDob(user[0].birth_day)
+      let date=new Date(user[0].birth_day)
+      setDob(date)
+    }else{
+      setDob(null)
     }
     if (user && user[0].gender == 'Male') {
       setGender('Male')
     } else if (user && user[0].gender == 'Female') {
       setGender('Female')
-    }else{
+    } else {
       setGender('Gender')
     }
   }, [])
@@ -136,6 +141,16 @@ function Account({ navigation }) {
       });
     }
   };
+  const convertDate = (date) => {
+    let data = '';
+    return data = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate())
+  }
+  const convertUnix = (date) => {
+    date = new Date(date)
+    let Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    let data = ''
+    return data = date.getDate() + ' ' + Months[date.getMonth()] + ' ' + date.getFullYear()
+}
   return (
     <ScrollView style={{
       backgroundColor: 'white'
@@ -228,21 +243,36 @@ function Account({ navigation }) {
             alignItems: 'center'
           }, Gender === "Gender" ? styles.fontEmptyStyle : '']}>
             <Text style={{
-              color:'#808080',
+              color: '#808080',
             }}>{Gender}</Text>
             <AntDesign name="down" size={20} color="black" />
           </View>
         </TouchableOpacity>
-        <View style={[styles.formRow]}>
-          <View style={[styles.imageStyle, Dob === "" ? styles.imageStyleEmptyStyle : '']} >
-            <SvgXml xml={birthdayIcon} height="25" width="20" style={[Dob === "" ? styles.inactiveIcon : styles.activeIcon]} />
+        <TouchableOpacity onPress={() => {
+          setDateOpen(true);
+        }} style={[styles.formRow]}>
+          <View style={[styles.imageStyle, !Dob ? styles.imageStyleEmptyStyle : '']} >
+            <SvgXml xml={birthdayIcon} height="25" width="20" style={[!Dob ? styles.inactiveIcon : styles.activeIcon]} />
           </View>
-          <TextInput value={Dob} placeholderTextColor='rgb(130,130,130)'
-            placeholder={Dob === "" ? "Birthday" : ""}
-            onChangeText={e => setDob(e)} onEndEditing={() => {
-              Save('birth_day', Dob);
-            }} style={[styles.formInput, Dob === "" ? styles.fontEmptyStyle : '']} />
-        </View>
+          <View style={[styles.formInput, !Dob ? styles.fontEmptyStyle : '',{
+            justifyContent: 'center'
+          }]}>
+            {
+              DateOpen ? (
+                <RNDateTimePicker value={Dob ? Dob : new Date()}
+                  onChange={(event, date) => {
+                    setDateOpen(false)
+                    setDob(date);
+                    Save('birth_day', convertDate(date));
+
+                  }} />
+              ) : (
+                <Text style={{color:Dob?'black':'rgb(130,130,130)'}}>{Dob ? Dob.getDate() + " "
+                  + Months[Dob.getMonth()] + " " + Dob.getFullYear() : 'Birth Day'}</Text>
+              )
+            }
+          </View>
+        </TouchableOpacity>
         <View style={[styles.formRow]}>
           <View style={[styles.imageStyle, Location === "" ? styles.imageStyleEmptyStyle : '']} >
             <SvgXml xml={cityIcon} height="25" width="20" style={[Location === "" ? styles.inactiveIcon : styles.activeIcon]} />

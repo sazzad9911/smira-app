@@ -6,8 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/Icon.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/Icon_removebg.png",
       "backgroundColor": "#FC444B"
     },
     "androidNavigationBar":{

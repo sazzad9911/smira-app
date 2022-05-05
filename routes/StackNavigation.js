@@ -64,7 +64,7 @@ const StackNavigation = () => {
                 <Text>Loading...</Text>
             </AnimatedLoader>
         )
-    } else if (user == 'ok') { 
+    } else if (user == 'ok') {
         return (
             <NavigationContainer theme={theme}>
                 <Stack.Navigator>
@@ -74,28 +74,41 @@ const StackNavigation = () => {
                     <Stack.Screen options={{ headerShown: false }} name="Dashboard" component={Dashboard} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Choose Your Membership" component={Membership} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Checkout" component={CheckOut} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Language" component={Language} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
                 </Stack.Navigator>
             </NavigationContainer>
-        )
+        ) 
+    } else if (user.uid) {
+        return (
+            <NavigationContainer theme={theme}>
+                <Stack.Navigator>
+                    <Stack.Screen options={{ headerShown: false }} name="Dashboard" component={Dashboard} />
+                    <Stack.Screen options={{ headerShown: false }} name="Onboarding" component={Onboarding} />
+                    <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
+                    <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Choose Your Membership" component={Membership} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Checkout" component={CheckOut} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Language" component={Language} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        );
     }
-    return (
-        <NavigationContainer theme={theme}>
-            <Stack.Navigator>
-                <Stack.Screen options={{ headerShown: false }} name="Dashboard" component={Dashboard} />
-                <Stack.Screen options={{ headerShown: false }} name="Onboarding" component={Onboarding} />
-                <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
-                <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
-                <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword} />
-                <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Choose Your Membership" component={Membership} />
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
 };
 
 export default StackNavigation;
 import { setBottomSheet } from '../action'
 import BottomDrawer from './BottomDrawer';
 import { backgroundColor, subTextColor } from './../assets/color';
+import CheckOut from './../screens/CheckOut';
+import Language from './../screens/Language';
+import ResetPassword from './../screens/ResetPassword';
+import RedeemHistory from '../screens/RedeemHistory';
 
 const Dashboard = ({ navigation }) => {
     const bottomSheetRef = React.useRef();

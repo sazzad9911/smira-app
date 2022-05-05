@@ -32,9 +32,6 @@ import ConfirmMessage from "../screens/ConfirmMessage";
 import HotelGallaryHeader from './../components/HotelGallaryHeader';
 import HotelGallery from "../screens/HotelGallery";
 import ResetPassword from "../screens/ResetPassword";
-import Onboarding from "../screens/Onboarding";
-import SignIn from './../screens/SignIn';
-import SignUp from "../screens/SignUp";
 import Booking from './../screens/Booking';
 import Review from './../screens/Review';
 import BottomBar from './BottomBar';
@@ -65,14 +62,9 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ headerShown: false }} name="WishList" component={WishList} /> 
         <Drawer.Screen options={{ headerShown: false }} name="Rooms" component={Rooms} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Settings" component={Settings} />
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Checkout" component={CheckOut} />
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Forget Password" component={ForgetPassword} />
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Language" component={Language} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Talk To Us" component={TellToUs} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Confirm Message" component={ConfirmMessage} />
         <Drawer.Screen options={{ header: (props) => <HotelGallaryHeader title='9 Photos' {...props} /> }} name="Hotel Gallery" component={HotelGallery} />
-        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
         <Drawer.Screen options={{ headerShown: false }} name="Hotel" component={Hotel} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Booking" component={Booking} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Review" component={Review} />
