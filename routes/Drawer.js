@@ -37,6 +37,7 @@ import Review from './../screens/Review';
 import BottomBar from './BottomBar';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import CategorySingleRoute from "../screens/CategorySingleRoute";
+import HomeHeader from "../components/HomeHeader";
 
 
 const Drawer = createDrawerNavigator();
@@ -49,9 +50,9 @@ export default function DrawerApp() {
           },
           drawerType: 'slide'
         }}
-        initialRouteName='Home'
+        initialRouteName='UserHome'
         drawerContent={({ navigation }) => <DrawerMenu navigation={navigation} />}>
-        <Drawer.Screen options={{ headerShown: false }} name="Home" component={BottomBar} />
+        <Drawer.Screen options={{ header:(props)=><HomeHeader {...props} />}} name="UserHome" component={Home} />
         <Drawer.Screen options={{ headerShown: false }} name="PopularHotels" component={PopularHotels} />
         <Drawer.Screen options={{ headerShown: false }} name="Coupons" component={Coupons} />
         <Drawer.Screen options={{ headerShown: false }} name="Account" component={Account} />

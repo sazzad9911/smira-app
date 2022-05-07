@@ -17,6 +17,7 @@ import ForgetPassword from "../screens/ForgetPassword";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import app from '../firebase'
 import Membership from '../screens/Membership';
+import {Header} from '../screens/CategorySingleRoute';
 
 const StackNavigation = () => {
     const pageSettings = useSelector(state => state.pageSettings)
@@ -78,6 +79,7 @@ const StackNavigation = () => {
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Language" component={Language} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
+                    <Stack.Screen options={{header:(props)=><Header title='Our Brands' {...props}/>}} name='OurBrand' component={OurBrand} />
                 </Stack.Navigator>
             </NavigationContainer>
         ) 
@@ -95,6 +97,7 @@ const StackNavigation = () => {
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Language" component={Language} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
+                    <Stack.Screen options={{header:(props)=><Header title='Our Brands' {...props}/>}} name='OurBrand' component={OurBrand} />
                 </Stack.Navigator>
             </NavigationContainer>
         );
@@ -109,6 +112,7 @@ import CheckOut from './../screens/CheckOut';
 import Language from './../screens/Language';
 import ResetPassword from './../screens/ResetPassword';
 import RedeemHistory from '../screens/RedeemHistory';
+import OurBrand from '../screens/OurBrand';
 
 const Dashboard = ({ navigation }) => {
     const bottomSheetRef = React.useRef();
@@ -118,17 +122,18 @@ const Dashboard = ({ navigation }) => {
     const pageSettings = useSelector(state => state.pageSettings)
 
     // variables
-    const calender = React.useMemo(() => ['10%', '95%'], []);
+    const calender = React.useMemo(() => ['10%', '90%'], []);
     const category = React.useMemo(() => ['10%', '45%'], []);
     const filter = React.useMemo(() => ['10%', '60%'], []);
     const shortBy = React.useMemo(() => ['10%', '30%'], []);
+    const other= React.useMemo(() => ['10%', '90%'],[]);
     const [open, setOpen] = React.useState(1)
 
     // callbacks
 
     return (
         <View style={{
-            width: window.width, height: window.height,
+            width: window.width, height: '100%',
             backgroundColor: backgroundColor(pageSettings.darkMode)
         }}>
             <DrawerApp />
@@ -143,7 +148,7 @@ const Dashboard = ({ navigation }) => {
                     <BottomDrawer snapPoints={shortBy} navigation={navigation} />
                 ) :
                     (
-                        <View></View>
+                        <BottomDrawer snapPoints={other} navigation={navigation} />
                     )
             }
             <AnimatedLoader

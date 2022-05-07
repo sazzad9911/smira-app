@@ -146,7 +146,7 @@ const Brands = (props) => {
         }} style={{
             borderWidth: 1,
             borderRadius: 20,
-            width: 100,
+            minWidth: 100,
             height: 40,
             justifyContent: 'center',
             alignItems: 'center',
@@ -154,7 +154,8 @@ const Brands = (props) => {
             margin: 5,
             backgroundColor: brand == props.title ? '#64B657' : '#ffff',
             color: '#808080',
-            borderColor: '#D8D8D8'
+            borderColor: '#D8D8D8',
+            padding:10
         }}>
             <Text style={{ marginLeft: 5, color: brand == props.title ? '#ffff' : '#808080', }}>{props.title}</Text>
         </TouchableOpacity>

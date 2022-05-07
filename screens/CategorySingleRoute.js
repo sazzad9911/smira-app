@@ -13,24 +13,28 @@ import PopularDeal from './PopularDeal';
 import SearchBottom from './../components/SearchBottom';
 import Bottom from './../components/Bottom';
 import { backgroundColor, textColor } from './../assets/color';
+import Salon from './Salon';
 
 const CategorySingleRoute = (props) => {
     const title = props.route.params.title;
-    const navigation = props.navigation 
+    const navigation = props.navigation
     //console.log(title)
     const Direction = () => {
         if (title == 'Popular Hotels') {
             return <PopularHotel navigation={navigation} />
         } else if (title == 'Deals Near You') {
             return <PopularDeal navigation={navigation} />
-        } 
+        }
         else if (title == 'Popular Deals') {
             return <PopularDeal navigation={navigation} />
         } else if (title == 'Hotels') {
             return <PopularHotel navigation={navigation} />
         } else if (title == 'Restaurants') {
             return <PopularDeal navigation={navigation} />
-        } else {
+        } else if (title == 'Salon') {
+            return <Salon />
+        }
+        else {
             return <Text>Wrong Route</Text>
         }
     }
@@ -47,14 +51,23 @@ const CategorySingleRoute = (props) => {
             return <SearchBottom navigation={navigation} />
         } else if (title == 'Restaurants') {
             return <SearchBottom navigation={navigation} />
-        } else {
+        } else if (title == 'Salon') {
+            return <SearchBottom navigation={navigation} />
+        }
+        else {
             return <Text>Wrong Route</Text>
         }
     }
 
     return (
         <View style={styles.body}>
-            <Header navigation={navigation} title={title} />
+            {
+                title != 'Salon' ? (
+                    <Header navigation={navigation} title={title} />
+                ) : (
+                    <NewHeader navigation={navigation}/>
+                )
+            }
             <Direction />
             <BottomDirection />
         </View>
@@ -65,7 +78,7 @@ export default CategorySingleRoute;
 export const Header = (props) => {
     const darkMode = useSelector(state => state.pageSettings.darkMode)
     return (
-        <View style={{backgroundColor:backgroundColor(darkMode)}}>
+        <View style={{ backgroundColor: backgroundColor(darkMode) }}>
             <View style={{
                 flexDirection: 'row',
                 marginTop: Platform.OS == 'ios' ? 60 : 15,
@@ -84,7 +97,7 @@ export const Header = (props) => {
                 </View>
 
                 <TouchableOpacity onPress={props.navigation.goBack}>
-                    <AntDesign name="close" size={30} color='#585858'/>
+                    <AntDesign name="close" size={30} color='#585858' />
                 </TouchableOpacity>
             </View>
             <View style={[styles.content, { marginLeft: 20 }]}>
@@ -108,11 +121,44 @@ export const Header = (props) => {
         </View>
     )
 }
-
+export const NewHeader = ({ navigation}) => {
+    return (
+        <View style={{
+            flexDirection:'row',
+            justifyContent:'space-between',
+            padding:10,
+            paddingVertical:15,
+        }}>
+            <TouchableOpacity onPress={()=>{
+                navigation.goBack()
+            }} style={{
+                backgroundColor:'#808080',
+                padding:7,
+                borderRadius:20
+            }}>
+                <AntDesign name="left" size={20} color="#ffff" />
+            </TouchableOpacity>
+            <TouchableOpacity>
+                <SvgXml
+                    style={{
+                        marginRight: 20,
+                        marginLeft: 5,
+                    }}
+                    xml={`<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.83188 1.5C5.32322 1.5 2.47888 4.25814 2.47888 7.66049C2.47888 11.0628 5.32322 13.821 8.83188 13.821C12.3406 13.821 15.1849 11.0628 15.1849 7.66049C15.1849 4.25814 12.3406 1.5 8.83188 1.5ZM0.932007 7.66049C0.932007 3.42972 4.4689 0 8.83188 0C13.1949 0 16.7318 3.42972 16.7318 7.66049C16.7318 11.8913 13.1949 15.321 8.83188 15.321C4.4689 15.321 0.932007 11.8913 0.932007 7.66049Z" fill="black"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2408 12.2963C13.5424 12.003 14.0321 12.0024 14.3346 12.2949L17.1286 14.9972C17.431 15.2897 17.4316 15.7646 17.13 16.0578C16.8283 16.3511 16.3386 16.3517 16.0362 16.0592L13.2422 13.3569C12.9398 13.0644 12.9391 12.5896 13.2408 12.2963Z" fill="black"/>
+                    </svg>
+                    `}
+                    height="25"
+                    width="25" />
+            </TouchableOpacity>
+        </View>
+    )
+}
 
 export const styles = StyleSheet.create({
     body: {
-        height: Dimensions.get('screen').height-50,
+        height: '100%',
         width: Dimensions.get('screen').width,
         backgroundColor: 'white'
 

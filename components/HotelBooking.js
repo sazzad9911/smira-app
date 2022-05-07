@@ -25,11 +25,11 @@ const HotelBooking = (props) => {
     const [count2, setCount2] = React.useState(0)
     const [selectedItem, setSelectedItem] = useState(null)
     const [data, setData] = useState(null)
-    const [text, setText] = useState(null)
     const auth = getAuth(app);
     const [loader, setLoader] = React.useState(false)
     const navigation = props.navigation;
     const [submit, setSubmit] = React.useState(false)
+    const [text, onChangeText] = React.useState("Useless Text");
 
     const convertDate = (date) => {
         let data = '';
@@ -179,6 +179,18 @@ const HotelBooking = (props) => {
             elevation: 5
         }
     })
+    const search = (val) => {
+        //setText(val);
+        postData(url + '/searchData', {
+            tableName: 'hotels',
+            searchColumn: 'address',
+            searchData: val
+        }).then(data => {
+            if (Array.isArray(data)) {
+                setData(data)
+            }
+        })
+    }
     return (
         <View>
             <View style={style.view}>
@@ -221,10 +233,8 @@ const HotelBooking = (props) => {
                         <View></View>
                     )
                 }
-
             </View>
-
-            <View >
+            <View>
                 <Text style={{
                     fontSize: 14,
                     color: subTextColor(darkMode),
@@ -253,7 +263,6 @@ const HotelBooking = (props) => {
                     }
                 </TouchableOpacity>
             </View>
-
             <View >
                 <Text style={{
                     fontSize: 14,

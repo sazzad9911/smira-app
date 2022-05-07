@@ -24,7 +24,7 @@ const Bottom = (props) => {
 
     return (
         <View style={[styles.view,{ backgroundColor:backgroundColor(darkMode)}]}>
-            <View style={[styles.center_view,{ backgroundColor:darkMode?'black':'#f5f5f5'}]}>
+            <View style={[styles.center_view]}>
             </View>
             <TouchableOpacity onPress={() => {
                 //setActive('calendar')
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         marginVertical: 5,
         flexDirection: 'row',
-        marginBottom:20
+        marginBottom:10
     },
     center_view: {
         position: 'absolute',
@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
         left: '40%',
         alignItems: 'center',
         bottom: 18,
-        backgroundColor: '#f5f5f5',
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
         borderTopLeftRadius: 5,

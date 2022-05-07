@@ -17,7 +17,7 @@ const BottomDrawer = (props) => {
     const dispatch = useDispatch()
     const handleSheetChanges = React.useCallback((index) => {
         if (index === -1 || index == false) {
-            dispatch(setBottomSheet(null))
+            dispatch(setBottomSheet(''))
         }
     }, []);
     return (

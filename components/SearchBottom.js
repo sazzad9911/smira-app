@@ -20,7 +20,6 @@ const SearchBottom = (props) => {
             height: 95,
             backgroundColor: backgroundColor(darkMode),
             padding: 10,
-            paddingBottom: 25,
             shadowColor: "#000",
             shadowOffset: {
                 width: 1,
