@@ -10,7 +10,9 @@ const NewDealCart = (props) => {
             width:200,
             borderRadius:10,
             overflow: 'hidden',
-            marginRight:10
+            marginRight:10,
+            borderColor:'#D8D8D8',
+            borderWidth: 2,
         }}>
             <Image style={{
                 width: '100%',

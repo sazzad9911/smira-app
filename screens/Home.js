@@ -34,6 +34,7 @@ import NewDealCart from '../components/NewDealCart';
 import Bottom from './../components/Bottom';
 import ImageBanner from '../components/ImageBanner';
 import ItemCart from '../components/ItemCart';
+import SideSwipe from 'react-native-sideswipe';
 
 
 
@@ -589,20 +590,31 @@ const Home = ({ navigation }) => {
             <View style={{ width: 10, }}></View>
           </ScrollView>
         </View>
-        <View style={{
-          width: '100%',
-          paddingBottom: 10,
-          backgroundColor: 'white',
-          marginTop: 10,
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          paddingTop: 10
-        }}>
-          <ItemCart name='Pizza' item='11' img='https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?b=1&k=20&m=938742222&s=170667a&w=0&h=HyfY78AeiQM8vZbIea-iiGmNxHHuHD-PVVuHRvrCIj4=' />
-          <ItemCart name='Biryani' item='8' img='https://www.10minutesrecipe.com/wp-content/uploads/2021/07/Bangladeshi-Chicken-Biryani-Recipe-585x439.jpg' />
-          <ItemCart name='Chinese' item='8' img='https://www.kinki.ca/wp-content/uploads/2018/05/Chow-mein.jpg' />
-          <ItemCart name='Thali' item='1' img='https://cdn.pixabay.com/photo/2021/02/09/03/53/thai-food-5997301__340.jpg' />
-        </View>
+        <ScrollView style={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false} horizontal={true}>
+          {
+            [1, 2].map((doc, i) => (
+              <View key={i} style={{
+                width: window.width,
+                paddingBottom: 10,
+                backgroundColor: 'white',
+                marginTop: 10,
+                paddingTop: 10,
+              }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <ItemCart name='Pizza' item='11' img='https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?b=1&k=20&m=938742222&s=170667a&w=0&h=HyfY78AeiQM8vZbIea-iiGmNxHHuHD-PVVuHRvrCIj4=' />
+                  <ItemCart name='Biryani' item='8' img='https://www.10minutesrecipe.com/wp-content/uploads/2021/07/Bangladeshi-Chicken-Biryani-Recipe-585x439.jpg' />
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <ItemCart name='Chinese' item='8' img='https://www.kinki.ca/wp-content/uploads/2018/05/Chow-mein.jpg' />
+                  <ItemCart name='Thali' item='1' img='https://cdn.pixabay.com/photo/2021/02/09/03/53/thai-food-5997301__340.jpg' />
+                </View>
+                <View style={{ width: 10, }}></View>
+              </View>
+            ))
+          }
+        </ScrollView>
+
         <View style={{
           width: '100%',
           paddingBottom: 10,
