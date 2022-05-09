@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { Feather } from '@expo/vector-icons';
-import {setShortBy} from '../action'
+import { setShortBy } from '../action'
 import { useDispatch, useSelector } from 'react-redux';
 
 const ShortBy = () => {
     const [Check, setCheck] = React.useState('')
     const dispatch = useDispatch()
-    
+    const loader = useSelector(state => state.loader)
+
     return (
         <ScrollView>
             <View style={{
@@ -24,7 +25,7 @@ const ShortBy = () => {
                 <TouchableOpacity onPress={() => {
                     dispatch(setShortBy(null))
                 }} style={{
-                    margin:5
+                    margin: 5
                 }}>
                     <Text style={{
                         fontSize: 15,
@@ -34,22 +35,70 @@ const ShortBy = () => {
                     }}>Clear All</Text>
                 </TouchableOpacity>
             </View>
-
-            <List value={Check}
-                onChange={(val) => {
-                    //setCheck(val)
-                    dispatch(setShortBy('popularity'));
-                    }}
-                title='Popularity'
-            />
-            <List value={Check}
-                onChange={(val) => {
-                    //setCheck(val)
-                    dispatch(setShortBy('discount'))
-                }}
-                title='Discount'
-            />
-            <View style={{height: 20}}/>
+            {
+                loader == 'SearchHotel' ? (
+                    <View>
+                        <List value={Check}
+                            onChange={(val) => {
+                                //setCheck(val)
+                                dispatch(setShortBy('popularity'));
+                            }}
+                            title='Popularity'
+                        />
+                        <List value={Check}
+                            onChange={(val) => {
+                                //setCheck(val)
+                                dispatch(setShortBy('ratings'));
+                            }}
+                            title='Ratings'
+                        />
+                        <List value={Check}
+                            onChange={(val) => {
+                                //setCheck(val)
+                                dispatch(setShortBy('more_amenities'));
+                            }}
+                            title='More Amenities'
+                        />
+                    </View>
+                ) : loader == 'SearchDeal' ? (
+                    <View>
+                        <List value={Check}
+                            onChange={(val) => {
+                                //setCheck(val)
+                                dispatch(setShortBy('popularity'))
+                            }}
+                            title='Popularity'
+                        />
+                        <List value={Check}
+                            onChange={(val) => {
+                                //setCheck(val)
+                                dispatch(setShortBy('discount'))
+                            }}
+                            title='Discount'
+                        />
+                    </View>
+                ) : loader == 'Salon' ? (
+                    <View>
+                        <List value={Check}
+                            onChange={(val) => {
+                                //setCheck(val)
+                                dispatch(setShortBy('near_me'))
+                            }}
+                            title='Near me'
+                        />
+                        <List value={Check}
+                            onChange={(val) => {
+                                //setCheck(val)
+                                dispatch(setShortBy('discount'))
+                            }}
+                            title='Discount'
+                        />
+                    </View>
+                ) : (
+                    <View></View>
+                )
+            }
+            <View style={{ height: 20 }} />
 
         </ScrollView>
     );
@@ -57,13 +106,16 @@ const ShortBy = () => {
 
 export default ShortBy;
 const List = (props) => {
-    const recentSearch=useSelector(state => state.recentSearch)
+    const recentSearch = useSelector(state => state.recentSearch)
     return (
         <TouchableOpacity onPress={() => {
             props.onChange(props.title)
         }} style={{ flexDirection: 'row', marginVertical: 5, marginTop: 20 }}>
             <View style={{ flex: 5 }}>
-                <Text style={{ fontSize: 18,fontFamily: 'PlusJakartaSans', color: props.title.toLowerCase() == recentSearch.shortBy ? 'red' : 'black', marginLeft: 50 }}>{props.title}</Text>
+                <Text style={{
+                    fontSize: 18, fontFamily: 'PlusJakartaSans',
+                    color: props.title.toLowerCase() == recentSearch.shortBy ? 'red' : '#808080', marginLeft: 50
+                }}>{props.title}</Text>
             </View>
             <View style={{ flex: 1 }}>
                 {

@@ -143,6 +143,7 @@ export const NewHeader = ({ navigation}) => {
                     style={{
                         marginRight: 20,
                         marginLeft: 5,
+                        marginTop:7
                     }}
                     xml={`<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M8.83188 1.5C5.32322 1.5 2.47888 4.25814 2.47888 7.66049C2.47888 11.0628 5.32322 13.821 8.83188 13.821C12.3406 13.821 15.1849 11.0628 15.1849 7.66049C15.1849 4.25814 12.3406 1.5 8.83188 1.5ZM0.932007 7.66049C0.932007 3.42972 4.4689 0 8.83188 0C13.1949 0 16.7318 3.42972 16.7318 7.66049C16.7318 11.8913 13.1949 15.321 8.83188 15.321C4.4689 15.321 0.932007 11.8913 0.932007 7.66049Z" fill="black"/>
@@ -160,8 +161,6 @@ export const styles = StyleSheet.create({
     body: {
         height: '100%',
         width: Dimensions.get('screen').width,
-        backgroundColor: 'white'
-
     },
     content: {
         flexDirection: 'row',

@@ -29,7 +29,7 @@ const HotelBooking = (props) => {
     const [loader, setLoader] = React.useState(false)
     const navigation = props.navigation;
     const [submit, setSubmit] = React.useState(false)
-    const [text, onChangeText] = React.useState("Useless Text");
+    const [text, setText] = React.useState(null);
 
     const convertDate = (date) => {
         let data = '';
@@ -206,6 +206,7 @@ const HotelBooking = (props) => {
                     marginTop: 50,
                     marginLeft: 40,
                 }}>Where?</Text>
+                
                 <TextInput value={text} onChangeText={(val) => {
                     setText(val);
                     postData(url + '/searchData', {

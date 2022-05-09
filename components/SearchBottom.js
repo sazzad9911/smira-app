@@ -18,9 +18,9 @@ const SearchBottom = (props) => {
         <View style={{
             width: window.width,
             height: 95,
-            backgroundColor: backgroundColor(darkMode),
+            backgroundColor:textColor(!darkMode),
             padding: 10,
-            shadowColor: "#000",
+            shadowColor: "#000", 
             shadowOffset: {
                 width: 1,
                 height: 0,

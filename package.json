@@ -1,11 +1,10 @@
 {
   "name": "app",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "web": "expo start --web",
     "eject": "expo eject"
   },
@@ -33,7 +32,6 @@
     "expo-linear-gradient": "~11.0.3",
     "expo-navigation-bar": "~1.1.1",
     "expo-status-bar": "~1.2.0",
-    "expo-updates": "^0.12.0",
     "firebase": "^9.6.9",
     "install": "^0.13.0",
     "lottie-ios": "^3.2.3",
@@ -65,7 +63,8 @@
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "uuid": "^8.3.2",
-    "yarn": "^1.22.17"
+    "yarn": "^1.22.17",
+    "expo-splash-screen": "~0.14.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

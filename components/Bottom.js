@@ -5,12 +5,14 @@ import {
 } from 'react-native'
 import { Feather } from '@expo/vector-icons';
 import { SvgXml } from 'react-native-svg';
-import {activeExplore,inactiveExplore,activeCategory,
+import {
+    activeExplore, inactiveExplore, activeCategory,
     inactiveCategory,
     activeMembership,
-    inactiveMembership,activeCall,inactiveCall,calender} from './Icon'
-import {useSelector, useDispatch} from 'react-redux';
-import {setBottomSheet} from '../action'
+    inactiveMembership, activeCall, inactiveCall, calender
+} from './Icon'
+import { useSelector, useDispatch } from 'react-redux';
+import { setBottomSheet, setLoader } from '../action'
 import { textColor } from '../assets/color';
 
 const window = Dimensions.get('window')
@@ -23,7 +25,7 @@ const Bottom = (props) => {
     const darkMode = useSelector(state => state.pageSettings.darkMode)
 
     return (
-        <View style={[styles.view,{ backgroundColor:backgroundColor(darkMode)}]}>
+        <View style={[styles.view]}>
             <View style={[styles.center_view]}>
             </View>
             <TouchableOpacity onPress={() => {
@@ -37,14 +39,14 @@ const Bottom = (props) => {
                     setActive('explore')
                     navigation.navigate('Home')
                     dispatch(setBottomSheet('explore'))
-                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginLeft:10 }}>
+                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginLeft: 10 }}>
                     <SvgXml xml={active == 'explore' ? activeExplore : inactiveExplore} height="25" width="25" />
                     <Text style={{ color: active == 'explore' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Explore</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     //setActive('category')
                     dispatch(setBottomSheet('category'))
-                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginRight:20 }}>
+                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginRight: 20 }}>
                     <SvgXml xml={active == 'category' ? activeCategory : inactiveCategory} height="25" width="25" />
                     <Text style={{ color: active == 'category' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Category</Text>
                 </TouchableOpacity>
@@ -52,12 +54,12 @@ const Bottom = (props) => {
             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }}>
                 <TouchableOpacity onPress={() => {
                     //setActive('membership')
-                   if(user && user[0].starting_date){
-                    navigation.navigate('MemberShipInfo')
-                   }else{
-                    navigation.navigate('MemberShipOnboarding')
-                   }
-                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginLeft:10 }}>
+                    if (user && user[0].starting_date) {
+                        navigation.navigate('MemberShipInfo')
+                    } else {
+                        navigation.navigate('MemberShipOnboarding')
+                    }
+                }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginLeft: 10 }}>
                     <SvgXml xml={active == 'membership' ? activeMembership : inactiveMembership} height="25" width="25" />
                     <Text style={{ color: active == 'membership' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Membership</Text>
                 </TouchableOpacity>
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         marginVertical: 5,
         flexDirection: 'row',
-        marginBottom:10
+        marginBottom: 10
     },
     center_view: {
         position: 'absolute',
@@ -130,9 +132,11 @@ import { backgroundColor } from './../assets/color';
 export const Category = (props) => {
     const navigation = props.navigation;
     const [tab, setTab] = React.useState(null)
+    const dispatch = useDispatch()
     const navigate = (n) => {
         navigation.navigate(n, { title: tab })
         props.close(false)
+        dispatch(setLoader(''))
     }
     return (
         <View style={{
@@ -147,14 +151,16 @@ export const Category = (props) => {
                 <IconsSet style={{
                     backgroundColor: tab == 'Popular Hotel' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    setTab('Popular Hotel')
-                    navigate('Hotels')
+                    navigation.navigate('Category Single', { title: 'Hotels' })
+                    dispatch(setLoader('SearchHotel'))
+                    dispatch(setBottomSheet(null))
                 }} name='Hotels' icon={Hotels} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Restaurant' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    setTab('Restaurant')
-                    navigate('Restaurants')
+                    navigation.navigate('Category Single', { title: 'Restaurants' })
+                    dispatch(setLoader('SearchDeal'))
+                    dispatch(setBottomSheet(null))
                 }} name='Restaurants' icon={Restaurant} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Games' ? '#D8D8D8' : '#FFFF'
@@ -166,7 +172,7 @@ export const Category = (props) => {
                     backgroundColor: tab == 'Shopping' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
                     //setTab('Shopping')
-                   // navigate()
+                    // navigate()
                 }} name='Shopping' icon={Shopping} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Villas' ? '#D8D8D8' : '#FFFF'
@@ -178,31 +184,32 @@ export const Category = (props) => {
                     backgroundColor: tab == 'Camping' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
                     //setTab('Camping')
-                   // navigate()
+                    // navigate()
                 }} name='Camping' icon={Camping} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Travel' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
                     //setTab('Travel')
-                   // navigate()
+                    // navigate()
                 }} name='Travel' icon={Travel} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Health' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                   // setTab('Health')
-                   // navigate()
+                    // setTab('Health')
+                    // navigate()
                 }} name='Health' icon={Health} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Spa & Salons' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    //setTab('Spa & Salons')
-                   // navigate()
+                    navigation.navigate('Category Single', { title: 'Salon' })
+                    dispatch(setLoader('Salon'))
+                    dispatch(setBottomSheet(null))
                 }} name='Spa & Salons' icon={Spa_Salons} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Services' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                   // setTab('Services')
-                  //  navigate()
+                    // setTab('Services')
+                    //  navigate()
                 }} name='Services' icon={Services} />
             </View>
         </View>

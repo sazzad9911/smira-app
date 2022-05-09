@@ -151,7 +151,7 @@ const Home = ({ navigation }) => {
     <View style={{
       height: '100%',
       width: '100%',
-      backgroundColor: '#E5E5E5'
+      backgroundColor: backgroundColor(darkMode)
     }}>
       <ScrollView showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
@@ -231,11 +231,11 @@ const Home = ({ navigation }) => {
             }
             <IconsSet onPress={() => {
               navigation.navigate('Category Single', { title: 'Hotels' })
-              dispatch(setLoader('Hotels'))
+              dispatch(setLoader('SearchHotel'))
             }} name="Hotels" icon={Hotels} />
             <IconsSet onPress={() => {
               navigation.navigate('Category Single', { title: 'Restaurants' })
-              dispatch(setLoader('Restaurants'))
+              dispatch(setLoader('SearchDeal'))
             }} name="Restaurant" icon={Restaurant} />
             <IconsSet onPress={() => {
               //navigation.navigate('Category Single', { title: 'Games' })

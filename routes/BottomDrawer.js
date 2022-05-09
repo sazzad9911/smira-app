@@ -17,11 +17,11 @@ const BottomDrawer = (props) => {
     const dispatch = useDispatch()
     const handleSheetChanges = React.useCallback((index) => {
         if (index === -1 || index == false) {
-            dispatch(setBottomSheet(''))
+            dispatch(setBottomSheet(null))
         }
     }, []);
     return (
-        <BottomSheet backgroundStyle={{ backgroundColor: backgroundColor(pageSettings.darkMode) }}
+        <BottomSheet backgroundStyle={{ backgroundColor: textColor(!pageSettings.darkMode) }}
             handleIndicatorStyle={{ backgroundColor: subTextColor(pageSettings.darkMode) }}
             ref={bottomSheetRef}
             index={bottomSheet ? 1 : -1}
@@ -34,17 +34,16 @@ const BottomDrawer = (props) => {
                 backgroundColor: textColor(!pageSettings.darkMode),
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
-                shadowOpacity:{height: 1,width: 1},
-                shadowRadius: 5,elevation:5,shadowOpacity:.6,shadowColor:'#0000'
+                
             }}>
                 {
                     bottomSheet == 'category' ? (
                         <Category navigation={navigation}
-                            close={() => { }} />
+                            close={() => {handleSheetChanges }} />
                     ) : bottomSheet == 'calendar' ? (
-                        <HotelBooking close={() => { }} navigation={navigation} />
+                        <HotelBooking close={() => {handleSheetChanges }} navigation={navigation} />
                     ) : bottomSheet == 'filter' ? (
-                        <Filter close={() => { }} />
+                        <Filter close={() => {handleSheetChanges }} />
                     ) : bottomSheet == 'shortBy' ? (
                         <ShortBy />
                     ) : (

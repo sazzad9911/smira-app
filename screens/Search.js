@@ -78,6 +78,7 @@ const Hotels = (props) => {
   const [data, setData] = React.useState(null)
   const navigation = props.navigation
   const [selectedLanguage, setSelectedLanguage] = useState();
+  const [Focus, setFocus] = React.useState(false)
   React.useEffect(() => {
     getData('search').then((data) => {
       if (Array.isArray(data)) {
@@ -101,48 +102,55 @@ const Hotels = (props) => {
         }}>
 
 
-          <TextInput value={search} onChangeText={setSearch} onEndEditing={() => {
+          <TextInput value={search} onFocus={() => setFocus(!Focus)}
+            onChangeText={setSearch} onEndEditing={() => {
 
-            const get = getData('search').then((data) => {
-              if (data) {
-                let arr = data;
-                arr.push(search);
-                storeData('search', arr).catch(err => {
-                  console.log('Error: Search.js->' + err.message);
-                }).then(() => {
-                  props.setSearchParams('Hotels')
-                })
-              } else {
-                let arr = [];
-                arr.push(search);
-                storeData('search', arr).catch(err => {
-                  console.log('Error: Search.js->' + err.message)
-                }).then(() => {
-                  props.setSearchParams('Hotels')
-                })
-              }
-            })
-          }} style={{
-            flex: 6, paddingLeft: 20,
-            height: '100%'
-          }}
+              const get = getData('search').then((data) => {
+                if (data) {
+                  let arr = data;
+                  arr.push(search);
+                  storeData('search', arr).catch(err => {
+                    console.log('Error: Search.js->' + err.message);
+                  }).then(() => {
+                    props.setSearchParams('Hotels')
+                  })
+                } else {
+                  let arr = [];
+                  arr.push(search);
+                  storeData('search', arr).catch(err => {
+                    console.log('Error: Search.js->' + err.message)
+                  }).then(() => {
+                    props.setSearchParams('Hotels')
+                  })
+                }
+              })
+            }} style={{
+              flex: 6, paddingLeft: 20,
+              height: '100%'
+            }}
             placeholder="Search" placeholderTextColor={'rgb(130,130,130)'} />
-          <View style={{
-            flex: 3, backgroundColor: '#f5f5f5', height: '100%',
-            borderTopRightRadius: 30, borderBottomRightRadius: 30, overflow: 'hidden'
-          }}>
-            <Picker
-              mode='dropdown'
-              selectedValue={props.SearchParam}
-              onValueChange={(itemValue, itemIndex) =>
-                props.setSearchParams(itemValue)
-              }
-              style={{ color: '#808080' }}
-              itemStyle={{ width: '100%', backgroundColor: 'rgb(220,220,220)' }}>
-              <Picker.Item label="Hotels" value="Hotels" />
-              <Picker.Item label="Deals" value="Deals" />
-            </Picker>
-          </View>
+          {
+            Focus ? (
+              <View></View>
+            ) : (
+              <View style={{
+                flex: 3, backgroundColor: '#f5f5f5', height: '100%',
+                borderTopRightRadius: 30, borderBottomRightRadius: 30, overflow: 'hidden'
+              }}>
+                <Picker
+                  mode='dropdown'
+                  selectedValue={props.SearchParam}
+                  onValueChange={(itemValue, itemIndex) =>
+                    props.setSearchParams(itemValue)
+                  }
+                  style={{ color: '#808080' }}
+                  itemStyle={{ width: '100%', backgroundColor: 'rgb(220,220,220)' }}>
+                  <Picker.Item label="Hotels" value="Hotels" />
+                  <Picker.Item label="Deals" value="Deals" />
+                </Picker>
+              </View>
+            )
+          }
           {
             /*
   <TouchableOpacity
@@ -165,7 +173,7 @@ const Hotels = (props) => {
         </View>
 
         <TouchableOpacity onPress={() => {
-          props.navigation.goBack()
+          props.navigation.navigate('UserHome')
         }} style={{ width: '10%', alignItems: 'flex-end' }}>
           <MaterialIcons name="close" size={24} color="white" />
         </TouchableOpacity>
@@ -240,7 +248,7 @@ const Hotels = (props) => {
         <View style={{ height: 0 }}></View>
       </LinearGradient>
       <View>
-        <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between'}}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Text style={{
             fontFamily: 'PlusJakartaSansBold', fontSize: 18, marginTop: 20,
             marginBottom: 10, marginLeft: 20, marginRight: 20

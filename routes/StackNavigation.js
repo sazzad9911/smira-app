@@ -126,7 +126,6 @@ const Dashboard = ({ navigation }) => {
     const category = React.useMemo(() => ['10%', '45%'], []);
     const filter = React.useMemo(() => ['10%', '60%'], []);
     const shortBy = React.useMemo(() => ['10%', '30%'], []);
-    const other= React.useMemo(() => ['10%', '90%'],[]);
     const [open, setOpen] = React.useState(1)
 
     // callbacks
@@ -148,7 +147,7 @@ const Dashboard = ({ navigation }) => {
                     <BottomDrawer snapPoints={shortBy} navigation={navigation} />
                 ) :
                     (
-                        <BottomDrawer snapPoints={other} navigation={navigation} />
+                        <View></View>
                     )
             }
             <AnimatedLoader

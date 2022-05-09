@@ -16,6 +16,6 @@ export const backgroundColor=(isDark)=>{
     if(isDark) {
         return '#222222'
     }else{
-        return '#FFFF'
+        return '#F5F5F5'
     }
 }

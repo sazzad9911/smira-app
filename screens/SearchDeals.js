@@ -134,7 +134,7 @@ export const Header = (props) => {
       </View>
 
       <TouchableOpacity onPress={() => {
-        navigation.navigate('Home')
+        props.navigation.navigate('UserHome')
       }} style={{ width: '10%', alignItems: 'flex-end' }}>
         <MaterialIcons name="close" size={24} color="white" />
       </TouchableOpacity>

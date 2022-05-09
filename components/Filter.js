@@ -49,7 +49,7 @@ const Filter = (props) => {
                             <Category title='Farm House' />
                         </View>
                     </>
-                ) : (
+                ) : route == 'SearchDeal' ? (
                     <>
                         <Text style={styles.headline}>Brands</Text>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
@@ -64,20 +64,46 @@ const Filter = (props) => {
                             }
                         </View>
                     </>
+                ) : route == 'Salon' ? (
+                    <>
+                        <Text style={styles.headline}>Brands</Text>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                            {
+                                brands ? (
+                                    brands.map((b, i) => (
+                                        <Brands key={i} title={b.name} />
+                                    ))
+                                ) : (
+                                    <View></View>
+                                )
+                            }
+                        </View>
+                        <Text style={styles.headline}>Distance</Text>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                            <Category title='0-5km'/>
+                            <Category title='5-10km'/>
+                            <Category title='10-15km'/>
+                            <Category title='15+km'/>
+                        </View>
+                    </>
+                ) : (
+                    <View></View>
                 )
             }
             <TouchableOpacity onPress={() => {
                 props.close(false)
             }} style={{
                 marginTop: route == 'SearchHotel' ? '10%' : '20%',
-                backgroundColor:'#FC444B',
+                backgroundColor: '#FC444B',
                 borderRadius: 30,
                 justifyContent: 'center',
                 alignItems: 'center',
-                height:55
+                height: 55
             }}>
-                <Text style={{ color: '#ffff',margin:10,
-                fontFamily: 'PlusJakartaSans',fontSize:16}}>APPLY</Text>
+                <Text style={{
+                    color: '#ffff', margin: 10,
+                    fontFamily: 'PlusJakartaSans', fontSize: 16
+                }}>APPLY</Text>
             </TouchableOpacity>
         </View>
     );
@@ -127,7 +153,7 @@ const Category = (props) => {
             color: '#808080',
             borderColor: category == props.title ? '#FC444B' : '#D8D8D8',
             padding: 10,
-            minWidth:100
+            minWidth: 100
         }}>
             <Text style={{
                 fontFamily: 'PlusJakartaSans',
@@ -155,7 +181,7 @@ const Brands = (props) => {
             backgroundColor: brand == props.title ? '#64B657' : '#ffff',
             color: '#808080',
             borderColor: '#D8D8D8',
-            padding:10
+            padding: 10
         }}>
             <Text style={{ marginLeft: 5, color: brand == props.title ? '#ffff' : '#808080', }}>{props.title}</Text>
         </TouchableOpacity>
