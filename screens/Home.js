@@ -219,10 +219,10 @@ const Home = ({ navigation }) => {
             }
           </View>
         </View>
-        <View style={{ borderWidth: 0.5, margin: 15, borderColor: 'rgb(220,220,220)' }}>
-        </View>
+        
 
-        <View style={{ backgroundColor: '#ffff', paddingTop: 10, paddingBottom: 10 }}>
+        <View style={{ backgroundColor: '#ffff', paddingTop: 10,
+         paddingBottom: 10,marginTop:10,marginBottom:10 }}>
           <View style={{
             flexDirection: 'row', flexWrap: 'wrap',
             alignItems: 'center', padding: 10, marginHorizontal: 10,
@@ -308,8 +308,7 @@ const Home = ({ navigation }) => {
 
           </View>
         </View>
-        <View style={{ borderWidth: 0.5, margin: 10, borderColor: 'rgb(220,220,220)' }}>
-        </View>
+        
         <View style={{ backgroundColor: 'white', paddingBottom: 20 }}>
           <View style={{
             width: '95%',

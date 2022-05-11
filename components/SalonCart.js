@@ -224,7 +224,7 @@ const Cart = (props) => {
                                 marginLeft: 5
                             }}>₹199</Text>
                         </View>
-                        <Text style={style.cartText}>Inc. of all taxes</Text>
+                    <Text style={[style.cartText]}>Inc. of all taxes</Text>
                     </View>
                 </View>
                 {
