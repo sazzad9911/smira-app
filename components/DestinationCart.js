@@ -1,37 +1,45 @@
 import React from 'react';
-import {View,Text,TouchableOpacity,Image} from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useSelector, useDispatch } from 'react-redux'
+import { setLoader } from '../action';
 
-const DestinationCart = () => {
+const DestinationCart = (props) => {
+    const data = props.data
+    const navigation = props.navigation;
+    const dispatch = useDispatch()
     return (
-        <TouchableOpacity style={{
-            marginLeft:10,
-            borderRadius:10,
-            width:160,
-            height:250
+        <TouchableOpacity onPress={() => {
+            navigation.navigate('Category Single', { title: 'Hotels',search: 'Goa'})
+            dispatch(setLoader('SearchHotel'))
+        }} style={{
+            marginLeft: 10,
+            borderRadius: 10,
+            width: 160,
+            height: 250
         }}>
             <Image style={{
                 width: '100%',
                 height: '100%',
                 borderRadius: 10,
-            }} source={{ uri:'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/33/fc/f0/goa.jpg?w=700&h=500&s=1'}}/>
+            }} source={{ uri: data.image }} />
             <LinearGradient style={{
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
                 top: 0,
                 left: 0,
-                justifyContent:'flex-end',
-                padding:20,
+                justifyContent: 'flex-end',
+                padding: 20,
                 borderRadius: 10,
             }} colors={['rgba(0, 0, 0, 0.183)', 'rgba(0, 0, 0, 0.836)']}>
-            <Text style={{
-                color:'white',
-                fontSize:20,
-                fontFamily:'PlusJakartaSansBold',
-                textAlign: 'center',
-                marginBottom:10
-            }}>Goa</Text>
+                <Text style={{
+                    color: 'white',
+                    fontSize: 20,
+                    fontFamily: 'PlusJakartaSansBold',
+                    textAlign: 'center',
+                    marginBottom: 10
+                }}>{data.city}</Text>
             </LinearGradient>
         </TouchableOpacity>
     );

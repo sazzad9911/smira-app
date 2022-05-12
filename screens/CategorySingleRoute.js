@@ -61,13 +61,7 @@ const CategorySingleRoute = (props) => {
 
     return (
         <View style={styles.body}>
-            {
-                title != 'Salon' ? (
-                    <Header navigation={navigation} title={title} />
-                ) : (
-                    <NewHeader navigation={navigation}/>
-                )
-            }
+             <NewHeader navigation={navigation}/>
             <Direction />
             <BottomDirection />
         </View>
@@ -138,7 +132,7 @@ export const NewHeader = ({ navigation}) => {
             }}>
                 <AntDesign name="left" size={20} color="#ffff" />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() =>navigation.navigate('Search')}>
                 <SvgXml
                     style={{
                         marginRight: 20,

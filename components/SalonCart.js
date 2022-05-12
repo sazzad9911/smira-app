@@ -1,16 +1,32 @@
 import React from 'react';
 import {
     View, TouchableOpacity, Image, Text,
-    StyleSheet, Modal, ScrollView, Platform
+    StyleSheet, Modal, ScrollView, Platform, ActivityIndicator, Linking, Dimensions
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import { textColor, backgroundColor } from './../assets/color';
 import { AntDesign } from '@expo/vector-icons';
+import * as Clipboard from 'expo-clipboard';
+import app from '../firebase';
+import { getAuth } from 'firebase/auth';
+import { postData, url } from '../action'
+import { SvgXml } from 'react-native-svg';
+import { call, location, leftArrow, upArrow, rightArrow } from './Icon';
 
-const SalonCart = () => {
+const SalonCart = (props) => {
     const darkMode = useSelector(state => state.pageSettings.darkMode)
     const [ModalVisible, setModalVisible] = React.useState(false)
-    const [Confirm, setConfirm] = React.useState(false);
+    const data = props.data
+    const deals = useSelector(state => state.deals)
+    const [total, setTotal] = React.useState([])
+
+    React.useEffect(() => {
+        if (deals) {
+            let arr = deals.filter(deals => deals.deal.brand_id == data.id)
+            setTotal(arr)
+        }
+
+    }, [deals])
     return (
         <View style={{ backgroundColor: textColor(!darkMode), padding: 10, marginTop: 10 }}>
             <TouchableOpacity onPress={() => setModalVisible(true)} style={{
@@ -23,126 +39,26 @@ const SalonCart = () => {
                     height: 70,
                     width: 70,
                     margin: 20,
-                }} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/5309/5309779.png' }} />
+                    borderRadius: 35
+                }} source={{ uri: data ? data.image : '' }} />
                 <View style={{
                     marginVertical: 20
                 }}>
                     <Text numberOfLines={1} style={{
                         fontSize: 18,
                         fontFamily: 'PlusJakartaSansBold'
-                    }}>Kapil’s Salon & Academy</Text>
-                    <Text style={style.subText} numberOfLines={1}>Poisar, Kandivali West - 0.7 km</Text>
-                    <Text style={style.subText} numberOfLines={1}>12 Offers</Text>
+                    }}>{data ? data.name : ''}</Text>
+                    <Text style={[style.subText, { width: 200 }]} numberOfLines={1}>{data ? data.address : ''}</Text>
+                    <Text style={style.subText} numberOfLines={1}>{total.length} Offers</Text>
                 </View>
-                <AntDesign style={{
-                    alignSelf: 'flex-end',
-                    margin: 20
-                }} name="rightcircleo" size={24} color="#FC444B" />
+                <SvgXml style={{
+                    position: 'absolute',
+                    bottom: 20,
+                    right: 20
+                }} xml={rightArrow} height="24" width="24" />
             </TouchableOpacity>
             <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
-                <View style={{ backgroundColor: backgroundColor(darkMode), height: '100%' }}>
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        padding: 10,
-                        paddingVertical: 15,
-                    }}>
-                        <TouchableOpacity onPress={() => {
-                            setModalVisible(false);
-                        }} style={{
-                            backgroundColor: '#808080',
-                            padding: 7,
-                            borderRadius: 20
-                        }}>
-                            <AntDesign name="left" size={20} color="#ffff" />
-                        </TouchableOpacity>
-                    </View>
-                    {
-                        Confirm ? (
-                            <View style={{
-                                backgroundColor: backgroundColor(darkMode),
-                                justifyContent: 'center',
-                                height:'75%',
-                                alignItems: 'center'
-                            }}>
-                                <View style={{
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
-                                }}>
-                                    <AntDesign name="checkcircle" size={60} color="#FC444B" />
-                                    <Text style={{
-                                        fontSize: 20,
-                                        fontWeight: "bold",
-                                        marginTop: 20,
-                                        fontFamily: 'PlusJakartaSansBold'
-                                    }}>Congratulations!</Text>
-                                    <Text style={{
-                                        fontSize: 14,
-                                        color: '#585858',
-                                        fontFamily: 'PlusJakartaSans'
-                                    }}>You have successfully booked. </Text>
-                                    <Text style={{
-                                        fontSize: 14,
-                                        color: '#585858',
-                                        fontFamily: 'PlusJakartaSans'
-                                    }}>Please check for confirmation email.</Text>
-                                </View>
-                            </View>
-                        ) : (
-                            <View>
-                                <View style={{
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    backgroundColor: '#fff'
-                                }}>
-                                    <View style={{
-                                        flex: 3
-                                    }}>
-                                        <Image style={{
-                                            height: 70,
-                                            width: 70,
-                                            margin: 20,
-                                        }} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/5309/5309779.png' }} />
-                                    </View>
-                                    <View style={{
-                                        flex: 5
-                                    }}>
-                                        <Text numberOfLines={1} style={{
-                                            fontSize: 18,
-                                            fontFamily: 'PlusJakartaSansBold'
-                                        }}>Kapil’s Salon & Academy</Text>
-                                        <Text style={style.subText} numberOfLines={1}>Poisar, Kandivali West - 0.7 km</Text>
-                                    </View>
-                                    <View style={{
-                                        flexDirection: 'row',
-                                        flex: 3,
-                                    }}>
-                                        <AntDesign style={{ marginLeft: 20 }} name="phone" size={24} color="#FC444B" />
-                                        <AntDesign style={{ marginLeft: 10 }} name="enviromento" size={24} color="#FC444B" />
-                                    </View>
-                                </View>
-                                <View style={{
-                                    backgroundColor: '#ffff',
-                                    marginVertical: 10,
-                                    height: 40,
-                                    justifyContent: 'center',
-                                    paddingHorizontal: 20
-                                }}>
-                                    <Text style={{
-                                        color: '#000000',
-                                        fontFamily: 'PlusJakartaSans',
-                                        fontSize: 14,
-                                    }}>12 Offers</Text>
-                                </View>
-                                <ScrollView style={{ backgroundColor: backgroundColor(darkMode) }}>
-                                    <Cart book={()=>setConfirm(true)} user={true} />
-                                    <Cart book={()=>setConfirm(true)} user={false} />
-                                    <Cart book={()=>setConfirm(true)} user={false} />
-                                </ScrollView>
-                            </View>
-                        )
-                    }
-                </View>
+                <DetailsCart setModalVisible={setModalVisible} data={data} />
             </Modal>
         </View>
     );
@@ -150,43 +66,213 @@ const SalonCart = () => {
 
 export default SalonCart;
 
-const Cart = (props) => {
+export const DetailsCart = (props) => {
+    const [Confirm, setConfirm] = React.useState(false);
+    const user = useSelector(state => state.user)
+    const [total, setTotal] = React.useState([])
+    const deals = useSelector(state => state.deals)
+    const darkMode = useSelector(state => state.pageSettings.darkMode)
+    const data = props.data
+    const window = Dimensions.get('window')
+
+    React.useEffect(() => {
+        if (deals) {
+            let arr = deals.filter(deals => deals.deal.brand_id == data.id)
+            setTotal(arr)
+        }
+
+    }, [deals])
+
+    return (
+        <View style={{ backgroundColor: backgroundColor(darkMode), height: '100%' }}>
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                padding: 10,
+                paddingVertical: 15,
+            }}>
+                <TouchableOpacity onPress={() => {
+                    props.setModalVisible(false);
+                }} style={{
+                    backgroundColor: '#808080',
+                    padding: 7,
+                    borderRadius: 20
+                }}>
+                    <AntDesign name="left" size={20} color="#ffff" />
+                </TouchableOpacity>
+            </View>
+            {
+                Confirm ? (
+                    <View style={{
+                        backgroundColor: backgroundColor(darkMode),
+                        justifyContent: 'center',
+                        height: '75%',
+                        alignItems: 'center'
+                    }}>
+                        <View style={{
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                            <AntDesign name="checkcircle" size={60} color="#FC444B" />
+                            <Text style={{
+                                fontSize: 20,
+                                fontWeight: "bold",
+                                marginTop: 20,
+                                fontFamily: 'PlusJakartaSansBold'
+                            }}>Congratulations!</Text>
+                            <Text style={{
+                                fontSize: 14,
+                                color: '#585858',
+                                fontFamily: 'PlusJakartaSans'
+                            }}>You have successfully booked. </Text>
+                            <Text style={{
+                                fontSize: 14,
+                                color: '#585858',
+                                fontFamily: 'PlusJakartaSans'
+                            }}>Please check for confirmation email.</Text>
+                        </View>
+                    </View>
+                ) : (
+                    <View style={{ height: window.height - 60 }}>
+                        <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            backgroundColor: '#fff'
+                        }}>
+                            <View style={{
+                                flex: 3
+                            }}>
+                                <Image style={{
+                                    height: 70,
+                                    width: 70,
+                                    margin: 20,
+                                    borderRadius: 35
+                                }} source={{ uri: data.image }} />
+                            </View>
+                            <View style={{
+                                flex: 5
+                            }}>
+                                <Text numberOfLines={1} style={{
+                                    fontSize: 18,
+                                    fontFamily: 'PlusJakartaSansBold'
+                                }}>{data.name}</Text>
+                                <Text style={style.subText} numberOfLines={1}>{data.address}</Text>
+                            </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                flex: 3,
+                            }}>
+                                <TouchableOpacity onPress={() => Linking.openURL(`tel:+91` + data.phone)}>
+                                    <SvgXml xml={call} height="30" width="30" />
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => Linking.openURL(data.location ? data.location : 'https://goo.gl/maps/9qdMw2BYBYTb8GL2A')}>
+                                    <SvgXml xml={location} height="30" width="30" />
+                                </TouchableOpacity>
+
+                            </View>
+                        </View>
+                        <View style={{
+                            backgroundColor: '#ffff',
+                            marginVertical: 10,
+                            height: 40,
+                            justifyContent: 'center',
+                            paddingHorizontal: 20
+                        }}>
+                            <Text style={{
+                                color: '#000000',
+                                fontFamily: 'PlusJakartaSans',
+                                fontSize: 14,
+                            }}>{total.length} Offers</Text>
+                        </View>
+                        <ScrollView style={{ backgroundColor: backgroundColor(darkMode) }}>
+                            {
+                                total.map((item, i) => (
+                                    <Cart data={item} key={i} book={() => setConfirm(true)}
+                                        user={user ? user[0].membership_type : false} />
+                                ))
+                            }
+                        </ScrollView>
+                    </View>
+                )
+            }
+        </View>
+    )
+}
+
+export const Cart = (props) => {
     const darkMode = useSelector(state => state.pageSettings.darkMode)
     const [Open, setOpen] = React.useState(false)
     const [ModalVisible, setModalVisible] = React.useState(false)
     const [Confirm, setConfirm] = React.useState(false);
+    const data = props.data
+    const [day, setDay] = React.useState([])
+    const [times, setTimes] = React.useState([])
+    const [discount, setDiscount] = React.useState(0)
+    const [Code, setCode] = React.useState(null)
+    const [Loader, setLoader] = React.useState(false)
+    const auth = getAuth(app);
+
+    React.useEffect(() => {
+        let newDay = data.deal.days.split(',')
+        setDay(newDay)
+        let newTimes = data.deal.time.split(',')
+        setTimes(newTimes)
+
+        let prices = data.deal.price - ((data.deal.price * data.deal.discount) / 100)
+        setDiscount(prices)
+
+    }, [data]);
+    const copyToClipboard = (code) => {
+        try {
+            Clipboard.setString(code)
+            setCode(!Code)
+        } catch (e) {
+            console.log(e.message)
+        }
+    };
+    const convertDate = (date) => {
+        let data = '';
+        return data = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate())
+    }
     return (
         <View style={{ backgroundColor: '#FFFF', marginBottom: 10, padding: 10 }}>
-            <TouchableOpacity onPress={() => setOpen(!Open)} style={{
+            <View style={{
                 borderWidth: 1,
                 borderRadius: 10,
                 borderColor: '#D8D8D8',
                 minHeight: 200,
                 padding: 20
             }}>
-                <View style={{
+                <TouchableOpacity onPress={() => setOpen(!Open)} style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between'
                 }}>
                     <Text numberOfLines={2} style={{
                         fontSize: 16,
                         fontFamily: 'PlusJakartaSansBold',
-                        width: '75%'
-                    }}>Limited Period Offer: Any Haircut + Blow Dry</Text>
-                    <AntDesign name={Open ? 'up' : "down"} size={24} color="#FC444B" />
-                </View>
+                        width: '75%',
+                        color: 'black'
+                    }}>{data.deal.name}</Text>
+                    {
+                        Open ? (
+                            <SvgXml xml={upArrow} height="23" width="23" />
+                        ) : (
+                            <SvgXml xml={leftArrow} height="23" width="23" />
+                        )
+                    }
+                </TouchableOpacity>
                 <View style={{ marginTop: 5 }}>
                     <View style={style.cartContainer}>
                         <Text style={style.cartText}>Valid on</Text>
-                        <Text style={style.cartHead}>All Days</Text>
+                        <Text style={style.cartHead}>{day.length == 7 ? 'All Days' : day[0] + "-" + day[day.length - 1]}</Text>
                     </View>
                     <View style={style.cartContainer}>
                         <Text style={style.cartText}>Timings</Text>
-                        <Text style={style.cartHead}>11:00 AM - 7:00 PM</Text>
+                        <Text style={style.cartHead}>{times.length > 0 ? times[0] : 'Off'}</Text>
                     </View>
                     <View style={style.cartContainer}>
                         <Text style={style.cartText}>Valid for</Text>
-                        <Text style={style.cartHead}>1 Female</Text>
+                        <Text style={style.cartHead}>{data.deal.for}</Text>
                     </View>
                 </View>
                 <View style={{
@@ -203,10 +289,9 @@ const Cart = (props) => {
                             fontFamily: 'PlusJakartaSansBold',
                             color: '#FC444B'
                         }}>Details</Text>
-                        <AntDesign style={{
-                            marginLeft: 5,
-                            marginTop: 5
-                        }} name="rightcircleo" size={14} color="#FC444B" />
+                        <SvgXml style={{
+                           marginLeft:5,marginTop:3
+                        }} xml={rightArrow} height="15" width="15" />
                     </TouchableOpacity>
                     <View>
                         <View style={{
@@ -217,39 +302,70 @@ const Cart = (props) => {
                                 fontFamily: 'PlusJakartaSans',
                                 color: '#808080',
                                 textDecorationLine: 'line-through'
-                            }}>₹400</Text>
+                            }}>₹{data.deal.price}</Text>
                             <Text style={{
                                 fontSize: 20,
                                 fontFamily: 'PlusJakartaSansBold',
                                 marginLeft: 5
-                            }}>₹199</Text>
+                            }}>₹{parseInt(discount)}</Text>
                         </View>
-                    <Text style={[style.cartText]}>Inc. of all taxes</Text>
+                        <Text style={[style.cartText]}>Inc. of all taxes</Text>
                     </View>
                 </View>
                 {
                     Open ? (
-                        <TouchableOpacity onPress={() =>props.book(true)} 
-                        disabled={props.user?false:true} style={{
-                            backgroundColor: !props.user ? 'transparent' : '#FC444B',
-                            justifyContent: 'center',
-                            borderRadius: 30,
-                            alignItems: 'center',
-                            marginTop: 10,
-                            borderColor: '#fc444b',
-                            borderWidth: 1,
-                            borderStyle: props.user ? 'solid' : 'dashed'
-                        }}>
-                            <Text style={{
-                                fontSize: 18,
-                                fontFamily: 'PlusJakartaSans',
-                                color: props.user ? '#ffff' : '#fc444b',
-                                marginVertical: 15
-                            }}>{props.user ? 'CONFIRM BOOKING' : 'PROMOCODE'}</Text>
+                        <TouchableOpacity onPress={() => {
+                            if (props.user) {
+                                setLoader(true);
+                                postData(url + '/setData', {
+                                    auth: auth.currentUser,
+                                    tableName: 'book_appointment',
+                                    columns: ['uid', 'deal_id', 'date'],
+                                    values: [auth.currentUser.uid, data.deal.id, convertDate(new Date())]
+                                }).then(data => {
+                                    if (data && data.insertId) {
+                                        setLoader(false);
+                                        return props.book(true)
+                                    }
+                                    setLoader(false);
+                                    console.log(data.message)
+                                }).catch(err => {
+                                    setLoader(false);
+                                    console.log(err.message)
+                                })
+
+                            } else {
+                                copyToClipboard(data.deal.code)
+                            }
+                        }}
+                            style={{
+                                backgroundColor: !props.user ? 'transparent' : '#FC444B',
+                                justifyContent: 'center',
+                                borderRadius: 30,
+                                alignItems: 'center',
+                                marginTop: 10,
+                                borderColor: '#fc444b',
+                                borderWidth: 1,
+                                borderStyle: props.user ? 'solid' : 'dashed',
+                                height: 60
+                            }}>
+                            {
+                                Loader ? (
+                                    <ActivityIndicator size="large" color="#FFFF" />
+                                ) : (
+                                    <Text style={{
+                                        fontSize: 18,
+                                        fontFamily: 'PlusJakartaSans',
+                                        color: props.user ? '#ffff' : '#fc444b',
+                                        marginVertical: 15
+                                    }}>{props.user ? 'CONFIRM BOOKING' : Code ? 'DONE' : data.deal.code}</Text>
+                                )
+                            }
+
                         </TouchableOpacity>
                     ) : (<View></View>)
                 }
-            </TouchableOpacity>
+            </View>
             <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
                 <View style={{
                     height: '100%',
@@ -301,22 +417,20 @@ const Cart = (props) => {
                             <View style={{
                                 width: '40%'
                             }}>
-                                <Text style={style.dateText}>Monday</Text>
-                                <Text style={style.dateText}>Tuesday</Text>
-                                <Text style={style.dateText}>Wednesday</Text>
-                                <Text style={style.dateText}>Thursday</Text>
-                                <Text style={style.dateText}>Friday</Text>
-                                <Text style={style.dateText}>Saturday</Text>
-                                <Text style={style.dateText}>Sunday</Text>
+                                {
+                                    day.map((doc, i) => (
+                                        <Text key={i} style={style.dateText}>{doc}</Text>
+                                    ))
+                                }
+
                             </View>
                             <View>
-                                <Text style={style.dateText}>10:00 AM - 06:00 PM</Text>
-                                <Text style={style.dateText}>10:00 AM - 06:00 PM</Text>
-                                <Text style={style.dateText}>10:00 AM - 06:00 PM</Text>
-                                <Text style={style.dateText}>10:00 AM - 06:00 PM</Text>
-                                <Text style={style.dateText}>10:00 AM - 06:00 PM</Text>
-                                <Text style={style.dateText}>10:00 AM - 06:00 PM</Text>
-                                <Text style={style.dateText}>10:00 AM - 06:00 PM</Text>
+
+                                {
+                                    times.map((time, i) => (
+                                        <Text key={i} style={style.dateText}>{time}</Text>
+                                    ))
+                                }
                             </View>
                         </View>
                         <Text style={[style.headline, {

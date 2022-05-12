@@ -80,6 +80,7 @@ const StackNavigation = () => {
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
                     <Stack.Screen options={{header:(props)=><Header title='Our Brands' {...props}/>}} name='OurBrand' component={OurBrand} />
+                    <Stack.Screen options={{ headerShown: false }} name="Search" component={Search} />
                 </Stack.Navigator>
             </NavigationContainer>
         ) 
@@ -98,6 +99,7 @@ const StackNavigation = () => {
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
                     <Stack.Screen options={{header:(props)=><Header title='Our Brands' {...props}/>}} name='OurBrand' component={OurBrand} />
+                    <Stack.Screen options={{ headerShown: false }} name="Search" component={Search} />
                 </Stack.Navigator>
             </NavigationContainer>
         );
@@ -113,6 +115,7 @@ import Language from './../screens/Language';
 import ResetPassword from './../screens/ResetPassword';
 import RedeemHistory from '../screens/RedeemHistory';
 import OurBrand from '../screens/OurBrand';
+import Search from './../screens/Search';
 
 const Dashboard = ({ navigation }) => {
     const bottomSheetRef = React.useRef();

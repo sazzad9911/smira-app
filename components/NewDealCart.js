@@ -4,8 +4,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const NewDealCart = (props) => {
+    const data=props.data
     return (
-        <TouchableOpacity style={{
+        <TouchableOpacity onPress={props.onPress} style={{
             height: 230,
             width:200,
             borderRadius:10,
@@ -17,7 +18,7 @@ const NewDealCart = (props) => {
             <Image style={{
                 width: '100%',
                 height: '100%',
-            }} source={{ uri: "https://4.imimg.com/data4/YD/NN/ANDROID-52189106/product-500x500.jpeg" }} />
+            }} source={{ uri: data.deal.image }} />
             <LinearGradient style={{
                 width: '100%',
                 height: '100%',
@@ -37,13 +38,13 @@ const NewDealCart = (props) => {
                             color:'#ffff',
                             fontFamily:'PlusJakartaSansBold',
                             fontSize:20
-                        }}>Haircuts</Text>
+                        }}>{data.brand.type}</Text>
                         <Text style={{
                             color:'#ffff',
                             fontSize:14,
                             fontFamily:'PlusJakartaSans',
                             marginTop:0
-                        }}>Under ₹1999</Text>
+                        }}>Under   ₹{data.deal.price}</Text>
                     </View>
                 </View>
             </LinearGradient>

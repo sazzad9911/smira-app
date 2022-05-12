@@ -1,6 +1,6 @@
 import {
   Image, ScrollView, StyleSheet, Text,
-  TouchableOpacity, View, StatusBar, Dimensions, ActivityIndicator, Modal
+  TouchableOpacity, View, StatusBar, Dimensions, ActivityIndicator, Modal, Alert, BackHandler
 } from 'react-native'
 import React, { useState, useCallback, useMemo, useRef } from 'react'
 import { AntDesign } from '@expo/vector-icons'
@@ -35,7 +35,7 @@ import Bottom from './../components/Bottom';
 import ImageBanner from '../components/ImageBanner';
 import ItemCart from '../components/ItemCart';
 import SideSwipe from 'react-native-sideswipe';
-
+import { useRoute } from '@react-navigation/native';
 
 
 const window = Dimensions.get('window')
@@ -53,7 +53,12 @@ const Home = ({ navigation }) => {
   const darkMode = useSelector(state => state.pageSettings.darkMode)
   const [modalVisible, setModalVisible] = React.useState(false)
   const [SliderData, setSliderData] = React.useState(null)
-  //
+  const [First, setFirst] = React.useState(null)
+  const [Second, setSecond] = React.useState(null)
+  const [Item, setItem] = React.useState([])
+  const [NewData, setNewData] = React.useState(null)
+  const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState(null)
+  const route = useRoute();
 
   React.useEffect(() => {
     let data = postData(url + "/getData", {
@@ -116,7 +121,9 @@ const Home = ({ navigation }) => {
       if (Array.isArray(data)) {
         storeDeals(data);
         let arr = []
+        let category = ""
         data.map((data) => {
+          category = category + data.type + ","
           Brand.map(b => {
             if (b.id === data.brand_id) {
               let doc = { deal: data, brand: b }
@@ -124,7 +131,24 @@ const Home = ({ navigation }) => {
             }
           })
         })
+        let newData = category.split(',')
+        newData = getUnique(newData)
+        let z = []
+        if (newData.length > 0) {
+          z.push(newData.length)
+        }
+        if (newData.length > 5) {
+          z.push(newData.length)
+        } if (newData.length > 9) {
+          z.push(newData.length)
+        } if (newData.length > 13) {
+          z.push(newData.length)
+        }
+        setNewData(newData)
+        setItem(z)
         setBrandDeal(arr)
+        let first = arr.filter(e => e.brand.type != 'Restaurant')
+        setFirst(first)
         return dispatch(setDeals(arr));
       }
       return data
@@ -133,6 +157,17 @@ const Home = ({ navigation }) => {
       return data
     })
   }, [Brand])
+  function getUnique(array) {
+    var uniqueArray = [];
+
+    // Loop through array values
+    for (var value of array) {
+      if (uniqueArray.indexOf(value) === -1) {
+        uniqueArray.push(value);
+      }
+    }
+    return uniqueArray;
+  }
   React.useEffect(() => {
     let data = postData(url + "/getData", {
       tableName: 'hotels',
@@ -148,6 +183,42 @@ const Home = ({ navigation }) => {
       return data
     })
   }, [])
+  React.useEffect(() => {
+    postData(url + '/getData', {
+      tableName: 'addresses',
+    }).then(data => {
+      if (Array.isArray(data)) {
+        return setSecond(data)
+      }
+      console.log(data.message)
+    })
+  }, [])
+  //console.log(NewData)
+
+  React.useEffect(() => {
+    const backAction = () => {
+      
+      if(route.name!='UserHome') {
+        return
+      }
+      Alert.alert("Exit App!", "Are you sure you want to exit app?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
   return (
     <View style={{
       height: '100%',
@@ -219,10 +290,10 @@ const Home = ({ navigation }) => {
             }
           </View>
         </View>
-        
-
-        <View style={{ backgroundColor: '#ffff', paddingTop: 10,
-         paddingBottom: 10,marginTop:10,marginBottom:10 }}>
+        <View style={{
+          backgroundColor: '#ffff', paddingTop: 10,
+          paddingBottom: 10, marginTop: 10, marginBottom: 10
+        }}>
           <View style={{
             flexDirection: 'row', flexWrap: 'wrap',
             alignItems: 'center', padding: 10, marginHorizontal: 10,
@@ -263,8 +334,7 @@ const Home = ({ navigation }) => {
             {
               More ? (
                 <IconsSet onPress={() => {
-                  navigation.navigate('Category Single', { title: 'Salon' })
-                  dispatch(setLoader('Salon'))
+
                 }} name="Spa & Salons" icon={Spa_Salons} />
               ) : (<></>)
             }
@@ -308,7 +378,7 @@ const Home = ({ navigation }) => {
 
           </View>
         </View>
-        
+
         <View style={{ backgroundColor: 'white', paddingBottom: 20 }}>
           <View style={{
             width: '95%',
@@ -329,9 +399,16 @@ const Home = ({ navigation }) => {
           <ScrollView showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false} horizontal={true} >
             <View style={{ width: 10 }}></View>
-            <NewDealCart />
-            <NewDealCart />
-            <NewDealCart />
+            {
+              BrandDeal ? (
+                BrandDeal.map((doc, i) => (
+                  <NewDealCart key={i} onPress={() => {
+                    navigation.navigate('Category Single', { title: 'Salon' })
+                    dispatch(setLoader('Salon'))
+                  }} data={doc} />
+                ))
+              ) : (<ActivityIndicator size="large" color="#FA454B" />)
+            }
             <View style={{ width: 10 }}></View>
           </ScrollView>
         </View>
@@ -403,8 +480,8 @@ const Home = ({ navigation }) => {
               color: textColor(darkMode)
             }}>Activities Near You</Text>
             <TouchableOpacity onPress={() => {
-              navigation.navigate('Category Single', { title: 'Popular Hotels' })
-              dispatch(setLoader('SearchHotel'))
+              navigation.navigate('Category Single', { title: 'Salon' })
+              dispatch(setLoader('Salon'))
 
             }}>
               <Text style={{
@@ -416,60 +493,22 @@ const Home = ({ navigation }) => {
           </View>
           <ScrollView showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false} horizontal={true}>
-            <ActivitiesCart />
-            <ActivitiesCart />
-            <ActivitiesCart />
+            {
+              BrandDeal ? (
+                BrandDeal.map((doc, i) => (
+                  doc.brand.type != 'Restaurant' ? (
+                    <ActivitiesCart key={i} onPress={() => {
+                      navigation.navigate('Category Single', { title: 'Salon' })
+                      dispatch(setLoader('Salon'))
+                    }} data={doc} />
+                  ) : (<View key={i}></View>)
+                ))
+              ) : (<ActivityIndicator size="large" color="#FA454B" />)
+            }
             <View style={{ width: 10 }}></View>
           </ScrollView>
         </View>
-        <View style={{
-          width: '100%',
-          marginTop: 10, paddingBottom: 10,
-          backgroundColor: 'white'
-        }}>
-          <View>
-            <View style={{
-              width: '95%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-              <Text style={{
-                fontFamily: 'PlusJakartaSansBold',
-                fontSize: 16,
-                paddingHorizontal: 5,
-                paddingVertical: 15,
-                paddingLeft: 20,
-                color: textColor(darkMode)
-              }}>Popular Deals</Text>
-              <TouchableOpacity style={style.outline} onPress={() => {
-                navigation.navigate('Category Single', { title: 'Popular Deals' })
-                dispatch(setLoader('PopularDeal'))
-              }}>
-                <AntDesign name="right" size={20} color="black" />
-              </TouchableOpacity>
-            </View>
-            <ScrollView showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false} horizontal={true} >
-              <View style={{ width: 10 }}></View>
-              {
-                BrandDeal ? (
-                  BrandDeal.map(d => (
-                    <SmallDealCart key={d.deal.id} icon={d.brand.image}
-                      img={d.deal.image}
-                      title={d.deal.name}
-                      navigation={navigation}
-                      data={d.deal}
-                    />
-                  ))
-                ) : (
-                  <ActivityIndicator size="large" color="#FA454B" />
-                )
-              }
-              <View style={{ width: 10 }}></View>
-            </ScrollView>
-          </View>
-        </View>
+
         {
           ////
         }
@@ -479,7 +518,13 @@ const Home = ({ navigation }) => {
           backgroundColor: 'white',
           marginTop: 10
         }}>
-          <Banner img="https://travel.home.sndimg.com/content/dam/images/travel/fullset/2013/07/16/9a/california-camping.rend.hgtvcom.616.347.suffix/1491591965392.jpeg" name="Go Camping" />
+          {
+            First ? (
+              <Banner data={First[0]} />
+            ) : (
+              <ActivityIndicator size="large" color="#FA454B" />
+            )
+          }
         </View>
         <View style={{
           width: '100%',
@@ -505,10 +550,15 @@ const Home = ({ navigation }) => {
           <View style={{ height: 10 }}></View>
           <ScrollView showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false} horizontal={true}>
-            <DestinationCart />
-            <DestinationCart />
-            <DestinationCart />
-            <DestinationCart />
+            {
+              Second ? (
+                Second.map((doc, i) => (
+                  <DestinationCart navigation={navigation} data={doc} key={i} />
+                ))
+              ) : (
+                <ActivityIndicator size="large" color="#FA454B" />
+              )
+            }
             <View style={{ width: 10, }}></View>
           </ScrollView>
           <View style={{ height: 10 }} />
@@ -583,31 +633,47 @@ const Home = ({ navigation }) => {
           </View>
           <ScrollView style={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false} horizontal={true}>
-            <ImageBanner />
-            <ImageBanner />
-            <ImageBanner />
+            {
+              BrandDeal ? (
+                BrandDeal.map((doc, i) => (
+                  doc.brand.type == 'Restaurant' ? (
+                    <ImageBanner key={i} onPress={() => {
+                      navigation.navigate('Category Single', { title: 'Salon' })
+                      dispatch(setLoader('Salon'))
+                    }} data={doc} />
+                  ) : (<View key={i}></View>)
+                ))
+              ) : (<ActivityIndicator size="large" color="#FA454B" />)
+            }
             <View style={{ width: 10, }}></View>
           </ScrollView>
         </View>
         <ScrollView style={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false} horizontal={true}>
           {
-            [1, 2].map((doc, i) => (
+
+            Item.map((d, i) => (
               <View key={i} style={{
                 width: window.width,
                 paddingBottom: 10,
                 backgroundColor: 'white',
                 marginTop: 10,
                 paddingTop: 10,
+                flexDirection: 'row',
+                flexWrap: 'wrap'
               }}>
-                <View style={{ flexDirection: 'row' }}>
-                  <ItemCart name='Pizza' item='11' img='https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?b=1&k=20&m=938742222&s=170667a&w=0&h=HyfY78AeiQM8vZbIea-iiGmNxHHuHD-PVVuHRvrCIj4=' />
-                  <ItemCart name='Biryani' item='8' img='https://www.10minutesrecipe.com/wp-content/uploads/2021/07/Bangladeshi-Chicken-Biryani-Recipe-585x439.jpg' />
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <ItemCart name='Chinese' item='8' img='https://www.kinki.ca/wp-content/uploads/2018/05/Chow-mein.jpg' />
-                  <ItemCart name='Thali' item='1' img='https://cdn.pixabay.com/photo/2021/02/09/03/53/thai-food-5997301__340.jpg' />
-                </View>
+                {
+                  NewData.map((doc, j) => (
+                    (i + 1) * 4 > j ? (
+                      <ItemCart onPress={() => {
+                        navigation.navigate('Category Single', { title: 'Salon' })
+                        dispatch(setLoader('Salon'))
+                      }} key={j + i} name={doc} item='11' img='https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?b=1&k=20&m=938742222&s=170667a&w=0&h=HyfY78AeiQM8vZbIea-iiGmNxHHuHD-PVVuHRvrCIj4=' />
+                    ) : (
+                      <View key={j + i}></View>
+                    )
+                  ))
+                }
                 <View style={{ width: 10, }}></View>
               </View>
             ))
@@ -620,7 +686,13 @@ const Home = ({ navigation }) => {
           backgroundColor: 'white',
           marginTop: 10, paddingTop: 10,
         }}>
-          <Banner img="https://media.istockphoto.com/photos/side-view-of-peaceful-young-lady-having-healing-body-massage-picture-id1289177999?b=1&k=20&m=1289177999&s=170667a&w=0&h=Q1b7hDUTkK8e9oDMdCXP2GTMFO6upr1NCMx5MUVsRoY=" name="Relax" />
+          {
+            First ? (
+              <Banner data={First[First.length - 1]} />
+            ) : (
+              <ActivityIndicator size="large" color="#FA454B" />
+            )
+          }
         </View>
         <View style={{ height: 100 }}></View>
         <FamilyCode />

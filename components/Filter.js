@@ -138,10 +138,12 @@ const Ratings = (props) => {
 const Category = (props) => {
     const category = useSelector(state => state.recentSearch.category)
     const dispatch = useDispatch()
+    const [selectItem, setSelectItem]= React.useState(false)
 
     return (
         <TouchableOpacity onPress={() => {
             dispatch(setCategory(props.title));
+            setSelectItem(!selectItem)
         }} style={{
             borderWidth: 1,
             borderRadius: 25,
@@ -151,13 +153,13 @@ const Category = (props) => {
             flexDirection: 'row',
             margin: 5,
             color: '#808080',
-            borderColor: category == props.title ? '#FC444B' : '#D8D8D8',
+            borderColor: selectItem  ? '#FC444B' : '#D8D8D8',
             padding: 10,
             minWidth: 100
         }}>
             <Text style={{
                 fontFamily: 'PlusJakartaSans',
-                color: category == props.title ? '#FC444B' : '#808080',
+                color: selectItem  ? '#FC444B' : '#808080',
             }}>{props.title}</Text>
         </TouchableOpacity>
     )
@@ -165,10 +167,12 @@ const Category = (props) => {
 const Brands = (props) => {
     const brand = useSelector(state => state.recentSearch.brand)
     const dispatch = useDispatch()
+    const [selectedItem, setselectedItem]= React.useState(false)
 
     return (
         <TouchableOpacity onPress={() => {
             dispatch(setBrand(props.title));
+            setselectedItem(!selectedItem)
         }} style={{
             borderWidth: 1,
             borderRadius: 20,
@@ -178,12 +182,12 @@ const Brands = (props) => {
             alignItems: 'center',
             flexDirection: 'row',
             margin: 5,
-            backgroundColor: brand == props.title ? '#64B657' : '#ffff',
+            backgroundColor: selectedItem ? '#64B657' : '#ffff',
             color: '#808080',
             borderColor: '#D8D8D8',
             padding: 10
         }}>
-            <Text style={{ marginLeft: 5, color: brand == props.title ? '#ffff' : '#808080', }}>{props.title}</Text>
+            <Text style={{ marginLeft: 5, color: selectedItem ? '#ffff' : '#808080', }}>{props.title}</Text>
         </TouchableOpacity>
     )
 }

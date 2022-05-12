@@ -338,7 +338,7 @@ export const FamilyCode = () => {
         height: height, width: width, padding: 16, backgroundColor: 'rgba(0, 0, 0, 0.357)'
       }}>
         <View style={{
-          width: '100%', backgroundColor: backgroundColor(darkMode),
+          width: '100%', backgroundColor: textColor(!darkMode),
           shadowColor: '#000', shadowOpacity: 0.7, shadowRadius: 10, shadowOffset: {
             height: 3, width: 3
           }, borderRadius: 10, elevation: 10

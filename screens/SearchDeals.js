@@ -13,6 +13,7 @@ import { getData, storeData } from './Search'
 import { useSelector, useDispatch } from 'react-redux';
 import { postData, url, setLoader } from '../action';
 import { Picker } from '@react-native-picker/picker';
+import SalonCart from '../components/SalonCart';
 // import ActionSheet from '../components/ActionSheet';
 const window = Dimensions.get('window')
 
@@ -33,11 +34,11 @@ const SearchDeals = (props) => {
   React.useEffect(() => {
     //console.log(recentSearch)
     postData(url + '/searchData', {
-      tableName: 'deals',
-      searchColumn: 'brand',
+      tableName: 'brands',
+      searchColumn: 'type',
       searchData: SearchParam,
       orderColumn: recentSearch.shortBy,
-      filterColumn: 'brand',
+      filterColumn: 'name',
       filterValue: recentSearch.brand
     }).then(data => {
       if (Array.isArray(data)) {
@@ -65,23 +66,20 @@ const SearchDeals = (props) => {
         </View>
       </View>
       <View style={{
-        padding: 5,
+        padding: 0,
         alignItems: "center",
       }}>
-        <View>
-
-          {
+        {
             DealData ? (
-              DealData.map(doc => (
-                <DealCart data={doc} key={doc.id} headLine={doc.name}
-                  category={doc.brand} img={doc.image}
-                />
+              DealData.map((doc,i) => (
+                <View key={doc.id} style={{width:'100%'}}>
+                <SalonCart data={doc} key={i}/>
+                </View>
               ))
             ) : (
               <ActivityIndicator size="large" color="#FA454B" />
             )
           }
-        </View>
       </View>
     </ScrollView>
   )

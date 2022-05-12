@@ -9,7 +9,7 @@ import {
     activeExplore, inactiveExplore, activeCategory,
     inactiveCategory,
     activeMembership,
-    inactiveMembership, activeCall, inactiveCall, calender
+    inactiveMembership, activeCall, inactiveCall, calender,heart,fullHeart
 } from './Icon'
 import { useSelector, useDispatch } from 'react-redux';
 import { setBottomSheet, setLoader } from '../action'
@@ -45,10 +45,11 @@ const Bottom = (props) => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     //setActive('category')
-                    dispatch(setBottomSheet('category'))
+                   // dispatch(setBottomSheet('category'))
+                   navigation.navigate('WishList')
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginRight: 20 }}>
-                    <SvgXml xml={active == 'category' ? activeCategory : inactiveCategory} height="25" width="25" />
-                    <Text style={{ color: active == 'category' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Category</Text>
+                    <SvgXml xml={active == 'category' ? fullHeart : fullHeart} height="25" width="25" />
+                    <Text style={{ color: active == 'category' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>WishList</Text>
                 </TouchableOpacity>
             </View>
             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }}>
