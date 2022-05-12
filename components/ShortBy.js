@@ -82,7 +82,7 @@ const ShortBy = () => {
                         <List value={Check}
                             onChange={(val) => {
                                 //setCheck(val)
-                                dispatch(setShortBy('near_me'))
+                                dispatch(setShortBy('near me'))
                             }}
                             title='Near me'
                         />

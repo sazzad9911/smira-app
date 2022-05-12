@@ -232,10 +232,7 @@ const SignUpWithOtp = (props) => {
             setText('Please enter verification code first')
             return;
         }
-        if (Password.length < 6) {
-            setText('Password must be at least 6 characters')
-            return
-        }
+        
         setVisibility(true);
         try {
             const credential = PhoneAuthProvider.credential(
@@ -325,7 +322,8 @@ const SignUpWithOtp = (props) => {
 
 
                     <TouchableOpacity onPress={
-                        () => setNext(2)
+                        () => {setNext(2)
+                        setText('')}
                     } style={{
                         height: 60,
                         margin: 25,

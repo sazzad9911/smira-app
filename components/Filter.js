@@ -139,6 +139,12 @@ const Category = (props) => {
     const category = useSelector(state => state.recentSearch.category)
     const dispatch = useDispatch()
     const [selectItem, setSelectItem]= React.useState(false)
+    React.useEffect(()=>{
+        if(!category) {
+            setSelectItem(false)
+        }
+
+    },[category])
 
     return (
         <TouchableOpacity onPress={() => {
@@ -168,6 +174,13 @@ const Brands = (props) => {
     const brand = useSelector(state => state.recentSearch.brand)
     const dispatch = useDispatch()
     const [selectedItem, setselectedItem]= React.useState(false)
+
+    React.useEffect(()=>{
+        if(!brand) {
+            setselectedItem(false)
+        }
+
+    },[brand])
 
     return (
         <TouchableOpacity onPress={() => {
