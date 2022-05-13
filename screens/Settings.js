@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAnimatedLoader, setNotification, setTheme } from '../action';
 import { getData, storeData } from '../screens/WishList'
 import { textColor, backgroundColor, subTextColor } from './../assets/color';
+import {forgot} from '../components/Icon'
 
 const Settings = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
@@ -173,7 +174,7 @@ const Settings = ({ navigation }) => {
 
                 }} style={{ flexDirection: 'row', marginTop: 25 }}>
                     <View style={{ flex: 1 }}>
-                        <SvgXml xml={forgetPassword} height="20" width="20"
+                        <SvgXml xml={forgot} height="20" width="20"
                             style={{ marginLeft: 30, color: '#D8D8D8', marginLeft: 0 }} />
                     </View>
                     <View style={{ flex: 4 }}>

@@ -9,10 +9,12 @@ const PopularDeal = (props) => {
     const navigation = props.navigation
     const [DealData, setDealData] = React.useState(null)
     const darkMode = useSelector(state => state.pageSettings.darkMode)
+    const recentSearch = useSelector(state => state.recentSearch)
     React.useEffect(() => {
-        postData(url + "/getData", {
+        postData(url + "/searchData", {
             tableName: 'deals',
-            orderColumn: 'popularity'
+            searchColumn: 'address',
+            searchData: props.search,
         }).then(data => {
             if (Array.isArray(data)) {
                 return setDealData(data)

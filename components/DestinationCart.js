@@ -10,14 +10,14 @@ const DestinationCart = (props) => {
     const dispatch = useDispatch()
     return (
         <TouchableOpacity onPress={() => {
-            navigation.navigate('Category Single', { title: 'Hotels',search: 'Goa'})
-            dispatch(setLoader('SearchHotel'))
+            navigation.navigate('Category Single', { title: 'Hotels',search: data.city})
+            dispatch(setLoader('Hotels'))
         }} style={{
             marginLeft: 10,
             borderRadius: 10,
             width: 160,
             height: 250
-        }}>
+        }}> 
             <Image style={{
                 width: '100%',
                 height: '100%',

@@ -254,6 +254,7 @@ const SignUpWithOtp = (props) => {
                 })
         } catch (err) {
             //Alert.alert(err.code, err.message)
+            setText('Problem with sign up. Please try again later.')
             setVisibility(false)
         }
     }
@@ -351,7 +352,7 @@ const SignUpWithOtp = (props) => {
                 <AnimatedLoader
                     visible={visibility}
                     overlayColor="rgba(255,255,255,0.75)"
-                    source={require("../assets/9997-infinity-loader.json")}
+                    source={require("../assets/Loading.json")}
                     animationStyle={styles.lottie}
                     speed={1}
                 >
@@ -531,7 +532,7 @@ const SignUpWithOtp = (props) => {
                     <AnimatedLoader
                         visible={visibility}
                         overlayColor="rgba(255,255,255,0.75)"
-                        source={require("../assets/9997-infinity-loader.json")}
+                        source={require("../assets/Loading.json")}
                         animationStyle={styles.lottie}
                         speed={1}
                     >
@@ -626,7 +627,7 @@ const SignUpWithOtp = (props) => {
                             setText('We sent a verification code to your phone number')
                             setVisibility(false)
                         } catch (err) {
-                            setText(err.code)
+                            setText('We find a problem with this number.')
                             setVisibility(false)
                             console.log(err.message)
                         }
@@ -680,7 +681,7 @@ const SignUpWithOtp = (props) => {
                 <AnimatedLoader
                     visible={visibility}
                     overlayColor="rgba(255,255,255,0.75)"
-                    source={require("../assets/9997-infinity-loader.json")}
+                    source={require("../assets/Loading.json")}
                     animationStyle={styles.lottie}
                     speed={1}
                 >

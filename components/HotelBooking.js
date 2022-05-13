@@ -11,8 +11,9 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { getAuth } from 'firebase/auth'
 import app from '../firebase';
 import AnimatedLoader from "react-native-animated-loader";
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { textColor, subTextColor, backgroundColor } from './../assets/color';
+import { setBottomSheet } from './../action';
 
 const HotelBooking = (props) => {
     const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -30,12 +31,14 @@ const HotelBooking = (props) => {
     const navigation = props.navigation;
     const [submit, setSubmit] = React.useState(false)
     const [text, setText] = React.useState(null);
+    const dispatch = useDispatch()
 
     const convertDate = (date) => {
         let data = '';
         return data = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate())
     }
     const Confirm = () => {
+        dispatch(setBottomSheet(null))
         setLoader(true)
         postData(url + '/setData', {
             auth: auth.currentUser,
@@ -206,7 +209,7 @@ const HotelBooking = (props) => {
                     marginTop: 50,
                     marginLeft: 40,
                 }}>Where?</Text>
-                
+
                 <TextInput value={text} onChangeText={(val) => {
                     setText(val);
                     postData(url + '/searchData', {
@@ -463,9 +466,22 @@ const HotelBooking = (props) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <TouchableOpacity onPress={Confirm} disabled={count > 0 && count2 > 0 && text ? false : submit}
+                <TouchableOpacity onPress={() => {
+                    Alert.alert(
+                        "Confirmation",
+                        "Do you want to book this hotel now?",
+                        [
+                            {
+                                text: "Cancel",
+                                onPress: () => console.log("Cancel Pressed"),
+                                style: "cancel"
+                            },
+                            { text: "OK", onPress: () => Confirm() }
+                        ]
+                    );
+                }} disabled={count > 0 && count2 > 0 && text ? false : submit}
                     style={[style.viewEnd, {
-                        backgroundColor: count > 0 && count2 > 0 && text ? '#FC444B' : backgroundColor(darkMode),
+                        backgroundColor: count > 0 && count2 > 0 && text ? '#FC444B' : textColor(!darkMode),
                         borderWidth: count > 0 && count2 > 0 && text ? 0 : 1,
                         borderColor: '#FC444B'
                     }]}>
@@ -477,7 +493,7 @@ const HotelBooking = (props) => {
             <AnimatedLoader
                 visible={loader}
                 overlayColor="rgba(255,255,255,0.75)"
-                source={require("../assets/9997-infinity-loader.json")}
+                source={require("../assets/Loading.json")}
                 animationStyle={{
                     height: 100, width: 100,
                 }}

@@ -14,7 +14,7 @@ import Brands from '../components/Brands'
 import SmallDealCart from './../components/SmallDealCart';
 import { postData, url } from '../action';
 import { useDispatch } from 'react-redux';
-import { setDeals, setBrands, setHotels, setUser } from '../action'
+import { setDeals, setBrands, setHotels, setUser,setBottomSheet } from '../action'
 import { getAuth } from 'firebase/auth'
 import app from '../firebase';
 import { SvgXml } from 'react-native-svg';
@@ -59,6 +59,8 @@ const Home = ({ navigation }) => {
   const [NewData, setNewData] = React.useState(null)
   const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState(null)
   const route = useRoute();
+  const loader= useSelector(state => state.loader)
+  const bottomSheet = useSelector(state => state.pageSettings.bottomSheet)
 
   React.useEffect(() => {
     let data = postData(url + "/getData", {
@@ -196,18 +198,25 @@ const Home = ({ navigation }) => {
   //console.log(NewData)
 
   React.useEffect(() => {
+    console.log(route.name)
     const backAction = () => {
-      
-      if(route.name!='UserHome') {
-        return
+      if(!route.name){
+        return true
       }
+      
+      if(route.name!='UserHome' && bottomSheet) {
+        
+        return true
+      }
+      dispatch(setBottomSheet(null))
       Alert.alert("Exit App!", "Are you sure you want to exit app?", [
         {
           text: "Cancel",
           onPress: () => null,
           style: "cancel"
         },
-        { text: "YES", onPress: () => BackHandler.exitApp() }
+        { text: "YES", onPress: () => 
+        {BackHandler.exitApp()} }
       ]);
       return true;
     };
@@ -216,8 +225,6 @@ const Home = ({ navigation }) => {
       "hardwareBackPress",
       backAction
     );
-
-    return () => backHandler.remove();
   }, []);
   return (
     <View style={{
@@ -403,7 +410,7 @@ const Home = ({ navigation }) => {
               BrandDeal ? (
                 BrandDeal.map((doc, i) => (
                   <NewDealCart key={i} onPress={() => {
-                    navigation.navigate('Category Single', { title: 'Salon' })
+                    navigation.navigate('Category Single', { title: 'Salon',search:doc.brand.type })
                     dispatch(setLoader('Salon'))
                   }} data={doc} />
                 ))
@@ -447,11 +454,15 @@ const Home = ({ navigation }) => {
               flex: 3,
               marginBottom: 10, marginTop: 5
             }} horizontal={true}>
-            <View style={{ width: 0 }}></View>
+            <View style={{ width: 4 }}></View>
             {
               Brand ? (
                 Brand.map(d => (
-                  <Brands key={d.id} data={d} img={d.image} />
+                  <View key={d.id} style={{
+                    marginLeft:-6
+                  }}>
+                  <Brands  data={d} img={d.image} />
+                  </View>
                 ))
               ) : (
                 <ActivityIndicator size="large" color="#FA454B" />
@@ -666,7 +677,7 @@ const Home = ({ navigation }) => {
                   NewData.map((doc, j) => (
                     (i + 1) * 4 > j ? (
                       <ItemCart onPress={() => {
-                        navigation.navigate('Category Single', { title: 'Salon' })
+                        navigation.navigate('Category Single', { title: 'Salon',search:'Restaurant' })
                         dispatch(setLoader('Salon'))
                       }} key={j + i} name={doc} item='11' img='https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?b=1&k=20&m=938742222&s=170667a&w=0&h=HyfY78AeiQM8vZbIea-iiGmNxHHuHD-PVVuHRvrCIj4=' />
                     ) : (

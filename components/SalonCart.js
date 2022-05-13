@@ -160,7 +160,7 @@ export const DetailsCart = (props) => {
                             </View>
                             <View style={{
                                 flexDirection: 'row',
-                                flex: 3,
+                                flex: 2,
                             }}>
                                 <TouchableOpacity onPress={() => Linking.openURL(`tel:+91` + data.phone)}>
                                     <SvgXml xml={call} height="30" width="30" />
@@ -236,14 +236,14 @@ export const Cart = (props) => {
     }
     return (
         <View style={{ backgroundColor: '#FFFF', marginBottom: 10, padding: 10 }}>
-            <View style={{
+            <TouchableOpacity onPress={() => setOpen(!Open)} style={{
                 borderWidth: 1,
                 borderRadius: 10,
                 borderColor: '#D8D8D8',
                 minHeight: 200,
                 padding: 20
             }}>
-                <TouchableOpacity onPress={() => setOpen(!Open)} style={{
+                <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between'
                 }}>
@@ -260,7 +260,7 @@ export const Cart = (props) => {
                             <SvgXml xml={leftArrow} height="23" width="23" />
                         )
                     }
-                </TouchableOpacity>
+                </View>
                 <View style={{ marginTop: 5 }}>
                     <View style={style.cartContainer}>
                         <Text style={style.cartText}>Valid on</Text>
@@ -358,14 +358,14 @@ export const Cart = (props) => {
                                         fontFamily: 'PlusJakartaSans',
                                         color: props.user ? '#ffff' : '#fc444b',
                                         marginVertical: 15
-                                    }}>{props.user ? 'CONFIRM BOOKING' : Code ? 'DONE' : data.deal.code}</Text>
+                                    }}>{props.user ? 'CONFIRM BOOKING' : Code ? 'COPIED' : data.deal.code}</Text>
                                 )
                             }
 
                         </TouchableOpacity>
                     ) : (<View></View>)
                 }
-            </View>
+            </TouchableOpacity>
             <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
                 <View style={{
                     height: '100%',

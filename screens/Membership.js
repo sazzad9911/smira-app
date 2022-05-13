@@ -46,20 +46,23 @@ const Membership = ({ navigation }) => {
                     }
                     
                 </View>
-                <Text style={{
-                    marginTop: 10,
-                    color: '#585858',
-                    textAlign: 'center'
-                }}>Have a family code?</Text>
-                <TouchableOpacity onPress={() =>{
-                    dispatch(setFamilyCode(true));
-                }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 15, }}>
+                    <Text style={{
+                        marginBottom: 5,
+                        fontFamily: 'PlusJakartaSans',
+                        color: '#585858',
+                        fontSize: 14,
+                    }}>Have a family code?</Text>
                     <Text style={{
                         color: '#FC444B',
-                        marginBottom: 30,
-                        textAlign: 'center'
+                        fontFamily: 'PlusJakartaSans',
+                        fontSize: 14,
+                    }} onPress={() => {
+                        dispatch(setFamilyCode(true))
                     }}>Apply it here</Text>
-                </TouchableOpacity>
+                    <View style={{ backgroundColor: '#FC444B', height: 1, width: 80, marginTop: 2 }}></View>
+                </View>
+                <View style={{ height: 40}}></View>
             </ScrollView>
         </View>
     );

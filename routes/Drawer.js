@@ -70,6 +70,7 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Booking" component={Booking} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Review" component={Review} />
         <Drawer.Screen options={{headerShown: false}} name='Category Single' component={CategorySingleRoute} />
+        <Drawer.Screen options={{ headerShown: false }} name="Search" component={Search} />
       </Drawer.Navigator>
   ); 
 }

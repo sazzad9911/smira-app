@@ -12,7 +12,7 @@ const Brands = (props) => {
             marginRight: 5,
             elevation:5,
             borderRadius:10,
-            margin:10
+            margin:10,
         }}>
             <Image style={{
                 height: window.width/3-40,

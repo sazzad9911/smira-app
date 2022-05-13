@@ -24,47 +24,16 @@ import { AntDesign } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 
 
-export const storeData = async (key, value) => {
-  try {
-    const jsonValue = JSON.stringify(value)
-    await AsyncStorage.setItem(key, jsonValue)
-  } catch (e) {
-    // saving error
-    console.log('Error: Search.js->' + e.message)
-  }
-}
-
-export const getData = async (key) => {
-  try {
-    const jsonValue = await AsyncStorage.getItem(key)
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch (e) {
-    // error reading value
-    console.log('Error: Search.js->' + e.message)
-  }
-}
 
 const Search = ({ navigation }) => {
   const [SearchParam, setSearchParams] = useState('Type')
 
   return (
-    SearchParam != 'Type' ?
-      (
-        <Tab.Navigator tabBar={(props) => <SearchBottom {...props} />}>
-          <Tab.Screen options={{ headerShown: false }} name="SearchHotel" component={SearchHotel} />
-          <Tab.Screen options={{
-            headerShown: false
-          }} name="SearchDeal" component={SearchDeals} />
-
-        </Tab.Navigator>
-      ) :
-      (
-        <Hotels
-          SearchParam={SearchParam}
-          setSearchParams={setSearchParams}
-          navigation={navigation}
-        />
-      )
+    <Hotels
+      SearchParam={SearchParam}
+      setSearchParams={setSearchParams}
+      navigation={navigation}
+    />
   )
 }
 
@@ -79,17 +48,20 @@ const Hotels = (props) => {
   const navigation = props.navigation
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [Focus, setFocus] = React.useState(false)
+  const [SearchState, setSearchState] = React.useState(null)
+
   React.useEffect(() => {
     getData('search').then((data) => {
       if (Array.isArray(data)) {
-        setData(data)
+        let arr = data.filter(data => data != '')
+        setData(arr)
       } else {
         setData([])
       }
     })
   }, [])
   return (
-    <ScrollView>
+    <View style={{ height: '100%' }}>
       <View style={{
         backgroundColor: "#FA454B", width: '100%', minHeight: 100,
         justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center',
@@ -102,9 +74,9 @@ const Hotels = (props) => {
         }}>
 
 
-          <TextInput value={search} onFocus={() => setFocus(!Focus)}
+          <TextInput value={search} onFocus={() => setFocus(true)}
             onChangeText={setSearch} onEndEditing={() => {
-
+              setFocus(false)
               const get = getData('search').then((data) => {
                 if (data) {
                   let arr = data;
@@ -112,7 +84,8 @@ const Hotels = (props) => {
                   storeData('search', arr).catch(err => {
                     console.log('Error: Search.js->' + err.message);
                   }).then(() => {
-                    props.setSearchParams('Hotels')
+                    // props.setSearchParams('Hotels')
+                    setSearchState('Hotels')
                   })
                 } else {
                   let arr = [];
@@ -120,7 +93,8 @@ const Hotels = (props) => {
                   storeData('search', arr).catch(err => {
                     console.log('Error: Search.js->' + err.message)
                   }).then(() => {
-                    props.setSearchParams('Hotels')
+                    //navigationprops.setSearchParams('Hotels')
+                    setSearchState('Hotels')
                   })
                 }
               })
@@ -134,14 +108,15 @@ const Hotels = (props) => {
               <View></View>
             ) : (
               <View style={{
-                flex: 3, backgroundColor: '#f5f5f5', height: '100%',
+                flex: 4, backgroundColor: '#f5f5f5', height: '100%',
                 borderTopRightRadius: 30, borderBottomRightRadius: 30, overflow: 'hidden'
               }}>
                 <Picker
                   mode='dropdown'
-                  selectedValue={props.SearchParam}
+                  selectedValue={SearchState}
                   onValueChange={(itemValue, itemIndex) =>
-                    props.setSearchParams(itemValue)
+                    //props.setSearchParams(itemValue)
+                    setSearchState(itemValue)
                   }
                   style={{ color: '#808080' }}
                   itemStyle={{ width: '100%', backgroundColor: 'rgb(220,220,220)' }}>
@@ -179,31 +154,49 @@ const Hotels = (props) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20, paddingBottom: 10 }}>
-        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Recent</Text>
-      </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 10, paddingRight: 10 }}>
-        {
-          data ? (
-            data.slice(Math.max(data.length - 7, 0)).map((doc, i) => {
-              return (
-                <TouchableOpacity onPress={() => {
-                  setSearch(doc)
-                }} key={i} style={{
-                  borderColor: 'rgb(200,200,200)', borderWidth: 1, paddingLeft: 20,
-                  paddingRight: 20, paddingTop: 10, paddingBottom: 10, borderRadius: 20,
-                  margin: 3.5
-                }}>
-                  <Text style={{ color: 'rgb(130,130,130)' }}>{doc}</Text>
-                </TouchableOpacity>
-              );
-            })
-          ) : (
-            <ActivityIndicator size="large" color="#FA454B" />
-          )
-        }
-      </View>
-      <LinearGradient style={{ width: '100%', marginTop: 15, flexDirection: 'column' }}
+      {
+        SearchState == 'Hotels' ? (
+          <View style={{height:window.height-100}}>
+            <SearchHotel search={search} />
+           
+          </View>
+        ) : SearchState == 'Deals' ? (
+          <View style={{height:window.height-100}}>
+            <SearchDeals search={search} />
+            
+          </View>
+        ) : (
+          <ScrollView>
+            <View style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20, paddingBottom: 10 }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Recent</Text>
+            </View>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingLeft: 10, paddingRight: 10 }}>
+              {
+                data ? (
+                  data.slice(Math.max(data.length - 7, 0)).map((doc, i) => {
+                    return (
+                      <TouchableOpacity onPress={() => {
+                        setSearch(doc)
+                      }} key={i} style={{
+                        borderColor: 'rgb(200,200,200)', borderWidth: 1, paddingLeft: 20,
+                        paddingRight: 20, paddingTop: 10, paddingBottom: 10, borderRadius: 20,
+                        margin: 3.5
+                      }}>
+                        <Text style={{ color: 'rgb(130,130,130)' }}>{doc}</Text>
+                      </TouchableOpacity>
+                    );
+                  })
+                ) : (
+                  <ActivityIndicator size="large" color="#FA454B" />
+                )
+              }
+            </View>
+          </ScrollView>
+        )
+      }
+      {
+        /*
+        <LinearGradient style={{ width: '100%', marginTop: 15, flexDirection: 'column' }}
         colors={['#E00006', '#FB8B97']}
         start={[0, 1]} end={[1, 0]}
       >
@@ -247,6 +240,8 @@ const Hotels = (props) => {
         </ScrollView>
         <View style={{ height: 0 }}></View>
       </LinearGradient>
+
+
       <View>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Text style={{
@@ -280,7 +275,10 @@ const Hotels = (props) => {
 
         </ScrollView>
       </View>
-    </ScrollView>
+        */
+      }
+
+    </View>
   )
 }
 const style = StyleSheet.create({
@@ -293,3 +291,22 @@ const style = StyleSheet.create({
     marginRight: 15
   },
 })
+export const storeData = async (key, value) => {
+  try {
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.setItem(key, jsonValue)
+  } catch (e) {
+    // saving error
+    console.log('Error: Search.js->' + e.message)
+  }
+}
+
+export const getData = async (key) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(key)
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
+    console.log('Error: Search.js->' + e.message)
+  }
+}

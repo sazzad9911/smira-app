@@ -1,11 +1,11 @@
 import React from 'react';
 import { Ionicons, Entypo, AntDesign } from '@expo/vector-icons';
 import Cards from '../components/Cards'
-import { View, Text, StyleSheet, Dimensions, ScrollView, Platform, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, ScrollView, Platform, ActivityIndicator,BackHandler } from 'react-native'
 import picture from '../assets/tub.png'
 import DealCart from '../components/DealCart'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { postData, url } from '../action';
 import { SvgXml } from 'react-native-svg';
 import PopularHotel from './PopularHotel';
@@ -14,10 +14,19 @@ import SearchBottom from './../components/SearchBottom';
 import Bottom from './../components/Bottom';
 import { backgroundColor, textColor } from './../assets/color';
 import Salon from './Salon';
+import { setBottomSheet } from './../action';
 
 const CategorySingleRoute = (props) => {
     const title = props.route.params.title;
     const navigation = props.navigation
+    const search=props.route.params.search
+    const dispatch = useDispatch()
+    const bottomSheet = useSelector(state => state.pageSettings.bottomSheet)
+    React.useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', function () {
+            dispatch(setBottomSheet(null))
+            navigation.navigate('UserHome')
+    },[])
     //console.log(title)
     const Direction = () => {
         if (title == 'Popular Hotels') {
@@ -28,12 +37,12 @@ const CategorySingleRoute = (props) => {
         else if (title == 'Popular Deals') {
             return <PopularDeal navigation={navigation} />
         } else if (title == 'Hotels') {
-            return <PopularHotel navigation={navigation} />
+            return <PopularHotel search={search} navigation={navigation} />
         } else if (title == 'Restaurants') {
-            return <PopularDeal navigation={navigation} />
+            return <PopularDeal search={search} navigation={navigation} />
         } else if (title == 'Salon') {
-            return <Salon />
-        }
+            return <Salon search={search} navigation={navigation}/>
+        } 
         else {
             return <Text>Wrong Route</Text>
         }
@@ -116,6 +125,8 @@ export const Header = (props) => {
     )
 }
 export const NewHeader = ({ navigation}) => {
+    const dispatch = useDispatch()
+
     return (
         <View style={{
             flexDirection:'row',
@@ -124,7 +135,8 @@ export const NewHeader = ({ navigation}) => {
             paddingVertical:15,
         }}>
             <TouchableOpacity onPress={()=>{
-                navigation.goBack()
+                dispatch(setBottomSheet(null))
+                navigation.navigate('UserHome')
             }} style={{
                 backgroundColor:'#808080',
                 padding:7,

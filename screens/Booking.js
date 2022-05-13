@@ -10,8 +10,9 @@ import { postData, url } from '../action';
 import { getAuth } from 'firebase/auth';
 import AnimatedLoader from "react-native-animated-loader";
 import app from '../firebase'
-import { backgroundColor } from './../assets/color';
+import { backgroundColor, textColor } from './../assets/color';
 import { useSelector } from 'react-redux'
+import LottieView from 'lottie-react-native';
 
 const Booking = (props) => {
     const [CheckIn, setCheckIn] = React.useState(new Date());
@@ -65,7 +66,7 @@ const Booking = (props) => {
     if (confirm) {
         return (
             <View style={{
-                backgroundColor: backgroundColor(darkMode),
+                backgroundColor: textColor(!darkMode),
                 height: '100%', justifyContent: 'center',
                 alignItems: 'center'
             }}>
@@ -73,7 +74,9 @@ const Booking = (props) => {
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
-                    <AntDesign name="checkcircle" size={60} color="#FC444B" />
+                    <LottieView style={{
+                        marginTop: -80
+                    }} source={require("../assets/ConfirmationTick.json")} autoPlay />
                     <Text style={{
                         fontSize: 20,
                         fontWeight: "bold",
@@ -341,7 +344,21 @@ const Booking = (props) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <TouchableOpacity disabled={count2 != 0 && count != 0 ? false : true} onPress={Confirm}>
+                        <TouchableOpacity disabled={count2 != 0 && count != 0 ? false : true}
+                            onPress={() => {
+                                Alert.alert(
+                                    "Confirmation",
+                                    "Do you want to book this hotel now?",
+                                    [
+                                        {
+                                            text: "Cancel",
+                                            onPress: () => console.log("Cancel Pressed"),
+                                            style: "cancel"
+                                        },
+                                        { text: "OK", onPress: () => Confirm() }
+                                    ]
+                                );
+                            }}>
                             <View style={[style.viewEnd, {
                                 backgroundColor: count2 != 0 && count != 0 ? '#FC444B' : '#FFFF'
                             }]}>
@@ -354,7 +371,7 @@ const Booking = (props) => {
                     <AnimatedLoader
                         visible={loader}
                         overlayColor="rgba(255,255,255,0.75)"
-                        source={require("../assets/9997-infinity-loader.json")}
+                        source={require("../assets/Loading.json")}
                         animationStyle={{
                             height: 100, width: 100,
                         }}

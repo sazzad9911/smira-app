@@ -56,7 +56,7 @@ const StackNavigation = () => {
             <AnimatedLoader
                 visible={true}
                 overlayColor="rgba(255,255,255,0.75)"
-                source={require("../assets/9997-infinity-loader.json")}
+                source={require("../assets/Loading.json")}
                 animationStyle={{
                     height: 100, width: 100,
                 }}
@@ -80,7 +80,6 @@ const StackNavigation = () => {
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
                     <Stack.Screen options={{header:(props)=><Header title='Our Brands' {...props}/>}} name='OurBrand' component={OurBrand} />
-                    <Stack.Screen options={{ headerShown: false }} name="Search" component={Search} />
                 </Stack.Navigator>
             </NavigationContainer>
         ) 
@@ -99,7 +98,6 @@ const StackNavigation = () => {
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
                     <Stack.Screen options={{header:(props)=><Header title='Our Brands' {...props}/>}} name='OurBrand' component={OurBrand} />
-                    <Stack.Screen options={{ headerShown: false }} name="Search" component={Search} />
                 </Stack.Navigator>
             </NavigationContainer>
         );
@@ -156,7 +154,7 @@ const Dashboard = ({ navigation }) => {
             <AnimatedLoader
                 visible={loader}
                 overlayColor="rgba(255,255,255,0.75)"
-                source={require("../assets/9997-infinity-loader.json")}
+                source={require("../assets/Loading.json")}
                 animationStyle={{
                     height: 100, width: 100,
                 }}

@@ -36,7 +36,7 @@ const SearchDeals = (props) => {
     postData(url + '/searchData', {
       tableName: 'brands',
       searchColumn: 'type',
-      searchData: SearchParam,
+      searchData: props.search,
       orderColumn: recentSearch.shortBy,
       filterColumn: 'name',
       filterValue: recentSearch.brand
@@ -49,10 +49,9 @@ const SearchDeals = (props) => {
     }).catch(err => {
       console.log('Error: SearchHotel.js->' + err.message)
     })
-  }, [SearchParam + recentSearch.shortBy + recentSearch.brand])
+  }, [SearchParam + recentSearch.shortBy + recentSearch.brand+props.search])
   return (
     <ScrollView>
-      <Header onChange={setSearchParams} search={SearchParam} navigation={navigation} />
       <View style={{
         flexDirection: 'row',
         padding: 5,
@@ -86,56 +85,3 @@ const SearchDeals = (props) => {
 };
 
 export default SearchDeals;
-export const Header = (props) => {
-  const navigation = props.navigation
-  const [SearchParam, setSearchParams] = useState('Deals')
-  const dispatch = useDispatch()
-  return (
-    <View style={{
-      backgroundColor: "#FA454B", width: '100%', minHeight: 100,
-      justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center',
-      paddingLeft: 10, paddingRight: 10, paddingTop: Platform.OS == 'ios' ? 40 : 0
-    }}>
-      <View style={{
-        width: '90%', backgroundColor: 'white', height: 50,
-        borderRadius: 50,
-        flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
-      }}>
-
-
-        <TextInput value={props.search} onChangeText={props.onChange} style={{ flex: 5, paddingLeft: 20 }}
-          placeholder="Search" placeholderTextColor={'rgb(130,130,130)'} />
-        <View style={{
-          flex: 3, backgroundColor: '#f5f5f5', height: '100%',
-          borderTopRightRadius: 30, borderBottomRightRadius: 30, overflow: 'hidden'
-        }}>
-          <Picker
-            mode='dropdown'
-            selectedValue={SearchParam}
-            onValueChange={(itemValue, itemIndex) => {
-              if (itemValue == 'Hotels') {
-                dispatch(setLoader('SearchHotel'))
-                navigation.navigate('SearchHotel')
-                setSearchParams(itemValue)
-              } else {
-                dispatch(setLoader('SearchDeal'))
-                navigation.navigate('SearchDeal')
-                setSearchParams(itemValue)
-              }
-            }}
-            style={{ color: '#808080' }}
-            itemStyle={{ width: '100%', backgroundColor: 'rgb(220,220,220)' }}>
-            <Picker.Item label="Hotels" value="Hotels" />
-            <Picker.Item label="Deals" value="Deals" />
-          </Picker>
-        </View>
-      </View>
-
-      <TouchableOpacity onPress={() => {
-        props.navigation.navigate('UserHome')
-      }} style={{ width: '10%', alignItems: 'flex-end' }}>
-        <MaterialIcons name="close" size={24} color="white" />
-      </TouchableOpacity>
-    </View>
-  )
-}

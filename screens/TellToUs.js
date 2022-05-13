@@ -133,8 +133,8 @@ const style = StyleSheet.create({
 
     body: {
         justifyContent: 'center',
-        width: '90%',
-        margin: 30,
+        width: '100%',
+        padding:20
     },
     headText: {
         color: '#585858',
@@ -143,7 +143,8 @@ const style = StyleSheet.create({
     },
     inputView: {
         justifyContent: 'center',
-        marginTop: 30
+        marginTop: 30,
+        
     },
     input: {
         height: 50,

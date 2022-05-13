@@ -8,6 +8,7 @@ const ShortBy = () => {
     const [Check, setCheck] = React.useState('')
     const dispatch = useDispatch()
     const loader = useSelector(state => state.loader)
+    const recentSearch= useSelector(state => state.recentSearch)
 
     return (
         <ScrollView>
@@ -55,7 +56,7 @@ const ShortBy = () => {
                         <List value={Check}
                             onChange={(val) => {
                                 //setCheck(val)
-                                dispatch(setShortBy('more_amenities'));
+                                dispatch(setShortBy('more amenities'));
                             }}
                             title='More Amenities'
                         />

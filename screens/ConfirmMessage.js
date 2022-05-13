@@ -1,21 +1,27 @@
-import React from 'react';
-import { View, ScrollView, Text } from 'react-native'
+import React,{useEffect} from 'react';
+import { View, ScrollView, Text,BackHandler } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import {useSelector,useDispatch} from 'react-redux'
 import { backgroundColor, textColor } from './../assets/color';
+import AnimatedLoader from 'react-native-animated-loader';
+import LottieView from 'lottie-react-native';
 
 const ConfirmMessage = (props) => {
     const params = props.route.params;
     const darkMode= useSelector(state => state.pageSettings.darkMode)
+    const [Loader, setLoader]= React.useState(true)
+    
     return (
         <View>
             <View style={{
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100%',
-                backgroundColor: backgroundColor(darkMode)
+                backgroundColor: textColor(!darkMode)
             }}>
-                <AntDesign name="checkcircle" size={50} color="red" />
+                <LottieView style={{
+                    marginTop:-80
+                }} source={require("../assets/ConfirmationTick.json")} autoPlay />
                 <Text style={{
                     fontSize: 20,
                     fontWeight: '700',
@@ -33,6 +39,7 @@ const ConfirmMessage = (props) => {
                     color: 'rgb(100,100,100)',
                 }}>{params && params.text2?params.text2:'Please check for confirmation email.'}</Text>
             </View>
+            
         </View>
     );
 };

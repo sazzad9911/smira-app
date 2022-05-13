@@ -46,10 +46,10 @@ const Bottom = (props) => {
                 <TouchableOpacity onPress={() => {
                     //setActive('category')
                    // dispatch(setBottomSheet('category'))
-                   navigation.navigate('WishList')
+                   navigation.navigate('Wishlist')
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginRight: 20 }}>
                     <SvgXml xml={active == 'category' ? fullHeart : fullHeart} height="25" width="25" />
-                    <Text style={{ color: active == 'category' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>WishList</Text>
+                    <Text style={{ color: active == 'category' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Wishlist</Text>
                 </TouchableOpacity>
             </View>
             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }}>

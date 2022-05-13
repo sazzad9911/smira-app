@@ -25,7 +25,7 @@ const MembershipOnboarding = ({ navigation }) => {
         <ScrollView showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false} style={{ backgroundColor: backgroundColor(darkMode) }}>
             <TouchableOpacity onPress={() => {
-                navigation.navigate('Home')
+                navigation.goBack()
             }} style={{
                 justifyContent: 'flex-end',
                 alignItems: 'flex-end', marginTop: Platform.OS == 'ios' ? 40 : 0
