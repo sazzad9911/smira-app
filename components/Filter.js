@@ -87,7 +87,21 @@ const Filter = (props) => {
                         </View>
                     </>
                 ) : (
-                    <View></View>
+                    <>
+                        <Text style={styles.headline}>Ratings</Text>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 10 }}>
+                            <Ratings color='#64B657' title='5-4' />
+                            <Ratings color='#B2DBAC' title='4-3' />
+                            <Ratings color='#FBDD73' title='3-2' />
+                            <Ratings color='#E47768' title='2-1' />
+                        </View>
+                        <Text style={styles.headline}>Categories</Text>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                            <Category title='Deluxe' />
+                            <Category title='Villas' />
+                            <Category title='Farm House' />
+                        </View>
+                    </>
                 )
             }
             <TouchableOpacity onPress={() => {

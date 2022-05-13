@@ -92,7 +92,7 @@ const Settings = ({ navigation }) => {
         }
     });
     return (
-        <ScrollView style={{ backgroundColor: backgroundColor(darkMode) }}>
+        <ScrollView style={{ backgroundColor: textColor(!darkMode) }}>
             <View style={{ marginLeft: 20 }}>
                 <Text style={{
                     fontSize: 16,

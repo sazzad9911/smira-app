@@ -96,7 +96,29 @@ const ShortBy = () => {
                         />
                     </View>
                 ) : (
-                    <View></View>
+                    <View>
+                        <List value={Check}
+                            onChange={(val) => {
+                                //setCheck(val)
+                                dispatch(setShortBy('popularity'));
+                            }}
+                            title='Popularity'
+                        />
+                        <List value={Check}
+                            onChange={(val) => {
+                                //setCheck(val)
+                                dispatch(setShortBy('ratings'));
+                            }}
+                            title='Ratings'
+                        />
+                        <List value={Check}
+                            onChange={(val) => {
+                                //setCheck(val)
+                                dispatch(setShortBy('more amenities'));
+                            }}
+                            title='More Amenities'
+                        />
+                    </View>
                 )
             }
             <View style={{ height: 20 }} />

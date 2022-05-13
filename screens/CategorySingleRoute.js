@@ -25,7 +25,9 @@ const CategorySingleRoute = (props) => {
     React.useEffect(() => {
         BackHandler.addEventListener('hardwareBackPress', function () {
             dispatch(setBottomSheet(null))
-            navigation.navigate('UserHome')
+           // navigation.navigate('UserHome')
+           });
+          // return true
     },[])
     //console.log(title)
     const Direction = () => {
