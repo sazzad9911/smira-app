@@ -98,6 +98,8 @@ const StackNavigation = () => {
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Reset Password" component={ResetPassword} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Redeem History" component={RedeemHistory} />
                     <Stack.Screen options={{header:(props)=><Header title='Our Brands' {...props}/>}} name='OurBrand' component={OurBrand} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Booking" component={Booking} />
+                    <Stack.Screen options={{ headerShown: false }} name="Hotel" component={Hotel} />
                 </Stack.Navigator>
             </NavigationContainer>
         );
@@ -114,6 +116,8 @@ import ResetPassword from './../screens/ResetPassword';
 import RedeemHistory from '../screens/RedeemHistory';
 import OurBrand from '../screens/OurBrand';
 import Search from './../screens/Search';
+import Booking from './../screens/Booking';
+import Hotel from './../screens/Hotel';
 
 const Dashboard = ({ navigation }) => {
     const bottomSheetRef = React.useRef();
@@ -123,7 +127,7 @@ const Dashboard = ({ navigation }) => {
     const pageSettings = useSelector(state => state.pageSettings)
 
     // variables
-    const calender = React.useMemo(() => ['10%', '90%'], []);
+    const calender = React.useMemo(() => ['10%', '93%'], []);
     const category = React.useMemo(() => ['10%', '45%'], []);
     const filter = React.useMemo(() => ['10%', '60%'], []);
     const shortBy = React.useMemo(() => ['10%', '30%'], []);

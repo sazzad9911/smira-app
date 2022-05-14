@@ -203,22 +203,9 @@ const Home = ({ navigation }) => {
       if(!route.name){
         return true
       }
-      
-      if(route.name!='UserHome' && bottomSheet) {
-        
-        return true
-      }
       dispatch(setBottomSheet(null))
-      Alert.alert("Exit App!", "Are you sure you want to exit app?", [
-        {
-          text: "Cancel",
-          onPress: () => null,
-          style: "cancel"
-        },
-        { text: "YES", onPress: () => 
-        {BackHandler.exitApp()} }
-      ]);
-      return true;
+     
+      return false;
     };
 
     const backHandler = BackHandler.addEventListener(

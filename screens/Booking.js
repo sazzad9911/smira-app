@@ -2,7 +2,7 @@ import React from 'react';
 import {
     View, StyleSheet,
     Dimensions, ScrollView, Text,
-    TouchableOpacity, TextInput, Alert, Platform, Linking
+    TouchableOpacity, TextInput, Alert, Platform, Linking,Modal
 } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
@@ -13,6 +13,7 @@ import app from '../firebase'
 import { backgroundColor, textColor } from './../assets/color';
 import { useSelector } from 'react-redux'
 import LottieView from 'lottie-react-native';
+import NewAlert from './../components/NewAlert';
 
 const Booking = (props) => {
     const [CheckIn, setCheckIn] = React.useState(new Date());
@@ -29,6 +30,8 @@ const Booking = (props) => {
     const [loader, setLoader] = React.useState(false)
     const [confirm, setConfirm] = React.useState(false)
     const darkMode = useSelector(state => state.pageSettings.darkMode)
+    const [modalVisible, setModalVisible]= React.useState(false)
+    const [Select, setSelect]= React.useState(null)
 
     const convertDate = (date) => {
         let data = '';
@@ -48,8 +51,8 @@ const Booking = (props) => {
         postData(url + '/setData', {
             auth: auth.currentUser,
             tableName: 'hotel_booking',
-            columns: ['check_in', 'check_out', 'adult', 'children', 'room', 'date', 'user_id', 'hotel_id'],
-            values: [convertDate(CheckIn), convertDate(CheckOut), count, count1, count2, convertDate(new Date()), auth.currentUser.uid, params.id]
+            columns: ['check_in', 'check_out', 'adult', 'children', 'room', 'date', 'user_id', 'hotel_id','type'],
+            values: [convertDate(CheckIn), convertDate(CheckOut), count, count1, count2, convertDate(new Date()), auth.currentUser.uid, params.id,Select]
         }).then(data => {
             if (data.insertId) {
                 setLoader(false)
@@ -192,8 +195,13 @@ const Booking = (props) => {
                             marginLeft: 20, marginTop: 20
                         }}>
                             <View style={{ flex: 2 }}>
-                                <Text style={{ fontSize: 18, color: '#585858' }}>Adults</Text>
-                                <Text style={{ fontSize: 15, color: 'rgb(100,100,100)', }}>Older 12 years</Text>
+                                <Text style={{ fontSize: 18,
+                                 color: '#585858',
+                                 fontFamily:'PlusJakartaSans'
+                                  }}>Adults</Text>
+                                <Text style={{ fontSize: 15,
+                                 color: 'rgb(100,100,100)',
+                                 fontFamily:'PlusJakartaSans' }}>Older 12 years</Text>
                             </View>
                             <View style={{
                                 justifyContent: 'center',
@@ -244,8 +252,13 @@ const Booking = (props) => {
                             marginLeft: 20, marginTop: 20
                         }}>
                             <View style={{ flex: 2 }}>
-                                <Text style={{ fontSize: 18, color: '#585858' }}>Children</Text>
-                                <Text style={{ fontSize: 15, color: 'rgb(100,100,100)', }}>5-12 years old</Text>
+                                <Text style={{ fontSize: 18, color: '#585858',
+                                fontFamily:'PlusJakartaSans' 
+                                }}>Children</Text>
+                                <Text style={{ fontSize: 15,
+                                 color: 'rgb(100,100,100)',
+                                 fontFamily:'PlusJakartaSans' 
+                                 }}>5-12 years old</Text>
                             </View>
                             <View style={{
                                 justifyContent: 'center',
@@ -344,20 +357,53 @@ const Booking = (props) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
+                        <View style={{
+                            alignItems: 'center', flexDirection: 'row',
+                            marginLeft: 20, marginTop: 20
+                        }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={{ fontSize: 18, color: '#585858',
+                                fontFamily:'PlusJakartaSans' }}>Food Choice</Text>
+                                <Text style={{ fontSize: 15,
+                                 color: 'rgb(100,100,100)',
+                                 fontFamily:'PlusJakartaSans' }}>Charges will be applied</Text>
+                            </View>
+                            <View style={{
+                                justifyContent: 'center',
+                                flexDirection: 'row',
+                            }}>
+                                <TouchableOpacity onPress={()=>{
+                                    if(!Select){
+                                        setSelect('Veg')
+                                        return
+                                    }
+                                    if(Select=='Veg'){
+                                        setSelect('Non Veg')
+                                        return
+                                    }
+                                    setSelect('Veg')
+                                }} style={{
+                                    width: 150,
+                                    height: 50,
+                                    borderRadius:30,
+                                    backgroundColor:'#F5F5F5',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                {
+                                    !Select?(
+                                        <Text>None</Text>
+                                    ):(
+                                        <Text>{Select}</Text>
+                                    )
+                                }
+                                
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                         <TouchableOpacity disabled={count2 != 0 && count != 0 ? false : true}
                             onPress={() => {
-                                Alert.alert(
-                                    "Confirmation",
-                                    "Do you want to book this hotel now?",
-                                    [
-                                        {
-                                            text: "Cancel",
-                                            onPress: () => console.log("Cancel Pressed"),
-                                            style: "cancel"
-                                        },
-                                        { text: "OK", onPress: () => Confirm() }
-                                    ]
-                                );
+                                setModalVisible(true)
                             }}>
                             <View style={[style.viewEnd, {
                                 backgroundColor: count2 != 0 && count != 0 ? '#FC444B' : '#FFFF'
@@ -380,6 +426,11 @@ const Booking = (props) => {
                         <Text>Loading...</Text>
                     </AnimatedLoader>
                 </ScrollView>
+                <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
+                <NewAlert close={setModalVisible} onPress={() =>{
+                    Confirm()
+                }}/>
+                </Modal>
             </View>
         );
     }

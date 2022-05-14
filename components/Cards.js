@@ -33,7 +33,7 @@ const Cards = (props) => {
     }, [action])
 
     return (
-        <TouchableOpacity onPress={() => setModalVisible(true)} style={{
+        <TouchableOpacity onPress={() => navigation.navigate('Hotel',{id:props.doc.id})} style={{
             alignItems: 'center',
             paddingLeft: 10,
             paddingRight: 10,
@@ -112,9 +112,7 @@ const Cards = (props) => {
                     <MaterialIcons name='navigate-next' size={22} />
                 </View>
             </View>
-            <Modal visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
-                <Hotel data={data} navigation={navigation} close={setModalVisible} />
-            </Modal>
+            
         </TouchableOpacity>
     )
 }

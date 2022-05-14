@@ -12,11 +12,11 @@ import { getData, storeData } from '../screens/WishList'
 import { useSelector, useDispatch } from 'react-redux'
 import { textColor, subTextColor, backgroundColor } from '../assets/color'
 import { LinearGradient } from 'expo-linear-gradient';
-import { parking, tv, wifi, heart, redHeart } from '../components/Icon'
+import { parking, tv, wifi, heart, redHeart,cctv,gym,swmming } from '../components/Icon'
 const Hotel = (props) => {
     const navigation = props.navigation;
     const window = Dimensions.get('window')
-    const [hotel, setHotel] = React.useState(props.data)
+    const [hotel, setHotel] = React.useState(null)
     const [conditions, setConditions] = React.useState(null)
     const [Read, setRead] = React.useState(false)
     const [OtherHotels, setOtherHotels] = React.useState(null)
@@ -26,15 +26,24 @@ const Hotel = (props) => {
     const [ModalVisible, setModalVisible] = React.useState(false);
     const [color, setcolor] = React.useState(false);
     const darkMode = useSelector(state => state.pageSettings.darkMode)
-    const hotels = useSelector(state => state.hotels)
     const [Favor, setFavor] = React.useState(false)
+    const hotels = useSelector(state => state.hotels)
+    const params = props.route.params
 
     React.useEffect(() => {
+
+        if(hotels){
+            let data=hotels.filter(hot =>hot.id ==params.id)
+            setHotel(data[0])
+        }
+       if(!hotel){
+        return
+       }
         if (hotel) {
             let arr = hotel.conditions.split(',')
             setConditions(arr)
         }
-        if (hotels) {
+        if (hotels && hotel) {
             let otherHotels = hotels.filter(element => element.id != hotel.id)
             setOtherHotels(otherHotels)
         }
@@ -60,7 +69,7 @@ const Hotel = (props) => {
             }
             console.log(data.message)
         })
-    }, [hotels])
+    }, [hotel])
     const [Hotels, setHotels] = React.useState(null)
     React.useEffect(() => {
         getData('hotels').then((data) => {
@@ -96,11 +105,11 @@ const Hotel = (props) => {
                     position: 'absolute',
                     left: 10,
                     zIndex: 1
-                }} onPress={() => props.close(false)}>
+                }} onPress={() => navigation.goBack()}>
                     <AntDesign name="left" size={25} color="white" />
                 </TouchableOpacity>
-                <TouchableOpacity disabled={Images && Images.length > 0 ? false : true} onPress={() => {
-                    setModalVisible(true)
+                <TouchableOpacity disabled={Images && Images.length > 0?false:true}  onPress={() => {
+                    setModalVisible(!ModalVisible)
                 }} style={{
                     margin: 10,
                     height: 450,
@@ -187,10 +196,28 @@ const Hotel = (props) => {
                                             <SvgXml xml={tv} height="20" width="20" />
                                         </View>
                                     )
-                                } else {
+                                } else if(doc=='parking'){
                                     return (
                                         <View key={i} style={styles.iconBackground}>
                                             <SvgXml xml={parking} height="20" width="20" />
+                                        </View>
+                                    )
+                                }else if (doc=='gym'){
+                                    return (
+                                        <View key={i} style={styles.iconBackground}>
+                                            <SvgXml xml={gym} height="30" width="30" />
+                                        </View>
+                                    )
+                                }else if (doc=='cctv'){
+                                    return (
+                                        <View key={i} style={styles.iconBackground}>
+                                            <SvgXml xml={cctv} height="30" width="30" />
+                                        </View>
+                                    )
+                                }else{
+                                    return (
+                                        <View key={i} style={styles.iconBackground}>
+                                            <SvgXml xml={swmming} height="30" width="30" />
                                         </View>
                                     )
                                 }
@@ -431,10 +458,13 @@ const Hotel = (props) => {
                 }}>
                     <AntDesign name="hearto" size={24} color={color ? "#FC444B" : "#808080"} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Booking', {
+                <TouchableOpacity onPress={() => {
+                    setModalVisible(false)
+                    navigation.navigate('Booking', {
                     id: hotel.id, name: hotel.name, address: hotel.address,
                     check_in: hotel.check_in, check_out: hotel.check_out
-                })} style={{
+                })
+                }} style={{
                     backgroundColor: '#64B657',
                     flex: 4,
                     height: 60,
@@ -478,9 +508,9 @@ export const HotelMemberCart = (props) => {
     const data = props.data
     return (
         <View>
-            <TouchableOpacity onPress={() => {
-                setModalVisible(true)
-            }} style={styles.cart}>
+            <TouchableOpacity  onPress={() => {
+                navigation.navigate('Hotel',{id:data.id})
+            }} style={[styles.cart]}>
                 <Image
                     style={styles.cartImg}
                     source={{
@@ -739,7 +769,7 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
         borderRadius: 15,
-        backgroundColor: '#F5F5F5',
+        backgroundColor: '#ffff',
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: 5
