@@ -10,7 +10,28 @@ const Filter = (props) => {
     const dispatch = useDispatch()
     const route = useSelector(state => state.loader);
     const brands = useSelector(state => state.brands);
+    const [newBrands,setNewBrands]= React.useState([])
 
+    const recentSearch = useSelector(state => state.recentSearch)
+    const togglePush=(data)=>{
+        if(!Array.isArray(recentSearch.brand)){
+            let arr=[]
+            arr.push(data)
+            dispatch(setBrand(arr))
+            return
+        }
+        let arr=recentSearch.brand.filter(brands=>brands==data)
+        if(arr.length>0){
+            const newArr=recentSearch.brand.filter(brands=>brands!=data)
+            dispatch(setBrand(newArr))
+        }else{
+            let arr=recentSearch.brand
+            arr.push(data)
+            dispatch(setBrand(arr))
+        }
+        
+    }
+    
     return (
         <View style={{
             width: window.width - 30,
@@ -56,7 +77,7 @@ const Filter = (props) => {
                             {
                                 brands ? (
                                     brands.map((b, i) => (
-                                        <Brands key={i} title={b.name} />
+                                        <Brands press={(v)=>togglePush(v)} key={i} title={b.name} />
                                     ))
                                 ) : (
                                     <View></View>
@@ -188,6 +209,25 @@ const Brands = (props) => {
     const brand = useSelector(state => state.recentSearch.brand)
     const dispatch = useDispatch()
     const [selectedItem, setselectedItem]= React.useState(false)
+    const recentSearch = useSelector(state => state.recentSearch)
+    const togglePush=(data)=>{
+        if(!Array.isArray(recentSearch.brand)){
+            let arr=[]
+            arr.push(data)
+            dispatch(setBrand(arr))
+            return
+        }
+        let arr=recentSearch.brand.filter(brands=>brands==data)
+        if(arr.length>0){
+            const newArr=recentSearch.brand.filter(brands=>brands!=data)
+            dispatch(setBrand(newArr))
+        }else{
+            let arr=recentSearch.brand
+            arr.push(data)
+            dispatch(setBrand(arr))
+        }
+        
+    }
 
     React.useEffect(()=>{
         if(!brand) {
@@ -198,7 +238,8 @@ const Brands = (props) => {
 
     return (
         <TouchableOpacity onPress={() => {
-            dispatch(setBrand(props.title));
+           // dispatch(setBrand(props.title));
+           togglePush(props.title)
             setselectedItem(!selectedItem)
         }} style={{
             borderWidth: 1,

@@ -29,6 +29,7 @@ const Hotel = (props) => {
     const [Favor, setFavor] = React.useState(false)
     const hotels = useSelector(state => state.hotels)
     const params = props.route.params
+    const user = useSelector(state => state.user)
 
     React.useEffect(() => {
 
@@ -458,7 +459,9 @@ const Hotel = (props) => {
                 }}>
                     <AntDesign name="hearto" size={24} color={color ? "#FC444B" : "#808080"} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {
+               {
+                user && user[0].membership_type?(
+                    <TouchableOpacity onPress={() => {
                     setModalVisible(false)
                     navigation.navigate('Booking', {
                     id: hotel.id, name: hotel.name, address: hotel.address,
@@ -479,6 +482,10 @@ const Hotel = (props) => {
                         fontFamily: 'PlusJakartaSans'
                     }}>Book Now</Text>
                 </TouchableOpacity>
+                ):(
+                    <></>
+                )
+               }
             </View>
             <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
                 <TouchableOpacity onPress={() => setModalVisible(!ModalVisible)} style={{

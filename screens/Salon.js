@@ -13,10 +13,18 @@ const Salon = (props) => {
     const recentSearch = useSelector(state => state.recentSearch)
 
     React.useEffect(()=>{
-            let arr = brands.filter(d => d.name == recentSearch.brand);
+            //let arr = brands.filter(d => d.name == recentSearch.brand);
+           // setData(arr)
+           let arr = [];
+           if(recentSearch.brand) {
+            recentSearch.brand.forEach((data) => {
+                let search =brands.filter(d => d.name == data)
+                arr.push(search[0]);
+            })
             setData(arr)
+           }
     },[recentSearch.shortBy + recentSearch.category + recentSearch.brand])
-
+ 
     React.useEffect(() => {
         let arr = brands.filter(d => d.type == props.search)
         

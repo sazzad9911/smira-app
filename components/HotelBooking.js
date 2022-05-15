@@ -35,12 +35,23 @@ const HotelBooking = (props) => {
     const dispatch = useDispatch()
     const [modalVisible, setModalVisible]= React.useState(false)
     const [Select,setSelect]= React.useState(null)
+    const user= useSelector(state => state.user)
 
     const convertDate = (date) => {
         let data = '';
         return data = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate())
     }
     const Confirm = () => {
+        if(user && !user[0].membership_type){
+            navigation.navigate('Choose Your Membership')
+            return
+        }
+        if(!CheckIn){
+            return
+        }
+        if(!CheckOut){
+            return
+        }
         dispatch(setBottomSheet(null))
         setLoader(true)
         postData(url + '/setData', {

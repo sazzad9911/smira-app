@@ -272,7 +272,7 @@ export const Cart = (props) => {
                     </View>
                     <View style={style.cartContainer}>
                         <Text style={style.cartText}>Valid for</Text>
-                        <Text style={style.cartHead}>{data.deal.for}</Text>
+                        <Text style={style.cartHead}>{data.deal.forr?data.deal.forr:''}</Text>
                     </View>
                 </View>
                 <View style={{
