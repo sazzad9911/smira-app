@@ -12,11 +12,11 @@ LogBox.ignoreAllLogs();
 
 const window = Dimensions.get('window')
 const Onboarding = (props) => {
-    const [index, setIndex] = React.useState(1)
+    const [index, setIndex] = React.useState(0.0000003)
     const [user, setUser] = React.useState(null)
     const navigation = props.navigation
     const [data, setData] = React.useState([
-        0, 1, 2, 3
+        0, 1, 2,9
     ])
     
 
@@ -75,6 +75,10 @@ const Onboarding = (props) => {
                         <View style={[styles.view, { backgroundColor: index == 3 ? 'black' : '#0000008e' }]}></View>
                     </View>
                     <TouchableOpacity onPress={() => {
+                        if(index<1){
+                            setIndex(1)
+                            return
+                        }
                         if (index < 3) {
                             setIndex(index + 1)
                         } else {
@@ -113,15 +117,14 @@ import three from '../assets/three.png'
 
 const Slider = (props) => {
     const index = props.index;
-    //console.log(index);
     return (
         <View style={{
             width: window.width,
             height: window.height - 180,
-            backgroundColor: 'white'
+            backgroundColor: 'white',
         }}>
             <Image source={index == 0 ? one
-                : index == 1 ? two : three} style={{
+                : index == 1 ? two: index==2? three: three} style={{
                     width: window.width,
                     height: '70%',
                 }} />

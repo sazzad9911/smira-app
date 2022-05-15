@@ -13,7 +13,6 @@ const ShortBy = () => {
     return (
         <ScrollView>
             <View style={{
-                width: 350,
                 marginTop: 30,
                 marginLeft: 50,
                 flexDirection: 'row',
@@ -26,12 +25,13 @@ const ShortBy = () => {
                 <TouchableOpacity onPress={() => {
                     dispatch(setShortBy(null))
                 }} style={{
-                    margin: 5
+                    margin: 5,
+                    marginRight:50
                 }}>
                     <Text style={{
                         fontSize: 15,
                         flex: 1,
-                        color: 'rgb(100,100,100)',
+                        color: 'red',
                         fontFamily: 'PlusJakartaSans'
                     }}>Clear All</Text>
                 </TouchableOpacity>

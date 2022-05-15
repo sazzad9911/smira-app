@@ -152,16 +152,16 @@ export const Category = (props) => {
                 <IconsSet style={{
                     backgroundColor: tab == 'Popular Hotel' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    navigation.navigate('Category Single', { title: 'Hotels' })
-                    dispatch(setLoader('SearchHotel'))
-                    dispatch(setBottomSheet(null))
+                  //  navigation.navigate('Category Single', { title: 'Hotels' })
+                  //  dispatch(setLoader('SearchHotel'))
+                  //  dispatch(setBottomSheet(null))
                 }} name='Hotels' icon={Hotels} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Restaurant' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    navigation.navigate('Category Single', { title: 'Restaurants' })
-                    dispatch(setLoader('SearchDeal'))
-                    dispatch(setBottomSheet(null))
+                   // navigation.navigate('Category Single', { title: 'Restaurants' })
+                   // //dispatch(setLoader('SearchDeal'))
+                  //  dispatch(setBottomSheet(null))
                 }} name='Restaurants' icon={Restaurant} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Games' ? '#D8D8D8' : '#FFFF'
@@ -202,9 +202,9 @@ export const Category = (props) => {
                 <IconsSet style={{
                     backgroundColor: tab == 'Spa & Salons' ? '#D8D8D8' : '#FFFF'
                 }} onPress={() => {
-                    navigation.navigate('Category Single', { title: 'Salon' })
-                    dispatch(setLoader('Salon'))
-                    dispatch(setBottomSheet(null))
+                    //navigation.navigate('Category Single', { title: 'Salon' })
+                   // dispatch(setLoader('Salon'))
+                   // dispatch(setBottomSheet(null))
                 }} name='Spa & Salons' icon={Spa_Salons} />
                 <IconsSet style={{
                     backgroundColor: tab == 'Services' ? '#D8D8D8' : '#FFFF'

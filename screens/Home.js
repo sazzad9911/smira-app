@@ -139,11 +139,11 @@ const Home = ({ navigation }) => {
         if (newData.length > 0) {
           z.push(newData.length)
         }
-        if (newData.length > 5) {
+        if (newData.length > 4) {
           z.push(newData.length)
-        } if (newData.length > 9) {
+        } if (newData.length > 8) {
           z.push(newData.length)
-        } if (newData.length > 13) {
+        } if (newData.length > 12) {
           z.push(newData.length)
         }
         setNewData(newData)
@@ -296,12 +296,12 @@ const Home = ({ navigation }) => {
               //icon set
             }
             <IconsSet onPress={() => {
-              navigation.navigate('Category Single', { title: 'Hotels' })
-              dispatch(setLoader('SearchHotel'))
+              navigation.navigate('Category Single', { title: 'Hotels',search:'a' })
+              dispatch(setLoader('Hotels'))
             }} name="Hotels" icon={Hotels} />
             <IconsSet onPress={() => {
-              navigation.navigate('Category Single', { title: 'Restaurants' })
-              dispatch(setLoader('SearchDeal'))
+              navigation.navigate('Category Single', { title: 'Restaurants',search:'a' })
+             dispatch(setLoader('Restaurant'))
             }} name="Restaurant" icon={Restaurant} />
             <IconsSet onPress={() => {
               //navigation.navigate('Category Single', { title: 'Games' })
@@ -662,7 +662,7 @@ const Home = ({ navigation }) => {
               }}>
                 {
                   NewData.map((doc, j) => (
-                    (i + 1) * 4 > j ? (
+                    (i + 1) * 4 > j && j>=(i*4) && NewData.length-1!=j ? (
                       <ItemCart onPress={() => {
                         navigation.navigate('Category Single', { title: 'Salon',search:'Restaurant' })
                         dispatch(setLoader('Salon'))

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     View, Modal, Text, ScrollView, Image,
-    TouchableOpacity, TextInput, Dimensions, Platform, Alert
+    TouchableOpacity, TextInput, Dimensions, Platform, Alert,NativeModules
 } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -28,6 +28,7 @@ const SignIn = ({ navigation }) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredentials) => {
                 dispatch(setAnimatedLoader(false));
+                NativeModules.DevSettings.reload();
                 navigation.navigate('Dashboard');
             }).catch((error) => {
                 dispatch(setAnimatedLoader(false));

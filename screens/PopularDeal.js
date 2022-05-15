@@ -11,17 +11,18 @@ const PopularDeal = (props) => {
     const darkMode = useSelector(state => state.pageSettings.darkMode)
     const recentSearch = useSelector(state => state.recentSearch)
     React.useEffect(() => {
-        postData(url + "/searchData", {
+        postData(url + "/getData", {
             tableName: 'deals',
-            searchColumn: 'address',
+            searchColumn: 'name',
             searchData: props.search,
+            
         }).then(data => {
             if (Array.isArray(data)) {
                 return setDealData(data)
             }
             console.log('CategorySingle.js->' + data.message)
         })
-    }, [])
+    }, [recentSearch.shortBy + props.search + recentSearch.category])
     return (
         <ScrollView style={{
             backgroundColor: backgroundColor(darkMode)

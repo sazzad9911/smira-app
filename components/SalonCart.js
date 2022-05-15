@@ -236,7 +236,7 @@ export const Cart = (props) => {
     }
     return (
         <View style={{ backgroundColor: '#FFFF', marginBottom: 10, padding: 10 }}>
-            <TouchableOpacity onPress={() => setOpen(!Open)} style={{
+            <TouchableOpacity disabled={props.user?false:true} onPress={() => setOpen(!Open)} style={{
                 borderWidth: 1,
                 borderRadius: 10,
                 borderColor: '#D8D8D8',
@@ -313,7 +313,7 @@ export const Cart = (props) => {
                     </View>
                 </View>
                 {
-                    Open ? (
+                    Open && props.user ? (
                         <TouchableOpacity onPress={() => {
                             if (props.user) {
                                 setLoader(true);

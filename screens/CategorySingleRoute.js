@@ -46,7 +46,7 @@ const CategorySingleRoute = (props) => {
             return <Salon search={search} navigation={navigation}/>
         } 
         else {
-            return <Text>Wrong Route</Text>
+            return <Text>Wrong Route</Text> 
         }
     }
     const BottomDirection = () => {

@@ -172,7 +172,9 @@ const DrawerMenu = ({ navigation }) => {
                         width="22" />
                     <Text style={[styles.navTabText]}>Redeem History</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.navTab, {
+                {
+                    /*
+                    <TouchableOpacity style={[styles.navTab, {
                     justifyContent: 'space-between',
                 }]} onPress={() => {
                     setDropdown(!dropdown)
@@ -197,6 +199,8 @@ const DrawerMenu = ({ navigation }) => {
                             )
                     }
                 </TouchableOpacity>
+                    */
+                }
                 {
                     dropdown ?
                         (
