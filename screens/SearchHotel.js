@@ -70,7 +70,7 @@ const SearchHotel = (props) => {
                         marginLeft: 5,
                         fontSize: 13,
                         fontWeight: '500',
-                        color: '#000000',
+                        color: '#000000', 
                         fontFamily: 'PlusJakartaSans',
                     }}>Free For Members</Text>
                 </View>
@@ -79,8 +79,8 @@ const SearchHotel = (props) => {
                 HotelData ? (
                     HotelData.map(doc => (
                         <Cards key={doc.id} doc={doc} navigation={navigation}
-                            img={{ uri: doc.image }} title={doc.name}
-                            address={doc.address} rating={doc.ratings} />
+                                img={{ uri: doc.image }} title={doc.name}
+                                address={doc.address} rating={doc.ratings} />
                     ))
                 ) : (
                     <ActivityIndicator size="large" color="#FA454B" />

@@ -141,7 +141,7 @@ const Slider = (props) => {
                     lineHeight: 30,
                     fontFamily: 'PlusJakartaSans'
                 }}>{index == 0 ? 'Exclusive discounts on your favourite brands'
-                    : index == 1 ? 'Discover large range of categories ' : 'Track your mood and reflect on your day'}</Text>
+                    : index == 1 ? 'Enjoy deals on large range of categories  ' : 'Book executive hotels for FREE '}</Text>
                 <Text style={{
                     fontSize: 14,
                     marginTop: 5,
@@ -151,7 +151,7 @@ const Slider = (props) => {
                     lineHeight: 19,
                     fontFamily: 'PlusJakartaSans'
                 }}>{index == 0 ? 'Get an overview of how you are performing and motivate yourself to achieve even moew.'
-                    : index == 1 ? 'Get an overview of how you are performing and motivate yourself to achieve even moew. ' : 'Get an overview of how you are performing and motivate yourself to achieve even moew.'}</Text>
+                    : index == 1 ? 'Choose from a range of categories and double your savings. ' : 'Spend your vacation in executive hotels while saving money.'}</Text>
             </View>
         </View>
     )

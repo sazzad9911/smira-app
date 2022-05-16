@@ -157,12 +157,12 @@ const Hotels = (props) => {
       {
         SearchState == 'Hotels' ? (
           <View style={{height:window.height-100}}>
-            <SearchHotel search={search} />
+            <SearchHotel navigation={navigation} search={search} />
            
           </View>
         ) : SearchState == 'Deals' ? (
           <View style={{height:window.height-100}}>
-            <SearchDeals search={search} />
+            <SearchDeals navigation={navigation} search={search} />
             
           </View>
         ) : (

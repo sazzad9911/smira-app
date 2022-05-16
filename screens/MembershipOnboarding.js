@@ -104,7 +104,7 @@ const MembershipOnboarding = ({ navigation }) => {
                             <Text style={{
                                 fontSize: 16,
                                 fontFamily: 'PlusJakartaSans',
-                            }}>Claim your free month</Text>
+                            }}>Become a member</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -192,8 +192,11 @@ const MembershipOnboarding = ({ navigation }) => {
                             color: textColor(darkMode)
                         }}>Save big on most luxury hotels with us</Text>
                     </View>
-                    <ScrollView showsVerticalScrollIndicator={false}
+                    
+                </View>
+                <ScrollView showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', marginTop: 10 }}>
+                        <View style={{ width: 15 }}></View>
                         {
                             hotels ? (
                                 hotels.map((doc, i) => (
@@ -203,9 +206,8 @@ const MembershipOnboarding = ({ navigation }) => {
                                 <ActivityIndicator size="large" color="#FA454B" />
                             )
                         }
-                        <View style={{ width: 20 }}></View>
+                        <View style={{ width: 5}}></View>
                     </ScrollView>
-                </View>
                 <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ height: 40 }}></View>
                     <Text style={{

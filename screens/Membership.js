@@ -26,11 +26,15 @@ const Membership = ({ navigation }) => {
         <View style={[style.body,{backgroundColor:backgroundColor(darkMode)}]}>
             <ScrollView showsVerticalScrollIndicator={false}
                  showsHorizontalScrollIndicator={false} style={{ width: '100%' }}>
-                <Text style={[style.bodyHeaderText,{
+                {
+                    /*
+                    <Text style={[style.bodyHeaderText,{
                     color:textColor(darkMode)
                 }]}>Claim Your <Text style={{
                     color: '#FA454B'
                 }}>Free Month</Text></Text>
+                    */
+                }
                 <View style={{ alignItems: 'center' }}>
                     {
                         Membership?(
@@ -147,7 +151,6 @@ const style = StyleSheet.create({
     slideContentHead: {
         fontSize: 21,
         marginBottom: 10,
-        fontWeight: '700',
         fontFamily: 'PlusJakartaSansBold',
     },
     body: {

@@ -478,7 +478,7 @@ const Home = ({ navigation }) => {
               color: textColor(darkMode)
             }}>Activities Near You</Text>
             <TouchableOpacity onPress={() => {
-              navigation.navigate('Category Single', { title: 'Salon' })
+              navigation.navigate('Category Single', { title: 'Salon',search: 'Restaurant'})
               dispatch(setLoader('Salon'))
 
             }}>

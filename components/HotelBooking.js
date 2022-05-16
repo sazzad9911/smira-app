@@ -320,7 +320,10 @@ const HotelBooking = (props) => {
                     marginLeft: 20, marginTop: 20
                 }}>
                     <View style={{ flex: 2, }}>
-                        <Text style={{ fontSize: 18, color: subTextColor(darkMode) }}>Adults</Text>
+                        <Text style={{ fontSize: 18, 
+                        color: subTextColor(darkMode),
+                        fontFamily: 'PlusJakartaSans'
+                        }}>Adults</Text>
                         <Text style={{
                             fontSize: 12,
                             color: '#808080',
@@ -376,7 +379,10 @@ const HotelBooking = (props) => {
                     marginLeft: 20, marginTop: 20
                 }}>
                     <View style={{ flex: 2 }}>
-                        <Text style={{ fontSize: 18, color: subTextColor(darkMode) }}>Children</Text>
+                        <Text style={{ fontSize: 18,
+                         color: subTextColor(darkMode), 
+                         fontFamily: 'PlusJakartaSans'
+                         }}>Children</Text>
                         <Text style={{
                             fontSize: 12,
                             color: '#808080',
@@ -432,7 +438,10 @@ const HotelBooking = (props) => {
                     marginLeft: 20, marginTop: 20
                 }}>
                     <View style={{ flex: 2 }}>
-                        <Text style={{ fontSize: 18, color: subTextColor(darkMode) }}>Rooms</Text>
+                        <Text style={{ fontSize: 18,
+                         color: subTextColor(darkMode), 
+                         fontFamily: 'PlusJakartaSans'
+                         }}>Rooms</Text>
                         <Text style={{ fontSize: 15, color: 'rgb(100,100,100)', }}></Text>
                     </View>
                     <View style={{
@@ -485,10 +494,10 @@ const HotelBooking = (props) => {
                             marginLeft: 20, marginTop: 20
                         }}>
                             <View style={{ flex: 2 }}>
-                                <Text style={{ fontSize: 18, color: '#585858',
+                                <Text style={{ fontSize: 18, color: subTextColor(darkMode),
                                 fontFamily:'PlusJakartaSans' }}>Food Choice</Text>
-                                <Text style={{ fontSize: 15,
-                                 color: 'rgb(100,100,100)',
+                                <Text style={{ fontSize: 12,
+                                 color: '#808080',
                                  fontFamily:'PlusJakartaSans' }}>Charges will be applied</Text>
                             </View>
                             <View style={{
@@ -526,7 +535,7 @@ const HotelBooking = (props) => {
                         </View>
                 <TouchableOpacity onPress={() => {
                     setModalVisible(true);
-                }} disabled={count > 0 && count2 > 0 && text ? false : submit}
+                }} disabled={count > 0 && count2 > 0 && text ? false : true}
                     style={[style.viewEnd, {
                         backgroundColor: count > 0 && count2 > 0 && text ? '#FC444B' : textColor(!darkMode),
                         borderWidth: count > 0 && count2 > 0 && text ? 0 : 1,
@@ -549,10 +558,11 @@ const HotelBooking = (props) => {
                 <Text>Loading...</Text>
             </AnimatedLoader>
             <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
-                <NewAlert close={setModalVisible} onPress={() =>{
+                <NewAlert title={user && user[0].membership_type?'Confirm your booking?':'Buy membership to unlock this offer'} 
+                close={setModalVisible} onPress={() =>{
                     Confirm()
                 }}/>
-                </Modal>
+            </Modal>
         </View>
     );
 };

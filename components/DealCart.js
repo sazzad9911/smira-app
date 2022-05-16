@@ -41,7 +41,7 @@ const DealCart = (props) => {
         }}> 
             <Image style={{
                 width: '100%',
-                borderRadius: 10,
+                borderRadius: 10, 
                 height: 200,
             }} source={{ uri: props.img }} />
             <TouchableOpacity disabled={Deals?false : true} style={{

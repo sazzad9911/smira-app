@@ -13,10 +13,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { textColor, subTextColor, backgroundColor } from '../assets/color'
 import { LinearGradient } from 'expo-linear-gradient';
 import { parking, tv, wifi, heart, redHeart,cctv,gym,swmming } from '../components/Icon'
+import NewAlert from './../components/NewAlert';
+import NewBooking from './NewBooking';
+
 const Hotel = (props) => {
     const navigation = props.navigation;
     const window = Dimensions.get('window')
-    const [hotel, setHotel] = React.useState(null)
+    const [hotel, setHotel] = React.useState(props.data)
     const [conditions, setConditions] = React.useState(null)
     const [Read, setRead] = React.useState(false)
     const [OtherHotels, setOtherHotels] = React.useState(null)
@@ -28,14 +31,16 @@ const Hotel = (props) => {
     const darkMode = useSelector(state => state.pageSettings.darkMode)
     const [Favor, setFavor] = React.useState(false)
     const hotels = useSelector(state => state.hotels)
-    const params = props.route.params
+    const [Visible, setVisible]= React.useState(false)
+   // const params = props.route.params
     const user = useSelector(state => state.user)
+    const [Charges, setCharges]= React.useState(false)
 
     React.useEffect(() => {
 
         if(hotels){
-            let data=hotels.filter(hot =>hot.id ==params.id)
-            setHotel(data[0])
+           // let data=hotels.filter(hot =>hot.id ==params.id)
+           // setHotel(data[0])
         }
        if(!hotel){
         return
@@ -106,7 +111,7 @@ const Hotel = (props) => {
                     position: 'absolute',
                     left: 10,
                     zIndex: 1
-                }} onPress={() => navigation.goBack()}>
+                }} onPress={() => props.close(false)}>
                     <AntDesign name="left" size={25} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity disabled={Images && Images.length > 0?false:true}  onPress={() => {
@@ -206,19 +211,19 @@ const Hotel = (props) => {
                                 }else if (doc=='gym'){
                                     return (
                                         <View key={i} style={styles.iconBackground}>
-                                            <SvgXml xml={gym} height="30" width="30" />
+                                            <SvgXml xml={gym} height="36" width="36" />
                                         </View>
                                     )
                                 }else if (doc=='cctv'){
                                     return (
                                         <View key={i} style={styles.iconBackground}>
-                                            <SvgXml xml={cctv} height="30" width="30" />
+                                            <SvgXml xml={cctv} height="36" width="36" />
                                         </View>
                                     )
                                 }else{
                                     return (
                                         <View key={i} style={styles.iconBackground}>
-                                            <SvgXml xml={swmming} height="30" width="30" />
+                                            <SvgXml xml={swmming} height="36" width="36" />
                                         </View>
                                     )
                                 }
@@ -404,19 +409,23 @@ const Hotel = (props) => {
                     }}>
                         Other hotels nearby
                     </Text>
-                    <ScrollView showsVerticalScrollIndicator={false}
+                    
+                </View>
+                <ScrollView showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false} horizontal={true}>
+                        <View style={{ width:10}}></View>
                         {
                             OtherHotels ? (
                                 OtherHotels.map(d => (
-                                    <HotelMemberCart key={d.id} data={d} />
+                                    <HotelMemberCart navigation={navigation} key={d.id} data={d} />
                                 ))
                             ) : (
                                 <ActivityIndicator size="large" color="#FA454B" />
                             )
                         }
+                        <View style={{ width:0}}></View>
                     </ScrollView>
-                </View>
+                <View style={{height:100}}></View>
             </ScrollView>
             <View style={{
                 backgroundColor: 'white',
@@ -433,6 +442,10 @@ const Hotel = (props) => {
                 shadowRadius: 5,
                 elevation: 5,
                 paddingBottom: 20,
+                position: 'absolute',
+                bottom: 0,
+                left:0,
+                width:window.width,
             }}>
                 <TouchableOpacity onPress={() => { //navigation.navigate('Review', {
                     //id: Hotel[0].id, name: Hotel[0].name, address: Hotel[0].address })} 
@@ -459,14 +472,9 @@ const Hotel = (props) => {
                 }}>
                     <AntDesign name="hearto" size={24} color={color ? "#FC444B" : "#808080"} />
                 </TouchableOpacity>
-               {
-                user && user[0].membership_type?(
-                    <TouchableOpacity onPress={() => {
-                    setModalVisible(false)
-                    navigation.navigate('Booking', {
-                    id: hotel.id, name: hotel.name, address: hotel.address,
-                    check_in: hotel.check_in, check_out: hotel.check_out
-                })
+                <TouchableOpacity onPress={() => {
+                    setVisible(true)
+                   
                 }} style={{
                     backgroundColor: '#64B657',
                     flex: 4,
@@ -482,10 +490,6 @@ const Hotel = (props) => {
                         fontFamily: 'PlusJakartaSans'
                     }}>Book Now</Text>
                 </TouchableOpacity>
-                ):(
-                    <></>
-                )
-               }
             </View>
             <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
                 <TouchableOpacity onPress={() => setModalVisible(!ModalVisible)} style={{
@@ -502,21 +506,40 @@ const Hotel = (props) => {
                     images={Images}
                 />
             </Modal>
+            <Modal transparent={true} visible={Visible} onRequestClose={() =>setVisible(!visible)}>
+            <NewAlert title={user && user[0].membership_type?'Confirm your booking?':'Buy membership to unlock this offer'} 
+                close={setVisible} onPress={() =>{
+                    setModalVisible(false)
+                    if(user&& !user[0].membership_type){
+                        props.close(false)
+                        navigation.navigate('Choose Your Membership')
+                        return
+                    }
+                    setModalVisible(false)
+                    props.close(false)
+                    setCharges(!Charges)
+                    navigation.navigate('Booking', {
+                        id: hotel.id, name: hotel.name, address: hotel.address,
+                        check_in: hotel.check_in, check_out: hotel.check_out
+                    })
+                 }}/>
+            </Modal>
         </View>
     );
 };
 
 export default Hotel;
 
-
 export const HotelMemberCart = (props) => {
+    //const [ModalVisible, setModalVisible]= React.useState(false)
     const navigation = props.navigation
     const [modalVisible, setModalVisible] = React.useState(false)
     const data = props.data
     return (
         <View>
             <TouchableOpacity  onPress={() => {
-                navigation.navigate('Hotel',{id:data.id})
+                setModalVisible(!modalVisible)
+                //navigation.navigate('Hotel',{id:data.id})
             }} style={[styles.cart]}>
                 <Image
                     style={styles.cartImg}

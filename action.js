@@ -18,6 +18,14 @@ export async function postData(url = '', data = {}) {
 
 export const url ="http://165.232.178.79:4000"
 
+export const configAuth = {
+  iosClientId: `686443341701-kvbrmfmruh0fgj0dd2c2cujfa0o8ftj8.apps.googleusercontent.com`,
+  androidClientId: `686443341701-floc1isk5k3rk2ri5njlmfp9gqaajpph.apps.googleusercontent.com`,
+  iosStandaloneAppClientId: `686443341701-kvbrmfmruh0fgj0dd2c2cujfa0o8ftj8.apps.googleusercontent.com`,
+  androidStandaloneAppClientId: `686443341701-u1f3et3s9srnl7huf3amno5sp4mpsdg7.apps.googleusercontent.com`,
+  scopes: ["profile", "email"]
+}
+
 export const setDeals=(doc)=>{
   return{
     type:'SET_DEALS',

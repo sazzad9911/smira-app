@@ -11,11 +11,15 @@ import app from '../firebase'
 import { SvgXml } from 'react-native-svg'
 import {useDispatch} from 'react-redux'
 import {setAnimatedLoader} from '../action'
+import * as Google from 'expo-google-app-auth';
+import { configAuth } from './../action';
+import {SignUpWithOtp} from './SignUp'
 
 const SignIn = ({ navigation }) => {
     const [email, setEmail] = React.useState(null)
     const [password, setPassword] = React.useState(null)
     const [text,setText] =React.useState('')
+    const [modalVisible, setModalVisible]= React.useState(false)
 
     const auth = getAuth(app);
     const dispatch = useDispatch()
@@ -36,7 +40,16 @@ const SignIn = ({ navigation }) => {
                 console.log('Error: SignIn.js->' + error.code)
             })
     }
-
+    const googleSignIn =async () => {
+        try {
+            const { type, accessToken, user } = await Google.logInAsync(configAuth);
+            if (type === 'success') {
+                console.log(user)
+            }
+        }catch(e){
+            console.log(e.message)
+        }
+    }
 
     const googleIcon = `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path fill-rule="evenodd" clip-rule="evenodd" d="M25.2408 13.6111C25.2559 12.7518 25.1654 11.894 24.9714 11.056H13.002V15.6941H20.0279C19.7589 17.3374 18.8176 18.8019 17.4215 19.7489L17.397 19.9043L21.1818 22.7785L21.4438 22.8041C23.8518 20.6239 25.2403 17.4159 25.2403 13.6111" fill="#4285F4"/>
@@ -44,7 +57,10 @@ const SignIn = ({ navigation }) => {
     <path fill-rule="evenodd" clip-rule="evenodd" d="M5.74066 15.804C5.46179 15.0082 5.31789 14.173 5.3147 13.3316C5.31984 12.4915 5.45842 11.6574 5.72547 10.8592L5.71836 10.6935L1.73454 7.65907L1.60422 7.71983C-0.208983 11.2497 -0.208983 15.4132 1.60422 18.9431L5.74066 15.804" fill="#FBBC05"/>
     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.9942 5.6654C14.8214 5.63759 16.5885 6.30447 17.9247 7.52607L21.5235 4.08251C19.2154 1.96047 16.1588 0.796139 12.9942 0.833431C8.17037 0.833431 3.76232 3.49975 1.60124 7.72294L5.72588 10.8584C6.76 7.77784 9.68516 5.68788 12.9942 5.66539" fill="#EB4335"/>
     </svg>`
-
+    const phoneIcon = `<svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.743408 15.3311C0.743408 7.04678 7.45914 0.331055 15.7434 0.331055C24.0277 0.331055 30.7434 7.04678 30.7434 15.3311C30.7434 23.6153 24.0277 30.3311 15.7434 30.3311C7.45914 30.3311 0.743408 23.6153 0.743408 15.3311Z" fill="#4285F4"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.3984 15.6791C18.3377 18.6176 19.0045 15.2181 20.876 17.0883C22.6802 18.892 23.7172 19.2534 21.4313 21.5387C21.1449 21.7689 19.3257 24.5373 12.9321 18.1455C6.5377 11.7529 9.30459 9.93179 9.53477 9.64553C11.8263 7.35387 12.1814 8.3969 13.9857 10.2007C15.8572 12.0716 12.4591 12.7406 15.3984 15.6791L15.3984 15.6791Z" fill="white"/>
+    </svg>`
     return (
         <View style={{
             marginTop: Platform.OS == 'ios' ? 40 : 0,
@@ -166,7 +182,7 @@ const SignIn = ({ navigation }) => {
                     marginTop: 30,
                 }}>
                 </View>
-                <TouchableOpacity >
+                <TouchableOpacity onPress={() =>googleSignIn()}>
                     <View style={{
                         height: 60,
                         marginHorizontal: 25,
@@ -189,6 +205,32 @@ const SignIn = ({ navigation }) => {
                         }}>Continue with Google</Text>
                     </View>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                        //setOTP(true);
+                        setModalVisible(true)
+                    }} style={{
+                        height: 60,
+                        marginHorizontal: 25,
+                        padding: 10,
+                        borderRadius: 40,
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        borderWidth: 2,
+                        borderColor: '#E8E8E8',
+                        marginTop: 20,
+
+                    }}>
+
+                        <SvgXml xml={phoneIcon} height="35" width="35" style={{ marginLeft: 30, color: '#D8D8D8', }} />
+                        <Text style={{
+                            color: 'black',
+                            fontSize: 14,
+                            marginLeft: 50,
+                            fontWeight: '500',
+                            lineHeight: 18,
+                            fontFamily: 'PlusJakartaSans',
+                        }}>Continue with OTP</Text>
+                    </TouchableOpacity>
 
                 <View style={{
                     flexDirection: 'row',
@@ -217,6 +259,9 @@ const SignIn = ({ navigation }) => {
                     height: 100,
                 }}></View>
             </ScrollView>
+            <Modal visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
+            <SignUpWithOtp login={true} navigation={navigation} close={setModalVisible} />
+            </Modal>
         </View>
     );
 };

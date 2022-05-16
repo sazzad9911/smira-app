@@ -16,7 +16,6 @@ const NewAlert = (props) => {
         }}>
             <View style={{
                 height:160,
-                width:330,
                 marginHorizontal: 25,
                 backgroundColor: '#fff',
                 shadowOffset: {
@@ -28,11 +27,12 @@ const NewAlert = (props) => {
                 borderRadius:15,
                 justifyContent: 'center',
                 alignItems: 'center',
+                padding:20
             }}>
                 <Text style={{
                     fontFamily:'PlusJakartaSans',
                     fontSize: 18,
-                }}>Confirm your booking?</Text>
+                }}>{props.title?props.title:'Confirm your booking?'}</Text>
                 <View style={{flexDirection: 'row',marginTop:20}}>
                     <TouchableOpacity onPress={() =>props.close(false)} style={{
                         width: 100,

@@ -211,7 +211,7 @@ const SignUp = (props) => {
 };
 
 export default SignUp;
-const SignUpWithOtp = (props) => {
+export const SignUpWithOtp = (props) => {
     const [next, setNext] = React.useState(0)
     const recaptchaVerifier = React.useRef(null);
     const [phoneNumber, setPhoneNumber] = React.useState();
@@ -251,6 +251,8 @@ const SignUpWithOtp = (props) => {
                         setVisibility(false)
                         navigation.navigate('Dashboard');
                     })
+                }).catch(err => {
+                    setText('Something wrong, please try again later')
                 })
         } catch (err) {
             //Alert.alert(err.code, err.message)
@@ -320,12 +322,21 @@ const SignUpWithOtp = (props) => {
                             }}
                         />
                     </View>
+                    <Text style={{
+                        marginLeft: 55,
+                        color: 'red',
+                        fontFamily: 'PlusJakartaSans',
+                        fontSize: 14
+                    }}>{text}</Text>
+                    <TouchableOpacity onPress={() => {
+                        if(props.login){
+                            signUp()
+                        }else{
+                            setNext(2)
+                            setText('')
+                        }
 
-
-                    <TouchableOpacity onPress={
-                        () => {setNext(2)
-                        setText('')}
-                    } style={{
+                        }} style={{
                         height: 60,
                         margin: 25,
                         padding: 10,
@@ -661,7 +672,29 @@ const SignUpWithOtp = (props) => {
                     alignItems: 'center',
                     marginTop: 20,
                 }}>
-                    <Text style={{
+                    {
+                        props.login?(
+                            <>
+                            <Text style={{
+                        fontSize: 14,
+                        fontWeight: '500',
+                        lineHeight: 18,
+                        fontFamily: 'PlusJakartaSans',
+                    }}>Want to create new account?</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                        <Text style={{
+                            fontSize: 14,
+                            color: '#FC444B',
+                            fontWeight: '500',
+                            lineHeight: 18,
+                            fontFamily: 'PlusJakartaSans',
+                            marginLeft: 5
+                        }}>Signin</Text>
+                    </TouchableOpacity>
+                            </>
+                        ):(
+                            <>
+                            <Text style={{
                         fontSize: 14,
                         fontWeight: '500',
                         lineHeight: 18,
@@ -677,6 +710,9 @@ const SignUpWithOtp = (props) => {
                             marginLeft: 5
                         }}>Login</Text>
                     </TouchableOpacity>
+                            </>
+                        )
+                    }
                 </View>
                 <AnimatedLoader
                     visible={visibility}

@@ -35,7 +35,7 @@ const SearchDeals = (props) => {
     //console.log(recentSearch)
     postData(url + '/searchData', {
       tableName: 'brands',
-      searchColumn: 'type',
+      searchColumn: 'name',
       searchData: props.search,
       orderColumn: recentSearch.shortBy,
       filterColumn: 'name',
