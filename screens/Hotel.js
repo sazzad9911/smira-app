@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     View, Dimensions, Text, TouchableOpacity, Image,
-    StyleSheet, ScrollView, ActivityIndicator, Alert, Modal, Platform,
+    StyleSheet, ScrollView, ActivityIndicator, Alert, Modal, Platform,Linking
 } from 'react-native'
 import MapView, { Marker } from 'react-native-maps';
 import { AntDesign, EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { parking, tv, wifi, heart, redHeart,cctv,gym,swmming } from '../components/Icon'
 import NewAlert from './../components/NewAlert';
 import NewBooking from './NewBooking';
+import location from './../assets/location.jpg'
 
 const Hotel = (props) => {
     const navigation = props.navigation;
@@ -296,12 +297,15 @@ const Hotel = (props) => {
                         }}>{hotel ? hotel.check_in : ''}</Text>
                     </View>
                 </View>
-                <View style={{
+                <TouchableOpacity onPress={() =>{
+                    Linking.openURL(hotel.location)
+                }} style={{
                     marginHorizontal: 20,
                     borderRadius: 20,
                     overflow: 'hidden',
                     marginBottom: 20
                 }}>
+                <Image style={styles.map} source={location}/>
 
                     {
                         /*
@@ -321,23 +325,31 @@ const Hotel = (props) => {
                         />
                     */
                     }
-                </View>
+                </TouchableOpacity>
                 <View style={{
                     marginHorizontal: 20,
                 }}>
                     <Text style={[styles.lineHead, { marginBottom: 10 }]}>What's nearby</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
+                    {
+                        hotel && hotel.near_by?(
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
+                           <View style={{
+                            height: 7, width: 7, borderRadius: 5, backgroundColor: '#292929', margin: 5,
+                           }}></View>
+                              <Text style={styles.lineText}>{hotel.near_by.split(',')[0]}</Text>
+                         </View>
+                        ):(<></>)
+                    }
+                    {
+                        hotel && hotel.near_by && hotel.near_by.split(',').length>1?(
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
                         <View style={{
                             height: 7, width: 7, borderRadius: 5, backgroundColor: '#292929', margin: 5,
                         }}></View>
-                        <Text style={styles.lineText}>500m away from Sai Baba Mandir</Text>
+                        <Text style={styles.lineText}>{hotel.near_by.split(',')[1]}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
-                        <View style={{
-                            height: 7, width: 7, borderRadius: 5, backgroundColor: '#292929', margin: 5,
-                        }}></View>
-                        <Text style={styles.lineText}>200m away from Shirdi Bus Stop</Text>
-                    </View>
+                        ):(<></>)
+                    }
                 </View>
                 {
                     Ratings && Ratings.length > 0 ? (

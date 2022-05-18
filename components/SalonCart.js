@@ -307,7 +307,7 @@ export const Cart = (props) => {
                                 fontSize: 20,
                                 fontFamily: 'PlusJakartaSansBold',
                                 marginLeft: 5
-                            }}>₹{parseInt(discount)}</Text>
+                            }}>₹{data.deal.discount}</Text>
                         </View>
                         <Text style={[style.cartText]}>Inc. of all taxes</Text>
                     </View>
@@ -315,7 +315,7 @@ export const Cart = (props) => {
                 {
                     Open && props.user ? (
                         <TouchableOpacity onPress={() => {
-                            if (props.user) {
+                            if (props.user && data.deal.code=='null') {
                                 setLoader(true);
                                 postData(url + '/setData', {
                                     auth: auth.currentUser,
@@ -339,7 +339,7 @@ export const Cart = (props) => {
                             }
                         }}
                             style={{
-                                backgroundColor: !props.user ? 'transparent' : '#FC444B',
+                                backgroundColor: props.user && data.deal.code=='null' ? '#FC444B' : 'transparent',
                                 justifyContent: 'center',
                                 borderRadius: 30,
                                 alignItems: 'center',
@@ -356,9 +356,9 @@ export const Cart = (props) => {
                                     <Text style={{
                                         fontSize: 18,
                                         fontFamily: 'PlusJakartaSans',
-                                        color: props.user ? '#ffff' : '#fc444b',
+                                        color: props.user && data.deal.code=='null' ? '#ffff' : '#fc444b',
                                         marginVertical: 15
-                                    }}>{props.user ? 'CONFIRM BOOKING' : Code ? 'COPIED' : data.deal.code}</Text>
+                                    }}>{props.user && data.deal.code=='null' ? 'CONFIRM BOOKING' : Code ? 'COPIED' : data.deal.code}</Text>
                                 )
                             }
 

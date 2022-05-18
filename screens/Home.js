@@ -150,7 +150,11 @@ const Home = ({ navigation }) => {
         setItem(z)
         setBrandDeal(arr)
         let first = arr.filter(e => e.brand.type != 'Restaurant')
-        setFirst(first)
+        if(first){
+          setFirst(first)
+        }else{
+          setFirst([])
+        }
         return dispatch(setDeals(arr));
       }
       return data
@@ -518,7 +522,9 @@ const Home = ({ navigation }) => {
         }}>
           {
             First ? (
-              <Banner data={First[0]} />
+              First.length > 0 ?(
+                <Banner data={First[0]} />
+              ):(<></>)
             ) : (
               <ActivityIndicator size="large" color="#FA454B" />
             )
@@ -686,7 +692,9 @@ const Home = ({ navigation }) => {
         }}>
           {
             First ? (
-              <Banner data={First[First.length - 1]} />
+              First.length > 0 ?(
+                <Banner data={First[First.length - 1]} />
+              ):(<></>)
             ) : (
               <ActivityIndicator size="large" color="#FA454B" />
             )
