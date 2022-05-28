@@ -150,6 +150,7 @@ const Home = ({ navigation }) => {
         setItem(z)
         setBrandDeal(arr)
         let first = arr.filter(e => e.brand.type != 'Restaurant')
+        console.log(first)
         if(first){
           setFirst(first)
         }else{

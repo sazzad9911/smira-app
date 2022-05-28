@@ -12,7 +12,9 @@ const ItemCart = (props) => {
        if(deals){
         const arr = deals.filter(e => e.deal.type == props.name)
         setData(arr)
-        setDeal(arr[0].deal)
+        if(arr && arr.length>0){
+            setDeal(arr[0].deal)
+        }
        }
     }, [deals])
     //console.log(Deal?Deal.image:'rr')
@@ -27,7 +29,7 @@ const ItemCart = (props) => {
                 width: '100%',
                 height: 130,
                 borderRadius: 10,
-            }} source={{uri:Deal?Deal.image:'https://www.vuescript.com/wp-content/uploads/2018/11/Show-Loader-During-Image-Loading-vue-load-image.png'}} />
+            }} source={{uri:Deal?Deal.image:'https://toyjunction.in/images/item_no.png'}} />
             <Text style={{
                 fontFamily: 'PlusJakartaSansBold',
                 fontSize: 18,
