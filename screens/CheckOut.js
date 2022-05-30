@@ -35,12 +35,15 @@ const CheckOut = (props) => {
     const date = new Date()
     const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     const user = useSelector(state => state.user)
+    const [Plans,setPlans]=React.useState([])
 
     React.useEffect(() => {
         if (membership) {
             membership.forEach(member => {
                 if (member.id == params.id) {
                     setMemberships(member)
+                    let arr=member.plans.split(',')
+                    setPlans(arr)
                 }
             })
         }
@@ -125,30 +128,16 @@ const CheckOut = (props) => {
                                     {Membership ? Membership.price : ""}</Text>
                                 <Text style={{ color: '#585858' }}>/2 years</Text></Text>
                         </View>
-                        <View style={styles.logo1}>
+
+                        {
+                            Plans.map((doc, i)=>(
+                                <View key={i} style={styles.logo1}>
                             <AntDesign name="checkcircle" size={24} color={params.color} />
-                            <Text style={styles.underrupee}>Stays upto 40 nights</Text>
+                            <Text style={[styles.underrupee,{marginTop:i!=0?-18:0}]}>{doc}</Text>
                         </View>
-                        <View style={styles.logo1}>
-                            <AntDesign name="checkcircle" size={24} color={params.color} />
-                            <Text style={styles.underrupee}>Valid on any 5 hotels</Text>
-                        </View>
-                        <View style={styles.logo1}>
-                            <AntDesign name="checkcircle" size={24} color={params.color} />
-                            <Text style={styles.underrupee}>Family access upto 3 accounts</Text>
-                        </View>
-                        <View style={styles.logo1}>
-                            <AntDesign name="checkcircle" size={24} color={params.color} />
-                            <Text style={styles.underrupee}>10 days prior to reservation</Text>
-                        </View>
-                        <View style={styles.logo1}>
-                            <AntDesign name="checkcircle" size={24} color={params.color} />
-                            <Text style={styles.underrupee}>Weekends booking</Text>
-                        </View>
-                        <View style={styles.logo1}>
-                            <AntDesign name="checkcircle" size={24} color={params.color} />
-                            <Text style={styles.underrupee}>Peak days booking</Text>
-                        </View>
+                            ))
+                        }
+                        
                     </View>
                     <View style={{ width: window.width }}>
                         <Text style={styles.underboxtext}>Payment Method</Text>
@@ -252,8 +241,8 @@ const styles = StyleSheet.create({
 
     logo1: {
         flexDirection: 'row',
-        marginTop: 20,
-        marginBottom: 5
+        marginTop: 10,
+        marginBottom: 5,
     },
 
     rupee: {
@@ -267,7 +256,7 @@ const styles = StyleSheet.create({
         fontFamily: 'PlusJakartaSans',
         fontWeight: '500',
         marginLeft: 15,
-        color: '#585858'
+        color: '#585858',
     },
 
     underboxtext: {

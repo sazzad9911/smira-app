@@ -3,9 +3,11 @@ import { View, Text, TouchableOpacity, Image, Modal } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { DetailsCart } from './SalonCart';
+import { useSelector } from 'react-redux';
 
 const Banner = (props) => {
     const [ModalVisible, setModalVisible] = React.useState(false)
+    const brands = useSelector(state => state.brands)
     const data=props.data
     return (
         <View>
@@ -20,7 +22,7 @@ const Banner = (props) => {
                 <Image style={{
                     width: '100%',
                     height: '100%',
-                }} source={{ uri: data.deal.image }} />
+                }} source={{ uri: data.image }} />
                 <LinearGradient style={{
                     width: '100%',
                     height: '100%',
@@ -39,13 +41,13 @@ const Banner = (props) => {
                                 color: '#ffff',
                                 fontFamily: 'PlusJakartaSansBold',
                                 fontSize: 28
-                            }}>{data.brand.type}</Text>
+                            }}>{data.name!='null' ? data.name :''}</Text>
                             <Text style={{
                                 color: '#ffff',
                                 fontSize: 18,
                                 fontFamily: 'PlusJakartaSans',
                                 marginTop: 5
-                            }}>Under ₹{data.deal.price}</Text>
+                            }}>{data.details!='null' ? data.details :''}</Text>
                         </View>
                         <AntDesign style={{
                             marginTop: 20
@@ -54,7 +56,7 @@ const Banner = (props) => {
                 </LinearGradient>
             </TouchableOpacity>
             <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
-                <DetailsCart setModalVisible={setModalVisible} data={data.brand} />
+                <DetailsCart setModalVisible={setModalVisible} data={brands?brands.filter(d=>d.id==data.brand_id)[0]:{}} />
             </Modal>
         </View>
     );

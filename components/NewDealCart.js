@@ -18,7 +18,7 @@ const NewDealCart = (props) => {
             <Image style={{
                 width: '100%',
                 height: '100%',
-            }} source={{ uri: data.deal.image }} />
+            }} source={{ uri: data.image }} />
             <LinearGradient style={{
                 width: '100%',
                 height: '100%',
@@ -38,13 +38,13 @@ const NewDealCart = (props) => {
                             color:'#ffff',
                             fontFamily:'PlusJakartaSansBold',
                             fontSize:20
-                        }}>{data.brand.type}</Text>
+                        }}>{data.name!='null' ? data.name :' '}</Text>
                         <Text style={{
                             color:'#ffff',
                             fontSize:14,
                             fontFamily:'PlusJakartaSans',
                             marginTop:0
-                        }}>Under   ₹{data.deal.price}</Text>
+                        }}>{data.details!='null'?data.details:' '}</Text>
                     </View>
                 </View>
             </LinearGradient>

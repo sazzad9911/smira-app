@@ -32,6 +32,7 @@ const Booking = (props) => {
     const darkMode = useSelector(state => state.pageSettings.darkMode)
     const [modalVisible, setModalVisible]= React.useState(false)
     const [Select, setSelect]= React.useState(null)
+    const user = useSelector(state => state.user)
 
     const convertDate = (date) => {
         let data = '';
@@ -64,6 +65,14 @@ const Booking = (props) => {
         }).catch(err => {
             setLoader(false)
             Alert.alert('Error', err.code)
+        })
+        postData(url +'/sendEmail',{
+            from:'info@smira.club',
+            to:auth.currentUser.email,
+            subject:'Your Booking Request has been received - Smira Club',
+            text:"<p>Dear <strong>"+user[0].name.split(' ')[0]+"</strong>,</p><p>We have received your request for a booking on <strong>"+convertDate(new Date(CheckIn))+"</strong> for <strong>"+count2+"</strong> room at the "+params.name+".Please wait for a booking confirmation email to know about your booking status.If you have any inquiries, please do not hesitate to contact us.</p><p>Best Regards</p><p>Smira Club</p><p>Ranjit Studio Compound,</p><p> Ground & 1st Floor, </p><p>C-Block, Plot No. 115, </p><p>Dada Saheb Phalke Marg, </p><p>Opp. Bharatkshetra, Hindmata, </p><p>Dadar East, Mumbai, </p><p>Maharashtra 400014 </p><p>Contact No. </p><p>9819812456</p><p>9833733477</p><p>9820342389</p><p> Email - support@smira.club</p>"
+        }).then(data=>{
+            console.log(data)
         })
     }
     if (confirm) {

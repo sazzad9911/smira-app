@@ -61,6 +61,9 @@ const Home = ({ navigation }) => {
   const route = useRoute();
   const loader= useSelector(state => state.loader)
   const bottomSheet = useSelector(state => state.pageSettings.bottomSheet)
+  const [Poster,setPoster]= React.useState(null)
+  const [banner, setBanner]= React.useState(null)
+  const [secondBanner, setSecondBanner]=React.useState(null)
 
   React.useEffect(() => {
     let data = postData(url + "/getData", {
@@ -149,13 +152,7 @@ const Home = ({ navigation }) => {
         setNewData(newData)
         setItem(z)
         setBrandDeal(arr)
-        let first = arr.filter(e => e.brand.type != 'Restaurant')
-        console.log(first)
-        if(first){
-          setFirst(first)
-        }else{
-          setFirst([])
-        }
+        
         return dispatch(setDeals(arr));
       }
       return data
@@ -176,7 +173,7 @@ const Home = ({ navigation }) => {
     return uniqueArray;
   }
   React.useEffect(() => {
-    let data = postData(url + "/getData", {
+    let newData = postData(url + "/getData", {
       tableName: 'hotels',
       orderColumn: 'popularity'
     }).then(data => {
@@ -184,7 +181,7 @@ const Home = ({ navigation }) => {
         dispatch(setHotels(data));
         return setHotel(data)
       }
-      return data
+      return newData
     }).catch(err => {
       console.log(err);
       return data
@@ -201,6 +198,34 @@ const Home = ({ navigation }) => {
     })
   }, [])
   //console.log(NewData)
+  React.useEffect(() => {
+    postData(url +'/getData',{
+      tableName: 'poster',
+    }).then(data => {
+      if(Array.isArray(data)){
+        return setPoster(data)
+      }
+      console.log(data.message)
+    })
+  },[])
+  React.useEffect(() => {
+    postData(url + '/getData', {
+      tableName:'banner',
+    }).then(data => {
+      if(Array.isArray(data)){
+        let first = data.filter(e => e.number == 1)
+        if(first&&first.length > 0){
+          setFirst(first[0])
+        }
+        let second=data.filter(e => e.number==2)
+        if(second&&second.length > 0){
+            setSecondBanner(second[0])
+        }
+        return setBanner(data)
+      }
+      console.log(data.message)
+    })
+  },[])
 
   React.useEffect(() => {
     console.log(route.name)
@@ -305,42 +330,42 @@ const Home = ({ navigation }) => {
               dispatch(setLoader('Hotels'))
             }} name="Hotels" icon={Hotels} />
             <IconsSet onPress={() => {
-              navigation.navigate('Category Single', { title: 'Restaurants',search:'a' })
+              navigation.navigate('Category Single', { title: 'Salon',search:'Restaurant' })
              dispatch(setLoader('Restaurant'))
             }} name="Restaurant" icon={Restaurant} />
             <IconsSet onPress={() => {
-              //navigation.navigate('Category Single', { title: 'Games' })
+              navigation.navigate('Category Single', { title: 'Salon',search:'Games' })
             }} name="Games" icon={Games} />
             <IconsSet onPress={() => {
-              //navigation.navigate('Category Single', { title: 'Shopping' })
+              navigation.navigate('Category Single', { title: 'Salon',search:'Shopping' })
             }} name="Shopping" icon={Shopping} />
             <IconsSet onPress={() => {
-              //navigation.navigate('Category Single', { title: 'Villas' })
+             navigation.navigate('Category Single', { title: 'Salon',search:'Villas' })
             }} name="Villas" icon={Villas} />
             <IconsSet onPress={() => {
-              //navigation.navigate('Category Single', { title: 'Camping' })
+              navigation.navigate('Category Single', { title: 'Salon',search:'Camping' })
             }} name="Camping" icon={Camping} />
             <IconsSet onPress={() => {
-              //navigation.navigate('Category Single', { title: 'Travel' })
+              navigation.navigate('Category Single', { title: 'Salon',search:'Travel' })
             }} name="Travel" icon={Travel} />
             {
               More ? (
                 <IconsSet onPress={() => {
-                  //navigation.navigate('Category Single', { title: 'Health' })
+                 navigation.navigate('Category Single', { title: 'Salon',search:'Health' })
                 }} name="Health" icon={Health} />
               ) : (<></>)
             }
             {
               More ? (
                 <IconsSet onPress={() => {
-
+                navigation.navigate('Category Single', { title: 'Salon',search:'Spa & Salons' })
                 }} name="Spa & Salons" icon={Spa_Salons} />
               ) : (<></>)
             }
             {
               More ? (
                 <IconsSet onPress={() => {
-                  //navigation.navigate('Category Single', { title: 'Services' })
+                 navigation.navigate('Category Single', { title: 'Salon',search:'Services' })
                 }} name="Services" icon={Services} />
               ) : (<></>)
             }
@@ -399,10 +424,10 @@ const Home = ({ navigation }) => {
             showsHorizontalScrollIndicator={false} horizontal={true} >
             <View style={{ width: 10 }}></View>
             {
-              BrandDeal ? (
-                BrandDeal.map((doc, i) => (
+              Poster ? (
+                Poster.map((doc, i) => (
                   <NewDealCart key={i} onPress={() => {
-                    navigation.navigate('Category Single', { title: 'Salon',search:doc.brand.type })
+                    navigation.navigate('Category Single', { title: 'Salon',search:doc.type })
                     dispatch(setLoader('Salon'))
                   }} data={doc} />
                 ))
@@ -497,14 +522,12 @@ const Home = ({ navigation }) => {
           <ScrollView showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false} horizontal={true}>
             {
-              BrandDeal ? (
-                BrandDeal.map((doc, i) => (
-                  doc.brand.type != 'Restaurant' ? (
-                    <ActivitiesCart key={i} onPress={() => {
+              banner ? (
+                banner.map((doc, i) => (
+                  <ActivitiesCart key={i} onPress={() => {
                       navigation.navigate('Category Single', { title: 'Salon' })
                       dispatch(setLoader('Salon'))
                     }} data={doc} />
-                  ) : (<View key={i}></View>)
                 ))
               ) : (<ActivityIndicator size="large" color="#FA454B" />)
             }
@@ -523,11 +546,9 @@ const Home = ({ navigation }) => {
         }}>
           {
             First ? (
-              First.length > 0 ?(
-                <Banner data={First[0]} />
-              ):(<></>)
+              <Banner data={First}/>
             ) : (
-              <ActivityIndicator size="large" color="#FA454B" />
+              <View></View>
             )
           }
         </View>
@@ -653,7 +674,9 @@ const Home = ({ navigation }) => {
             <View style={{ width: 10, }}></View>
           </ScrollView>
         </View>
-        <ScrollView style={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false}
+        {
+          /*
+          <ScrollView style={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false} horizontal={true}>
           {
 
@@ -684,6 +707,8 @@ const Home = ({ navigation }) => {
             ))
           }
         </ScrollView>
+          */
+        }
 
         <View style={{
           width: '100%',
@@ -692,12 +717,10 @@ const Home = ({ navigation }) => {
           marginTop: 10, paddingTop: 10,
         }}>
           {
-            First ? (
-              First.length > 0 ?(
-                <Banner data={First[First.length - 1]} />
-              ):(<></>)
+            secondBanner ? (
+              <Banner data={secondBanner}/>
             ) : (
-              <ActivityIndicator size="large" color="#FA454B" />
+              <></>
             )
           }
         </View>

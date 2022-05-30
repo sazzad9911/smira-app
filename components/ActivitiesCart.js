@@ -5,9 +5,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { DetailsCart } from './SalonCart';
 import { rightArrow } from './Icon';
 import { SvgXml } from 'react-native-svg';
+import {useSelector} from 'react-redux'
 
 const ActivitiesCart = (props) => {
     const data = props.data
+    const brands=useSelector(state => state.brands)
     const [ModalVisible, setModalVisible] = React.useState(false)
     return (
         <TouchableOpacity onPress={() =>setModalVisible(true)} style={{
@@ -22,7 +24,7 @@ const ActivitiesCart = (props) => {
                 height: '100%',
                 width: '100%',
                 borderRadius: 10,
-            }} source={{ uri: data.deal.image }} />
+            }} source={{ uri: data.image }} />
             <LinearGradient style={{
                 position: 'absolute',
                 width: '100%',
@@ -37,7 +39,8 @@ const ActivitiesCart = (props) => {
                         color: 'white',
                         fontFamily: 'PlusJakartaSansBold',
                         fontSize: 20
-                    }}>{data.brand.type}</Text>
+                    }}>{brands && brands.filter(brands=>brands.id==data.brand_id)?
+                    brands.filter(brands=>brands.id==data.brand_id)[0].name:''}</Text>
                     <View style={{
                         backgroundColor: '#FC444B',
                         height: 2,
@@ -66,7 +69,7 @@ const ActivitiesCart = (props) => {
                 </View>
             </LinearGradient>
             <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
-                <DetailsCart setModalVisible={setModalVisible} data={data.brand} />
+                <DetailsCart setModalVisible={setModalVisible} data={brands?brands.filter(d=>d.id ==data.brand_id)[0]:{}} />
             </Modal>
         </TouchableOpacity>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView,ActivityIndicator } from 'react-native'
+import { View, ScrollView,ActivityIndicator ,Text} from 'react-native'
 import { useSelector } from 'react-redux'
 import { backgroundColor } from '../assets/color';
 import SalonCart from '../components/SalonCart';
@@ -35,9 +35,14 @@ const Salon = (props) => {
         <ScrollView style={{ backgroundColor: backgroundColor(darkMode) }}>
             {
                 Data ? (
-                    Data.map((doc, i) => (
+                    Data.length>0 ? (
+                        Data.map((doc, i) => (
                         <SalonCart data={doc} key={i} />
                     ))
+                    ):(<Text style={{
+                        textAlign: 'center',
+                        fontFamily: 'PlusJakartaSans'
+                    }}>No data available</Text>)
                 ) : (
                     <ActivityIndicator size="large" color="#FA454B" />
                 )
