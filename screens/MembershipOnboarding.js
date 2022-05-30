@@ -122,7 +122,11 @@ const MembershipOnboarding = ({ navigation }) => {
                     }} onPress={() => {
                         dispatch(setFamilyCode(true))
                     }}>Apply it here</Text>
-                    <View style={{ backgroundColor: '#FC444B', height: 1, width: 80, marginTop: 2 }}></View>
+                    <View style={{ backgroundColor: '#FC444B',
+                     height: 1,
+                      width: 80,
+                       marginTop: 2 
+                       }}></View>
                 </View>
                 <View style={{
                     marginTop: 25,
@@ -168,6 +172,7 @@ const MembershipOnboarding = ({ navigation }) => {
                                 <ActivityIndicator size="large" color="#FA454B" />
                             )
                         }
+                        <View style={{width:20}}/>
                     </View>
 
                     <View style={{ flexDirection: 'row' }}>

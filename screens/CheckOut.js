@@ -108,7 +108,7 @@ const CheckOut = (props) => {
         }
     ];
     return (
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ alignItems: 'center'}}>
             <ScrollView showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}>
                 <View style={[styles.main, { backgroundColor: backgroundColor(darkMode) }]}>
