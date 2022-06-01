@@ -23,11 +23,12 @@ const HomeHeader = (props) => {
                 <Feather name="menu" size={24} color="white" />
             </TouchableOpacity>
             <SvgXml xml={Icon} width="63"/>
-            <TouchableOpacity onPress={() => {
+            {/* <TouchableOpacity onPress={() => {
                 setShowNotifications(true)
             }}>
                 <SvgXml xml={Notification} height="25" width="25"/>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <View style={{width:22}}></View>
             <Modal
                 animationType='fade'
                 transparent={true}

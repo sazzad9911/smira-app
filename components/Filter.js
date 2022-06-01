@@ -77,9 +77,7 @@ const Filter = (props) => {
                             {
                                 brands ? (
                                     brands.map((b, i) => (
-                                        b.type==route?(
-                                            <Brands press={(v)=>togglePush(v)} key={i} title={b.name} />
-                                        ):(<></>)
+                                        <Brands press={(v)=>togglePush(v)} key={i} title={b.name} />
                                     ))
                                 ) : (
                                     <View></View>
@@ -94,9 +92,7 @@ const Filter = (props) => {
                             {
                                 brands ? (
                                     brands.map((b, i) => (
-                                        b.type==route?(
-                                            <Brands press={(v)=>togglePush(v)} key={i} title={b.name} />
-                                        ):(<></>)
+                                        <Brands press={(v)=>togglePush(v)} key={i} title={b.name} />
                                     ))
                                 ) : (
                                     <View></View>

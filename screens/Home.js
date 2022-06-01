@@ -235,6 +235,7 @@ const Home = ({ navigation }) => {
       if(!route.name){
         return true
       }
+      
       dispatch(setBottomSheet(null))
      
       return false;

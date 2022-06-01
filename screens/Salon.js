@@ -16,7 +16,7 @@ const Salon = (props) => {
             //let arr = brands.filter(d => d.name == recentSearch.brand);
            // setData(arr)
            let condition=null;
-           if(recentSearch && recentSearch.brand){
+           if(recentSearch.brand){
             recentSearch.brand.map((doc,i)=>{
                 if(!condition){
                     condition="name='"+doc+"'";
@@ -33,7 +33,7 @@ const Salon = (props) => {
             })
            }
            
-    },[Array.isArray(recentSearch.brand)?recentSearch.brand.length:1])
+    },[Array.isArray(recentSearch.brand)?recentSearch.brand.length:0])
  
     React.useEffect(() => {
         let arr = brands.filter(d => d.type == props.search)
