@@ -36,6 +36,7 @@ import ImageBanner from '../components/ImageBanner';
 import ItemCart from '../components/ItemCart';
 import SideSwipe from 'react-native-sideswipe';
 import { useRoute } from '@react-navigation/native';
+import {DetailsCart} from './../components/SalonCart';
 
 
 const window = Dimensions.get('window')
@@ -64,6 +65,7 @@ const Home = ({ navigation }) => {
   const [Poster,setPoster]= React.useState(null)
   const [banner, setBanner]= React.useState(null)
   const [secondBanner, setSecondBanner]=React.useState(null)
+  const [Visible, setVisible]= React.useState(false)
 
   React.useEffect(() => {
     let data = postData(url + "/getData", {
@@ -261,7 +263,7 @@ const Home = ({ navigation }) => {
           navigation.navigate('Search')
         }}>
           <SvgXml
-            style={{
+            style={{ 
               marginRight: 20,
               marginLeft: 5,
             }}
@@ -331,27 +333,33 @@ const Home = ({ navigation }) => {
             }} name="Hotels" icon={Hotels} />
             <IconsSet onPress={() => {
               navigation.navigate('Category Single', { title: 'Salon',search:'Restaurant' })
-             dispatch(setLoader('Restaurant'))
+              dispatch(setLoader('Restaurant'))
             }} name="Restaurant" icon={Restaurant} />
             <IconsSet onPress={() => {
               navigation.navigate('Category Single', { title: 'Salon',search:'Games' })
+              dispatch(setLoader('Games'))
             }} name="Games" icon={Games} />
             <IconsSet onPress={() => {
               navigation.navigate('Category Single', { title: 'Salon',search:'Shopping' })
+              dispatch(setLoader('Shopping'))
             }} name="Shopping" icon={Shopping} />
             <IconsSet onPress={() => {
-             navigation.navigate('Category Single', { title: 'Salon',search:'Villas' })
+              navigation.navigate('Category Single', { title: 'Salon',search:'Villas' })
+              dispatch(setLoader('Villas'))
             }} name="Villas" icon={Villas} />
             <IconsSet onPress={() => {
-              navigation.navigate('Category Single', { title: 'Salon',search:'Camping' })
+               navigation.navigate('Category Single', { title: 'Salon',search:'Camping' })
+              dispatch(setLoader('Camping'))
             }} name="Camping" icon={Camping} />
             <IconsSet onPress={() => {
               navigation.navigate('Category Single', { title: 'Salon',search:'Travel' })
+              dispatch(setLoader('Travel'))
             }} name="Travel" icon={Travel} />
             {
               More ? (
                 <IconsSet onPress={() => {
                  navigation.navigate('Category Single', { title: 'Salon',search:'Health' })
+                 dispatch(setLoader('Health'))
                 }} name="Health" icon={Health} />
               ) : (<></>)
             }
@@ -359,6 +367,7 @@ const Home = ({ navigation }) => {
               More ? (
                 <IconsSet onPress={() => {
                 navigation.navigate('Category Single', { title: 'Salon',search:'Spa & Salons' })
+                 dispatch(setLoader('Spa & Salons'))
                 }} name="Spa & Salons" icon={Spa_Salons} />
               ) : (<></>)
             }
@@ -417,7 +426,7 @@ const Home = ({ navigation }) => {
               paddingVertical: 15,
               paddingLeft: 18,
               color: textColor(darkMode)
-            }}>Deals Near You</Text>
+            }}>Popular Deals</Text>
 
           </View>
           <ScrollView showsVerticalScrollIndicator={false}
@@ -428,7 +437,7 @@ const Home = ({ navigation }) => {
                 Poster.map((doc, i) => (
                   <NewDealCart key={i} onPress={() => {
                     navigation.navigate('Category Single', { title: 'Salon',search:doc.type })
-                    dispatch(setLoader('Salon'))
+                    dispatch(setLoader(doc.type))
                   }} data={doc} />
                 ))
               ) : (<ActivityIndicator size="large" color="#FA454B" />)
@@ -508,8 +517,8 @@ const Home = ({ navigation }) => {
               color: textColor(darkMode)
             }}>Activities Near You</Text>
             <TouchableOpacity onPress={() => {
-              navigation.navigate('Category Single', { title: 'Salon',search: 'Restaurant'})
-              dispatch(setLoader('Salon'))
+              navigation.navigate('Category Single', { title: 'Salon',search: 'Games'})
+              dispatch(setLoader('Games'))
 
             }}>
               <Text style={{
@@ -727,7 +736,8 @@ const Home = ({ navigation }) => {
         <View style={{ height: 100 }}></View>
         <FamilyCode />
         <Modal visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
-          <SliderCoupon navigation={navigation} data={SliderData} close={setModalVisible} />
+        <DetailsCart setModalVisible={setModalVisible} data={Brand &&
+         SliderData?Brand.filter(d=>d.id==SliderData.brand_id)[0]:{}} />
         </Modal>
       </ScrollView>
       <View style={{
@@ -737,6 +747,7 @@ const Home = ({ navigation }) => {
       }}>
         <Bottom navigation={navigation} />
       </View>
+      
     </View>
   )
 }

@@ -52,7 +52,7 @@ const ActivitiesCart = (props) => {
                         fontFamily: 'PlusJakartaSans',
                         fontSize: 14,
                         marginTop: 5
-                    }}>Full Day Pass</Text>
+                    }}>{data.details}</Text>
                     <View style={{
                         flexDirection: 'row',
                         alignItems: 'center',

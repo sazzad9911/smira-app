@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown'
-import { postData, url } from '../action'
+import { postData, url,dateDifference } from '../action'
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { getAuth } from 'firebase/auth'
 import app from '../firebase';
@@ -37,6 +37,7 @@ const HotelBooking = (props) => {
     const [Select,setSelect]= React.useState(null)
     const user= useSelector(state => state.user)
     const [HotelName, setHotelName]= React.useState(null)
+    const [Error, setError]= React.useState()
 
     const convertDate = (date) => {
         let data = '';
@@ -214,6 +215,55 @@ const HotelBooking = (props) => {
         }).then(data => {
             if (Array.isArray(data)) {
                 setData(data)
+            }
+        })
+    }
+    const checkHotelBooking= () =>{
+        if(user && !parseInt(dateDifference(user[0].starting_date, user[0].ending_date))>0){
+            setError('Your membership plan has expired. Please renew your membership plan.')
+            return
+        }
+        setLoader(true)
+        postData(url + '/getData',{
+            tableName:'membership',
+            condition: "type=" + "'"+user[0].membership_type+"'"
+        }).then(membership=>{
+            if(Array.isArray(membership) && membership.length > 0){
+                let totalHotels =0;
+                let totalNights =0;
+                postData(url + '/getData',{
+                tableName: 'hotel_booking',
+                condition: "user_id=" +"'"+ auth.currentUser.uid + "'"
+                }).then(data=>{
+             if(Array.isArray(data) && data.length > 0){
+                let id=data[0].hotel_id;
+                totalHotels=1;
+               data.forEach(doc=>{
+               if(doc.visible){
+                totalNights=totalNights+parseInt(dateDifference(doc.check_in, doc.check_out))
+                if(id!=doc.hotel_id){
+                    totalHotels=totalHotels+1;
+                    id =doc.hotel_id;
+                }
+               }
+             })
+             if(membership[0].hotel!='all' && membership[0].hotel<totalHotels ){
+                setError('Your hotel quota exceeded. Please renew your plan.')
+                setLoader(false);
+                return
+             }
+             if(membership[0].night!='unlimited' && membership[0].night<totalNights){
+                setError('You extend maximum level of your night spend quota. Please renew your plan')
+                setLoader(false);
+                return
+             }
+             setLoader(false);
+             setModalVisible(true)
+            }else{
+                console.log(data.message)
+                return null;
+            }
+        })
             }
         })
     }
@@ -543,8 +593,13 @@ const HotelBooking = (props) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
+                        {Error?(<Text style={{
+                            color:'red',
+                            fontFamily:'PlusJakartaSans',
+                            textAlign:'center',
+                        }}>{Error}</Text>):(<></>)}
                 <TouchableOpacity onPress={() => {
-                    setModalVisible(true);
+                    checkHotelBooking()
                 }} disabled={count > 0 && count2 > 0 && text ? false : true}
                     style={[style.viewEnd, {
                         backgroundColor: count > 0 && count2 > 0 && text ? '#FC444B' : textColor(!darkMode),

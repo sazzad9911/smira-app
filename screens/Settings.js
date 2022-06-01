@@ -195,7 +195,9 @@ const Settings = ({ navigation }) => {
                     <Text style={{ fontSize: 16, fontFamily: 'PlusJakartaSansBold', color: textColor(darkMode) }}>Settings</Text>
                 </View>
 
-                <TouchableOpacity onPress={() => {
+               {
+                /*
+                 <TouchableOpacity onPress={() => {
                     navigation.navigate('Language');
                 }} style={{ flexDirection: 'row', marginTop: 25 }}>
                     <View style={{ flex: 1 }}>
@@ -211,6 +213,8 @@ const Settings = ({ navigation }) => {
                         <AntDesign name="right" size={20} color="black" style={{ marginLeft: 30, color: '#D8D8D8' }} />
                     </View>
                 </TouchableOpacity>
+                */
+               }
 
                 <View style={{ flexDirection: 'row', marginTop: 25 }}>
                     <View style={{ flex: 1 }}>

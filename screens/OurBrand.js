@@ -18,6 +18,7 @@ const OurBrand = (props) => {
     const dispatch = useDispatch()
     const [Brand, setBrand] = React.useState(null)
     const darkMode = useSelector(state => state.pageSettings.darkMode)
+    const window = Dimensions.get('window')
     React.useEffect(() => {
         postData(url + "/getData", {
             tableName: "brands",
@@ -31,7 +32,8 @@ const OurBrand = (props) => {
         })
     }, [])
     return (
-        <ScrollView style={{backgroundColor:backgroundColor(darkMode) }}>
+        <ScrollView style={{backgroundColor:backgroundColor(darkMode),
+        width:window.width,height:window.height}}>
             <View style={{
                 flexDirection: 'row',
                 flexWrap: 'wrap',

@@ -77,7 +77,9 @@ const Filter = (props) => {
                             {
                                 brands ? (
                                     brands.map((b, i) => (
-                                        <Brands press={(v)=>togglePush(v)} key={i} title={b.name} />
+                                        b.type==route?(
+                                            <Brands press={(v)=>togglePush(v)} key={i} title={b.name} />
+                                        ):(<></>)
                                     ))
                                 ) : (
                                     <View></View>
@@ -85,14 +87,16 @@ const Filter = (props) => {
                             }
                         </View>
                     </>
-                ) : route == 'Salon' ? (
+                ) :  (
                     <>
                         <Text style={styles.headline}>Brands</Text>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             {
                                 brands ? (
                                     brands.map((b, i) => (
-                                        <Brands key={i} title={b.name} />
+                                        b.type==route?(
+                                            <Brands press={(v)=>togglePush(v)} key={i} title={b.name} />
+                                        ):(<></>)
                                     ))
                                 ) : (
                                     <View></View>
@@ -105,22 +109,6 @@ const Filter = (props) => {
                             <Category title='5-10km'/>
                             <Category title='10-15km'/>
                             <Category title='15+km'/>
-                        </View>
-                    </>
-                ) : (
-                    <>
-                        <Text style={styles.headline}>Ratings</Text>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 10 }}>
-                            <Ratings color='#64B657' title='5-4' />
-                            <Ratings color='#B2DBAC' title='4-3' />
-                            <Ratings color='#FBDD73' title='3-2' />
-                            <Ratings color='#E47768' title='2-1' />
-                        </View>
-                        <Text style={styles.headline}>Categories</Text>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                            <Category title='Deluxe' />
-                            <Category title='Villas' />
-                            <Category title='Farm House' />
                         </View>
                     </>
                 )
@@ -233,7 +221,6 @@ const Brands = (props) => {
         if(!brand) {
             setselectedItem(false)
         }
-
     },[brand])
 
     return (
@@ -250,12 +237,12 @@ const Brands = (props) => {
             alignItems: 'center',
             flexDirection: 'row',
             margin: 5,
-            backgroundColor: selectedItem ? '#64B657' : '#ffff',
+            backgroundColor: brand && brand.includes(props.title) ? '#64B657' : '#ffff',
             color: '#808080',
             borderColor: '#D8D8D8',
             padding: 10
         }}>
-            <Text style={{ marginLeft: 5, color: selectedItem ? '#ffff' : '#808080', }}>{props.title}</Text>
+            <Text style={{ marginLeft: 5, color: brand && brand.includes(props.title) ? '#ffff' : '#808080', }}>{props.title}</Text>
         </TouchableOpacity>
     )
 }

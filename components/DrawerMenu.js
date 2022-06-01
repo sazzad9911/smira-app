@@ -134,7 +134,7 @@ const DrawerMenu = ({ navigation }) => {
                     marginBottom: 10
                 }}></View>
                 <TouchableOpacity style={[styles.navTab]} onPress={() => {
-                    if (user && user.starting_date) {
+                    if (user && user[0].membership_type) {
                         navigation.navigate('MemberShipInfo')
                     } else {
                         navigation.navigate('MemberShipOnboarding')

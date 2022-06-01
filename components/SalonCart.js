@@ -12,6 +12,9 @@ import { getAuth } from 'firebase/auth';
 import { postData, url } from '../action'
 import { SvgXml } from 'react-native-svg';
 import { call, location, leftArrow, upArrow, rightArrow } from './Icon';
+import NewAlert from './NewAlert'
+import { useNavigation } from '@react-navigation/native';
+
 
 const SalonCart = (props) => {
     const darkMode = useSelector(state => state.pageSettings.darkMode)
@@ -212,6 +215,7 @@ export const Cart = (props) => {
     const [Loader, setLoader] = React.useState(false)
     const auth = getAuth(app);
     const user = useSelector(state => state.user)
+    const navigation=useNavigation()
 
     React.useEffect(() => {
         let newDay = data.deal.days.split(',')
@@ -237,7 +241,13 @@ export const Cart = (props) => {
     }
     return (
         <View style={{ backgroundColor: '#FFFF', marginBottom: 10, padding: 10 }}>
-            <TouchableOpacity disabled={props.user?false:true} onPress={() => setOpen(!Open)} style={{
+            <TouchableOpacity onPress={() => {
+                if(props.user){
+                setOpen(!Open)
+                }else{
+                    setModalVisible(true)
+                }
+            }} style={{
                 borderWidth: 1,
                 borderRadius: 10,
                 borderColor: '#D8D8D8',
@@ -265,25 +275,26 @@ export const Cart = (props) => {
                 <View style={{ marginTop: 5 }}>
                     <View style={style.cartContainer}>
                         <Text style={style.cartText}>Valid on</Text>
-                        <Text style={style.cartHead}>{day.length == 7 ? 'All Days' : day[0] + "-" + day[day.length - 1]}</Text>
+                        <Text numberOfLines={1} style={style.cartHead}>{day.length == 7 ? 'All Days' : day[0] + "-" + day[day.length - 1]}</Text>
                     </View>
                     <View style={style.cartContainer}>
                         <Text style={style.cartText}>Timings</Text>
-                        <Text style={style.cartHead}>{times.length > 0 ? times[0] : 'Off'}</Text>
+                        <Text numberOfLines={1} style={style.cartHead}>{times.length > 0 ? times[0] : 'Off'}</Text>
                     </View>
                     <View style={style.cartContainer}>
                         <Text style={style.cartText}>Valid for</Text>
-                        <Text style={style.cartHead}>{data.deal.forr?data.deal.forr:''}</Text>
+                        <Text numberOfLines={1} style={style.cartHead}>{data.deal.forr?data.deal.forr:''}</Text>
                     </View>
                 </View>
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
+                    alignItems:'flex-end'
                 }}>
                     <TouchableOpacity onPress={() => setModalVisible(true)} style={{
                         flexDirection: 'row',
                         alignItems: 'center',
-                        marginTop: 15
+                        marginTop: 15,
                     }}>
                         <Text style={{
                             fontSize: 14,
@@ -294,21 +305,26 @@ export const Cart = (props) => {
                            marginLeft:5,marginTop:3
                         }} xml={rightArrow} height="15" width="15" />
                     </TouchableOpacity>
-                    <View>
+                    <View style={{
+                        alignItems:'flex-end'
+                    }}>
                         <View style={{
                             flexDirection: 'row',
+                            width: 200,
+                            flexWrap: 'wrap',
+                            justifyContent: 'flex-end'
                         }}>
                             <Text style={{
                                 fontSize: 18,
                                 fontFamily: 'PlusJakartaSans',
                                 color: '#808080',
-                                textDecorationLine: 'line-through'
-                            }}>₹{data.deal.price}</Text>
-                            <Text style={{
+                                textDecorationLine: 'line-through',
+                            }}>{data.deal.price?'₹'+data.deal.price:''}</Text>
+                            <Text  style={{
                                 fontSize: 20,
                                 fontFamily: 'PlusJakartaSansBold',
-                                marginLeft: 5
-                            }}>₹{data.deal.discount}</Text>
+                                marginLeft: 5,
+                            }}>{data.deal.discount}</Text>
                         </View>
                         <Text style={[style.cartText]}>Inc. of all taxes</Text>
                     </View>
@@ -375,8 +391,11 @@ export const Cart = (props) => {
                     ) : (<View></View>)
                 }
             </TouchableOpacity>
-            <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
-                <View style={{
+            <Modal transparent={true} visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
+               
+                {
+                    props.user?(
+                        <View style={{
                     height: '100%',
                     width: '100%',
                     backgroundColor: backgroundColor(darkMode)
@@ -459,6 +478,13 @@ export const Cart = (props) => {
                         <Text style={[style.subText]}>4. Right of admission reserved</Text>
                     </ScrollView>
                 </View>
+                    ):(
+                <NewAlert title={'Buy membership to unlock this offer'} 
+                close={setModalVisible} onPress={() =>{
+                    navigation.navigate('MemberShipOnboarding')
+                }}/>
+                    )
+                }
             </Modal>
         </View>
     )
@@ -476,7 +502,7 @@ const style = StyleSheet.create({
     },
     cartContainer: {
         flexDirection: 'row',
-        marginTop: 10
+        marginTop: 10,
     },
     cartText: {
         fontSize: 12,
@@ -488,6 +514,8 @@ const style = StyleSheet.create({
         fontFamily: 'PlusJakartaSansBold',
         fontSize: 12,
         marginLeft: 20,
+        marginRight:20,
+        maxWidth:'80%'
     },
     dateText: {
         color: '#585858',

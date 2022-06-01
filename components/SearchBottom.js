@@ -13,6 +13,7 @@ import { backgroundColor, textColor } from './../assets/color';
 const SearchBottom = (props) => {
     const dispatch = useDispatch()
     const darkMode = useSelector(state => state.pageSettings.darkMode)
+    
 
     return (
         <View style={{

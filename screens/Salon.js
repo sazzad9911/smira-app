@@ -15,15 +15,25 @@ const Salon = (props) => {
     React.useEffect(()=>{
             //let arr = brands.filter(d => d.name == recentSearch.brand);
            // setData(arr)
-           let arr = [];
-           if(recentSearch.brand) {
-            recentSearch.brand.forEach((data) => {
-                let search =brands.filter(d => d.name == data)
-                arr.push(search[0]);
+           let condition=null;
+           if(recentSearch && recentSearch.brand){
+            recentSearch.brand.map((doc,i)=>{
+                if(!condition){
+                    condition="name='"+doc+"'";
+                }
+                condition=condition+" OR name='"+doc+"'"
             })
-            setData(arr)
+            postData(url + '/getData',{
+                tableName: 'brands',
+                condition: condition
+            }).then(data =>{
+                if(Array.isArray(data)){
+                    setData(data)
+                }
+            })
            }
-    },[recentSearch.shortBy + recentSearch.category + recentSearch.brand])
+           
+    },[Array.isArray(recentSearch.brand)?recentSearch.brand.length:1])
  
     React.useEffect(() => {
         let arr = brands.filter(d => d.type == props.search)

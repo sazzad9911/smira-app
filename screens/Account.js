@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image, ScrollView, Text, TouchableOpacity,
   View, TextInput, Modal, Alert, Platform
@@ -10,7 +10,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import image from './../assets/10.jpg'
 import { useSelector, useDispatch } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker';
-import { postData, url, setUser, setFamilyCode } from '../action'
+import { postData, url, setUser, setFamilyCode,setAnimatedLoader } from '../action'
 import { getAuth } from 'firebase/auth'
 import app from '../firebase';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -23,6 +23,7 @@ import { getStorage, ref, uploadString, getDownloadURL, uploadBytes } from 'fire
 import { backgroundColor, subTextColor } from '../assets/color';
 import { textColor } from './../assets/color';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
 
 function Account({ navigation }) {
 
@@ -319,11 +320,72 @@ export default Account
 export const FamilyCode = () => {
   const familyCode = useSelector(state => state.pageSettings.familyCode);
   const dispatch = useDispatch()
-  const [MemberShipFamilyCodeError, setMemberShipFamilyCodeError] = useState(false)
+  const [MemberShipFamilyCodeError, setMemberShipFamilyCodeError] = useState()
   const [ShowModal, setShowModal] = useState(true)
   const { height, width } = Dimensions.get('screen')
   const [MembershipFamilyCode, setMembershipFamilyCode] = useState("")
   const darkMode = useSelector(state => state.pageSettings.darkMode)
+  const auth = getAuth(app);
+  const navigation=useNavigation()
+
+  const addCode=() =>{
+    dispatch(setAnimatedLoader(true))
+    let code=MembershipFamilyCode.replace(/\s|-/gi,"")
+    postData(url + '/getData',{
+      tableName: 'family_code',
+      condition:"code="+ "'" +code+"'"
+    }).then(data=>{
+      if(Array.isArray(data) && data.length>0){
+        if(!data[0].user_id){
+          setMemberShipFamilyCodeError('')
+          postData(url + '/updateData',{
+            "tableName":"user",
+            "columns":["link"],
+            "values":[data[0].buyer_id],
+            "condition":"uid="+ "'" +auth.currentUser.uid+"'"
+          }).then(data => {
+            if(data.affectedRows){
+              confirm(code)
+            }else{
+              dispatch(setAnimatedLoader(false))
+              setMemberShipFamilyCodeError(data.message)
+            }
+          })
+        }else{
+          dispatch(setAnimatedLoader(false))
+          setMemberShipFamilyCodeError('Your code has already been used.')
+          return
+        }
+      }else{
+        setMemberShipFamilyCodeError('Incorrect code')
+      }
+    })
+  }
+  const confirm=(code)=>{
+    postData(url + '/updateData', {
+      tableName: 'family_code',
+      columns: ['user_id'],
+      values: [auth.currentUser.uid],
+      condition:"code=" + "'" + code+ "'"
+    }).then(data=>{
+      console.log(data)
+    })
+    postData(url + '/getData', {
+        tableName: 'user',
+        condition: "uid=" + "'" + auth.currentUser.uid + "'"
+    }).then(response => {
+        if (Array.isArray(response)) {
+            dispatch(setUser(response))
+            dispatch(setAnimatedLoader(false))
+            return navigation.navigate('Confirm Message', {
+                text1: 'You have successfully added into family member.',
+                text2: 'Your family package has been activated.',
+            })
+        }
+        dispatch(setAnimatedLoader(false))
+    })
+}
+
   return (
     <Modal
       animationType='fade'
@@ -363,7 +425,13 @@ export const FamilyCode = () => {
               placeholder='XXXX - XXXX - XXXX - XXXX'
               placeholderTextColor={'rgb(130,130,130)'}
               value={MembershipFamilyCode}
-              onChangeText={text => setMembershipFamilyCode(text)}
+              onChangeText={text => { 
+                if(text.length==4 || text.length==11 || text.length==18){
+                  setMembershipFamilyCode(text+' - ');
+                }else if(text.length<=25){
+                  setMembershipFamilyCode(text)
+                }
+              }}
               style={{
                 width: '80%', backgroundColor: '#f5f5f5', height: 50,
                 borderRadius: 25, paddingLeft: 20, paddingRight: 20, textAlign: 'center'
@@ -371,15 +439,16 @@ export const FamilyCode = () => {
               }} />
           </View>
           {
-            MemberShipFamilyCodeError === true &&
-            <Text style={{
-              textAlign: 'center', color: 'gray', marginTop: 20,
+            MemberShipFamilyCodeError? (
+              <Text style={{
+              textAlign: 'center', color: 'red', marginTop: 20,
               marginBottom: 20
-            }}><Text style={{ color: 'red' }}>Incorrect code </Text> Please try again.</Text>
+            }}>{MemberShipFamilyCodeError} </Text>
+            ):(<></>)
           }
           <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
             <TouchableOpacity onPress={() => {
-
+              addCode()
             }} style={{
               justifyContent: 'center', alignItems: 'center', backgroundColor: '#FB444B',
               width: '80%', height: 50, borderRadius: 25, marginBottom: 30

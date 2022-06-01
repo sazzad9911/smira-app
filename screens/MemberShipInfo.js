@@ -7,43 +7,52 @@ import userImage from '../assets/10.jpg';
 import { Entypo, Ionicons } from '@expo/vector-icons';
 import { useSelector ,useDispatch} from 'react-redux'
 import { backgroundColor, textColor } from './../assets/color';
-import { postData, url,setFamilyCode } from '../action';
+import { postData, url,setFamilyCode,visualDate,dateDifference } from '../action';
 
 const MemberShipInfo = ({ navigation }) => {
   const user = useSelector(state => state.user)
   const darkMode = useSelector(state => state.pageSettings.darkMode)
   const dispatch = useDispatch()
   //console.log(user)
-
-  const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  const total = (new Date(user[0].ending_date).getTime() - new Date(user[0].starting_date).getTime()) / (1000 * 3600 * 24);
-  const reminding = (new Date(user[0].ending_date).getTime() - new Date().getTime()) / (1000 * 3600 * 24);
-  const progress = (reminding * 100) / total;
   const [color, setColor] = React.useState({
     foreground: '#FC444B',
     background: 'rgba(255, 0, 0, 0.178)',
   })
   const [Offer, setOffer] = React.useState(null)
   const [selectPlan, setSelectPlan] = React.useState(null)
+  const [Progress, setProgress]= React.useState()
   const today = new Date()
+  const [Plan,setPlan]= React.useState(false)
+  const [Error, setError]= React.useState()
   React.useEffect(() => {
     if (user[0].membership_type == 'gold') {
       setColor({
         foreground: '#F3B038',
         background: '#f3b2385b'
       })
+      
+     
     }
     postData(url + '/getData', {
-      tableName: 'offer_cart',
-      orderColumn: 'end_date',
-      limit: 2,
-      condition: "end_date>=" + "'" + today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate() + "'"
+      tableName: 'membership',
     }).then(data => {
       if (Array.isArray(data)) {
         setOffer(data)
       }
     })
   }, [])
+  React.useEffect(() => {
+    if(user && dateDifference(new Date(),user[0].ending_date)>0){
+      setPlan(true)
+    }
+  },[user])
+  React.useEffect(() => {
+    if(user){
+      const progress=(dateDifference(new Date(),user[0].ending_date)*100)/dateDifference(user[0].starting_date,user[0].ending_date)
+      setProgress(progress+'%')
+      console.log(Progress)
+    }
+  },[user])
   return (
     <ScrollView style={{
       backgroundColor: backgroundColor(darkMode),
@@ -70,7 +79,10 @@ const MemberShipInfo = ({ navigation }) => {
           fontSize: 14,
           color: textColor(darkMode)
         }}>Hi, {user[0].name}</Text>
-        <Text style={{
+        {
+          Plan?(
+            <View style={{width: '100%',alignItems: 'center'}}>
+            <Text style={{
           fontWeight: '600',
           fontSize: 23,
           fontFamily: 'PlusJakartaSansBold',
@@ -86,8 +98,7 @@ const MemberShipInfo = ({ navigation }) => {
                     (<Text style={{ color: '#48A6DB' }}>Diamond</Text>) :
                     (<Text style={{ color: '#000' }}>Non</Text>)
           } Membership</Text>
-        <Text style={{ color: 'gray', fontSize: 13, marginTop: 6 }}>Valid up to {new Date(user[0].ending_date).getDate()
-          + ' ' + Months[new Date(user[0].ending_date).getMonth()] + ' ' + new Date(user[0].ending_date).getFullYear()}</Text>
+        <Text style={{ color: 'gray', fontSize: 13, marginTop: 6 }}>Valid up to {visualDate(user[0].ending_date)}</Text>
         <Text style={{
           marginTop: 15,
           fontSize: 16,
@@ -97,7 +108,7 @@ const MemberShipInfo = ({ navigation }) => {
           <Text style={{
             fontFamily: 'PlusJakartaSansBold',
             color: textColor(darkMode)
-          }}>{reminding.toFixed(0)}
+          }}>{dateDifference(new Date(),user[0].ending_date)}
             days left</Text> in membership</Text>
         <View style={{
           borderWidth: 1,
@@ -108,18 +119,21 @@ const MemberShipInfo = ({ navigation }) => {
         }}>
           <View style={{
             borderWidth: 1,
-            width: progress + '%',
+            width:Progress? Progress:'0%',
             borderColor: color.foreground
           }}>
 
           </View>
         </View>
+            </View>
+          ):(<></>)
+        }
       </View>
       <View style={{ flex: 3, width: '100%', flexDirection: 'column', alignItems: 'center', padding: 5 }}>
         <Text style={{
           fontSize: 17,
           color: 'gray',
-          marginTop: 30,
+          marginTop: 10,
           marginBottom: 10,
           fontFamily: 'PlusJakartaSans'
         }}>Renew your membership</Text>
@@ -133,14 +147,14 @@ const MemberShipInfo = ({ navigation }) => {
             <ActivityIndicator size="large" color="#FA454B" />
           )
         }
-
+        <Text style={{color:'red',fontFamily: 'PlusJakartaSans'}}>{Error}</Text>
         <TouchableOpacity onPress={() => {
+          setError('')
           if (!selectPlan) {
-            Alert.alert('Hey!', 'Select a membership plane first.');
+            setError('Select a membership plane first.');
             return
           }
           navigation.navigate('Checkout', {
-            color: selectPlan.foreground,
             id: selectPlan.id, type: selectPlan.name.toLowerCase()
           })
         }} style={{
@@ -149,7 +163,7 @@ const MemberShipInfo = ({ navigation }) => {
         }}>
           <View style={{ flexDirection: 'column', padding: 15 }}>
             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17 }}>Renew Now</Text>
-            <Text style={{ color: 'white' }}>{selectPlan ? selectPlan.name : 'Select a'} membership {selectPlan ? '@ ₹' + selectPlan.offer_price : ''}</Text>
+            <Text style={{ color: 'white' }}>{selectPlan ? selectPlan.name : 'Select a'} membership {selectPlan ? '@ ₹' + selectPlan.price : ''}</Text>
           </View>
           <View style={{ padding: 15 }}>
             <Entypo name="chevron-with-circle-right" size={28} color="white" />
@@ -157,7 +171,7 @@ const MemberShipInfo = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={()=>{
           dispatch(setFamilyCode(true))
-        }} style={{ alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+        }} style={{ alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 20}}>
           <Text style={{ fontSize: 16, color: '#585858' }}>Have a family code?</Text>
           <Text style={{ color: '#FC444B', textDecorationLine: 'underline', fontSize: 16, marginTop: 10 }}>Apply it here</Text>
         </TouchableOpacity>
@@ -177,19 +191,19 @@ const Cart = (props) => {
     <TouchableOpacity onPress={() => {
       props.setSelectPlan(data)
     }} style={{
-      minHeight: 100, width: '95%', backgroundColor: data ? data.background : 'transparent', borderRadius: 10,
+      minHeight: 100, width: '95%', backgroundColor: data ? data.color : 'transparent', borderRadius: 10,
       marginTop: 20, flexDirection: 'row', alignItems: 'center'
     }}>
       <View style={{ flex: 1, height: '100%' }}>
         {
           data == props.selectPlan ? (
             <Ionicons name="checkmark-circle" size={24}
-              color={data ? data.foreground : 'black'} style={{
+              color={data ? 'black' : 'white'} style={{
                 marginTop: 20,
                 marginLeft: 10
               }} />
           ) : (
-            <Entypo name="circle" size={24} color={data ? data.foreground : 'black'}
+            <Entypo name="circle" size={24} color={data ? 'white' : 'white'}
               style={{ marginTop: 20, marginLeft: 10 }} />
           )
         }
@@ -199,27 +213,32 @@ const Cart = (props) => {
           fontWeight: '500',
           marginBottom: 6,
           fontFamily: 'PlusJakartaSans',
-          color: textColor(darkMode)
+          color: 'white'
         }}>Continue as <Text style={{ fontFamily: 'PlusJakartaSansBold' }}>{data ? data.name : ''} Member</Text></Text>
         <Text style={{
-          color: 'gray',
+          color: 'white',
           fontSize: 12,
-          fontFamily: 'PlusJakartaSans'
-        }}>Special prices are available only till {date.getDate() + ' ' + Months[date.getMonth()] + ' ' + date.getFullYear()}.</Text>
+          fontFamily: 'PlusJakartaSans',
+          opacity: 0.5
+        }}>Renewal your pans and get continue booking hotels, awesome deals and more other.</Text>
       </View>
       <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{
+        {
+          /*
+          <Text style={{
           fontSize: 17,
-          color: data ? data.foreground : 'black',
+          color:'white',
           textDecorationLine: 'line-through',
           fontFamily: 'PlusJakartaSansBold',
           opacity: 0.4
         }}>₹ {data.price}</Text>
+          */
+        }
         <Text style={{
           fontSize: 17,
-          color: data ? data.foreground : 'black',
+          color: 'white',
           fontFamily: 'PlusJakartaSansBold'
-        }}>₹ {data.offer_price}</Text>
+        }}>₹ {data.price}</Text>
       </View>
     </TouchableOpacity>
   )

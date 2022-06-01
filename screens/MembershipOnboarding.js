@@ -132,7 +132,7 @@ const MembershipOnboarding = ({ navigation }) => {
                     marginTop: 25,
                     marginBottom: 5,
                     borderWidth: 0.5,
-                    borderColor: 'rgb(220,220,220)',
+                    borderColor: darkMode?'rgb(220,220,220)':'transparent',
                     width: '90%'
                 }}></View>
                 <View style={{
@@ -180,7 +180,7 @@ const MembershipOnboarding = ({ navigation }) => {
                     </View>
                 </ScrollView>
                 <View style={{
-                    width: '100%', backgroundColor: '#f5f5f5',
+                    width: '100%', backgroundColor: !darkMode?'#f5f5f5':'transparent',
                     paddingTop: 25, paddingBottom: 5, paddingLeft: 15, marginTop: 10
                 }}>
 

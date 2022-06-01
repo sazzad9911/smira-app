@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import { postData, url } from '../action';
+import { postData, url,dateDifference } from '../action';
 import { getAuth } from 'firebase/auth';
 import AnimatedLoader from "react-native-animated-loader";
 import app from '../firebase'
@@ -33,6 +33,7 @@ const Booking = (props) => {
     const [modalVisible, setModalVisible]= React.useState(false)
     const [Select, setSelect]= React.useState(null)
     const user = useSelector(state => state.user)
+    const [Error, setError]= React.useState()
 
     const convertDate = (date) => {
         let data = '';
@@ -47,8 +48,7 @@ const Booking = (props) => {
         return;
     }
     const Confirm = () => {
-        setLoader(true)
-
+        
         postData(url + '/setData', {
             auth: auth.currentUser,
             tableName: 'hotel_booking',
@@ -73,6 +73,55 @@ const Booking = (props) => {
             text:"<p>Dear <strong>"+user[0].name.split(' ')[0]+"</strong>,</p><p>We have received your request for a booking on <strong>"+convertDate(new Date(CheckIn))+"</strong> for <strong>"+count2+"</strong> room at the "+params.name+".Please wait for a booking confirmation email to know about your booking status.If you have any inquiries, please do not hesitate to contact us.</p><p>Best Regards</p><p>Smira Club</p><p>Ranjit Studio Compound,</p><p> Ground & 1st Floor, </p><p>C-Block, Plot No. 115, </p><p>Dada Saheb Phalke Marg, </p><p>Opp. Bharatkshetra, Hindmata, </p><p>Dadar East, Mumbai, </p><p>Maharashtra 400014 </p><p>Contact No. </p><p>9819812456</p><p>9833733477</p><p>9820342389</p><p> Email - support@smira.club</p>"
         }).then(data=>{
             console.log(data)
+        })
+    }
+    const checkHotelBooking= () =>{
+        if(user && !parseInt(dateDifference(user[0].starting_date, user[0].ending_date))>0){
+            setError('Your membership plan has expired. Please renew your membership plan.')
+            return
+        }
+        setLoader(true)
+        postData(url + '/getData',{
+            tableName:'membership',
+            condition: "type=" + "'"+user[0].membership_type+"'"
+        }).then(membership=>{
+            if(Array.isArray(membership) && membership.length > 0){
+                let totalHotels =0;
+                let totalNights =0;
+                postData(url + '/getData',{
+                tableName: 'hotel_booking',
+                condition: "user_id=" +"'"+ auth.currentUser.uid + "'"
+                }).then(data=>{
+             if(Array.isArray(data) && data.length > 0){
+                let id=data[0].hotel_id;
+                totalHotels=1;
+               data.forEach(doc=>{
+               if(doc.visible){
+                totalNights=totalNights+parseInt(dateDifference(doc.check_in, doc.check_out))
+                if(id!=doc.hotel_id){
+                    totalHotels=totalHotels+1;
+                    id =doc.hotel_id;
+                }
+               }
+             })
+             if(membership[0].hotel!='all' && membership[0].hotel<totalHotels ){
+                setError('Your hotel quota exceeded. Please renew your plan.')
+                setLoader(false);
+                return
+             }
+             if(membership[0].night!='unlimited' && membership[0].night<totalNights){
+                setError('You extend maximum level of your night spend quota. Please renew your plan')
+                setLoader(false);
+                return
+             }
+             setLoader(false);
+             setModalVisible(true)
+            }else{
+                console.log(data.message)
+                return null;
+            }
+        })
+            }
         })
     }
     if (confirm) {
@@ -410,9 +459,19 @@ const Booking = (props) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
+                        {
+                            Error?(
+                                <Text style={{
+                            marginTop:20,
+                            color: 'red',
+                            textAlign: 'center'
+                        }}>{Error}</Text>
+                            ):(<></>)
+                        }
                         <TouchableOpacity disabled={count2 != 0 && count != 0 ? false : true}
                             onPress={() => {
-                                setModalVisible(true)
+                                //setModalVisible(true)
+                                checkHotelBooking()
                             }}>
                             <View style={[style.viewEnd, {
                                 backgroundColor: count2 != 0 && count != 0 ? '#FC444B' : '#FFFF'

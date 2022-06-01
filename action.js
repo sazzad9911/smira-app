@@ -25,6 +25,15 @@ export const configAuth = {
   androidStandaloneAppClientId: `686443341701-u1f3et3s9srnl7huf3amno5sp4mpsdg7.apps.googleusercontent.com`,
   scopes: ["profile", "email"]
 }
+export const visualDate=(date)=>{
+  let newDate= new Date(date)
+  const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  return newDate.getDate()+' '+Months[newDate.getMonth()]+ ' ' +newDate.getFullYear()
+}
+export const dateDifference =(newDate, oldDate)=>{
+  const reminding = (new Date(oldDate).getTime() - new Date(newDate).getTime()) / (1000 * 3600 * 24);
+  return reminding.toFixed(0)
+}
 
 export const setDeals=(doc)=>{
   return{

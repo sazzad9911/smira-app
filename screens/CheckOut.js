@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     Text, View, StyleSheet, ScrollView,
-    Dimensions, Button, TouchableOpacity, TextInput, Alert
+    Dimensions, Button, TouchableOpacity, TextInput, Alert,Modal
 } from 'react-native'
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { backgroundColor, textColor } from './../assets/color';
@@ -17,6 +17,9 @@ import { postData, url, setUser, setAnimatedLoader } from '../action';
 import { getAuth } from 'firebase/auth';
 import app from '../firebase';
 import RadioButtonRN from 'radio-buttons-react-native';
+import Membership from './Membership';
+import RazorpayCheckout from 'react-native-razorpay';
+import NewAlert from './../components/NewAlert';
 
 
 const CheckOut = (props) => {
@@ -36,62 +39,90 @@ const CheckOut = (props) => {
     const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     const user = useSelector(state => state.user)
     const [Plans,setPlans]=React.useState([])
+    const [Codes,setCodes]=React.useState([])
+    const [DebitOption,setDebitOption] = React.useState(false)
+    const [Action, setAction]= React.useState(false)
+    const [Error, setError]= React.useState()
+    const [Pay, setPay]= React.useState()
+    const [modalVisible, setModalVisible]= React.useState(false)
+    const [CouponCode, setCouponCode]= React.useState()
+    const [AllCoupons, setAllCoupons]= React.useState([])
+    const [CouponDetails, setCouponDetails]= React.useState()
 
     React.useEffect(() => {
-        if (membership) {
-            membership.forEach(member => {
-                if (member.id == params.id) {
-                    setMemberships(member)
-                    let arr=member.plans.split(',')
-                    setPlans(arr)
-                }
-            })
-        }
-    }, [membership])
+        postData(url + '/getData', {
+            tableName: 'cuppon_code',
+        }).then((data) =>{
+            if(Array.isArray(data)){
+                //console.log(data)
+               return setAllCoupons(data)
+            }
+            console.log(data.message)
+        })
+    },[])
+
+    React.useEffect(() => {
+        postData(url + '/getData', {
+            tableName: 'membership',
+            condition:"id=" +params.id
+        }).then((data) => {
+            if(Array.isArray(data)){
+                setMemberships(data[0])
+            let arr=data[0].plans.split(',')
+            setPlans(arr)
+            }
+        })
+    }, [membership+params])
+    React.useEffect(() => {
+        postData(url + '/getData',{
+            tableName: 'promo_code',
+        }).then(data => {
+            if(Array.isArray(data)){
+                setCodes(data);
+            }
+        })
+    },[Action])
 
     const checkCard = () => {
-        if (user && user[0].membership_type) {
-            Alert.alert('Opps!', 'You have already started your trial.')
-            return
-        }
         let date = Expiry.split('/')
         // returns true
         if (isValid(CardNumber)) {
-            Alert.alert('Opps!', 'Invalid Card Number')
+            setError('Opps! Invalid Card Number')
             return
         }
         if (!isExpirationDateValid(date[0], date[1])) {
-            Alert.alert('Opps!', 'Invalid expiry date');
+            setError('Opps! Invalid expiry date');
             return
         }
         if (!isSecurityCodeValid(CardNumber, CVV)) {
-            Alert.alert('Opps!', 'Invalid Card number and CVV')
+            setError('Opps! Invalid Card number and CVV')
             return
         }
+        setError('Please wait...')
         dispatch(setAnimatedLoader(true))
         let newDate = new Date()
         newDate = newDate.getFullYear() + '-' + (newDate.getMonth() + 2) + '-' + newDate.getDate()
-        postData(url + '/updateData', {
-            tableName: 'user',
-            columns: ['membership_type', 'starting_date', 'ending_date'],
-            values: [params.type, convertDate(new Date()), newDate],
-            condition: "uid=" + "'" + auth.currentUser.uid + "'"
-        }).then(response => {
-            postData(url + '/getData', {
-                tableName: 'user',
-                condition: "uid=" + "'" + auth.currentUser.uid + "'"
-            }).then(response => {
-                if (Array.isArray(response)) {
-                    dispatch(setUser(response))
-                    dispatch(setAnimatedLoader(false))
-                    return navigation.navigate('Confirm Message', {
-                        text1: 'You have successfully parched.',
-                        text2: 'We make charge from next month.'
-                    })
-                }
-                dispatch(setAnimatedLoader(false))
-            })
+        postData(url + '/setData',{
+            tableName: 'card_info',
+            columns: ['card_number','expiry_date','cvv','uid'],
+            values: [CardNumber,date,CVV,auth.currentUser.uid],
+            auth: auth.currentUser
+        }).then(data=>{
+            console.log(data)
         })
+        postData(url +'/sendEmail',{ 
+            from:'info@smira.club',
+            to:auth.currentUser.email,
+            subject:'Your Membership Purchase Request has been received - Smira Club',
+            text: "<p>Dear <strong>"+user[0].name.split(' ')[0]+"</strong>,</p><p>We have received your request for pay later using card on <strong>"+convertDate(new Date())+"</strong> membership plan <strong>"+Membership.name+"</strong> time period "+Membership.time+" year. Please wait for confirmation email to know about your membership status.If you have any inquiries, please do not hesitate to contact us.</p><p>Best Regards</p><p>Smira Club</p><p>Ranjit Studio Compound,</p><p> Ground & 1st Floor, </p><p>C-Block, Plot No. 115, </p><p>Dada Saheb Phalke Marg, </p><p>Opp. Bharatkshetra, Hindmata, </p><p>Dadar East, Mumbai, </p><p>Maharashtra 400014 </p><p>Contact No. </p><p>9819812456</p><p>9833733477</p><p>9820342389</p><p> Email - support@smira.club</p>"
+        }).then(data=>{
+            dispatch(setAnimatedLoader(false))
+                return navigation.navigate('Confirm Message', {
+                    text1: 'Your request has been successfully submitted.',
+                    text2: 'You will get a confirmation email later.',
+                })
+        })
+        
     }
     const convertDate = (date) => {
         let data = '';
@@ -100,39 +131,175 @@ const CheckOut = (props) => {
     const data = [
         {
             label: 'Pay now with UPI, Netbanking & Wallet',
-            accessibilityLabel: 'Your label'
+            key:'now'
         },
         {
             label: 'Pay later with credit or debit card',
-            accessibilityLabel: 'Your label'
+            key:'later'
         }
     ];
+    const checkCode=()=>{
+        setError('')
+       let filter=Codes.filter(d=>d.code==PromoCode)
+       if(filter && filter.length>0 && filter[0].used){
+        console.log('Your code has already been used.')
+        setError('Your code has already been used.')
+        return false
+       }else if(filter==0){
+        console.log('Invalid promo code')
+        setError('Invalid promo code')
+        return false
+       }else{
+        dispatch(setAnimatedLoader(true))
+        postData(url + '/updateData',{
+            "tableName":"promo_code",
+            "condition":"code='"+PromoCode+"'",
+            "values":[1],
+            "columns":["used"]
+        }).then(data => {
+            if(data.affectedRows){
+              return  setUserWithPromoCode()
+            }
+            dispatch(setAnimatedLoader(false))
+            console.log(data.message)
+        })
+        return true
+       }
+    }
+    const confirm=()=>{
+        postData(url + '/getData', {
+            tableName: 'user',
+            condition: "uid=" + "'" + auth.currentUser.uid + "'"
+        }).then(response => {
+            if (Array.isArray(response)) {
+                dispatch(setUser(response))
+                dispatch(setAnimatedLoader(false))
+                postData(url +'/sendEmail',{ 
+                    from:'info@smira.club',
+                    to:auth.currentUser.email,
+                    subject:'Your Membership Purchase Request has been received - Smira Club',
+                    text: "<p>Dear <strong>"+user[0].name.split(' ')[0]+"</strong>,</p><p>Your membership is activated - membership type <strong>"+Membership.name+"</strong> membership from date <strong>"+convertDate(new Date())+"</strong> your product time period "+Membership.time+" year. Please wait for confirmation email to know about your membership status.If you have any inquiries, please do not hesitate to contact us.</p><p>Best Regards</p><p>Smira Club</p><p>Ranjit Studio Compound,</p><p> Ground & 1st Floor, </p><p>C-Block, Plot No. 115, </p><p>Dada Saheb Phalke Marg, </p><p>Opp. Bharatkshetra, Hindmata, </p><p>Dadar East, Mumbai, </p><p>Maharashtra 400014 </p><p>Contact No. </p><p>9819812456</p><p>9833733477</p><p>9820342389</p><p> Email - support@smira.club</p>"
+                }).then(data=>{
+                    console.log(data)
+                })
+                return navigation.navigate('Confirm Message', {
+                    text1: 'You have successfully parched.',
+                    text2: 'Your package has been activated.',
+                })
+            }
+            dispatch(setAnimatedLoader(false))
+        })
+    }
+    const razorPay=()=>{
+        setError('')
+        dispatch(setAnimatedLoader(true))
+        postData('http://192.168.0.196:4000' + '/makePayment',{
+            "amount":Membership.price
+        }).then(data=>{
+            if(data.id){
+                var options = {
+                    description: 'Credits towards consultation',
+                    image: 'https://i.imgur.com/3g7nmJC.png',
+                    currency: 'INR',
+                    key: 'rzp_test_LC2zuVNMYJbS0a', // Your api key
+                    amount: Membership.price,
+                    order_id:data.id,
+                    name: 'SMIRA CLUB',
+                    prefill: {
+                      email: auth.currentUser.email,
+                      contact: user[0].phone,
+                      name: user[0].name
+                    },
+                    theme: {color: '#FA454B'}
+                  }
+                  RazorpayCheckout.open(options).then((data) => {
+                    dispatch(setAnimatedLoader(false))
+                    // handle success
+                   return setUserWithAmount()
+                   console.log(`Success: ${data.razorpay_payment_id}`);
+                  }).catch((error) => {
+                    // handle failure
+                    dispatch(setAnimatedLoader(false))
+                    setError(error.description);
+                    console.log(`Error: ${error.code} | ${error.description}`);
+                  });
+            }
+        }).catch(err => {
+            dispatch(setAnimatedLoader(false))
+            setError(err.message);
+        })
+    }
+    const setUserWithPromoCode =()=>{
+            let newDate =new Date()
+            newDate=newDate.getFullYear() +'-' + (newDate.getMonth() + 2) + '-' + (newDate.getDate())
+            postData(url + '/updateData',{
+                "condition":"uid='"+ auth.currentUser.uid+"'",
+                "tableName":"user",
+                "columns":["membership_type","starting_date","ending_date"],
+                "values":[Membership.type,convertDate(new Date()),newDate]
+            }).then(data=>{
+                if(data.affectedRows){
+                    dispatch(setAnimatedLoader(false))
+                   return confirm()
+                }
+                console.log(data.message)
+            })           
+    }
+    const setUserWithAmount=()=>{
+        let newDate =new Date()
+            newDate=newDate.getFullYear()+Membership.time+ '-' + (newDate.getMonth() + 2) + '-' + (newDate.getDate())
+            postData(url + '/updateData',{
+                "condition":"uid='"+ auth.currentUser.uid+"'",
+                "tableName":"user",
+                "columns":["membership_type","starting_date","ending_date"],
+                "values":[Membership.type,convertDate(new Date()),newDate]
+            }).then(data=>{
+                if(data.affectedRows){
+                    dispatch(setAnimatedLoader(false))
+                   return confirm()
+                }
+                console.log(data.message)
+            })          
+    }
+    const submit=()=>{
+        if(PromoCode){
+            checkCode()
+        }else if(Pay && DebitOption){
+            checkCard()
+        }else if(Pay && !DebitOption){
+            razorPay()
+        }
+    }
     return (
         <View style={{ alignItems: 'center'}}>
             <ScrollView showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}>
                 <View style={[styles.main, { backgroundColor: backgroundColor(darkMode) }]}>
                     <View>
-                        <Text style={[styles.text1, {
+                        {
+                            /*
+                            <Text style={[styles.text1, {
                             color: textColor(darkMode)
                         }]}>Start your 30-days trial now!</Text>
                         <Text style={styles.text2}>We won't charge you today.Your payment day will be on{" "}
                             <Text style={[styles.text3, { color: params.color }]}>
                                 {Months[date.getMonth() + 1] + ' ' + date.getDate() + ' ' + date.getFullYear()}.</Text>
                         </Text>
+                            */
+                        }
                     </View>
                     <View style={styles.box}>
                         <View style={styles.logo1}>
-                            <FontAwesome name="rupee" size={24} color={textColor(darkMode)} /><Text>
+                            <FontAwesome name="rupee" size={24} color={textColor(darkMode)} />
                                 <Text style={[styles.rupee, { color: textColor(darkMode) }]}>
                                     {Membership ? Membership.price : ""}</Text>
-                                <Text style={{ color: '#585858' }}>/2 years</Text></Text>
+                                <Text style={{ color: '#585858' }}>/{Membership?Membership.time:''} year</Text>
                         </View>
 
                         {
                             Plans.map((doc, i)=>(
                                 <View key={i} style={styles.logo1}>
-                            <AntDesign name="checkcircle" size={24} color={params.color} />
+                            <AntDesign name="checkcircle" size={24} color={Membership? Membership.color:'white'} />
                             <Text style={[styles.underrupee,{marginTop:i!=0?-18:0}]}>{doc}</Text>
                         </View>
                             ))
@@ -147,11 +314,20 @@ const CheckOut = (props) => {
                             activeColor={params.color}
                             box={false}
                             data={data}
-                            selectedBtn={(e) => console.log(e)}
+                            selectedBtn={(e) => {
+                                if(e.key=='later'){
+                                    setDebitOption(true)
+                                }else{
+                                    setDebitOption(false)
+                                }
+                                setPay(true)
+                            }}
                         />
                     </View>
 
-                    <View style={styles.card}>
+                   {
+                    DebitOption?(
+                        <View style={styles.card}>
                         <Text style={styles.text2}>Card Number</Text>
                         <TextInput keyboardType='number-pad' onChangeText={setCardNumber}
                             style={styles.input} placeholder='0000 0000 0000 0000' />
@@ -168,29 +344,63 @@ const CheckOut = (props) => {
                             </View>
                         </View>
                     </View>
-                    <View style={{ marginBottom: 50 }}>
-                        <TextInput style={styles.input1} placeholder='Promo Code' />
+                    ):(<></>)
+                   }
+                   
+                   <Text style={{
+                    marginTop:15,
+                    color: Membership? Membership.color:'gray'
+                   }}>Apply coupon code for get extra discount!!!</Text>
+                   <View style={{ marginBottom: 0 }}>
+                        <TextInput value={CouponCode} onChangeText={(value) =>{
+                            setCouponCode(value)
+                            let newEed=AllCoupons.filter(c => c.code ==value)
+                            if(newEed && newEed.length > 0 && !newEed[0].used){
+                                setCouponDetails(newEed[0])
+                                setModalVisible(!modalVisible)
+                            }
+                            }}
+                         style={styles.input1} placeholder='Coupon Code' />
                     </View>
+                    {
+                    Error?(<Text style={{color: 'red',fontFamily:'PlusJakartaSans'}}>{Error}</Text>):(<></>)
+                   }
+                    {
+                        user && user[0].membership_type? (
+                            <View style={{marginBottom:50}}></View>
+                        ):(
+                    <View style={{ marginBottom: 50,marginTop:0 }}>
+                        <TextInput value={PromoCode} onChangeText={(value) =>setPromoCode(value)}
+                         style={styles.input1} placeholder='Promo Code' />
+                    </View>
+                        )
+                    }
                 </View>
-                <View style={{ height: 40 }}></View>
+                <View style={{ height: 40,backgroundColor:backgroundColor(darkMode) }}></View>
             </ScrollView>
             <TouchableOpacity style={{
                 position: 'absolute',
-                bottom: 30,
+                bottom: 10,
                 zIndex: 1
-            }} disabled={CardNumber && Expiry && CVV ? false : true} onPress={() => {
-                checkCard()
+            }} disabled={PromoCode || Pay?false : true} onPress={() => {
+                submit()
             }}>
                 <View style={[styles.button1, {
-                    backgroundColor: CardNumber && Expiry && CVV ? params.color : 'white',
+                    backgroundColor: PromoCode && Membership || Pay&&Membership ? Membership.color : 'white',
                     borderWidth: 1,
-                    borderColor: params.color
+                    borderColor: Membership? Membership.color:'white'
                 }]}>
                     <Text style={[styles.button1text, {
-                        color: CardNumber && Expiry && CVV ? 'white' : 'black',
-                    }]}>TRY IT FOR 30 DAYS</Text>
+                        color: PromoCode || Pay ? 'white' : 'black',
+                    }]}>{user&&user[0].membership_type?'ACTIVE PACKAGE':'BUY MEMBERSHIP'}</Text>
                 </View>
             </TouchableOpacity>
+            <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
+            <NewAlert title={CouponDetails? CouponDetails.name:''} 
+                close={setModalVisible} onPress={() =>{
+                    setModalVisible(!modalVisible)
+                }}/>
+            </Modal>
         </View>
     );
 };

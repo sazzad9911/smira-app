@@ -239,9 +239,8 @@ const Hotel = (props) => {
                     marginTop: 10
                 }}>
                     <Text style={styles.lineHead}>Description</Text>
-                    <Text style={[styles.lineText, {
+                    <Text numberOfLines={!Read?4:1000} style={[styles.lineText, {
                         textAlign: 'justify',
-                        height: Read ? 'auto' : 80,
                         marginBottom: 7,
                         marginTop: 7
                     }]}>{hotel ? hotel.description : ''}</Text>
@@ -290,11 +289,11 @@ const Hotel = (props) => {
                         <Text style={{
                             fontSize: 13,
                             color: '#808080'
-                        }}>Check-in</Text>
+                        }}>Check-out</Text>
                         <Text style={{
                             fontSize: 18,
                             fontFamily: 'PlusJakartaSansBold'
-                        }}>{hotel ? hotel.check_in : ''}</Text>
+                        }}>{hotel ? hotel.check_out : ''}</Text>
                     </View>
                 </View>
                 <TouchableOpacity onPress={() =>{
@@ -305,7 +304,7 @@ const Hotel = (props) => {
                     overflow: 'hidden',
                     marginBottom: 20
                 }}>
-                <Image style={styles.map} source={location}/>
+                <Image style={styles.map} source={require('./../assets/Group.png')}/>
 
                     {
                         /*
@@ -336,7 +335,7 @@ const Hotel = (props) => {
                            <View style={{
                             height: 7, width: 7, borderRadius: 5, backgroundColor: '#292929', margin: 5,
                            }}></View>
-                              <Text style={styles.lineText}>{hotel.near_by.split(',')[0]}</Text>
+                              <Text numberOfLines={1} style={styles.lineText}>{hotel.near_by.split(',')[0]}</Text>
                          </View>
                         ):(<></>)
                     }
@@ -346,7 +345,7 @@ const Hotel = (props) => {
                         <View style={{
                             height: 7, width: 7, borderRadius: 5, backgroundColor: '#292929', margin: 5,
                         }}></View>
-                        <Text style={styles.lineText}>{hotel.near_by.split(',')[1]}</Text>
+                        <Text numberOfLines={1} style={styles.lineText}>{hotel.near_by.split(',')[1]}</Text>
                     </View>
                         ):(<></>)
                     }
