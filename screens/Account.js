@@ -330,11 +330,12 @@ export const FamilyCode = () => {
 
   const addCode=() =>{
     dispatch(setAnimatedLoader(true))
-    let code=MembershipFamilyCode.replace(/\s|-/gi,"")
+    let code=MembershipFamilyCode.replace(/\s|-/gi,"")    
     postData(url + '/getData',{
       tableName: 'family_code',
       condition:"code="+ "'" +code+"'"
     }).then(data=>{
+      
       if(Array.isArray(data) && data.length>0){
         if(!data[0].user_id){
           setMemberShipFamilyCodeError('')
@@ -357,6 +358,7 @@ export const FamilyCode = () => {
           return
         }
       }else{
+        dispatch(setAnimatedLoader(false))
         setMemberShipFamilyCodeError('Incorrect code')
       }
     })

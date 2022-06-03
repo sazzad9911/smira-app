@@ -82,13 +82,13 @@ const WishList = ({ navigation }) => {
             <ScrollView showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false} horizontal={true}>
                 <View style={{ width: 20 }}></View>
-                <TouchableOpacity onPress={() => {
+                {/* <TouchableOpacity onPress={() => {
                     setRoute('all')
                 }} style={[styles.category,
                 Route == 'all' ? styles.categoryActive : styles.category]}>
                     <Text style={[styles.categoryText,
                     Route == 'all' ? styles.categoryTextActive : styles.categoryText]}>All</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity onPress={() => {
                     setRoute('hotels')
                 }} style={[styles.category,
@@ -96,13 +96,13 @@ const WishList = ({ navigation }) => {
                     <Text style={[styles.categoryText,
                     Route == 'hotels' ? styles.categoryTextActive : styles.categoryText]}>Hotels</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {
+                {/* <TouchableOpacity onPress={() => {
                     setRoute('deals')
                 }} style={[styles.category,
                 Route == 'deals' ? styles.categoryActive : styles.category]}>
                     <Text style={[styles.categoryText,
                     Route == 'deals' ? styles.categoryTextActive : styles.categoryText]}>Deals</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </ScrollView>
             {
                 Route == 'all' ? (

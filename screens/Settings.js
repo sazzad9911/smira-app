@@ -235,7 +235,7 @@ const Settings = ({ navigation }) => {
                         />
                     </View>
                 </View>
-                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                {/* <View style={{ flexDirection: 'row', marginTop: 10 }}>
                     <View style={{ flex: 1 }}>
                         <FontAwesome name="moon-o" size={24} color="black" style={{ color: '#D8D8D8' }} />
                     </View>
@@ -255,7 +255,7 @@ const Settings = ({ navigation }) => {
                             }}
                         />
                     </View>
-                </View>
+                </View> */}
 
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('Talk To Us');
@@ -307,7 +307,7 @@ const Settings = ({ navigation }) => {
 
                 <View style={{
                     alignItems: 'center',
-                    marginTop: '40%',
+                    marginTop:'70%'
                 }}>
                     <Text style={{
                         color: '#D8D8D8',

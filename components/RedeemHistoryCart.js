@@ -26,7 +26,7 @@ const RedeemHistoryCart = (props) => {
 
     return (
         <View style={{margin:10, marginLeft: 20 }}>
-            <TouchableOpacity onPress={() =>setmodalVisible(!modalVisible)} style={{ flexDirection: 'row', marginTop: 5, }}>
+            <TouchableOpacity disabled={true} onPress={() =>setmodalVisible(!modalVisible)} style={{ flexDirection: 'row', marginTop: 5, }}>
                 <View style={{ flex: 1 }}>
                     <Image
                         style={{
@@ -49,11 +49,11 @@ const RedeemHistoryCart = (props) => {
                         }}>{date.getDate()+' '+Months[date.getMonth()]+' '+date.getFullYear()}</Text>
                 </View>
                 <View style={{ flex: 1, marginTop: 20 }}>
-                    <AntDesign name="right" size={20} color="black"
+                    {/* <AntDesign name="right" size={20} color="black"
                         style={{
                             marginLeft: 30,
                             color: 'rgb(200,200,200)'
-                        }} />
+                        }} /> */}
                 </View>
             </TouchableOpacity>
             <Modal animated={true} 

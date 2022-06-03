@@ -13,6 +13,7 @@ import Background from '../assets/Background.png'
 import { backgroundColor, textColor } from './../assets/color';
 import { arrowUp, arrowDown } from '../components/Icon'
 import { SvgXml } from 'react-native-svg'
+import questionData from './questionData'
 
 const MembershipOnboarding = ({ navigation }) => {
     const brands = useSelector(state => state.brands)
@@ -223,17 +224,12 @@ const MembershipOnboarding = ({ navigation }) => {
                         fontWeight: '700',
                         color: textColor(darkMode)
                     }}>FAQs</Text>
-
-                    <Quiz question="What are the benefits of a SmiraClub membership?"
-                        answer="SmiraClub Membership is an all-inclusive membership program that offers
-                    a variety of deals and hotel stays. Members receive substantial discounts on 
-                    a variety of services provided by popular brands, as well as unlimited hotel stays in more than 30 cities across India. Members also receive priority assistance from us."/>
-                    <Quiz question="What are the benefits of Family Code Access feature?"
-                        answer="SmiraClub Membership is an all-inclusive membership program that offers a variety of deals and hotel stays. Members receive substantial discounts on a variety of services provided by popular brands, as well as unlimited hotel stays in more than 30 cities across India. Members also receive priority assistance from us." />
-                    <Quiz question="Are there any restrictions on the free hotel stays?"
-                        answer="SmiraClub Membership is an all-inclusive membership program that offers
-                    a variety of deals and hotel stays. Members receive substantial discounts on 
-                    a variety of services provided by popular brands, as well as unlimited hotel stays in more than 30 cities across India. Members also receive priority assistance from us." />
+                    {
+                        questionData.map((doc, i)=>(
+                            <Quiz key={i} question={doc.question} answer={doc.answer}/>
+                        ))
+                    }
+                    
                     <View style={{ flex: 1 }}></View>
                     <View style={{ marginTop: 30, marginBottom: 50 }}>
                         <Text style={{

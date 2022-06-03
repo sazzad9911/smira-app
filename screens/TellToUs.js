@@ -40,6 +40,7 @@ const TellToUs = ({ navigation}) => {
                     text2:'Please check for confirmation email.'
                 })
             }
+            console.log(data)
         }).catch(err => {
             dispatch(setAnimatedLoader(false))
         })
@@ -92,9 +93,13 @@ const TellToUs = ({ navigation}) => {
                             onEndEditing={() => onFocusMsg(false)}
                         />
                     </View>
-                    <TouchableOpacity onPress={send}>
-                        <View style={style.view}>
-                            <Text style={style.viewtext}>
+                    <TouchableOpacity disabled={name&&msg&&mobile?false : true} onPress={send}>
+                        <View style={[style.view,{
+                            backgroundColor:name&&msg&&mobile?'#FC444B':'transparent'
+                        }]}>
+                            <Text style={[style.viewtext,{
+                                color:name&&msg&&mobile?'white':'#FC444B'
+                            }]}>
                                 SUBMIT</Text>
                         </View>
                     </TouchableOpacity>

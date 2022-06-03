@@ -304,7 +304,7 @@ const Hotel = (props) => {
                     overflow: 'hidden',
                     marginBottom: 20
                 }}>
-                <Image style={styles.map} source={require('./../assets/Group.png')}/>
+                <Image style={styles.map} source={require('./../assets/Final.png')}/>
 
                     {
                         /*

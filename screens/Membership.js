@@ -104,7 +104,7 @@ const MembershipSlide = (props) => {
                             textAlign: 'center'
                         }}>Become a Member</Text>
                         <Text style={style.text}
-                        >at ₹{data.price} for {data.time} years</Text>
+                        >at ₹{data.price} for {data.time} year{data.price>1?'s':''}</Text>
                     </View>
                 </TouchableOpacity>
             </View>

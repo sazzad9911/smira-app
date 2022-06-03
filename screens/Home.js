@@ -66,6 +66,7 @@ const Home = ({ navigation }) => {
   const [banner, setBanner]= React.useState(null)
   const [secondBanner, setSecondBanner]=React.useState(null)
   const [Visible, setVisible]= React.useState(false)
+  const [PopularRestaurant, setPopularRestaurant]=React.useState()
 
   React.useEffect(() => {
     let data = postData(url + "/getData", {
@@ -116,7 +117,18 @@ const Home = ({ navigation }) => {
       return post
     })
   }, [])
-
+  React.useEffect(() => {
+    postData(url + '/getData', {
+      tableName: 'restaurant',
+      orderColumn:'date'
+    }).then(data => {
+      if (Array.isArray(data)) {
+        setPopularRestaurant(data)
+      }else{
+        console.log(data)
+      }
+    })
+  },[])
   React.useEffect(() => {
     if (!Brand) {
       return
@@ -670,14 +682,12 @@ const Home = ({ navigation }) => {
           <ScrollView style={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false} horizontal={true}>
             {
-              BrandDeal ? (
-                BrandDeal.map((doc, i) => (
-                  doc.brand.type == 'Restaurant' ? (
-                    <ImageBanner key={i} onPress={() => {
+              PopularRestaurant ? (
+                PopularRestaurant.map((doc, i) => (
+                  <ImageBanner key={i} onPress={() => {
                       navigation.navigate('Category Single', { title: 'Salon' })
                       dispatch(setLoader('Salon'))
                     }} data={doc} />
-                  ) : (<View key={i}></View>)
                 ))
               ) : (<ActivityIndicator size="large" color="#FA454B" />)
             }
