@@ -54,7 +54,7 @@ const Filter = (props) => {
 
             </View>
             {
-                route == 'SearchHotel' ? (
+                route == 'Hotels' ? (
                     <>
                         <Text style={styles.headline}>Ratings</Text>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 10 }}>
