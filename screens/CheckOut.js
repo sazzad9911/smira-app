@@ -193,16 +193,16 @@ const CheckOut = (props) => {
     const razorPay=()=>{
         setError('')
         dispatch(setAnimatedLoader(true))
-        postData('http://192.168.0.196:4000' + '/makePayment',{
-            "amount":Membership.price
+        postData(url + '/makePayment',{
+            "amount":Membership.price*100,
         }).then(data=>{
             if(data.id){
                 var options = {
-                    description: 'Credits towards consultation',
+                    description: 'Credits towards consultation', 
                     image: 'https://i.imgur.com/3g7nmJC.png',
                     currency: 'INR',
                     key: 'rzp_test_LC2zuVNMYJbS0a', // Your api key
-                    amount: Membership.price,
+                    amount: Membership.price*100,
                     order_id:data.id,
                     name: 'SMIRA CLUB',
                     prefill: {
@@ -215,8 +215,19 @@ const CheckOut = (props) => {
                   RazorpayCheckout.open(options).then((data) => {
                     dispatch(setAnimatedLoader(false))
                     // handle success
-                   return setUserWithAmount()
-                   console.log(`Success: ${data.razorpay_payment_id}`);
+                    let datas={
+                        razorpay_payment_id:data.razorpay_payment_id,
+                        razorpay_order_id:data.razorpay_order_id,
+                        razorpay_signature:data.razorpay_signature,
+                        uid:auth.currentUser.uid,
+                        amount:Membership.price,
+                    }
+                    postData('http://192.168.0.196:4000/verifyPayment',datas).then(res=>{
+                        console.log(res)
+                    })
+                    console.log(`Success: ${data.razorpay_payment_id}`);
+                    //return setUserWithAmount()
+                   
                   }).catch((error) => {
                     // handle failure
                     dispatch(setAnimatedLoader(false))
@@ -247,7 +258,7 @@ const CheckOut = (props) => {
     }
     const setUserWithAmount=()=>{
         let newDate =new Date()
-            newDate=newDate.getFullYear()+Membership.time+ '-' + (newDate.getMonth() + 2) + '-' + (newDate.getDate())
+            newDate=newDate.getFullYear()+Membership.time+ '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate())
             postData(url + '/updateData',{
                 "condition":"uid='"+ auth.currentUser.uid+"'",
                 "tableName":"user",
