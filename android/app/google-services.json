@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "686443341701",
+    "project_id": "info-smira",
+    "storage_bucket": "info-smira.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686443341701:android:2004b972818cbb8fed46ec",
+        "android_client_info": {
+          "package_name": "com.scientistx.smira"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "686443341701-u1f3et3s9srnl7huf3amno5sp4mpsdg7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzD_42JeZY3Q4gMc3Nol6v78HvQOAI6kw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "686443341701-u1f3et3s9srnl7huf3amno5sp4mpsdg7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "686443341701-kvbrmfmruh0fgj0dd2c2cujfa0o8ftj8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

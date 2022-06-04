@@ -76,11 +76,11 @@ const Booking = (props) => {
         })
     }
     const checkHotelBooking= () =>{
-        if(user && !parseInt(dateDifference(user[0].starting_date, user[0].ending_date))>0){
+        if(user && !parseInt(dateDifference(new Date(), user[0].ending_date))>0){
             setError('Your membership plan has expired. Please renew your membership plan.')
             return
         }
-        setLoader(true)
+        setLoader(true) 
         postData(url + '/getData',{
             tableName:'membership',
             condition: "type=" + "'"+user[0].membership_type+"'"

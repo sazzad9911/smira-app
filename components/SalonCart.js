@@ -9,7 +9,7 @@ import { AntDesign } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import app from '../firebase';
 import { getAuth } from 'firebase/auth';
-import { postData, url } from '../action'
+import { postData, url,dateDifference } from '../action'
 import { SvgXml } from 'react-native-svg';
 import { call, location, leftArrow, upArrow, rightArrow } from './Icon';
 import NewAlert from './NewAlert'
@@ -191,7 +191,7 @@ export const DetailsCart = (props) => {
                             {
                                 total.map((item, i) => (
                                     <Cart data={item} key={i} book={() => setConfirm(true)}
-                                        user={user ? user[0].membership_type : false} />
+                                        user={user &&  dateDifference(new Date(),user[0].ending_date)>0? true : false} />
                                 ))
                             }
                         </ScrollView>
