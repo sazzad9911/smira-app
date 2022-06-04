@@ -3,7 +3,6 @@ import {
     View, Dimensions, Text, TouchableOpacity, Image,
     StyleSheet, ScrollView, ActivityIndicator, Alert, Modal, Platform,Linking
 } from 'react-native'
-import MapView, { Marker } from 'react-native-maps';
 import { AntDesign, EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { postData, url } from '../action'
 import Gallery from 'react-native-image-gallery';
