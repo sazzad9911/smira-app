@@ -136,7 +136,7 @@ android {
         applicationId 'com.scientistx.smira'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
+        versionCode 3
         versionName "6.4.0"
         ndkVersion = "20.1.5948944"
     }

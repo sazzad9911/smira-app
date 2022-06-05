@@ -166,7 +166,40 @@ const CheckOut = (props) => {
         return true
        }
     }
+    function makeid(length) {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+          result += characters.charAt(Math.floor(Math.random() * 
+     charactersLength));
+       }
+       return result;
+    }
     const confirm=()=>{
+        dispatch(setAnimatedLoader(true))
+        let codes=null;
+        if(Membership.account!='no'){
+            let account=parseInt(Membership.account)
+            let index=0;
+            while(index<account){
+                let id=makeid(16)
+                if(!codes){
+                    codes =`'`+id+`'`
+                }else{
+                    codes=codes+", "+`'`+id+`'`
+                }
+                postData(url + '/setData',{
+                    auth: auth.currentUser,
+                    tableName: 'family_code',
+                    columns: ['code','buyer_id'],
+                    values: [id,auth.currentUser.uid]
+                }).then(data => {
+                    console.log(data)
+                })
+                index++;
+            }
+        }
         postData(url + '/getData', {
             tableName: 'user',
             condition: "uid=" + "'" + auth.currentUser.uid + "'"
@@ -174,11 +207,12 @@ const CheckOut = (props) => {
             if (Array.isArray(response)) {
                 dispatch(setUser(response))
                 dispatch(setAnimatedLoader(false))
+                let msg=codes?codes+" are you family access code.":""
                 postData(url +'/sendEmail',{ 
                     from:'info@smira.club',
                     to:auth.currentUser.email,
                     subject:'Your Membership Purchase Request has been received - Smira Club',
-                    text: "<p>Dear <strong>"+user[0].name.split(' ')[0]+"</strong>,</p><p>Your membership is activated - membership type <strong>"+Membership.name+"</strong> membership from date <strong>"+convertDate(new Date())+"</strong> your product time period "+Membership.time+" year. Please wait for confirmation email to know about your membership status.If you have any inquiries, please do not hesitate to contact us.</p><p>Best Regards</p><p>Smira Club</p><p>Ranjit Studio Compound,</p><p> Ground & 1st Floor, </p><p>C-Block, Plot No. 115, </p><p>Dada Saheb Phalke Marg, </p><p>Opp. Bharatkshetra, Hindmata, </p><p>Dadar East, Mumbai, </p><p>Maharashtra 400014 </p><p>Contact No. </p><p>9819812456</p><p>9833733477</p><p>9820342389</p><p> Email - support@smira.club</p>"
+                    text: "<p>Dear <strong>"+user[0].name.split(' ')[0]+"</strong>,</p><p>Your membership is activated - membership type <strong>"+Membership.name+"</strong> membership from date <strong>"+convertDate(new Date())+"</strong> your product time period "+Membership.time+" year."+msg+" Enjoy with our best hotels and deals plan .If you have any inquiries, please do not hesitate to contact us.</p><p>Best Regards</p><p>Smira Club</p><p>Ranjit Studio Compound,</p><p> Ground & 1st Floor, </p><p>C-Block, Plot No. 115, </p><p>Dada Saheb Phalke Marg, </p><p>Opp. Bharatkshetra, Hindmata, </p><p>Dadar East, Mumbai, </p><p>Maharashtra 400014 </p><p>Contact No. </p><p>9819812456</p><p>9833733477</p><p>9820342389</p><p> Email - support@smira.club</p>"
                 }).then(data=>{
                     console.log(data)
                 })
@@ -189,12 +223,15 @@ const CheckOut = (props) => {
             }
             dispatch(setAnimatedLoader(false))
         })
+        
     }
     const razorPay=()=>{
+        let discount=CouponDetails?(CouponDetails.offer*Membership.price)/100:0
+        
         setError('')
         dispatch(setAnimatedLoader(true))
         postData(url + '/makePayment',{
-            "amount":Membership.price*100,
+            "amount":(Membership.price*100)-(discount*100),
         }).then(data=>{
             if(data.id){
                 var options = {
@@ -202,7 +239,7 @@ const CheckOut = (props) => {
                     image: 'https://i.imgur.com/3g7nmJC.png',
                     currency: 'INR',
                     key: 'rzp_test_LC2zuVNMYJbS0a', // Your api key
-                    amount: Membership.price*100,
+                    amount: (Membership.price*100)-(discount*100),
                     order_id:data.id,
                     name: 'SMIRA CLUB',
                     prefill: {
@@ -213,25 +250,22 @@ const CheckOut = (props) => {
                     theme: {color: '#FA454B'}
                   }
                   RazorpayCheckout.open(options).then((data) => {
-                    dispatch(setAnimatedLoader(false))
-                    // handle success
-                    let datas={
-                        razorpay_payment_id:data.razorpay_payment_id,
-                        razorpay_order_id:data.razorpay_order_id,
-                        razorpay_signature:data.razorpay_signature,
-                        uid:auth.currentUser.uid,
-                        amount:Membership.price,
-                    }
-                    postData('http://192.168.0.196:4000/verifyPayment',datas).then(res=>{
-                        console.log(res)
+                    
+                    
+                    postData(url + '/setData', {
+                        auth: auth.currentUser,
+                        tableName: 'payements',
+                        columns: ['ammount','uid','payment_id','order_id'],
+                        values: [(Membership.price-discount),auth.currentUser.uid,data.razorpay_payment_id,data.razorpay_order_id]
+                    }).then(data => {
+                        console.log(data)
                     })
-                    console.log(`Success: ${data.razorpay_payment_id}`);
-                    //return setUserWithAmount()
+                    return setUserWithAmount()
                    
                   }).catch((error) => {
                     // handle failure
                     dispatch(setAnimatedLoader(false))
-                    setError(error.description);
+                    setError(error.code);
                     console.log(`Error: ${error.code} | ${error.description}`);
                   });
             }
@@ -266,9 +300,10 @@ const CheckOut = (props) => {
                 "values":[Membership.type,convertDate(new Date()),newDate]
             }).then(data=>{
                 if(data.affectedRows){
-                    dispatch(setAnimatedLoader(false))
+                    
                    return confirm()
                 }
+                dispatch(setAnimatedLoader(false))
                 console.log(data.message)
             })          
     }
@@ -364,11 +399,15 @@ const CheckOut = (props) => {
                    }}>Apply coupon code for get extra discount!!!</Text>
                    <View style={{ marginBottom: 0 }}>
                         <TextInput value={CouponCode} onChangeText={(value) =>{
+                            setError('')
                             setCouponCode(value)
                             let newEed=AllCoupons.filter(c => c.code ==value)
                             if(newEed && newEed.length > 0 && !newEed[0].used){
                                 setCouponDetails(newEed[0])
                                 setModalVisible(!modalVisible)
+                            }else{
+                                setError('Invalid coupon code.')
+                                setCouponDetails(null)
                             }
                             }}
                          style={styles.input1} placeholder='Coupon Code' />
@@ -409,6 +448,14 @@ const CheckOut = (props) => {
             <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
             <NewAlert title={CouponDetails? CouponDetails.name:''} 
                 close={setModalVisible} onPress={() =>{
+                    postData(url + '/updateData',{
+                        tableName: 'cuppon_code',
+                        columns: ['used'],
+                        values: [1],
+                        condition:"id =" +CouponDetails.id
+                    }).then(data=>{
+                        console.log(data)
+                    })
                     setModalVisible(!modalVisible)
                 }}/>
             </Modal>

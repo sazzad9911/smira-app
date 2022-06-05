@@ -76,6 +76,22 @@ const Booking = (props) => {
         })
     }
     const checkHotelBooking= () =>{
+        if(user[0].link){
+            console.log('Family access granted')
+            setLoader(true)
+            postData(url + '/getData',{
+                tableName: 'user',
+                condition: "uid=" + "'" +user[0].link + "'"
+            }).then(data=>{
+                if(Array.isArray(data) && data.length > 0){
+                    getFamilyAccess(data[0])
+                    setLoader(false)
+                }
+                setError(data.message)
+                setLoader(false)
+            })
+            return
+        }
         if(user && !parseInt(dateDifference(new Date(), user[0].ending_date))>0){
             setError('Your membership plan has expired. Please renew your membership plan.')
             return
@@ -94,9 +110,9 @@ const Booking = (props) => {
                 }).then(data=>{
              if(Array.isArray(data) && data.length > 0){
                 let id=data[0].hotel_id;
-                totalHotels=1;
+                totalHotels=0;
                data.forEach(doc=>{
-               if(doc.visible){
+               if(doc.visible && dateDifference(user[0].starting_date,doc.date)>=0 && dateDifference(user[0].ending_date,doc.date)<0){
                 totalNights=totalNights+parseInt(dateDifference(doc.check_in, doc.check_out))
                 if(id!=doc.hotel_id){
                     totalHotels=totalHotels+1;
@@ -116,6 +132,60 @@ const Booking = (props) => {
              }
              setLoader(false);
              setModalVisible(true)
+            //console.log(totalHotels);
+           // console.log(totalNights);
+            }else{
+                console.log(data.message)
+                return null;
+            }
+        })
+            }
+        })
+    }
+    const getFamilyAccess = (user) => {
+        
+        if(user && !parseInt(dateDifference(new Date(), user.ending_date))>0){
+            setError('Your membership plan has expired. Please renew your membership plan.')
+            return
+        }
+        setLoader(true) 
+        postData(url + '/getData',{
+            tableName:'membership',
+            condition: "type=" + "'"+user.membership_type+"'"
+        }).then(membership=>{
+            if(Array.isArray(membership) && membership.length > 0){
+                let totalHotels =0;
+                let totalNights =0;
+                postData(url + '/getData',{
+                tableName: 'hotel_booking',
+                condition: "user_id=" +"'"+ user.uid + "'"
+                }).then(data=>{
+             if(Array.isArray(data) && data.length > 0){
+                let id=data[0].hotel_id;
+                totalHotels=0;
+               data.forEach(doc=>{
+               if(doc.visible && dateDifference(user.starting_date,doc.date)>=0 && dateDifference(user.ending_date,doc.date)<0){
+                totalNights=totalNights+parseInt(dateDifference(doc.check_in, doc.check_out))
+                if(id!=doc.hotel_id){
+                    totalHotels=totalHotels+1;
+                    id =doc.hotel_id;
+                }
+               }
+             })
+             if(membership[0].hotel!='all' && membership[0].hotel<totalHotels ){
+                setError('Your hotel quota exceeded. Please renew your plan.')
+                setLoader(false);
+                return
+             }
+             if(membership[0].night!='unlimited' && membership[0].night<totalNights){
+                setError('You extend maximum level of your night spend quota. Please renew your plan')
+                setLoader(false);
+                return
+             }
+             setLoader(false);
+             setModalVisible(true)
+            //console.log(totalHotels);
+           // console.log(totalNights);
             }else{
                 console.log(data.message)
                 return null;

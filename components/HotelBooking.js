@@ -44,7 +44,21 @@ const HotelBooking = (props) => {
         return data = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate())
     }
     const Confirm = () => {
-        if(user && !user[0].membership_type){
+        if(user[0].link){
+            console.log('Family access granted')
+            postData(url + '/getData',{
+                tableName: 'user',
+                condition: "uid=" + "'" +user[0].link + "'"
+            }).then(users=>{
+                if(Array.isArray(users) && users.length>0){
+                    getFamilyAccess(users[0])
+                }else{
+                    setError('Invalid family access')
+                }
+            })
+            return
+        }
+        if(user && !user[0].membership_type && dateDifference(new Date(),user[0].ending_date)>0){
             navigation.navigate('Choose Your Membership')
             return
         }
@@ -85,6 +99,41 @@ const HotelBooking = (props) => {
         // }).then(data=>{
         //     console.log(data)
         // })
+    }
+    const getFamilyAccess=(user) => {
+        if(user && !user.membership_type && dateDifference(new Date(),user.ending_date)>0){
+            navigation.navigate('Choose Your Membership')
+            return
+        }
+        if(!CheckIn){
+            return
+        }
+        if(!CheckOut){
+            return
+        }
+        dispatch(setBottomSheet(null))
+        setLoader(true)
+        postData(url + '/setData', {
+            auth: auth.currentUser,
+            tableName: 'booking_enquiry',
+            columns: ['check_in', 'check_out', 'adults', 'children', 'room', 'uid', 'hotel_id','type'],
+            values: [convertDate(CheckIn), convertDate(CheckOut), count, count1, count2, user.uid, selectedItem,Select]
+        }).then(data => {
+            if (data.insertId) {
+                setLoader(false)
+                props.close(false)
+                setSubmit(!submit)
+                return navigation.navigate('Confirm Message', {
+                    text1: 'You have successfully booked.',
+                    text2: 'Please check for confirmation email.'
+                })
+            }
+            setLoader(false)
+            Alert.alert('Opps!', data.message)
+        }).catch(err => {
+            setLoader(false)
+            Alert.alert('Error', err.code)
+        })
     }
     const darkMode = useSelector(state => state.pageSettings.darkMode)
     const style = StyleSheet.create({

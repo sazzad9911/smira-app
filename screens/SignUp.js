@@ -12,7 +12,7 @@ import app from '../firebase'
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 import {
     PhoneAuthProvider, signInWithCredential, getAuth,
-    createUserWithEmailAndPassword, updateProfile, getRedirectResult, GoogleAuthProvider
+    createUserWithEmailAndPassword, updateProfile, getRedirectResult, GoogleAuthProvider,signInWithPopup
 } from 'firebase/auth';
 import AnimatedLoader from "react-native-animated-loader";
 import { postData, url } from '../action'
@@ -36,6 +36,7 @@ const SignUp = (props) => {
     const [isOTP, setOTP] = React.useState(false);
     const auth = getAuth();
     const [visibility, setVisibility] = React.useState(false);
+    const provider = new GoogleAuthProvider();
 
     const phone = `
     <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -60,6 +61,28 @@ const SignUp = (props) => {
     <path fill-rule="evenodd" clip-rule="evenodd" d="M5.74066 15.804C5.46179 15.0082 5.31789 14.173 5.3147 13.3316C5.31984 12.4915 5.45842 11.6574 5.72547 10.8592L5.71836 10.6935L1.73454 7.65907L1.60422 7.71983C-0.208983 11.2497 -0.208983 15.4132 1.60422 18.9431L5.74066 15.804" fill="#FBBC05"/>
     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.9942 5.6654C14.8214 5.63759 16.5885 6.30447 17.9247 7.52607L21.5235 4.08251C19.2154 1.96047 16.1588 0.796139 12.9942 0.833431C8.17037 0.833431 3.76232 3.49975 1.60124 7.72294L5.72588 10.8584C6.76 7.77784 9.68516 5.68788 12.9942 5.66539" fill="#EB4335"/>
     </svg>`
+
+    const googleSignIn=()=>{
+        const auth = getAuth();
+signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+    }
 
     return (
         <ScrollView>
@@ -129,8 +152,8 @@ const SignUp = (props) => {
                         }}>Signup with Email</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => {
-
+                    {/* <TouchableOpacity onPress={() => {
+                      googleSignIn()
                     }} style={{
                         height: 70,
                         margin: 8,
@@ -153,7 +176,7 @@ const SignUp = (props) => {
                             lineHeight: 18,
                             fontFamily: 'PlusJakartaSans',
                         }}>Signup with Google</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     <View style={{
                         flexDirection: 'row',
@@ -241,16 +264,28 @@ export const SignUpWithOtp = (props) => {
             );
             await signInWithCredential(auth, credential)
                 .then(userCredential => {
-                    postData(url + '/setData', {
-                        auth: userCredential.user,
-                        tableName: 'user',
-                        columns: ['phone', 'uid', 'name', 'email'],
-                        values: [userCredential.user.phoneNumber, userCredential.user.uid, Name, Email]
-                    }).then(data => {
-                        // Alert.alert('Success!', 'Sign Up completed successfully')
-                        setVisibility(false)
-                        navigation.navigate('Dashboard');
-                    })
+                    if(userCredential){
+                        postData(url +'/getData',{
+                            tableName: 'user',
+                            condition: "uid=" + "'" +userCredential.user.uid+"'"
+                        }).then(data => {
+                            if(Array.isArray(data)&& data.length > 0){
+                                setVisibility(false)
+                                navigation.navigate('Dashboard');
+                            }else{
+                                postData(url + '/setData', {
+                                    auth: userCredential.user,
+                                    tableName: 'user',
+                                    columns: ['phone', 'uid', 'name', 'email'],
+                                    values: [userCredential.user.phoneNumber, userCredential.user.uid, Name, Email]
+                                }).then(data => {
+                                    // Alert.alert('Success!', 'Sign Up completed successfully')
+                                    setVisibility(false)
+                                    navigation.navigate('Dashboard');
+                                })
+                            }
+                        })
+                    }
                 }).catch(err => {
                     setText('Something wrong, please try again later')
                 })

@@ -182,7 +182,7 @@ const SignIn = ({ navigation }) => {
                     marginTop: 30,
                 }}>
                 </View>
-                <TouchableOpacity onPress={() =>googleSignIn()}>
+                {/* <TouchableOpacity onPress={() =>googleSignIn()}>
                     <View style={{
                         height: 60,
                         marginHorizontal: 25,
@@ -204,7 +204,7 @@ const SignIn = ({ navigation }) => {
                             marginLeft: 50,
                         }}>Continue with Google</Text>
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity onPress={() => {
                         //setOTP(true);
                         setModalVisible(true)

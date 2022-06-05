@@ -377,6 +377,7 @@ export const FamilyCode = () => {
         condition: "uid=" + "'" + auth.currentUser.uid + "'"
     }).then(response => {
         if (Array.isArray(response)) {
+          dispatch(setFamilyCode(!familyCode))
             dispatch(setUser(response))
             dispatch(setAnimatedLoader(false))
             return navigation.navigate('Confirm Message', {
