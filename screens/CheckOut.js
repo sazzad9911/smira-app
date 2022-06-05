@@ -308,7 +308,7 @@ const CheckOut = (props) => {
             })          
     }
     const submit=()=>{
-        if(PromoCode !Pay){
+        if(PromoCode && !Pay){
             checkCode()
         }else if(Pay && DebitOption){
             checkCard()
