@@ -191,7 +191,8 @@ export const DetailsCart = (props) => {
                             {
                                 total.map((item, i) => (
                                     <Cart data={item} key={i} book={() => setConfirm(true)}
-                                        user={user &&  dateDifference(new Date(),user[0].ending_date)>0 || user[0].link? true : false} />
+                                        user={user && user[0].membership_type && 
+                                        dateDifference(new Date(),user[0].ending_date)>0 || user[0].link? true : false} />
                                 ))
                             }
                         </ScrollView>

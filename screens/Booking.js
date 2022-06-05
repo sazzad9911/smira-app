@@ -92,7 +92,7 @@ const Booking = (props) => {
             })
             return
         }
-        if(user && !parseInt(dateDifference(new Date(), user[0].ending_date))>0){
+        if(user && parseInt(dateDifference(new Date(), user[0].ending_date))<0 || !user[0].membership_type){
             setError('Your membership plan has expired. Please renew your membership plan.')
             return
         }
@@ -144,7 +144,7 @@ const Booking = (props) => {
     }
     const getFamilyAccess = (user) => {
         
-        if(user && !parseInt(dateDifference(new Date(), user.ending_date))>0){
+        if(user && parseInt(dateDifference(new Date(), user[0].ending_date))<0 || !user[0].membership_type){
             setError('Your membership plan has expired. Please renew your membership plan.')
             return
         }

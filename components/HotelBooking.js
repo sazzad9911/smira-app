@@ -58,7 +58,7 @@ const HotelBooking = (props) => {
             })
             return
         }
-        if(user && !user[0].membership_type && dateDifference(new Date(),user[0].ending_date)>0){
+        if(user && !user[0].membership_type || dateDifference(new Date(),user[0].ending_date)<0){
             navigation.navigate('Choose Your Membership')
             return
         }
@@ -81,8 +81,8 @@ const HotelBooking = (props) => {
                 props.close(false)
                 setSubmit(!submit)
                 return navigation.navigate('Confirm Message', {
-                    text1: 'You have successfully booked.',
-                    text2: 'Please check for confirmation email.'
+                    text1: 'You have successfully done the process.',
+                    text2: 'Please wait for confirmation.'
                 })
             }
             setLoader(false)
@@ -101,7 +101,7 @@ const HotelBooking = (props) => {
         // })
     }
     const getFamilyAccess=(user) => {
-        if(user && !user.membership_type && dateDifference(new Date(),user.ending_date)>0){
+        if(user && !user.membership_type || dateDifference(new Date(),user.ending_date)<0){
             navigation.navigate('Choose Your Membership')
             return
         }
@@ -124,8 +124,8 @@ const HotelBooking = (props) => {
                 props.close(false)
                 setSubmit(!submit)
                 return navigation.navigate('Confirm Message', {
-                    text1: 'You have successfully booked.',
-                    text2: 'Please check for confirmation email.'
+                    text1: 'You have successfully done the process.',
+                    text2: 'Please wait for confirmation.'
                 })
             }
             setLoader(false)
@@ -268,7 +268,7 @@ const HotelBooking = (props) => {
         })
     }
     const checkHotelBooking= () =>{
-        if(user && !parseInt(dateDifference(user[0].starting_date, user[0].ending_date))>0){
+        if(user && parseInt(dateDifference(new Date(), user[0].ending_date))<0 || !user[0].membership_type){
             setError('Your membership plan has expired. Please renew your membership plan.')
             return
         }
