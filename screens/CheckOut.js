@@ -132,10 +132,6 @@ const CheckOut = (props) => {
         {
             label: 'Pay now with UPI, Netbanking & Wallet',
             key:'now'
-        },
-        {
-            label: 'Pay later with credit or debit card',
-            key:'later'
         }
     ];
     const checkCode=()=>{
@@ -314,6 +310,8 @@ const CheckOut = (props) => {
             checkCard()
         }else if(Pay && !DebitOption){
             razorPay()
+        }else if(PromoCode && Pay){
+            checkCode()
         }
     }
     return (
@@ -448,11 +446,11 @@ const CheckOut = (props) => {
             <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
             <NewAlert title={CouponDetails? CouponDetails.name:''} 
                 close={setModalVisible} onPress={() =>{
-                    postData(url + '/updateData',{
-                        tableName: 'cuppon_code',
-                        columns: ['used'],
-                        values: [1],
-                        condition:"id =" +CouponDetails.id
+                    postData(url + '/setData',{
+                        auth: auth.currentUser,
+                        tableName: 'cuppon_user',
+                        columns: ['uid','code'],
+                        values: [auth.currentUser.uid,CouponDetails.code],
                     }).then(data=>{
                         console.log(data)
                     })
