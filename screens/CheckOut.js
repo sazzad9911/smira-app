@@ -248,9 +248,9 @@ const CheckOut = (props) => {
             if(data.id){
                 var options = {
                     description: 'Credits towards consultation', 
-                    image: 'http://165.232.178.79:4000/icon.png',
+                    image: 'https://i.ibb.co/D7SkjQy/icon.png',
                     currency: 'INR',
-                    key: 'rzp_test_LC2zuVNMYJbS0a', // Your api key
+                    key: 'rzp_live_J2l32I0ubXHiN1', // Your api key
                     amount: (Membership.price*100)-(discount*100),
                     order_id:data.id,
                     name: 'SMIRA CLUB',

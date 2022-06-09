@@ -63,7 +63,7 @@ const RedeemHistory = () => {
                             Member</Text>
                     ) : user && user[0].membership_type == 'silver' ? (
                         <Text style={[styles.membership]}>
-                            <Text style={{ color: '#FC444B', fontFamily: 'PlusJakartaSansBold', }}>Slider </Text>
+                            <Text style={{ color: '#FC444B', fontFamily: 'PlusJakartaSansBold', }}>Silver </Text>
                             Member</Text>
                     ) :
                         (
