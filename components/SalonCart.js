@@ -328,7 +328,7 @@ export const Cart = (props) => {
                             }}>{data.deal.discount}</Text>
                         </View>
                         {
-                            data.deal.price!=' ' || data.deal.discount!=' '?(
+                            data.deal.price!='' || data.deal.discount!=''?(
                                 <Text style={[style.cartText]}>Inc. of all taxes</Text>
                             ):(<></>)
                         }
