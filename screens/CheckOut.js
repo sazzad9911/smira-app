@@ -43,7 +43,7 @@ const CheckOut = (props) => {
     const [DebitOption,setDebitOption] = React.useState(false)
     const [Action, setAction]= React.useState(false)
     const [Error, setError]= React.useState()
-    const [Pay, setPay]= React.useState()
+    const [Pay, setPay]= React.useState(true)
     const [modalVisible, setModalVisible]= React.useState(false)
     const [CouponCode, setCouponCode]= React.useState()
     const [AllCoupons, setAllCoupons]= React.useState([])
@@ -229,8 +229,8 @@ const CheckOut = (props) => {
                     console.log(data)
                 })
                 return navigation.navigate('Confirm Message', {
-                    text1: 'You have successfully purchased',
-                    text2: 'Your membership plan has been activated.',
+                    text1: 'You are now a member',
+                    text2: 'Your plan has been activated',
                 })
             }
             dispatch(setAnimatedLoader(false))
@@ -320,14 +320,12 @@ const CheckOut = (props) => {
             })          
     }
     const submit=()=>{
-        if(PromoCode && !Pay){
+        if(PromoCode){
             checkCode()
         }else if(Pay && DebitOption){
             checkCard()
-        }else if(Pay && !DebitOption){
+        }else if(Pay && !PromoCode){
             razorPay()
-        }else if(PromoCode && Pay){
-            checkCode()
         }
     }
     return (
@@ -368,21 +366,27 @@ const CheckOut = (props) => {
                     </View>
                     <View style={{ width: window.width }}>
                         <Text style={styles.underboxtext}>Payment Method</Text>
-                        <RadioButtonRN style={{
-                            marginLeft: 10
-                        }}
-                            activeColor={params.color}
-                            box={false}
-                            data={data}
-                            selectedBtn={(e) => {
-                                if(e.key=='later'){
-                                    setDebitOption(true)
-                                }else{
-                                    setDebitOption(false)
-                                }
-                                setPay(true)
-                            }}
-                        />
+                        <View style={{flexDirection:'row'}}>
+                            <TouchableOpacity style={{
+                                width:26,
+                                height:26,
+                                borderRadius:13,
+                                borderWidth: 1,
+                                borderColor:Membership?Membership.color:'gray',
+                                marginHorizontal:20,
+                                justifyContent: 'center',
+                                alignItems: "center",
+                            }}>
+                            <View style={{
+                                backgroundColor:Membership?Membership.color:'gray',
+                                width:20,
+                                height:20,
+                                borderRadius:10
+                                }}>
+                            </View>
+                            </TouchableOpacity>
+                            <Text style={{fontFamily: 'PlusJakartaSans'}}>Pay now with UPI, Netbanking & Wallet</Text>
+                        </View>
                     </View>
 
                    {
@@ -460,7 +464,7 @@ const CheckOut = (props) => {
                 }]}>
                     <Text style={[styles.button1text, {
                         color: PromoCode || Pay ? 'white' : 'black',
-                    }]}>{user&&user[0].membership_type?'ACTIVE PACKAGE':'BUY MEMBERSHIP'}</Text>
+                    }]}>{user&&user[0].membership_type?'Pay Now':'BUY MEMBERSHIP'}</Text>
                 </View>
             </TouchableOpacity>
             <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>

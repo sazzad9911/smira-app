@@ -108,8 +108,7 @@ const MemberShipInfo = ({ navigation }) => {
           <Text style={{
             fontFamily: 'PlusJakartaSansBold',
             color: textColor(darkMode)
-          }}>{dateDifference(new Date(),user[0].ending_date)}
-            days left</Text> in membership</Text>
+          }}>{dateDifference(new Date(),user[0].ending_date)} days left</Text> in membership</Text>
         <View style={{
           borderWidth: 1,
           width: '80%', marginTop: 15,
@@ -198,7 +197,7 @@ const Cart = (props) => {
         {
           data == props.selectPlan ? (
             <Ionicons name="checkmark-circle" size={24}
-              color={data ? 'black' : 'white'} style={{
+              color={data ? 'white' : 'white'} style={{
                 marginTop: 20,
                 marginLeft: 10
               }} />
@@ -220,7 +219,7 @@ const Cart = (props) => {
           fontSize: 12,
           fontFamily: 'PlusJakartaSans',
           opacity: 0.5
-        }}>Renewal your pans and get continue booking hotels, awesome deals and more other.</Text>
+        }}>Renew your membership and continue booking hotels & deals to enjoy even better savings.</Text>
       </View>
       <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
         {

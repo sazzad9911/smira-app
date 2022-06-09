@@ -327,7 +327,11 @@ export const Cart = (props) => {
                                 marginLeft: 5,
                             }}>{data.deal.discount}</Text>
                         </View>
-                        <Text style={[style.cartText]}>Inc. of all taxes</Text>
+                        {
+                            data.deal.price!=' ' || data.deal.discount!=' '?(
+                                <Text style={[style.cartText]}>Inc. of all taxes</Text>
+                            ):(<></>)
+                        }
                     </View>
                 </View>
                 {
