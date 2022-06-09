@@ -214,7 +214,7 @@ const Cart = (props) => {
           marginBottom: 6,
           fontFamily: 'PlusJakartaSans',
           color: 'white'
-        }}>Continue as <Text style={{ fontFamily: 'PlusJakartaSansBold' }}>{data ? data.name : ''} Member</Text></Text>
+        }}>Renewal as <Text style={{ fontFamily: 'PlusJakartaSansBold' }}>{data ? data.name : ''} Member</Text></Text>
         <Text style={{
           color: 'white',
           fontSize: 12,

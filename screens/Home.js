@@ -14,7 +14,7 @@ import Brands from '../components/Brands'
 import SmallDealCart from './../components/SmallDealCart';
 import { postData, url } from '../action';
 import { useDispatch } from 'react-redux';
-import { setDeals, setBrands, setHotels, setUser,setBottomSheet } from '../action'
+import { setDeals, setBrands, setHotels, setUser,setBottomSheet ,setAnimatedLoader} from '../action'
 import { getAuth } from 'firebase/auth'
 import app from '../firebase';
 import { SvgXml } from 'react-native-svg';
@@ -69,6 +69,8 @@ const Home = ({ navigation }) => {
   const [PopularRestaurant, setPopularRestaurant]=React.useState()
 
   React.useEffect(() => {
+    dispatch(setAnimatedLoader(false))
+    dispatch(setBottomSheet(null))
     let data = postData(url + "/getData", {
       tableName: 'user',
       condition: "uid=" + "'" + auth.currentUser.uid + "'"

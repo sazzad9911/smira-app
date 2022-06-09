@@ -130,7 +130,7 @@ const Settings = ({ navigation }) => {
                                             Member</Text>
                                     ) : user && user[0].membership_type == 'silver' ? (
                                         <Text style={[styles.membership]}>
-                                            <Text style={{ color: '#FC444B', fontFamily: 'PlusJakartaSansBold', }}>Slider </Text>
+                                            <Text style={{ color: '#FC444B', fontFamily: 'PlusJakartaSansBold', }}>Sliver </Text>
                                             Member</Text>
                                     ) :
                                         (

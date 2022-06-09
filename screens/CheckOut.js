@@ -48,6 +48,7 @@ const CheckOut = (props) => {
     const [CouponCode, setCouponCode]= React.useState()
     const [AllCoupons, setAllCoupons]= React.useState([])
     const [CouponDetails, setCouponDetails]= React.useState()
+    const [CouponUser,setCouponUser]= React.useState(null)
 
     React.useEffect(() => {
         postData(url + '/getData', {
@@ -82,7 +83,16 @@ const CheckOut = (props) => {
             }
         })
     },[Action])
-
+    React.useEffect(() => {
+        postData(url + '/getData', {
+            tableName: 'cuppon_user'
+        }).then(data => {
+            if(Array.isArray(data)&& data.length > 0){
+               return setCouponUser(data)
+            }
+            console.log(data.message)
+        })
+    },[Action])
     const checkCard = () => {
         let date = Expiry.split('/')
         // returns true
@@ -135,25 +145,30 @@ const CheckOut = (props) => {
         }
     ];
     const checkCode=()=>{
-        setError('')
+        postData(url + '/getData',{
+            tableName: 'promo_user',
+            condition:"uid='"+ auth.currentUser.uid+"' AND code='"+PromoCode+"'"
+        }).then(response=>{
+            if(Array.isArray(response)&& response.length > 0){
+                setError('You have already used this code.')
+                return
+            }
+            setError('')
        let filter=Codes.filter(d=>d.code==PromoCode)
-       if(filter && filter.length>0 && filter[0].used){
-        console.log('Your code has already been used.')
-        setError('Your code has already been used.')
-        return false
-       }else if(filter==0){
+       if(!filter || filter.length== 0){
         console.log('Invalid promo code')
         setError('Invalid promo code')
         return false
        }else{
         dispatch(setAnimatedLoader(true))
-        postData(url + '/updateData',{
-            "tableName":"promo_code",
-            "condition":"code='"+PromoCode+"'",
-            "values":[1],
-            "columns":["used"]
+        postData(url + '/setData',{
+            "tableName":"promo_user",
+            "values":[auth.currentUser.uid,PromoCode],
+            "columns":["uid","code"],
+            "auth":auth.currentUser
         }).then(data => {
             if(data.affectedRows){
+                setAction(!Action)
               return  setUserWithPromoCode()
             }
             dispatch(setAnimatedLoader(false))
@@ -161,6 +176,7 @@ const CheckOut = (props) => {
         })
         return true
        }
+        })
     }
     function makeid(length) {
         var result           = '';
@@ -213,8 +229,8 @@ const CheckOut = (props) => {
                     console.log(data)
                 })
                 return navigation.navigate('Confirm Message', {
-                    text1: 'You have successfully parched.',
-                    text2: 'Your package has been activated.',
+                    text1: 'You have successfully purchased',
+                    text2: 'Your membership plan has been activated.',
                 })
             }
             dispatch(setAnimatedLoader(false))
@@ -232,7 +248,7 @@ const CheckOut = (props) => {
             if(data.id){
                 var options = {
                     description: 'Credits towards consultation', 
-                    image: 'https://i.imgur.com/3g7nmJC.png',
+                    image: 'http://165.232.178.79:4000/icon.png',
                     currency: 'INR',
                     key: 'rzp_test_LC2zuVNMYJbS0a', // Your api key
                     amount: (Membership.price*100)-(discount*100),
@@ -399,8 +415,12 @@ const CheckOut = (props) => {
                         <TextInput value={CouponCode} onChangeText={(value) =>{
                             setError('')
                             setCouponCode(value)
+                            if(CouponUser && CouponUser.filter(d=>d.uid==auth.currentUser.uid && d.code==value).length > 0) {
+                                setError('You have already use this code.')
+                                return
+                            }
                             let newEed=AllCoupons.filter(c => c.code ==value)
-                            if(newEed && newEed.length > 0 && !newEed[0].used){
+                            if(newEed && newEed.length > 0){
                                 setCouponDetails(newEed[0])
                                 setModalVisible(!modalVisible)
                             }else{

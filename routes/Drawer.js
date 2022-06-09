@@ -38,6 +38,7 @@ import BottomBar from './BottomBar';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import CategorySingleRoute from "../screens/CategorySingleRoute";
 import HomeHeader from "../components/HomeHeader";
+import BusinessWithUs from './../screens/BusinessWithUs';
 
 
 const Drawer = createDrawerNavigator();
@@ -64,6 +65,7 @@ export default function DrawerApp() {
         <Drawer.Screen options={{ headerShown: false }} name="Rooms" component={Rooms} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Settings" component={Settings} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Talk To Us" component={TellToUs} />
+        <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Business With Us" component={BusinessWithUs} />
         <Drawer.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Confirm Message" component={ConfirmMessage} />
         <Drawer.Screen options={{ header: (props) => <HotelGallaryHeader title='9 Photos' {...props} /> }} name="Hotel Gallery" component={HotelGallery} />
         <Drawer.Screen options={{ headerShown: false }} name="Hotel" component={Hotel} />

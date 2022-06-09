@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux'
 import { getAuth } from 'firebase/auth';
 import app from '../firebase';
 
-const TellToUs = ({ navigation}) => {
+const BusinessWithUs = ({ navigation}) => {
     const [name, onChangeName] = React.useState(null);
     const [mobile, onChangeMobile] = React.useState(null);
     const [msg, onChangeMsg] = React.useState(null);
@@ -29,9 +29,9 @@ const TellToUs = ({ navigation}) => {
         date=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
         postData(url +'/setData',{
             auth:auth.currentUser,
-            tableName: 'customer_messages',
-            columns: ['name','phone','message','uid','date'],
-            values: [name,mobile, msg,auth.currentUser.uid,date]
+            tableName: 'business_messages',
+            columns: ['name','email','phone'],
+            values: [name,msg, mobile]
         }).then(data => {
             dispatch(setAnimatedLoader(false))
             if(data.insertId) {
@@ -49,13 +49,13 @@ const TellToUs = ({ navigation}) => {
         <ScrollView style={{backgroundColor: 'white'}}>
             <View style={style.body}>
                 <View>
-                    <Text style={style.headText}>
-                        We're here to help and answer any question you might have.
+                    <Text style={[style.headText,{textAlign:'center'}]}>
+                    We’re here to help you grow your business online.
                     </Text>
                 </View>
                 <View style={style.inputView}>
                     <View>
-                        <Text style={style.inputL}>Full Name</Text>
+                        <Text style={style.inputL}>Business Name</Text>
                         <TextInput
                             style={[style.inputFullName,{
                                 borderWidth:focusName?1:0,
@@ -81,7 +81,7 @@ const TellToUs = ({ navigation}) => {
                         />
                     </View>
                     <View>
-                        <Text style={style.inputL}>Your Message</Text>
+                        <Text style={style.inputL}>Your Email</Text>
                         <TextInput
                             style={[style.inputFullName,{
                                 borderWidth:focusMsg?1:0,
@@ -132,7 +132,7 @@ const TellToUs = ({ navigation}) => {
     );
 };
 
-export default TellToUs;
+export default BusinessWithUs;
 
 const style = StyleSheet.create({
 

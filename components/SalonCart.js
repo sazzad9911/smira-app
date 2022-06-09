@@ -320,7 +320,7 @@ export const Cart = (props) => {
                                 fontFamily: 'PlusJakartaSans',
                                 color: '#808080',
                                 textDecorationLine: 'line-through',
-                            }}>{data.deal.price?'₹'+data.deal.price:''}</Text>
+                            }}>{data.deal.price?data.deal.price:''}</Text>
                             <Text  style={{
                                 fontSize: 20,
                                 fontFamily: 'PlusJakartaSansBold',

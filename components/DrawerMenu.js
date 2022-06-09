@@ -114,7 +114,7 @@ const DrawerMenu = ({ navigation }) => {
                                         Member</Text>
                                 ) : user && user[0].membership_type == 'silver' ? (
                                     <Text style={[styles.membership]}>
-                                        <Text style={{ color: '#FC444B', fontFamily: 'PlusJakartaSansBold', }}>Slider </Text>
+                                        <Text style={{ color: '#FC444B', fontFamily: 'PlusJakartaSansBold', }}>Sliver </Text>
                                         Member</Text>
                                 ) :
                                     (
@@ -212,7 +212,7 @@ const DrawerMenu = ({ navigation }) => {
                         )
                 }
                 <View style={{ borderBottomColor: 'rgb(230,230,230)', borderBottomWidth: 1, marginTop: 10, marginBottom: 10 }}></View>
-                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Home')}>
+                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Business With Us')}>
                     <SvgXml
                         style={[styles.tabIco]}
                         xml={`<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -247,7 +247,7 @@ const DrawerMenu = ({ navigation }) => {
                         width="22" />
                     <Text style={[styles.navTabText]}>Rate us</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.navTab]} onPress={() => onNavigate('Home')}>
+                <TouchableOpacity style={[styles.navTab]} onPress={() => Linking.openURL('http://165.232.178.79:9000/PrivacyPolicy')}>
                     <SvgXml
                         style={[styles.tabIco]}
                         xml={`<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
