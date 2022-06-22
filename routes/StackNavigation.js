@@ -100,6 +100,7 @@ const StackNavigation = () => {
                     <Stack.Screen options={{header:(props)=><Header title='Our Brands' {...props}/>}} name='OurBrand' component={OurBrand} />
                     <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Booking" component={Booking} />
                     <Stack.Screen options={{ headerShown: false }} name="Hotel" component={Hotel} />
+                    <Stack.Screen options={{ header: (props) => <SettingsHeader {...props} /> }} name="Outlets" component={Outlets} />
                 </Stack.Navigator>
             </NavigationContainer>
         ); 
@@ -118,6 +119,7 @@ import OurBrand from '../screens/OurBrand';
 import Search from './../screens/Search';
 import Booking from './../screens/Booking';
 import Hotel from './../screens/Hotel';
+import Outlets from './../screens/Outlets';
 
 const Dashboard = ({ navigation }) => {
     const bottomSheetRef = React.useRef();

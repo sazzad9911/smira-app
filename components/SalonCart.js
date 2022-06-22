@@ -77,6 +77,20 @@ export const DetailsCart = (props) => {
     const darkMode = useSelector(state => state.pageSettings.darkMode)
     const data = props.data
     const window = Dimensions.get('window')
+    const [Outlets, setOutlets]= React.useState()
+    const navigation=useNavigation()
+
+    React.useEffect(() => {
+        postData(url + '/getData',{
+            tableName: 'outlets',
+            condition: `brand_id=${data.id}`
+        }).then((response) => {
+            if(Array.isArray(response)){
+              return  setOutlets(response)
+            }
+            console.log(response.message)
+        })
+    },[])
 
     React.useEffect(() => {
         if (deals) {
@@ -143,7 +157,7 @@ export const DetailsCart = (props) => {
                             backgroundColor: '#fff'
                         }}>
                             <View style={{
-                                flex: 3
+                                flex: 2
                             }}>
                                 <Image style={{
                                     height: 70,
@@ -159,18 +173,29 @@ export const DetailsCart = (props) => {
                                     fontSize: 18,
                                     fontFamily: 'PlusJakartaSansBold'
                                 }}>{data.name}</Text>
-                                <Text style={style.subText} numberOfLines={1}>{data.address}</Text>
+                                <TouchableOpacity disabled={Outlets&&Outlets.length>0?false : true} onPress={()=>{
+                                    props.setModalVisible(false);
+                                    navigation.navigate('Outlets',{id:data.id})
+                                }} style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                }}>
+                                    <Text style={[style.subText,{color: '#FA454B',fontFamily: 'PlusJakartaSansBold', }]} numberOfLines={1}>
+                                {Outlets?Outlets.length : '0'}  Outlets</Text>
+                                <AntDesign style={{
+                                    marginTop:5
+                                }} name="right" size={20} color="#FA454B" />
+                                </TouchableOpacity>
                             </View>
                             <View style={{
                                 flexDirection: 'row',
-                                flex: 2,
                             }}>
-                                <TouchableOpacity onPress={() => Linking.openURL(`tel:+91` + data.phone)}>
+                                {/* <TouchableOpacity onPress={() => Linking.openURL(`tel:+91` + data.phone)}>
                                     <SvgXml xml={call} height="30" width="30" />
                                 </TouchableOpacity>
                                 <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => Linking.openURL(data.location ? data.location : 'https://goo.gl/maps/9qdMw2BYBYTb8GL2A')}>
                                     <SvgXml xml={location} height="30" width="30" />
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
 
                             </View>
                         </View>

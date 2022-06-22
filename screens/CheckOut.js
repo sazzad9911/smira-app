@@ -437,16 +437,17 @@ const CheckOut = (props) => {
                     {
                     Error?(<Text style={{color: 'red',fontFamily:'PlusJakartaSans'}}>{Error}</Text>):(<></>)
                    }
-                    {
+                    {/* {
                         user && user[0].membership_type? (
                             <View style={{marginBottom:50}}></View>
                         ):(
+                    
+                        )
+                    } */}
                     <View style={{ marginBottom: 50,marginTop:0 }}>
                         <TextInput value={PromoCode} onChangeText={(value) =>setPromoCode(value)}
                          style={styles.input1} placeholder='Promo Code' />
                     </View>
-                        )
-                    }
                 </View>
                 <View style={{ height: 40,backgroundColor:backgroundColor(darkMode) }}></View>
             </ScrollView>
@@ -468,7 +469,7 @@ const CheckOut = (props) => {
                 </View>
             </TouchableOpacity>
             <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
-            <NewAlert title={CouponDetails? CouponDetails.name:''} 
+            {/* <NewAlert title={CouponDetails? CouponDetails.name:''} 
                 close={setModalVisible} onPress={() =>{
                     postData(url + '/setData',{
                         auth: auth.currentUser,
@@ -479,7 +480,19 @@ const CheckOut = (props) => {
                         console.log(data)
                     })
                     setModalVisible(!modalVisible)
-                }}/>
+                }}/> */}
+                <CouponAlert onPress={()=>{
+                    postData(url + '/setData',{
+                        auth: auth.currentUser,
+                        tableName: 'cuppon_user',
+                        columns: ['uid','code'],
+                        values: [auth.currentUser.uid,CouponDetails.code],
+                    }).then(data=>{
+                        console.log(data)
+                        setModalVisible(!modalVisible)
+                        submit()
+                    })
+                }} Membership={Membership} CouponDetails={CouponDetails}/>
             </Modal>
         </View>
     );
@@ -610,3 +623,69 @@ const styles = StyleSheet.create({
 });
 
 export default CheckOut;
+
+const CouponAlert=(props)=>{
+    return(
+        <View style={{
+            width:'100%',
+            height:'100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.74)',
+            justifyContent: 'center',
+            alignItems: "center",
+        }}>
+        <View style={{
+            width:'90%',
+            height:200,
+            backgroundColor: 'white',
+            borderRadius:10,
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
+            <AntDesign style={{
+                position: 'absolute',
+                right:10,
+                top:10,
+            }} name="close" size={30} color="black" />
+            <Text style={{
+                fontFamily: 'PlusJakartaSans',
+                fontSize: 20,
+            }}>Hooray!You got a discount!</Text>
+            <View style={{
+                flexDirection: 'row',
+                margin:10
+            }}>
+            <Text style={{
+                fontFamily: 'PlusJakartaSans',
+                fontSize: 20,
+                textDecorationLine: 'line-through',
+                color:'#FC444B'
+            }}>
+            ₹{props.Membership.price}
+            </Text>
+            <Text style={{
+                fontFamily: 'PlusJakartaSans',
+                fontSize: 20,
+                color:'#FC444B',
+                marginLeft: 15
+            }}>
+            ₹{props.Membership.price-(props.Membership.price*props.CouponDetails.offer)/100}
+            </Text>
+            </View>
+            <TouchableOpacity onPress={props.onPress} style={{
+                backgroundColor:'#fc444b',
+                borderRadius:20            
+                }}>
+              <Text style={{
+                color:'white',
+                fontSize:18,
+                fontFamily: 'PlusJakartaSans',
+                marginLeft:70,
+                marginRight:70,
+                marginTop:8,
+                marginBottom:8,
+              }}>PAY NOW</Text>
+            </TouchableOpacity>
+        </View>
+        </View>
+    )
+}
