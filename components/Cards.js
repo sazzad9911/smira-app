@@ -34,8 +34,8 @@ const Cards = (props) => {
 
     return (
         <TouchableOpacity onPress={() => {
-            //navigation.navigate('Hotel',{id:props.doc.id})
-            setModalVisible(true)
+            navigation.navigate('Hotel',{id:props.doc.id})
+            //setModalVisible(true)
         }} style={{
             alignItems: 'center',
             paddingLeft: 10,
