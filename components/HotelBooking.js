@@ -309,8 +309,8 @@ const HotelBooking = (props) => {
              setLoader(false);
              setModalVisible(true)
             }else{
-                console.log(data.message)
-                return null;
+                setLoader(false);
+                setModalVisible(true)
             }
         })
             }

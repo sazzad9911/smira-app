@@ -14,13 +14,35 @@ import { backgroundColor, textColor } from './../assets/color';
 import { arrowUp, arrowDown } from '../components/Icon'
 import { SvgXml } from 'react-native-svg'
 import questionData from './questionData'
+import {postData, url} from '../action'
 
 const MembershipOnboarding = ({ navigation }) => {
-    const brands = useSelector(state => state.brands)
     const hotels = useSelector(state => state.hotels)
     const darkMode = useSelector(state => state.pageSettings.darkMode)
     const length = brands ? brands.length : 0
     const dispatch = useDispatch()
+    const [brands, setBrands]= React.useState()
+    const [Hotels, setHotels]= React.useState()
+
+    React.useEffect(() => {
+        postData(url +'/getData',{
+            tableName: 'hotels',
+            limit:30
+        }).then((data) =>{
+            if (Array.isArray(data)) {
+                return setHotels(data)
+            }
+            console.log(data.message)
+        })
+        postData(url + '/getData',{
+            tableName: 'top_brands',
+        }).then((data) =>{
+            if (Array.isArray(data)) {
+                return setBrands(data)
+            }
+            console.log(data.message)
+        })
+    },[])
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}
@@ -204,8 +226,8 @@ const MembershipOnboarding = ({ navigation }) => {
                         showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '100%', marginTop: 10 }}>
                         <View style={{ width: 15 }}></View>
                         {
-                            hotels ? (
-                                hotels.map((doc, i) => (
+                            Hotels ? (
+                                Hotels.map((doc, i) => (
                                     <HotelMemberCart key={i} data={doc} />
                                 ))
                             ) : (

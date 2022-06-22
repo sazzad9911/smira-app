@@ -5,6 +5,7 @@ import NotificationBar from './NotificationBar';
 import logo from '../assets/logo.png'
 import {Notification,Icon} from '../components/Icon'
 import {SvgXml} from 'react-native-svg'
+import {appIcon} from './Icon'
 
 const HomeHeader = (props) => {
     const [ShowNotifications, setShowNotifications] = useState(false);
@@ -22,13 +23,13 @@ const HomeHeader = (props) => {
             }}>
                 <Feather name="menu" size={24} color="white" />
             </TouchableOpacity>
-            <SvgXml xml={Icon} width="63"/>
-            {/* <TouchableOpacity onPress={() => {
+            <SvgXml  xml={appIcon}/>
+            <TouchableOpacity  onPress={() => {
                 setShowNotifications(true)
             }}>
                 <SvgXml xml={Notification} height="25" width="25"/>
-            </TouchableOpacity> */}
-            <View style={{width:22}}></View>
+            </TouchableOpacity>
+            
             <Modal
                 animationType='fade'
                 transparent={true}

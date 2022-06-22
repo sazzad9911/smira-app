@@ -5,7 +5,6 @@ import {
 import React, { useState, useCallback, useMemo, useRef } from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import testImage from '../assets/favicon.png';
-import { LinearGradient } from 'expo-linear-gradient';
 import { SliderBox } from "react-native-image-slider-box";
 //------------------------------------------------------------------------------
 import arrow from '../assets/svgtopng/arrow.png'
@@ -37,6 +36,12 @@ import ItemCart from '../components/ItemCart';
 import SideSwipe from 'react-native-sideswipe';
 import { useRoute } from '@react-navigation/native';
 import {DetailsCart} from './../components/SalonCart';
+import PopularDeals from '../views/PopularDeals'
+import TopBrands from './../views/TopBrands';
+import ActivitiesNearYou from './../views/ActivitiesNearYou';
+import DestinationToGo from './../views/DestinationToGo';
+import FeaturedHotel from './../views/FeaturedHotel';
+import PopularOnlineRestaurants from './../views/PopularOnlineRestaurants';
 
 
 const window = Dimensions.get('window')
@@ -46,7 +51,6 @@ const Home = ({ navigation }) => {
   const [More, setMore] = React.useState(false)
   const [slider, setSlider] = React.useState(null)
   const [image, setImage] = React.useState(null)
-  const [Brand, setBrand] = React.useState(null)
   const [BrandDeal, setBrandDeal] = React.useState(null)
   const [Deals, storeDeals] = React.useState(null)
   const [Hotel, setHotel] = React.useState(null)
@@ -55,23 +59,26 @@ const Home = ({ navigation }) => {
   const [modalVisible, setModalVisible] = React.useState(false)
   const [SliderData, setSliderData] = React.useState(null)
   const [First, setFirst] = React.useState(null)
-  const [Second, setSecond] = React.useState(null)
   const [Item, setItem] = React.useState([])
   const [NewData, setNewData] = React.useState(null)
   const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState(null)
   const route = useRoute();
   const loader= useSelector(state => state.loader)
   const bottomSheet = useSelector(state => state.pageSettings.bottomSheet)
-  const [Poster,setPoster]= React.useState(null)
-  const [banner, setBanner]= React.useState(null)
   const [secondBanner, setSecondBanner]=React.useState(null)
   const [Visible, setVisible]= React.useState(false)
-  const [PopularRestaurant, setPopularRestaurant]=React.useState()
+  const [FlashVisible, setFlashVisible]= React.useState(false)
+  const [FlashImage,setFlashImage]= React.useState()
+  const [FlashUser,setFlashUser]= React.useState()
+  const [FlashBanner,setFlashBanner]= React.useState()
+  const [banner,setBanner]= React.useState()
+  const [NewAction,setNewAction]= React.useState(false)
+  const brands = useSelector(state => state.brands)
 
   React.useEffect(() => {
     dispatch(setAnimatedLoader(false))
     dispatch(setBottomSheet(null))
-    let data = postData(url + "/getData", {
+    postData(url + "/getData", {
       tableName: 'user',
       condition: "uid=" + "'" + auth.currentUser.uid + "'"
     }).then(data => {
@@ -79,14 +86,10 @@ const Home = ({ navigation }) => {
         return dispatch(setUser(data))
       }
       console.log('Home.js->' + data.message)
-      return data
-    }).catch(err => {
-      console.log('Home.js->' + err.code)
-      return data
     })
-  }, [Brand])
+  }, [])
   React.useEffect(() => {
-    let data = postData(url + "/getData", {
+    postData(url + "/getData", {
       tableName: "slider"
     }).then(data => {
       if (Array.isArray(data)) {
@@ -97,42 +100,11 @@ const Home = ({ navigation }) => {
         })
         return setImage(arr)
       }
-      return data
-    }).catch(err => {
-      console.log(err.message);
-      return data
     })
   }, [])
+  
   React.useEffect(() => {
-    let post = postData(url + "/getData", {
-      tableName: "brands",
-      orderColumn: "popularity",
-    }).then(data => {
-      if (Array.isArray(data)) {
-        setBrand(data);
-        return dispatch(setBrands(data));
-      }
-      console.log(data.message)
-      return post
-    }).catch(err => {
-      console.log(err.message);
-      return post
-    })
-  }, [])
-  React.useEffect(() => {
-    postData(url + '/getData', {
-      tableName: 'restaurant',
-      orderColumn:'date'
-    }).then(data => {
-      if (Array.isArray(data)) {
-        setPopularRestaurant(data)
-      }else{
-        console.log(data)
-      }
-    })
-  },[])
-  React.useEffect(() => {
-    if (!Brand) {
+    if (!brands) {
       return
     }
     let data = postData(url + "/getData", {
@@ -145,7 +117,7 @@ const Home = ({ navigation }) => {
         let category = ""
         data.map((data) => {
           category = category + data.type + ","
-          Brand.map(b => {
+          brands.map(b => {
             if (b.id === data.brand_id) {
               let doc = { deal: data, brand: b }
               arr.push(doc)
@@ -171,12 +143,8 @@ const Home = ({ navigation }) => {
         
         return dispatch(setDeals(arr));
       }
-      return data
-    }).catch(err => {
-      console.log(err)
-      return data
     })
-  }, [Brand])
+  }, [brands])
   function getUnique(array) {
     var uniqueArray = [];
 
@@ -189,41 +157,19 @@ const Home = ({ navigation }) => {
     return uniqueArray;
   }
   React.useEffect(() => {
-    let newData = postData(url + "/getData", {
-      tableName: 'hotels',
-      orderColumn: 'popularity'
+    postData(url + "/getData", {
+      tableName: "brands",
+      orderColumn: "popularity",
     }).then(data => {
       if (Array.isArray(data)) {
-        dispatch(setHotels(data));
-        return setHotel(data)
-      }
-      return newData
-    }).catch(err => {
-      console.log(err);
-      return data
-    })
-  }, [])
-  React.useEffect(() => {
-    postData(url + '/getData', {
-      tableName: 'addresses',
-    }).then(data => {
-      if (Array.isArray(data)) {
-        return setSecond(data)
+        return dispatch(setBrands(data));
       }
       console.log(data.message)
     })
   }, [])
+  
   //console.log(NewData)
-  React.useEffect(() => {
-    postData(url +'/getData',{
-      tableName: 'poster',
-    }).then(data => {
-      if(Array.isArray(data)){
-        return setPoster(data)
-      }
-      console.log(data.message)
-    })
-  },[])
+  
   React.useEffect(() => {
     postData(url + '/getData', {
       tableName:'banner',
@@ -260,6 +206,45 @@ const Home = ({ navigation }) => {
       backAction
     );
   }, []);
+React.useEffect(() => {
+  postData(url +'/getData',{
+    tableName: 'flash_banner',
+    orderColumn:'date'
+  }).then(res => {
+    if(Array.isArray(res) && res.length > 0){
+     setFlashBanner(res)
+    }
+  })
+  postData(url + '/getData', {
+    tableName: 'flash_user',
+    condition:`uid='${auth.currentUser.uid}'`
+  }).then(res => {
+    
+    if(Array.isArray(res)){
+      setFlashUser(res)
+    }
+  })
+},[NewAction])
+React.useEffect(() => {
+  if(FlashBanner && FlashUser && FlashUser.length==0){
+    setFlashImage(FlashBanner[0])
+    setFlashVisible(true)
+    return
+  }
+  if(FlashBanner&&FlashUser){
+    
+    for(let i=0;i<FlashBanner.length;i++){
+      let flash=FlashUser.filter(user=>user.flash_id==FlashBanner[i].id)
+      
+      if(!Array.isArray(flash)|| flash.length==0){
+        console.log('saaa')
+        setFlashImage(FlashBanner[i])
+        setFlashVisible(true)
+        break
+      }
+    }
+  }
+},[FlashBanner+FlashUser])
   return (
     <View style={{
       height: '100%',
@@ -426,138 +411,9 @@ const Home = ({ navigation }) => {
 
           </View>
         </View>
-
-        <View style={{ backgroundColor: 'white', paddingBottom: 20 }}>
-          <View style={{
-            width: '95%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-            <Text style={{
-              fontFamily: 'PlusJakartaSansBold',
-              fontSize: 16,
-              paddingHorizontal: 5,
-              paddingVertical: 15,
-              paddingLeft: 18,
-              color: textColor(darkMode)
-            }}>Popular Deals</Text>
-
-          </View>
-          <ScrollView showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false} horizontal={true} >
-            <View style={{ width: 10 }}></View>
-            {
-              Poster ? (
-                Poster.map((doc, i) => (
-                  <NewDealCart key={i} onPress={() => {
-                    navigation.navigate('Category Single', { title: 'Salon',search:doc.type })
-                    dispatch(setLoader(doc.type))
-                  }} data={doc} />
-                ))
-              ) : (<ActivityIndicator size="large" color="#FA454B" />)
-            }
-            <View style={{ width: 10 }}></View>
-          </ScrollView>
-        </View>
-
-        <LinearGradient style={{ width: '100%', marginTop: 15, flexDirection: 'column' }}
-          colors={['#E00006', '#FB8B97']}
-          start={[0, 1]} end={[1, 0]}
-        >
-          <View style={{
-            flex: 1, justifyContent: 'center',
-            paddingLeft: 20, paddingTop: 20, paddingBottom: 8
-          }}>
-            <View style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingRight: 23,
-            }}>
-              <View>
-                <Text style={{ color: 'white', fontSize: 18, fontFamily: 'PlusJakartaSansBold' }}>Save on Top Brands</Text>
-                <Text style={{
-                  color: 'white', marginBottom: 4,
-                  fontFamily: 'PlusJakartaSans', fontSize: 12
-                }}>Save big on most popular brands with us</Text>
-              </View>
-
-              <TouchableOpacity style={style.outline} onPress={() => {
-                navigation.navigate('OurBrand')
-              }}>
-                <AntDesign name="right" size={20} color="black" />
-              </TouchableOpacity>
-
-            </View>
-          </View>
-          <ScrollView showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false} style={{
-              flex: 3,
-              marginBottom: 10, marginTop: 5
-            }} horizontal={true}>
-            <View style={{ width: 4 }}></View>
-            {
-              Brand ? (
-                Brand.map(d => (
-                  <View key={d.id} style={{
-                    marginLeft:-6
-                  }}>
-                  <Brands  data={d} img={d.image} />
-                  </View>
-                ))
-              ) : (
-                <ActivityIndicator size="large" color="#FA454B" />
-              )
-            }
-          </ScrollView>
-          <View style={{ height: 0 }}></View>
-        </LinearGradient>
-        <View style={{
-          width: '100%',
-          marginTop: 15, paddingBottom: 10,
-          backgroundColor: 'white'
-        }}>
-          <View style={{
-            width: '95%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-            <Text style={{
-              fontFamily: 'PlusJakartaSansBold',
-              fontSize: 16,
-              paddingHorizontal: 5,
-              paddingVertical: 15,
-              paddingLeft: 16,
-              color: textColor(darkMode)
-            }}>Activities Near You</Text>
-            <TouchableOpacity onPress={() => {
-              navigation.navigate('Category Single', { title: 'Salon',search: 'Games'})
-              dispatch(setLoader('Games'))
-
-            }}>
-              <Text style={{
-                fontFamily: 'PlusJakartaSans',
-                color: '#FC444B',
-                fontSize: 14
-              }}>See more</Text>
-            </TouchableOpacity>
-          </View>
-          <ScrollView showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false} horizontal={true}>
-            {
-              banner ? (
-                banner.map((doc, i) => (
-                  <ActivitiesCart key={i} onPress={() => {
-                      navigation.navigate('Category Single', { title: 'Salon' })
-                      dispatch(setLoader('Salon'))
-                    }} data={doc} />
-                ))
-              ) : (<ActivityIndicator size="large" color="#FA454B" />)
-            }
-            <View style={{ width: 10 }}></View>
-          </ScrollView>
-        </View>
+        <PopularDeals navigation={navigation}/>
+        <TopBrands navigation={navigation}/>
+        <ActivitiesNearYou navigation={navigation}/>
 
         {
           ////
@@ -576,126 +432,9 @@ const Home = ({ navigation }) => {
             )
           }
         </View>
-        <View style={{
-          width: '100%',
-          marginTop: 10, paddingBottom: 10,
-          backgroundColor: 'white'
-        }}>
-          <View style={{
-            width: '95%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-            <Text style={{
-              fontFamily: 'PlusJakartaSansBold',
-              fontSize: 16,
-              paddingHorizontal: 5,
-              paddingVertical: 15,
-              paddingLeft: 16,
-              color: textColor(darkMode)
-            }}>Destinations To Go</Text>
-
-          </View>
-          <View style={{ height: 10 }}></View>
-          <ScrollView showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false} horizontal={true}>
-            {
-              Second ? (
-                Second.map((doc, i) => (
-                  <DestinationCart navigation={navigation} data={doc} key={i} />
-                ))
-              ) : (
-                <ActivityIndicator size="large" color="#FA454B" />
-              )
-            }
-            <View style={{ width: 10, }}></View>
-          </ScrollView>
-          <View style={{ height: 10 }} />
-        </View>
-        <View style={{
-          width: '100%',
-          paddingBottom: 10,
-          backgroundColor: 'white',
-          marginTop: 10
-        }}>
-          <View style={{
-            width: '95%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-            <Text style={{
-              fontFamily: 'PlusJakartaSansBold',
-              fontSize: 16,
-              paddingHorizontal: 5,
-              paddingVertical: 15,
-              paddingLeft: 16,
-              color: textColor(darkMode)
-            }}>Featured Hotels</Text>
-            {
-              /*
-             <TouchableOpacity style={style.outline} onPress={() => {
-              navigation.navigate('Category Single', { title: 'Popular Hotels' })
-              dispatch(setLoader('SearchHotel'))
-  
-            }}>
-              <AntDesign name="right" size={20} color="black" />
-            </TouchableOpacity>
-              */
-            }
-          </View>
-          <ScrollView showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false} horizontal={true}>
-            <View style={{ width: 10, }}></View>
-            {
-              Hotel ? (
-                Hotel.map(d => (
-                  <HotelMemberCart key={d.id} data={d} navigation={navigation} />
-                ))
-              ) : (
-                <ActivityIndicator size="large" color="#FA454B" />
-              )
-            }
-          </ScrollView>
-        </View>
-        <View style={{
-          width: '100%',
-          paddingBottom: 10,
-          backgroundColor: 'white',
-          marginTop: 10
-        }}>
-          <View style={{
-            width: '95%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-            <Text style={{
-              fontFamily: 'PlusJakartaSansBold',
-              fontSize: 16,
-              paddingHorizontal: 5,
-              paddingVertical: 15,
-              paddingLeft: 16,
-              color: textColor(darkMode)
-            }}>Popular Online Restaurants</Text>
-
-          </View>
-          <ScrollView style={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false} horizontal={true}>
-            {
-              PopularRestaurant ? (
-                PopularRestaurant.map((doc, i) => (
-                  <ImageBanner key={i} onPress={() => {
-                      navigation.navigate('Category Single', { title: 'Salon' })
-                      dispatch(setLoader('Salon'))
-                    }} data={doc} />
-                ))
-              ) : (<ActivityIndicator size="large" color="#FA454B" />)
-            }
-            <View style={{ width: 10, }}></View>
-          </ScrollView>
-        </View>
+       <DestinationToGo navigation={navigation}/>
+       <FeaturedHotel navigation={navigation}/>
+      <PopularOnlineRestaurants navigation={navigation}/>
         {
           /*
           <ScrollView style={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false}
@@ -749,8 +488,32 @@ const Home = ({ navigation }) => {
         <View style={{ height: 100 }}></View>
         <FamilyCode />
         <Modal visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
-        <DetailsCart setModalVisible={setModalVisible} data={Brand &&
-         SliderData?Brand.filter(d=>d.id==SliderData.brand_id)[0]:{}} />
+        <DetailsCart setModalVisible={setModalVisible} data={brands &&
+         SliderData?brands.filter(d=>d.id==SliderData.brand_id)[0]:{}} />
+        </Modal>
+        <Modal animationStyle="fade" transparent={true}
+         visible={FlashVisible} onRequestClose={()=>setFlashVisible(!FlashVisible)}>
+         <View style={style.modalView}>
+         {
+          FlashImage ? (
+            <Image style={style.modalImage} source={{ uri:FlashImage.image}}/>
+          ):(<Text>Loading..</Text>)
+         }
+         <TouchableOpacity style={style.modalButton} onPress={() =>{
+          setFlashVisible(!FlashVisible)
+          postData(url + '/setData', {
+            auth: auth.currentUser,
+            tableName: 'flash_user',
+            columns: ['uid','flash_id'],
+            values: [auth.currentUser.uid,FlashImage.id]
+          }).then(data =>{
+            console.log(data)
+            setNewAction(!NewAction)
+          })
+         }}>
+         <AntDesign name="closecircleo" size={64} color="white" />
+         </TouchableOpacity>
+         </View>
         </Modal>
       </ScrollView>
       <View style={{
@@ -798,4 +561,18 @@ const style = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#D8D8D8'
   },
+  modalView: {
+    height:'100%',
+    backgroundColor:'rgba(0, 0, 0, 0.74)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalImage: {
+    width:'90%',
+    height:'70%',
+  },
+  modalButton:{
+    position: 'absolute',
+    bottom:'5%'
+  }
 })

@@ -102,7 +102,7 @@ const StackNavigation = () => {
                     <Stack.Screen options={{ headerShown: false }} name="Hotel" component={Hotel} />
                 </Stack.Navigator>
             </NavigationContainer>
-        );
+        ); 
     }
 };
 

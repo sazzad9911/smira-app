@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useRef} from 'react';
 import {
     View, Dimensions, Text, TouchableOpacity, Image,
     StyleSheet, ScrollView, ActivityIndicator, Alert, Modal, Platform,Linking
@@ -18,12 +18,13 @@ import location from './../assets/location.jpg'
 
 const Hotel = (props) => {
     const navigation = props.navigation;
+    const id=props.route.params.id
     const window = Dimensions.get('window')
-    const [hotel, setHotel] = React.useState(props.data)
+    const [hotel, setHotel] = React.useState(null)
     const [conditions, setConditions] = React.useState(null)
     const [Read, setRead] = React.useState(false)
     const [OtherHotels, setOtherHotels] = React.useState(null)
-    const [Ratings, setRatings] = React.useState(null);
+    const [Ratings, setRatings] = React.useState([]);
     const [limit, setLimit] = React.useState(3);
     const [Images, setImages] = React.useState(null)
     const [ModalVisible, setModalVisible] = React.useState(false);
@@ -35,47 +36,58 @@ const Hotel = (props) => {
    // const params = props.route.params
     const user = useSelector(state => state.user)
     const [Charges, setCharges]= React.useState(false)
+    const scroll=useRef()
+    const [Read2, setRead2]= React.useState(false)
 
     React.useEffect(() => {
-
-        if(hotels){
-           // let data=hotels.filter(hot =>hot.id ==params.id)
-           // setHotel(data[0])
-        }
-       if(!hotel){
-        return
-       }
-        if (hotel) {
-            let arr = hotel.conditions.split(',')
+        setImages(null)
+        setOtherHotels(null)
+        scroll.current.scrollTo({x: 0, y: 0, animated: true})
+       postData(url + '/getData', {
+        tableName: 'hotels',
+        condition: `id=${id}`
+       }).then(data => {
+        if (Array.isArray(data) && data.length > 0){
+            let arr = data[0].conditions.split(',')
             setConditions(arr)
+            return setHotel(data[0])
         }
-        if (hotels && hotel) {
-            let otherHotels = hotels.filter(element => element.id != hotel.id)
-            setOtherHotels(otherHotels)
+        console.log('Hotel not found')
+       })
+       postData(url + '/getData',{
+        tableName: 'hotels',
+        conditions:`id <> ${id}`,
+        limit:20,
+    }).then(data =>{
+        if(Array.isArray(data)){
+           return setOtherHotels(data)
         }
-        postData(url + '/getData', {
-            tableName: 'hotel_reviews',
-            condition: "hotel_id=" + "'" + hotel.id + "'"
-        }).then(data => {
-            if (Array.isArray(data)) {
-                return setRatings(data)
-            }
-            console.log('Hotel.js->' + data.message)
-        })
-        postData(url + '/getData', {
-            tableName: 'hotel_photos',
-            condition: "hotel_id=" + "'" + hotel.id + "'"
-        }).then(data => {
-            if (Array.isArray(data)) {
-                let arr = []
-                data.forEach(doc => {
-                    arr.push({ source: { uri: doc.url } })
-                })
-                return setImages(arr);
-            }
-            console.log(data.message)
-        })
-    }, [hotel])
+        console.log(data.message)
+    })
+    
+    // postData(url + '/getData', {
+    //     tableName: 'hotel_reviews',
+    //     condition: "hotel_id=" + "'" + hotel.id + "'"
+    // }).then(data => {
+    //     if (Array.isArray(data)) {
+    //         return setRatings(data)
+    //     }
+    //     console.log('Hotel.js->' + data.message)
+    // })
+    postData(url + '/getData', {
+        tableName: 'hotel_photos',
+        condition: `hotel_id=${id}`
+    }).then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+            let arr = []
+            data.forEach(doc => {
+                arr.push({ source: { uri: doc.url } })
+            })
+            return setImages(arr);
+        }
+        console.log(data.message)
+    })
+    }, [id])
     const [Hotels, setHotels] = React.useState(null)
     React.useEffect(() => {
         getData('hotels').then((data) => {
@@ -90,7 +102,7 @@ const Hotel = (props) => {
                 setHotels([])
             }
         })
-    }, [])
+    }, [id])
     return (
 
         <View style={{
@@ -98,7 +110,7 @@ const Hotel = (props) => {
             height: window.height,
             backgroundColor: backgroundColor(darkMode)
         }}>
-            <ScrollView>
+            <ScrollView ref={scroll}>
                 <TouchableOpacity style={{
                     top: Platform.OS == 'ios' ? 60 : 20,
                     justifyContent: 'center',
@@ -111,7 +123,10 @@ const Hotel = (props) => {
                     position: 'absolute',
                     left: 10,
                     zIndex: 1
-                }} onPress={() => props.close(false)}>
+                }} onPress={() => {
+                    //props.close(false)
+                    navigation.goBack()
+                    }}>
                     <AntDesign name="left" size={25} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity disabled={Images && Images.length > 0?false:true}  onPress={() => {
@@ -295,6 +310,33 @@ const Hotel = (props) => {
                         }}>{hotel ? hotel.check_out : ''}</Text>
                     </View>
                 </View>
+                {
+                    hotel && hotel.remember?(
+                        <View style={{
+                    marginHorizontal: 20,
+                    marginTop: 10,
+                    marginBottom: 20
+                   }}>
+                    <Text style={styles.lineHead}>Things to Remember</Text>
+                    <Text numberOfLines={!Read?4:1000} style={[styles.lineText, {
+                        textAlign: 'justify',
+                        marginBottom: 7,
+                        marginTop: 7
+                    }]}>{hotel ? hotel.remember : ''}</Text>
+                    <TouchableOpacity onPress={() => {
+                        setRead2(!Read2)
+                    }}>
+                        <Text style={{
+                            color: 'red',
+                            fontSize: 16,
+                            fontFamily: 'PlusJakartaSans'
+                        }}>
+                            {!Read2 ? 'Read More' : 'Read Less'}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                    ):(<></>)
+                }
                 <TouchableOpacity onPress={() =>{
                     Linking.openURL(hotel.location)
                 }} style={{
@@ -511,22 +553,27 @@ const Hotel = (props) => {
                 }}>
                     <AntDesign name="arrowleft" size={24} color="black" />
                 </TouchableOpacity>
-                <Gallery
+                {
+                    Images && Images.length>0?(
+                        <Gallery pageMargin={10}
                     style={{ flex: 1, backgroundColor: 'black' }}
                     images={Images}
                 />
+                    ):(<></>)
+                }
             </Modal>
-            <Modal transparent={true} visible={Visible} onRequestClose={() =>setVisible(!visible)}>
+            <Modal transparent={true} visible={Visible} onRequestClose={() =>setVisible(!Visible)}>
             <NewAlert title={user && user[0].membership_type?'Confirm your booking?':'Buy membership to unlock this offer'} 
                 close={setVisible} onPress={() =>{
                     setModalVisible(false)
+                    setVisible(!Visible)
                     if(user&& !user[0].membership_type){
-                        props.close(false)
+                        //props.close(false)
                         navigation.navigate('Choose Your Membership')
                         return
                     }
                     setModalVisible(false)
-                    props.close(false)
+                    //props.close(false)
                     setCharges(!Charges)
                     navigation.navigate('Booking', {
                         id: hotel.id, name: hotel.name, address: hotel.address,
@@ -548,13 +595,13 @@ export const HotelMemberCart = (props) => {
     return (
         <View>
             <TouchableOpacity  onPress={() => {
-                setModalVisible(!modalVisible)
-                //navigation.navigate('Hotel',{id:data.id})
+                //setModalVisible(!modalVisible)
+                navigation.navigate('Hotel',{id:data.id}) 
             }} style={[styles.cart]}>
                 <Image
                     style={styles.cartImg}
                     source={{
-                        uri: props.data ? props.data.image : 'https://cdna.artstation.com/p/assets/images/images/016/681/028/large/mohd-ashraf-classic-black-1.jpg?1553066591',
+                        uri: props.data.image,
                     }}
                 />
                 <LinearGradient style={{
@@ -610,9 +657,7 @@ export const HotelMemberCart = (props) => {
                     </View>
                 </View>
             </TouchableOpacity>
-            <Modal visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
-                <Hotel data={data} navigation={navigation} close={setModalVisible} />
-            </Modal>
+            
         </View>
     );
 };

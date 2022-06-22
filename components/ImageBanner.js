@@ -9,12 +9,19 @@ const ImageBanner = (props) => {
     const brands= useSelector(state => state.brands)
     return (
         <TouchableOpacity onPress={() =>setModalVisible(true)}>
-            <Image style={{
+            {
+                data.image?(
+                    <Image style={{
                 width: 300,
                 height: 230,
                 marginLeft: 10,
-                borderRadius: 10
+                borderRadius: 10,
+                backgroundColor:'#D3D3D3'
             }} source={{ uri: data.image }} />
+                ):(
+                    <></>
+                )
+            }
             <Modal visible={ModalVisible} onRequestClose={() => setModalVisible(!ModalVisible)}>
             <DetailsCart setModalVisible={setModalVisible} data={brands?brands.filter(d=>d.id ==data.brand_id)[0]:{}}/>
             </Modal>
