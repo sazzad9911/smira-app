@@ -11,7 +11,7 @@ const DestinationCart = (props) => {
     return (
         <TouchableOpacity onPress={() => {
             navigation.navigate('Category Single', { title: 'Hotels',search: data.city})
-            dispatch(setLoader('PopularHotel'))
+            dispatch(setLoader('Hotels'))
         }} style={{
             marginLeft: 10,
             borderRadius: 10,
