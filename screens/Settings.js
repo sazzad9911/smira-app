@@ -99,7 +99,9 @@ const Settings = ({ navigation }) => {
                     color: darkMode ? 'white' : 'black',
                     fontFamily: 'PlusJakartaSansBold'
                 }}>Account</Text>
-                <TouchableOpacity style={{ marginTop: 20 }}>
+                <TouchableOpacity onPress={()=>{
+                    navigation.navigate('Account')
+                }} style={{ marginTop: 20 }}>
                     <View style={{ marginTop: 10, flexDirection: 'row' }}>
                         <Image style={{ height: 70, width: 70, borderRadius: 50, }}
                             source={{

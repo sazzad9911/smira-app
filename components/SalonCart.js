@@ -14,6 +14,7 @@ import { SvgXml } from 'react-native-svg';
 import { call, location, leftArrow, upArrow, rightArrow } from './Icon';
 import NewAlert from './NewAlert'
 import { useNavigation } from '@react-navigation/native';
+import {getData, storeData} from '../screens/WishList'
 
 
 const SalonCart = (props) => {
@@ -22,14 +23,44 @@ const SalonCart = (props) => {
     const data = props.data
     const deals = useSelector(state => state.deals)
     const [total, setTotal] = React.useState([])
+    const [Love,setLove]= React.useState(false)
+    const [newBrand,setNewBrand]= React.useState()
 
     React.useEffect(() => {
         if (deals) {
             let arr = deals.filter(deals => deals.deal.brand_id == data.id)
             setTotal(arr)
         }
-
+        
     }, [deals])
+    React.useEffect(() => {
+        getData('brands').then((res) => {
+            if(res){
+                setNewBrand(res) 
+                let newId=res.filter(d=>d.id==data.id);
+                //console.log(newId) 
+                if(newId && newId.length>0){
+                    setLove(true)
+                    
+                }
+            }
+        })
+    },[])
+    const giveReact=(brand)=>{
+        setLove(!Love)
+        if(!newBrand){
+            let arr=[]
+            arr.push(brand)
+            storeData('brands', arr)
+        }else if(!Love){
+            let arr=newBrand
+            arr.push(brand)
+            storeData('brands', arr)
+        }else{
+            let arr=newBrand.filter(d=>d.id!=brand.id)
+            storeData('brands', arr)
+        }
+    }
     return (
         <View style={{ backgroundColor: textColor(!darkMode), padding: 10, marginTop: 10 }}>
             <TouchableOpacity onPress={() => setModalVisible(true)} style={{
@@ -45,7 +76,8 @@ const SalonCart = (props) => {
                     borderRadius: 35
                 }} source={{ uri: data ? data.image : '' }} />
                 <View style={{
-                    marginVertical: 20
+                    marginVertical: 20,
+                    flex: 5,
                 }}>
                     <Text numberOfLines={1} style={{
                         fontSize: 18,
@@ -54,6 +86,22 @@ const SalonCart = (props) => {
                     <Text style={[style.subText, { width: 200 }]} numberOfLines={1}>{data ? data.address : ''}</Text>
                     <Text style={style.subText} numberOfLines={1}>{total.length} Offers</Text>
                 </View>
+                <TouchableOpacity onPress={()=>{
+                    giveReact(data)
+                }} style={{
+                   flex: 1,
+                   marginTop:20,
+                   marginLeft:5
+                }}>
+                {
+                    Love?(
+                        <AntDesign name="heart" size={24} color="#FC444B" />
+                    ):(
+                        <AntDesign name="hearto" size={24} color="#FC444B" />
+                    )
+                }
+                
+                </TouchableOpacity>
                 <SvgXml style={{
                     position: 'absolute',
                     bottom: 20,

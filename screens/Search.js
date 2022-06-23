@@ -22,6 +22,7 @@ import { setRecentSearch } from '../action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AntDesign } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
+import SearchBrands from './SearchBrands';
 
 
 
@@ -85,7 +86,7 @@ const Hotels = (props) => {
                     console.log('Error: Search.js->' + err.message);
                   }).then(() => {
                     // props.setSearchParams('Hotels')
-                    setSearchState('Hotels')
+                    //setSearchState('Hotels')
                   })
                 } else {
                   let arr = [];
@@ -94,7 +95,7 @@ const Hotels = (props) => {
                     console.log('Error: Search.js->' + err.message)
                   }).then(() => {
                     //navigationprops.setSearchParams('Hotels')
-                    setSearchState('Hotels')
+                    //setSearchState('Hotels')
                   })
                 }
               })
@@ -121,7 +122,8 @@ const Hotels = (props) => {
                   style={{ color: '#808080' }}
                   itemStyle={{ width: '100%', backgroundColor: 'rgb(220,220,220)' }}>
                   <Picker.Item label="Hotels" value="Hotels" />
-                  <Picker.Item label="Deals" value="Deals" />
+                  <Picker.Item label="Brands" value="Brands" />
+                  {/* <Picker.Item label="Deals" value="Deals" /> */}
                 </Picker>
               </View>
             )
@@ -163,6 +165,11 @@ const Hotels = (props) => {
         ) : SearchState == 'Deals' ? (
           <View style={{height:window.height-100}}>
             <SearchDeals navigation={navigation} search={search} />
+            
+          </View>
+        ): SearchState=='Brands'?(
+          <View style={{height:window.height-100}}>
+            <SearchBrands navigation={navigation} search={search} />
             
           </View>
         ) : (

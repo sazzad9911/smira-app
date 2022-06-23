@@ -24,6 +24,7 @@ const SearchDeals = (props) => {
   const recentSearch = useSelector(state => state.recentSearch);
 
   React.useEffect(() => {
+    console.log(props.search)
     getData('search').then((data) => {
       if (data) {
         setSearchParams(data[data.length - 1])
@@ -34,20 +35,16 @@ const SearchDeals = (props) => {
   React.useEffect(() => {
     //console.log(recentSearch)
     postData(url + '/searchData', {
-      tableName: 'brands',
-      searchColumn: 'name',
+      tableName: 'deals',
+      searchColumn: 'brand',
       searchData: props.search,
-      orderColumn: recentSearch.shortBy,
-      filterColumn: 'name',
-      filterValue: recentSearch.brand
     }).then(data => {
       if (Array.isArray(data)) {
         setDealData(data)
+        console.log(data)
         return
       }
       console.log(data.message)
-    }).catch(err => {
-      console.log('Error: SearchHotel.js->' + err.message)
     })
   }, [SearchParam + recentSearch.shortBy + recentSearch.brand+props.search])
   return (
@@ -59,10 +56,10 @@ const SearchDeals = (props) => {
         paddingHorizontal: 10
       }}>
         <Text>{DealData ? DealData.length : '0'} Deals Found</Text>
-        <View style={{ flexDirection: 'row' }}>
+        {/* <View style={{ flexDirection: 'row' }}>
           <MaterialIcons name="verified" size={24} color="green" />
           <Text style={{ marginLeft: 5 }}>Free For Members</Text>
-        </View>
+        </View> */}
       </View>
       <View style={{
         padding: 0,

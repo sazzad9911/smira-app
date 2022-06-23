@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setAction } from '../action'
 import { SvgXml } from 'react-native-svg';
 import { emptyWishlist } from '../components/Icon'
+import SalonCart from './../components/SalonCart';
 
 const WishList = ({ navigation }) => {
     const [Deals, setDeals] = React.useState(null)
@@ -23,6 +24,7 @@ const WishList = ({ navigation }) => {
     const [Route, setRoute] = React.useState('all')
     const action = useSelector(state => state.pageSettings.action)
     const dispatch = useDispatch()
+    const [Brands, setBrands]= React.useState()
 
     React.useEffect(() => {
         getData('deals').then((data) => {
@@ -37,6 +39,13 @@ const WishList = ({ navigation }) => {
                 setHotels(data)
             } else {
                 setHotels([])
+            }
+        })
+        getData('brands').then((data) => {
+            if (data) {
+                setBrands(data)
+            } else {
+                setBrands([])
             }
         })
     }, [action])
@@ -63,15 +72,20 @@ const WishList = ({ navigation }) => {
                 <TouchableOpacity onPress={() => {
                     if (Route == 'all') {
                         storeData('hotels', []);
-                        storeData('deals', []).then(() => {
+                        storeData('deals', []);
+                        storeData('brands',[]).then(() => {
                             dispatch(setAction(!action))
                         })
                     } else if (Route == 'hotels') {
                         setHotels('hotels', []).then(() => {
                             dispatch(setAction(!action))
                         })
-                    } else {
+                    } else if(Route=='deals') {
                         setDeals('deals', []).then(() => {
+                            dispatch(setAction(!action))
+                        })
+                    }else if(Route=='brands'){
+                        setDeals('brands', []).then(() => {
                             dispatch(setAction(!action))
                         })
                     }
@@ -103,6 +117,13 @@ const WishList = ({ navigation }) => {
                     <Text style={[styles.categoryText,
                     Route == 'deals' ? styles.categoryTextActive : styles.categoryText]}>Deals</Text>
                 </TouchableOpacity> */}
+                <TouchableOpacity onPress={() => {
+                    setRoute('brands')
+                }} style={[styles.category,
+                Route == 'brands' ? styles.categoryActive : styles.category]}>
+                    <Text style={[styles.categoryText,
+                    Route == 'brands' ? styles.categoryTextActive : styles.categoryText]}>Brands</Text>
+                </TouchableOpacity>
             </ScrollView>
             {
                 Route == 'all' ? (
@@ -132,6 +153,26 @@ const WishList = ({ navigation }) => {
                         </ScrollView>
                     ) : (
                         <View style={{ marginTop: 15 }}>
+                        {Brands && Brands.length == 0 ? (<View></View>) : (
+                                <Text style={{ fontFamily: 'PlusJakartaSansBold', fontSize: 18, margin: 20,
+                                marginBottom:10 }}>Your brands</Text>
+                            )}
+                            <View>
+                                {
+                                    //repeat the deals slide here --------------
+                                    Brands ? (
+                                        Brands.length > 0 ? (
+                                            Brands.map((doc, i) => (
+                                                <SalonCart data={doc} key={i} />
+                                            ))
+                                        ) : (
+                                            <View></View>
+                                        )
+                                    ) : (
+                                        <ActivityIndicator size="large" color="#FA454B" />
+                                    )
+                                }
+                            </View>
                             {Deals && Deals.length == 0 ? (<View></View>) : (
                                 <Text style={{ fontFamily: 'PlusJakartaSansBold', fontSize: 18, margin: 20,
                                 marginBottom:10 }}>Your deals</Text>
@@ -216,7 +257,7 @@ const WishList = ({ navigation }) => {
                             }
                         </View>
                     </View>
-                ) : (
+                ) : Route=='deals'? (
                     <View style={{ marginTop: 15 }}>
                         <Text style={{ fontWeight: 'bold', fontSize: 18, margin: 20 }}>Your Deals</Text>
                         <View style={{
@@ -244,6 +285,29 @@ const WishList = ({ navigation }) => {
                                 )
                             }
                         </View>
+                    </View>
+                ):(
+                    <View>
+                    {Brands && Brands.length == 0 ? (<View></View>) : (
+                                <Text style={{ fontFamily: 'PlusJakartaSansBold', fontSize: 18, margin: 20,
+                                marginBottom:10 }}>Your brands</Text>
+                            )}
+                            <View>
+                                {
+                                    //repeat the deals slide here --------------
+                                    Brands ? (
+                                        Brands.length > 0 ? (
+                                            Brands.map((doc, i) => (
+                                                <SalonCart data={doc} key={i} />
+                                            ))
+                                        ) : (
+                                            <View></View>
+                                        )
+                                    ) : (
+                                        <ActivityIndicator size="large" color="#FA454B" />
+                                    )
+                                }
+                            </View>
                     </View>
                 )
             }
