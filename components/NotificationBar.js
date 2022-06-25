@@ -3,15 +3,18 @@ import { View, TouchableOpacity, Dimensions, Text, ScrollView, ActivityIndicator
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
 import { SvgXml, Svg, Polygon } from 'react-native-svg'
 import { NoNotification } from '../components/Icon'
-import { postData, url } from '../action'
+import { postData, url,setNotifications } from '../action'
 import { getAuth } from 'firebase/auth'
 import app from '../firebase';
+import { useSelector,useDispatch } from 'react-redux';
 
 const NotificationBar = (props) => {
-    const [Notifications, setNotifications] = useState(null)
+    const [Notifications, setNotification] = useState(null)
     const [action, setAction] = useState(false)
     const { height, width } = Dimensions.get('screen');
     const auth = getAuth(app);
+    const notification= useSelector(state => state.notification)
+    const dispatch = useDispatch()
 
     React.useEffect(() => {
         postData(url + '/getData', {
@@ -25,21 +28,23 @@ const NotificationBar = (props) => {
                         arr.push(dataItem)
                     }
                 })
-                return setNotifications(arr)
+                return setNotification(arr)
             }
             console.log(data.message);
         })
     }, [action])
     const readNotification = () => {
         postData(url + '/updateData', {
-            tableName: 'notification',
-            columns: ['read'],
-            values: [1],
-            condition: "uid=" + "'" + auth.currentUser.uid + "'"
-        }).then(data => {
-            console.log(data)
+            "auth": auth.currentUser,
+            "tableName": "notification",
+            "columns": ['visible'],
+            "values":['1'],
+            "condition":`uid='${auth.currentUser.uid}'`
+           }).then(res=>{
+            console.log(res)
             setAction(!action)
-        })
+            dispatch(setNotifications(!notification))
+           })
     }
     return (
         <View style={{
@@ -75,7 +80,7 @@ const NotificationBar = (props) => {
                             {
                                 Notifications.map((notification, i) => {
                                     return (
-                                        <View key={i} style={{ padding: 10, alignItems: 'center', paddingHorizontal: 20, opacity: notification.read ? .3 : 1 }}>
+                                        <View key={i} style={{ padding: 10, alignItems: 'center', paddingHorizontal: 20, opacity: notification.visible ? .3 : 1 }}>
                                             <Text style={{ fontWeight: 'bold', margin: 2, width: '100%' }}>{notification.name}</Text>
                                             <Text style={{ color: 'gray', margin: 2, width: '100%' }}>{notification.description}</Text>
                                             <View style={{ borderWidth: 0.5, width: '100%', borderColor: 'rgb(220,220,220)', marginTop: 10 }}></View>

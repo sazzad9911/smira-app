@@ -53,6 +53,12 @@ export const setHotels=(doc)=>{
     playload:doc
   }
 }
+export const setNotifications=(doc)=>{
+  return{
+    type:'SET_NOTIFICATIONS',
+    playload:doc
+  }
+}
 export const setShortBy=(doc)=>{
   return{
     type:'SHORT',

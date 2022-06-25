@@ -13,7 +13,7 @@ import Brands from '../components/Brands'
 import SmallDealCart from './../components/SmallDealCart';
 import { postData, url } from '../action';
 import { useDispatch } from 'react-redux';
-import { setDeals, setBrands, setHotels, setUser,setBottomSheet ,setAnimatedLoader} from '../action'
+import { setDeals, setBrands, setHotels, setUser,setBottomSheet ,setAnimatedLoader,setNotifications} from '../action'
 import { getAuth } from 'firebase/auth'
 import app from '../firebase';
 import { SvgXml } from 'react-native-svg';
@@ -42,6 +42,7 @@ import ActivitiesNearYou from './../views/ActivitiesNearYou';
 import DestinationToGo from './../views/DestinationToGo';
 import FeaturedHotel from './../views/FeaturedHotel';
 import PopularOnlineRestaurants from './../views/PopularOnlineRestaurants';
+import messaging from '@react-native-firebase/messaging';
 
 
 const window = Dimensions.get('window')
@@ -74,7 +75,50 @@ const Home = ({ navigation }) => {
   const [banner,setBanner]= React.useState()
   const [NewAction,setNewAction]= React.useState(false)
   const brands = useSelector(state => state.brands)
+  const notification= useSelector(state => state.notification)
 
+  //notification token
+  const requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+    if (enabled) {
+      getFcmToken() //<---- Add this
+      console.log('Authorization status:', authStatus);
+    }
+  }
+  const getFcmToken = async () => {
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+     postData(url + '/updateData', {
+      auth: auth.currentUser,
+      tableName: 'user',
+      columns: ['token'],
+      values:[fcmToken],
+      condition:`uid='${auth.currentUser.uid}'`
+     }).then(res=>{
+      console.log(`Home js:100${res}`)
+     })
+    } else {
+     console.log("Failed", "No token received");
+    }
+  }
+  React.useEffect(() => {
+    requestUserPermission();
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      postData(url + '/setData',{
+        auth: auth.currentUser,
+        tableName:'notification',
+        columns:['name','description','uid'],
+        values: [remoteMessage.notification.title,remoteMessage.notification.body,auth.currentUser.uid]
+    }).then(response =>{
+        console.log(response)
+        dispatch(setNotifications(!notification))
+    })
+    });
+    return unsubscribe;
+   }, []);
   React.useEffect(() => {
     dispatch(setAnimatedLoader(false))
     dispatch(setBottomSheet(null))

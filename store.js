@@ -7,6 +7,7 @@ import loader from './Reducers/loader';
 import user from './Reducers/user';
 import pageSettings from './Reducers/pageSettings';
 import membership from './Reducers/membership';
+import notification from './Reducers/notification';
 
 const combine=combineReducers({
     brands: brands,
@@ -16,7 +17,8 @@ const combine=combineReducers({
     loader: loader,
     user: user,
     pageSettings: pageSettings,
-    membership: membership
+    membership: membership,
+    notification:notification
 })
 
 const store=createStore(combine);

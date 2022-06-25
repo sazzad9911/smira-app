@@ -38,6 +38,9 @@ const HotelBooking = (props) => {
     const user= useSelector(state => state.user)
     const [HotelName, setHotelName]= React.useState(null)
     const [Error, setError]= React.useState()
+    const [Note, setNote]= React.useState()
+    const [Veg, setVeg]= React.useState(0)
+    const [NonVeg,setNonVeg]= React.useState(0)
 
     const convertDate = (date) => {
         let data = '';
@@ -73,8 +76,8 @@ const HotelBooking = (props) => {
         postData(url + '/setData', {
             auth: auth.currentUser,
             tableName: 'booking_enquiry',
-            columns: ['check_in', 'check_out', 'adults', 'children', 'room', 'uid', 'hotel_id','type'],
-            values: [convertDate(CheckIn), convertDate(CheckOut), count, count1, count2, auth.currentUser.uid, selectedItem,Select]
+            columns: ['check_in', 'check_out', 'adults', 'children', 'room', 'uid', 'hotel_id','type','veg','non_veg','note'],
+            values: [convertDate(CheckIn), convertDate(CheckOut), count, count1, count2, auth.currentUser.uid, selectedItem,Select,Veg,NonVeg,Note?Note:'']
         }).then(data => {
             if (data.insertId) {
                 setLoader(false)
@@ -116,8 +119,8 @@ const HotelBooking = (props) => {
         postData(url + '/setData', {
             auth: auth.currentUser,
             tableName: 'booking_enquiry',
-            columns: ['check_in', 'check_out', 'adults', 'children', 'room', 'uid', 'hotel_id','type'],
-            values: [convertDate(CheckIn), convertDate(CheckOut), count, count1, count2, user.uid, selectedItem,Select]
+            columns: ['check_in', 'check_out', 'adults', 'children', 'room', 'uid', 'hotel_id','type','veg','non_veg','note'],
+            values: [convertDate(CheckIn), convertDate(CheckOut), count, count1, count2, auth.currentUser.uid, selectedItem,Select,Veg,NonVeg,Note?Note:'']
         }).then(data => {
             if (data.insertId) {
                 setLoader(false)
@@ -443,7 +446,7 @@ const HotelBooking = (props) => {
                         justifyContent: 'center',
                         flexDirection: 'row',
                     }}>
-                        <TouchableOpacity onPress={() => {
+                        <TouchableOpacity onPress={() => { 
                             if (count > 0) {
                                 setCount(count - 1)
                             }
@@ -601,46 +604,130 @@ const HotelBooking = (props) => {
                 <View style={{
                             alignItems: 'center', flexDirection: 'row',
                             marginLeft: 20, marginTop: 20
-                        }}>
+                           }}>
                             <View style={{ flex: 2 }}>
-                                <Text style={{ fontSize: 18, color: subTextColor(darkMode),
-                                fontFamily:'PlusJakartaSans' }}>Food Choice</Text>
-                                <Text style={{ fontSize: 12,
-                                 color: '#808080',
-                                 fontFamily:'PlusJakartaSans' }}>Charges will be applied</Text>
+                                <Text style={{ fontSize: 18, color: '#585858',
+                                fontFamily:'PlusJakartaSans' 
+                                }}>Veg</Text>
+                                <Text style={{ fontSize: 15,
+                                 color: 'rgb(100,100,100)',
+                                 fontFamily:'PlusJakartaSans' 
+                                 }}>Breakfast+Dinner</Text>
                             </View>
                             <View style={{
                                 justifyContent: 'center',
                                 flexDirection: 'row',
                             }}>
-                                <TouchableOpacity onPress={()=>{
-                                    if(!Select){
-                                        setSelect('Veg')
-                                        return
+                                <TouchableOpacity onPress={() => {
+                                    if (Veg > 0) {
+                                        setVeg(Veg - 1);
                                     }
-                                    if(Select=='Veg'){
-                                        setSelect('Non Veg')
-                                        return
-                                    }
-                                    setSelect('Veg')
                                 }} style={{
-                                    width: 150,
                                     height: 50,
-                                    borderRadius:30,
-                                    backgroundColor:'#F5F5F5',
+                                    width: 50,
+                                    borderRadius: 30,
+                                    backgroundColor: '#F5F5F5',
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}>
-                                {
-                                    !Select?(
-                                        <Text>None</Text>
-                                    ):(
-                                        <Text>{Select}</Text>
-                                    )
-                                }
-                                
+                                    <AntDesign name="minus" size={24} color="#808080" />
+                                </TouchableOpacity>
+                                <View style={{
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: 30,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                    <Text style={{
+                                        fontSize: 20,
+                                    }}>{Veg}</Text>
+                                </View>
+                                <TouchableOpacity onPress={() => {
+                                    setVeg(Veg + 1);
+                                }} style={{
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: 30,
+                                    backgroundColor: '#FFE1E3',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                    <AntDesign name="plus" size={24} color="#FC444B" />
                                 </TouchableOpacity>
                             </View>
+                        </View>
+                        <View style={{
+                            alignItems: 'center', flexDirection: 'row',
+                            marginLeft: 20, marginTop: 20
+                           }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={{ fontSize: 18, color: '#585858',
+                                fontFamily:'PlusJakartaSans' 
+                                }}>Non-Veg</Text>
+                                <Text style={{ fontSize: 15,
+                                 color: 'rgb(100,100,100)',
+                                 fontFamily:'PlusJakartaSans' 
+                                 }}>Breakfast+Dinner</Text>
+                            </View>
+                            <View style={{
+                                justifyContent: 'center',
+                                flexDirection: 'row',
+                            }}>
+                                <TouchableOpacity onPress={() => {
+                                    if (NonVeg > 0) {
+                                        setNonVeg(NonVeg - 1);
+                                    }
+                                }} style={{
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: 30,
+                                    backgroundColor: '#F5F5F5',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                    <AntDesign name="minus" size={24} color="#808080" />
+                                </TouchableOpacity>
+                                <View style={{
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: 30,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                    <Text style={{
+                                        fontSize: 20,
+                                    }}>{NonVeg}</Text>
+                                </View>
+                                <TouchableOpacity onPress={() => {
+                                    setNonVeg(NonVeg + 1);
+                                }} style={{
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: 30,
+                                    backgroundColor: '#FFE1E3',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                    <AntDesign name="plus" size={24} color="#FC444B" />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View style={{
+                            marginLeft: 20, marginTop: 20
+                          }}>
+                           <Text style={{
+                            fontSize: 18, color: '#585858',
+                                fontFamily:'PlusJakartaSans' 
+                            }}>Additional Note</Text>
+                           <TextInput value={Note} onChangeText={setNote} multiline={true} numberOfLines={5} style={{
+                            borderWidth:1,
+                            borderColor: '#D3D3D3',
+                            marginTop: 10,
+                            marginBottom: 20,
+                            borderRadius: 10,
+                            padding: 10,
+                        }} placeholderTextColor="#585858" placeholder="We need two extra mattress"/>
                         </View>
                         {Error?(<Text style={{
                             color:'red',

@@ -69,6 +69,13 @@ const Booking = (props) => {
             setLoader(false)
             Alert.alert('Error', err.code)
         })
+        postData(url + '/sendMessage',{
+            title: 'Your Booking Request has been received',
+            body:`We have received your request for a booking at ${params.name}. Please wait for confirmation.`,
+            uid: user[0].uid
+        }).then(response => {
+            console.log(response)
+        })
         postData(url +'/sendEmail',{
             from:'info@smira.club',
             to:auth.currentUser.email,

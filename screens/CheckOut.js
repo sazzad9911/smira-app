@@ -220,6 +220,13 @@ const CheckOut = (props) => {
                 dispatch(setUser(response))
                 dispatch(setAnimatedLoader(false))
                 let msg=codes?codes+" are you family access code.":""
+                postData(url + '/sendMessage',{
+                    title: 'Your Membership Purchase Request has been received',
+                    body:`We have received your request for ${Membership.name} membership. Now you can book hotels, deals and many others.`,
+                    uid: user[0].uid
+                }).then(response => {
+                    console.log(response)
+                })
                 postData(url +'/sendEmail',{ 
                     from:'info@smira.club',
                     to:auth.currentUser.email,
