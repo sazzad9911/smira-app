@@ -4,7 +4,8 @@ import Onboarding from './../screens/Onboarding';
 import SignUp from './../screens/SignUp';
 import SignIn from './../screens/SignIn';
 import DrawerApp from './Drawer';
-import { View, Text, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, Dimensions, TouchableOpacity,
+     ScrollView ,StyleSheet,Modal,Image,ActivityIndicator} from 'react-native'
 import AnimatedLoader from 'react-native-animated-loader'
 import { useSelector, useDispatch } from 'react-redux'
 const Stack = createStackNavigator();
@@ -120,6 +121,8 @@ import Search from './../screens/Search';
 import Booking from './../screens/Booking';
 import Hotel from './../screens/Hotel';
 import Outlets from './../screens/Outlets';
+import { AntDesign } from '@expo/vector-icons';
+import {postData, url} from '../action'
 
 const Dashboard = ({ navigation }) => {
     const bottomSheetRef = React.useRef();
@@ -127,6 +130,37 @@ const Dashboard = ({ navigation }) => {
     const loader = useSelector(state => state.pageSettings.loader)
     const dispatch = useDispatch()
     const pageSettings = useSelector(state => state.pageSettings)
+    const [FlashVisible, setFlashVisible]= React.useState(false)
+    const [FlashImage,setFlashImage]= React.useState(null)
+    const [FlashUser,setFlashUser]= React.useState()
+    const [FlashBanner,setFlashBanner]= React.useState(null)
+    const [NewAction,setNewAction]= React.useState(false)
+    const auth = getAuth(app);
+
+    React.useEffect(() => {
+        postData(url +'/getData',{
+          tableName: 'flash_banner',
+          orderColumn:'date'
+        }).then(res => {
+          if(Array.isArray(res) && res.length > 0){
+           setFlashBanner(res[0])
+          }
+        })
+      },[NewAction])  
+      React.useEffect(() => {
+        if(FlashBanner){
+            postData(url + '/getData', {
+                tableName: 'flash_user',
+                condition:`uid='${auth.currentUser.uid}' AND flash_id=${FlashBanner.id}`
+              }).then(res => {
+                if(Array.isArray(res) && res.length >0){
+                    setFlashVisible(false)
+                }else{
+                    setFlashVisible(true)
+                }
+              })
+        }
+      },[FlashBanner])
 
     // variables
     const calender = React.useMemo(() => ['10%', '93%'], []);
@@ -168,6 +202,75 @@ const Dashboard = ({ navigation }) => {
             >
                 <Text>Loading...</Text>
             </AnimatedLoader>
+            <Modal animationStyle="fade" transparent={true}
+         visible={FlashVisible} onRequestClose={()=>setFlashVisible(!FlashVisible)}>
+         <ImageView FlashVisible={FlashVisible} setFlashVisible={setFlashVisible}/>
+        </Modal>
         </View>
+    )
+}
+const style = StyleSheet.create({
+    outline: {
+      borderRadius: 15,
+      height: 28, width: 28,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#D8D8D8'
+    },
+    modalView: {
+      height:'100%',
+      backgroundColor:'rgba(0, 0, 0, 0.74)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalImage: {
+      width:'90%',
+      height:'70%',
+      backgroundColor:'#f5f5f5'
+    },
+    modalButton:{
+      position: 'absolute',
+      bottom:'5%'
+    }
+})
+
+const ImageView=(props)=>{
+    const [image,setImage]= React.useState(null)
+    const auth = getAuth(app);
+    React.useEffect(() => {
+        postData(url + '/getData', {
+            tableName: 'flash_banner',
+            orderColumn:'date'
+        }).then(data =>{
+            if(Array.isArray(data) && data.length>0){
+               setImage(data[0])
+               return
+            }
+            console.log(data)
+        })
+    },[])
+
+    return(
+      <View style={style.modalView}>
+      {
+        image?(
+            <Image style={style.modalImage} source={{ uri:image.image}}/>
+        ):(<ActivityIndicator size="large" color="#FA454B" />)
+      }
+         <TouchableOpacity style={style.modalButton} onPress={() =>{
+            props.setFlashVisible(!props.FlashVisible)
+          postData(url + '/setData', {
+            auth: auth.currentUser,
+            tableName: 'flash_user',
+            columns: ['uid','flash_id'],
+            values: [auth.currentUser.uid,image.id]
+          }).then(data =>{
+            console.log(data)
+            //setNewAction(!NewAction)
+          })
+         }}>
+         <AntDesign name="closecircleo" size={64} color="white" />
+         </TouchableOpacity>
+    </View>
     )
 }

@@ -1,6 +1,6 @@
 import {
   Image, ScrollView, StyleSheet, Text,
-  TouchableOpacity, View, StatusBar, Dimensions, ActivityIndicator, Modal, Alert, BackHandler
+  TouchableOpacity, View, StatusBar, Dimensions, ActivityIndicator, Modal, Alert, BackHandler,ImageBackground
 } from 'react-native'
 import React, { useState, useCallback, useMemo, useRef } from 'react'
 import { AntDesign } from '@expo/vector-icons'
@@ -68,12 +68,7 @@ const Home = ({ navigation }) => {
   const bottomSheet = useSelector(state => state.pageSettings.bottomSheet)
   const [secondBanner, setSecondBanner]=React.useState(null)
   const [Visible, setVisible]= React.useState(false)
-  const [FlashVisible, setFlashVisible]= React.useState(false)
-  const [FlashImage,setFlashImage]= React.useState(null)
-  const [FlashUser,setFlashUser]= React.useState()
-  const [FlashBanner,setFlashBanner]= React.useState()
   const [banner,setBanner]= React.useState()
-  const [NewAction,setNewAction]= React.useState(false)
   const brands = useSelector(state => state.brands)
   const notification= useSelector(state => state.notification)
 
@@ -104,25 +99,7 @@ const Home = ({ navigation }) => {
      console.log("Failed", "No token received");
     }
   }
-  React.useEffect(() => {
-    postData(url +'/getData',{
-      tableName: 'flash_banner',
-      orderColumn:'date'
-    }).then(res => {
-      if(Array.isArray(res) && res.length > 0){
-       setFlashBanner(res)
-      }
-    })
-    postData(url + '/getData', {
-      tableName: 'flash_user',
-      condition:`uid='${auth.currentUser.uid}'`
-    }).then(res => {
-      
-      if(Array.isArray(res)){
-        setFlashUser(res)
-      }
-    })
-  },[NewAction])  
+ 
   React.useEffect(() => {
     requestUserPermission();
     const unsubscribe = messaging().onMessage(async remoteMessage => {
@@ -270,28 +247,6 @@ const Home = ({ navigation }) => {
     );
   }, []);
 
-  
-React.useEffect(() => {
-  if(FlashBanner && FlashUser && FlashUser.length==0){
-    setFlashImage(FlashBanner[0])
-    console.log(FlashBanner)
-    setFlashVisible(true)
-    return
-  }
-  if(FlashBanner&&FlashUser){
-    
-    for(let i=0;i<FlashBanner.length;i++){
-      let flash=FlashUser.filter(user=>user.flash_id==FlashBanner[i].id)
-      
-      if(!Array.isArray(flash)|| flash.length==0){
-        console.log('saaa')
-        setFlashImage(FlashBanner[i])
-        setFlashVisible(true)
-        break
-      }
-    }
-  }
-},[FlashBanner+FlashUser])
   return (
     <View style={{
       height: '100%',
@@ -538,30 +493,7 @@ React.useEffect(() => {
         <DetailsCart setModalVisible={setModalVisible} data={brands &&
          SliderData?brands.filter(d=>d.id==SliderData.brand_id)[0]:{}} />
         </Modal>
-        <Modal animationStyle="fade" transparent={true}
-         visible={FlashVisible} onRequestClose={()=>setFlashVisible(!FlashVisible)}>
-         <View style={style.modalView}>
-         {
-          FlashImage ? (
-            <Image style={style.modalImage} source={{ uri:FlashImage.image}}/>
-          ):(<Text>Loading..</Text>)
-         }
-         <TouchableOpacity style={style.modalButton} onPress={() =>{
-          setFlashVisible(!FlashVisible)
-          postData(url + '/setData', {
-            auth: auth.currentUser,
-            tableName: 'flash_user',
-            columns: ['uid','flash_id'],
-            values: [auth.currentUser.uid,FlashImage.id]
-          }).then(data =>{
-            console.log(data)
-            setNewAction(!NewAction)
-          })
-         }}>
-         <AntDesign name="closecircleo" size={64} color="white" />
-         </TouchableOpacity>
-         </View>
-        </Modal>
+        
       </ScrollView>
       <View style={{
         position: 'absolute',
