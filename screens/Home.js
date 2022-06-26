@@ -69,7 +69,7 @@ const Home = ({ navigation }) => {
   const [secondBanner, setSecondBanner]=React.useState(null)
   const [Visible, setVisible]= React.useState(false)
   const [FlashVisible, setFlashVisible]= React.useState(false)
-  const [FlashImage,setFlashImage]= React.useState()
+  const [FlashImage,setFlashImage]= React.useState(null)
   const [FlashUser,setFlashUser]= React.useState()
   const [FlashBanner,setFlashBanner]= React.useState()
   const [banner,setBanner]= React.useState()
@@ -104,6 +104,25 @@ const Home = ({ navigation }) => {
      console.log("Failed", "No token received");
     }
   }
+  React.useEffect(() => {
+    postData(url +'/getData',{
+      tableName: 'flash_banner',
+      orderColumn:'date'
+    }).then(res => {
+      if(Array.isArray(res) && res.length > 0){
+       setFlashBanner(res)
+      }
+    })
+    postData(url + '/getData', {
+      tableName: 'flash_user',
+      condition:`uid='${auth.currentUser.uid}'`
+    }).then(res => {
+      
+      if(Array.isArray(res)){
+        setFlashUser(res)
+      }
+    })
+  },[NewAction])  
   React.useEffect(() => {
     requestUserPermission();
     const unsubscribe = messaging().onMessage(async remoteMessage => {
@@ -250,28 +269,12 @@ const Home = ({ navigation }) => {
       backAction
     );
   }, []);
-React.useEffect(() => {
-  postData(url +'/getData',{
-    tableName: 'flash_banner',
-    orderColumn:'date'
-  }).then(res => {
-    if(Array.isArray(res) && res.length > 0){
-     setFlashBanner(res)
-    }
-  })
-  postData(url + '/getData', {
-    tableName: 'flash_user',
-    condition:`uid='${auth.currentUser.uid}'`
-  }).then(res => {
-    
-    if(Array.isArray(res)){
-      setFlashUser(res)
-    }
-  })
-},[NewAction])
+
+  
 React.useEffect(() => {
   if(FlashBanner && FlashUser && FlashUser.length==0){
     setFlashImage(FlashBanner[0])
+    console.log(FlashBanner)
     setFlashVisible(true)
     return
   }
@@ -614,6 +617,7 @@ const style = StyleSheet.create({
   modalImage: {
     width:'90%',
     height:'70%',
+    backgroundColor:'#f5f5f5'
   },
   modalButton:{
     position: 'absolute',

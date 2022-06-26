@@ -615,12 +615,12 @@ const Booking = (props) => {
                         </View>
                         <View style={{
                             marginLeft: 20, marginTop: 20
-                        }}>
-                        <Text style={{
+                          }}>
+                           <Text style={{
                             fontSize: 18, color: '#585858',
                                 fontFamily:'PlusJakartaSans' 
-                        }}>Additional Note</Text>
-                        <TextInput value={Note} onChangeText={setNote} multiline={true} numberOfLines={5} style={{
+                            }}>Additional Note</Text>
+                           <TextInput value={Note} onChangeText={setNote} multiline={true} numberOfLines={5} style={{
                             borderWidth:1,
                             borderColor: '#D3D3D3',
                             marginTop: 10,
