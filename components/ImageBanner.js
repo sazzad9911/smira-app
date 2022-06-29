@@ -8,7 +8,10 @@ const ImageBanner = (props) => {
     const data = props.data
     const brands= useSelector(state => state.brands)
     return (
-        <TouchableOpacity onPress={() =>setModalVisible(true)}>
+        <TouchableOpacity onPress={() =>{
+            //setModalVisible(true)
+            props.onPress()
+        }}>
             {
                 data.image?(
                     <Image style={{

@@ -54,7 +54,7 @@ const PopularOnlineRestaurants = ({navigation}) => {
                 PopularRestaurant ? (
                   PopularRestaurant.map((doc, i) => (
                     <ImageBanner key={i} onPress={() => {
-                        navigation.navigate('Category Single', { title: 'Salon' })
+                        navigation.navigate('Category Single', { title: 'Salon',search:doc.brands })
                         dispatch(setLoader('Salon'))
                       }} data={doc} />
                   ))

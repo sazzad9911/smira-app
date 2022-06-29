@@ -12,7 +12,10 @@ const ActivitiesCart = (props) => {
     const brands=useSelector(state => state.brands)
     const [ModalVisible, setModalVisible] = React.useState(false)
     return (
-        <TouchableOpacity onPress={() =>setModalVisible(true)} style={{
+        <TouchableOpacity onPress={() =>{
+            //setModalVisible(true)
+            props.onPress()
+        }} style={{
             height: 300,
             width: 280,
             margin: 10,
@@ -39,8 +42,7 @@ const ActivitiesCart = (props) => {
                         color: 'white',
                         fontFamily: 'PlusJakartaSansBold',
                         fontSize: 20
-                    }}>{brands && brands.filter(brands=>brands.id==data.brand_id)?
-                    brands.filter(brands=>brands.id==data.brand_id)[0].name:''}</Text>
+                    }}>{data.name}</Text>
                     <View style={{
                         backgroundColor: '#FC444B',
                         height: 2,

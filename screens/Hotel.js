@@ -11,7 +11,7 @@ import { getData, storeData } from '../screens/WishList'
 import { useSelector, useDispatch } from 'react-redux'
 import { textColor, subTextColor, backgroundColor } from '../assets/color'
 import { LinearGradient } from 'expo-linear-gradient';
-import { parking, tv, wifi, heart, redHeart,cctv,gym,swmming } from '../components/Icon'
+import { parking, tv, wifi, heart, redHeart,cctv,gym,swmming,call } from '../components/Icon'
 import NewAlert from './../components/NewAlert';
 import NewBooking from './NewBooking';
 import location from './../assets/location.jpg'
@@ -520,16 +520,32 @@ const Hotel = (props) => {
                     height: 60,
                     borderRadius: 20,
                     justifyContent: 'center',
+                    alignItems: 'center',
+                    marginRight:10
+                }}>
+                    <AntDesign style={{
+                        opacity:.4
+                    }} name="hearto" size={24} color={color ? "#FC444B" : "#808080"} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { 
+                    Linking.openURL(`tel:+91` + hotel.phone)
+                }} style={{
+                    borderWidth: 1,
+                    borderColor: '#E2E2E2',
+                    flex: 1,
+                    height: 60,
+                    borderRadius: 20,
+                    justifyContent: 'center',
                     alignItems: 'center'
                 }}>
-                    <AntDesign name="hearto" size={24} color={color ? "#FC444B" : "#808080"} />
+                    <SvgXml xml={call} height="30" width="30" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     setVisible(true)
                    
                 }} style={{
                     backgroundColor: '#64B657',
-                    flex: 4,
+                    flex: 3,
                     height: 60,
                     borderRadius: 30,
                     justifyContent: 'center',

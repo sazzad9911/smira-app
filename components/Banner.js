@@ -11,7 +11,10 @@ const Banner = (props) => {
     const data=props.data
     return (
         <View>
-            <TouchableOpacity onPress={() => setModalVisible(true)} style={{
+            <TouchableOpacity onPress={() => {
+                //setModalVisible(true)
+                props.onPress()
+            }} style={{
                 margin: 10,
                 height: 230,
                 borderRadius: 10,

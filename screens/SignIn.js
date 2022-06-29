@@ -14,30 +14,35 @@ import {setAnimatedLoader} from '../action'
 import * as Google from 'expo-google-app-auth';
 import { configAuth } from './../action';
 import {SignUpWithOtp} from './SignUp'
+import AnimatedLoader from "react-native-animated-loader";
 
 const SignIn = ({ navigation }) => {
     const [email, setEmail] = React.useState(null)
     const [password, setPassword] = React.useState(null)
     const [text,setText] =React.useState('')
     const [modalVisible, setModalVisible]= React.useState(false)
+    const [visible, setVisible] = React.useState(false)
 
     const auth = getAuth(app);
     const dispatch = useDispatch()
     const signIn = () => {
         if (!email || !password) {
             setText('Please fill all the fields')
-            return
+            return 
         }
+        setVisible(true)
         dispatch(setAnimatedLoader(true));
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredentials) => {
                 dispatch(setAnimatedLoader(false));
                 NativeModules.DevSettings.reload();
                 navigation.navigate('Dashboard');
+                setVisible(false)
             }).catch((error) => {
                 dispatch(setAnimatedLoader(false));
                 setText('Invalid user information.')
                 console.log('Error: SignIn.js->' + error.code)
+                setVisible(false)
             })
     }
     const googleSignIn =async () => {
@@ -262,6 +267,18 @@ const SignIn = ({ navigation }) => {
             <Modal visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
             <SignUpWithOtp login={true} navigation={navigation} close={setModalVisible} />
             </Modal>
+            <AnimatedLoader
+                    visible={visible}
+                    overlayColor="rgba(255,255,255,0.75)"
+                    source={require("../assets/Loading.json")}
+                    animationStyle={{
+                        width: 100,
+                        height: 100
+                    }}
+                    speed={1}
+                >
+                    <Text>Loading...</Text>
+            </AnimatedLoader>
         </View>
     );
 };

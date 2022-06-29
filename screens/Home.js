@@ -311,7 +311,9 @@ const Home = ({ navigation }) => {
                   }}
                   onCurrentImagePressed={index => {
                     setSliderData(slider[index])
-                    setModalVisible(true)
+                    if(slider[index].brand_id){
+                      setModalVisible(true)
+                    }
                   }}
                 />
               )
@@ -417,8 +419,8 @@ const Home = ({ navigation }) => {
         <TopBrands navigation={navigation}/>
         <ActivitiesNearYou navigation={navigation}/>
 
-        {
-          ////
+        { 
+          ////  
         }
         <View style={{
           width: '100%',
@@ -428,7 +430,10 @@ const Home = ({ navigation }) => {
         }}>
           {
             First ? (
-              <Banner data={First}/>
+              <Banner onPress={()=>{
+                navigation.navigate('Category Single', { title: 'Salon',search:First.brands })
+                        dispatch(setLoader('Salon'))
+              }} data={First}/>
             ) : (
               <View></View>
             )
@@ -436,7 +441,7 @@ const Home = ({ navigation }) => {
         </View>
        <DestinationToGo navigation={navigation}/>
        <FeaturedHotel navigation={navigation}/>
-      <PopularOnlineRestaurants navigation={navigation}/>
+       <PopularOnlineRestaurants navigation={navigation}/>
         {
           /*
           <ScrollView style={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false}
@@ -481,7 +486,10 @@ const Home = ({ navigation }) => {
         }}>
           {
             secondBanner ? (
-              <Banner data={secondBanner}/>
+              <Banner onPress={()=>{
+                navigation.navigate('Category Single', { title: 'Salon',search:secondBanner.brands })
+                        dispatch(setLoader('Salon'))
+              }} data={secondBanner}/>
             ) : (
               <></>
             )

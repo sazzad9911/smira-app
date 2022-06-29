@@ -513,13 +513,13 @@ export const Cart = (props) => {
                         <Text style={[style.headline, {
                             color: 'black',
                             marginVertical: 10
-                        }]}>Use this within</Text>
-                        <Text style={style.subText}>24 hours of booking</Text>
-                        <Text style={[style.headline, {
+                        }]}>Description</Text>
+                        <Text style={style.subText}>{data.deal.description}</Text>
+                        {/* <Text style={[style.headline, {
                             color: 'black',
                             marginVertical: 10
-                        }]}>Timings</Text>
-                        <View style={{ flexDirection: 'row' }}>
+                        }]}>Timings</Text> */}
+                        {/* <View style={{ flexDirection: 'row' }}>
                             <View style={{
                                 width: '40%'
                             }}>
@@ -553,7 +553,7 @@ export const Cart = (props) => {
                         <Text style={[style.subText]}>1. Prior reservation is mandatory</Text>
                         <Text style={[style.subText]}>2. All offers are inclusive of all applicable taxes and service charges</Text>
                         <Text style={[style.subText]}>3. It is highly recommended that the customer wear masks while visiting the outlet to prevent infection.</Text>
-                        <Text style={[style.subText]}>4. Right of admission reserved</Text>
+                        <Text style={[style.subText]}>4. Right of admission reserved</Text> */}
                     </ScrollView>
                 </View>
                     ):(

@@ -36,10 +36,37 @@ const Salon = (props) => {
     },[Array.isArray(recentSearch.brand)?recentSearch.brand.length:0])
  
     React.useEffect(() => {
-        let arr = brands.filter(d => d.type == props.search)
-        
-        setData(arr)
-    }, [])
+        if(props.search=='all'){
+            postData(url + '/getData',{
+                tableName: 'brands',
+            }).then(data =>{
+                if(Array.isArray(data)){
+                    setData(data)
+                }
+            })
+            return
+        }
+        if(props.search){
+            let sp=props.search.split(',');
+            let condition=''
+            sp.map((doc,i)=>{
+                if(!condition){
+                    condition="id='"+doc+"'";
+                }
+                condition=condition+" OR id='"+doc+"'"
+            })
+            postData(url + '/getData',{
+                tableName: 'brands',
+                condition: condition
+            }).then(data =>{
+                if(Array.isArray(data)){
+                    setData(data)
+                }
+            })
+        }else{
+            setData([])
+        }
+    }, [props.search])
 
     return (
         <ScrollView style={{ backgroundColor: backgroundColor(darkMode) }}>

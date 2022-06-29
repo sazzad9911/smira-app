@@ -3,7 +3,7 @@ import {View,Text,TouchableOpacity,ScrollView,ActivityIndicator} from 'react-nat
 import { textColor } from './../assets/color';
 import {useSelector,useDispatch} from 'react-redux'
 import ActivitiesCart from './../components/ActivitiesCart';
-import {postData, url} from '../action'
+import {postData, url,setLoader} from '../action'
 
 const ActivitiesNearYou = ({ navigation}) => {
     const dispatch = useDispatch()
@@ -40,7 +40,7 @@ const ActivitiesNearYou = ({ navigation}) => {
                 color: textColor(darkMode)
               }}>Activities Near You</Text>
               <TouchableOpacity onPress={() => {
-                navigation.navigate('Category Single', { title: 'Salon',search: 'Games'})
+                navigation.navigate('Category Single', { title: 'Salon',search: 'all'})
                 dispatch(setLoader('Games'))
   
               }}>
@@ -57,7 +57,7 @@ const ActivitiesNearYou = ({ navigation}) => {
                 banner ? (
                   banner.map((doc, i) => (
                     <ActivitiesCart key={i} onPress={() => {
-                        navigation.navigate('Category Single', { title: 'Salon' })
+                        navigation.navigate('Category Single', { title: 'Salon',search:doc.brands })
                         dispatch(setLoader('Salon'))
                       }} data={doc} />
                   ))

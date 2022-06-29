@@ -41,11 +41,11 @@ const PopularDeals = ({ navigation}) => {
           <ScrollView showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false} horizontal={true} >
             <View style={{ width: 10 }}></View>
-            {
+            { 
               Poster ? (
                 Poster.map((doc, i) => (
                   <NewDealCart key={i} onPress={() => {
-                    navigation.navigate('Category Single', { title: 'Salon',search:doc.type })
+                    navigation.navigate('Category Single', { title: 'Salon',search:doc.brands })
                     dispatch(setLoader(doc.type))
                   }} data={doc} />
                 ))

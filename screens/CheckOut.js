@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     Text, View, StyleSheet, ScrollView,
-    Dimensions, Button, TouchableOpacity, TextInput, Alert,Modal
+    Dimensions, Button, TouchableOpacity, TextInput, Alert,Modal,ActivityIndicator
 } from 'react-native'
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { backgroundColor, textColor } from './../assets/color';
@@ -20,6 +20,7 @@ import RadioButtonRN from 'radio-buttons-react-native';
 import Membership from './Membership';
 import RazorpayCheckout from 'react-native-razorpay';
 import NewAlert from './../components/NewAlert';
+import Lottie from 'lottie-react-native';
 
 
 const CheckOut = (props) => {
@@ -49,6 +50,11 @@ const CheckOut = (props) => {
     const [AllCoupons, setAllCoupons]= React.useState([])
     const [CouponDetails, setCouponDetails]= React.useState()
     const [CouponUser,setCouponUser]= React.useState(null)
+    const [PromoData, setPromoData]= React.useState({
+        visible: false,
+        data: {},
+        type:''
+    })
 
     React.useEffect(() => {
         postData(url + '/getData', {
@@ -145,6 +151,7 @@ const CheckOut = (props) => {
         }
     ];
     const checkCode=()=>{
+        
         postData(url + '/getData',{
             tableName: 'promo_user',
             condition:"uid='"+ auth.currentUser.uid+"' AND code='"+PromoCode+"'"
@@ -160,6 +167,23 @@ const CheckOut = (props) => {
         setError('Invalid promo code')
         return false
        }else{
+        const type=filter[0].code.substring(0,4)
+        if(type=="SLVP"){
+            setPromoData({visible:true,data:filter[0],type:'silver'});
+        }else if(type=="GLDP"){
+            setPromoData({visible:true,data:filter[0],type:'gold'});
+        }else if(type=="PLNP"){
+            setPromoData({visible:true,data:filter[0],type:'platinum'});
+        }else if(type=="DMNP"){
+            setPromoData({visible:true,data:filter[0],type:'diamond'});
+        }else{
+            promo_action()
+        }
+       }
+        })
+    }
+    const promo_action =()=>{
+
         dispatch(setAnimatedLoader(true))
         postData(url + '/setData',{
             "tableName":"promo_user",
@@ -175,8 +199,24 @@ const CheckOut = (props) => {
             console.log(data.message)
         })
         return true
-       }
+    }
+    const promo_new =(membership)=>{
+        setPromoData({visible:false,data:{},type:''});
+        dispatch(setAnimatedLoader(true))
+        postData(url + '/setData',{
+            "tableName":"promo_user",
+            "values":[auth.currentUser.uid,PromoCode],
+            "columns":["uid","code"],
+            "auth":auth.currentUser
+        }).then(data => {
+            if(data.affectedRows){
+                setAction(!Action)
+              return  setUserWithDiscountCode(membership)
+            }
+            dispatch(setAnimatedLoader(false))
+            console.log(data.message)
         })
+        return true
     }
     function makeid(length) {
         var result           = '';
@@ -222,7 +262,7 @@ const CheckOut = (props) => {
                 let msg=codes?codes+" are you family access code.":""
                 postData(url + '/sendMessage',{
                     title: 'Your Membership Purchase Request has been received',
-                    body:`We have received your request for ${Membership.name} membership. Now you can book hotels, deals and many others.`,
+                    body:`We have received your request for purchase membership. Now you can book hotels, deals and many others.`,
                     uid: user[0].uid
                 }).then(response => {
                     console.log(response)
@@ -309,6 +349,22 @@ const CheckOut = (props) => {
                 console.log(data.message)
             })           
     }
+    const setUserWithDiscountCode =(membership)=>{
+        let newDate =new Date()
+        newDate=newDate.getFullYear()+membership.time +'-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate())
+        postData(url + '/updateData',{
+            "condition":"uid='"+ auth.currentUser.uid+"'",
+            "tableName":"user",
+            "columns":["membership_type","starting_date","ending_date"],
+            "values":[membership.type,convertDate(new Date()),newDate]
+        }).then(data=>{
+            if(data.affectedRows){
+                dispatch(setAnimatedLoader(false))
+               return confirm()
+            }
+            console.log(data.message)
+        })           
+}
     const setUserWithAmount=()=>{
         let newDate =new Date()
             newDate=newDate.getFullYear()+Membership.time+ '-' + (newDate.getMonth() + 1) + '-' + (newDate.getDate())
@@ -488,7 +544,7 @@ const CheckOut = (props) => {
                     })
                     setModalVisible(!modalVisible)
                 }}/> */}
-                <CouponAlert onPress={()=>{
+                <CouponAlert close={setModalVisible} onPress={()=>{
                     postData(url + '/setData',{
                         auth: auth.currentUser,
                         tableName: 'cuppon_user',
@@ -500,6 +556,15 @@ const CheckOut = (props) => {
                         submit()
                     })
                 }} Membership={Membership} CouponDetails={CouponDetails}/>
+
+            </Modal>
+            <Modal transparent={true} visible={PromoData.visible} onRequestClose={() =>{
+                setPromoData({visible:!CouponData.visible})
+            }}>
+            <PromoAlert onPress={(membership)=>{
+                promo_new(membership)
+            }} type={PromoData.type}
+             data={PromoData.data} close={setPromoData} />
             </Modal>
         </View>
     );
@@ -648,7 +713,9 @@ const CouponAlert=(props)=>{
             justifyContent: 'center',
             alignItems: 'center',
         }}>
-            <AntDesign style={{
+            <AntDesign onPress={()=>{
+                props.close(false)
+            }} style={{
                 position: 'absolute',
                 right:10,
                 top:10,
@@ -691,6 +758,108 @@ const CouponAlert=(props)=>{
                 marginTop:8,
                 marginBottom:8,
               }}>PAY NOW</Text>
+            </TouchableOpacity>
+        </View>
+        </View>
+    )
+}
+const PromoAlert=(props)=>{
+    const code=props.data.code;
+    const offer=props.data.offer?props.data.offer:0;
+    const [Price, setPrice]= React.useState()
+    const [Membership, setMembership]= React.useState()
+    const type=props.type;
+    console.log(type)
+    React.useEffect(() => {
+        postData(url + '/getData', {
+            tableName: 'membership',
+            condition: `type='${type}'`,
+        }).then(data => {
+            if(Array.isArray(data)&& data.length > 0){
+                setPrice(data[0].price)
+                setMembership(data[0])
+            }else{
+                console.log(data.message)
+            }
+        })
+    },[])
+    return(
+        <View style={{
+            width:'100%',
+            height:'100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.74)',
+            justifyContent: 'center',
+            alignItems: "center",
+        }}>
+        <View style={{
+            width:'90%',
+            height:250,
+            backgroundColor: 'white',
+            borderRadius:10,
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
+            <AntDesign onPress={()=>{
+                props.close({visible:false});
+            }} style={{
+                position: 'absolute',
+                right:10,
+                top:10,
+            }} name="close" size={30} color="black" />
+            <Text style={{
+                fontFamily: 'PlusJakartaSansBold',
+                fontSize: 30,
+                marginBottom:5,
+                color: '#FC444B'
+            }}>Congratulations!</Text>
+            <Text style={{
+                fontFamily: 'PlusJakartaSans',
+                fontSize: 20,
+            }}>You've unlocked a bonus discount!</Text>
+            {
+                Price?(
+                    <View style={{
+                         flexDirection: 'row',
+                           margin:10
+                       }}>
+                       <Text style={{
+                           fontFamily: 'PlusJakartaSans',
+                           fontSize: 20,
+                           textDecorationLine: 'line-through',
+                           color:'#FC444B'
+                       }}>
+                       ₹{Price}
+                       </Text>
+                       <Text style={{
+                           fontFamily: 'PlusJakartaSans',
+                           fontSize: 20,
+                           color:'#FC444B',
+                           marginLeft: 15
+                       }}>
+                     ₹{Price-(offer*Price/100)}
+            </Text>
+            </View>
+                ):(
+                    <ActivityIndicator size="large" color="#FA454B" />
+                )
+            }
+            <TouchableOpacity onPress={()=>{
+                if(Membership){
+                    props.onPress(Membership)
+                }
+            }} style={{
+                backgroundColor:'#fc444b',
+                borderRadius:20            
+                }}>
+              <Text style={{
+                color:'white',
+                fontSize:18,
+                fontFamily: 'PlusJakartaSans',
+                marginLeft:70,
+                marginRight:70,
+                marginTop:8,
+                marginBottom:8,
+              }}>Ok</Text>
             </TouchableOpacity>
         </View>
         </View>

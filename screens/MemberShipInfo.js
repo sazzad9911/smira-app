@@ -66,7 +66,7 @@ const MemberShipInfo = ({ navigation }) => {
       }}>
         <Image source={{
           uri: user && user[0].image ?
-            user[0].image : 'https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png'
+            user[0].image : 'https://i.ibb.co/B2tfxbn/202-2024792-user-profile-icon-png-download-fa-user-circle.jpg'
         }} style={{
           height: 100,
           width: 100,
