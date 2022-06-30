@@ -38,7 +38,7 @@ const ActivitiesNearYou = ({ navigation}) => {
                 paddingVertical: 15,
                 paddingLeft: 16,
                 color: textColor(darkMode)
-              }}>Activities Near You</Text>
+              }}>Super Saver Deals</Text>
               <TouchableOpacity onPress={() => {
                 navigation.navigate('Category Single', { title: 'Salon',search: 'all'})
                 dispatch(setLoader('Games'))

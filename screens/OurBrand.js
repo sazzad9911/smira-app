@@ -21,8 +21,7 @@ const OurBrand = (props) => {
     const window = Dimensions.get('window')
     React.useEffect(() => {
         postData(url + "/getData", {
-            tableName: "brands",
-            orderColumn: "popularity",
+            tableName: "top_brands",
         }).then(data => {
             if (Array.isArray(data)) {
                 setBrand(data);

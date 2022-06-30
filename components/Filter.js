@@ -99,13 +99,13 @@ const Filter = (props) => {
                                 )
                             }
                         </View>
-                        <Text style={styles.headline}>Distance</Text>
+                        {/* <Text style={styles.headline}>Distance</Text>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             <Category title='0-5km'/>
                             <Category title='5-10km'/>
                             <Category title='10-15km'/>
                             <Category title='15+km'/>
-                        </View>
+                        </View> */}
                     </>
                 )
             }

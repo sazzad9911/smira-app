@@ -86,7 +86,10 @@ const Hotels = (props) => {
                     console.log('Error: Search.js->' + err.message);
                   }).then(() => {
                     // props.setSearchParams('Hotels')
-                    //setSearchState('Hotels')
+                    
+                    if(!SearchState){
+                      setSearchState('Hotels')
+                    }
                   })
                 } else {
                   let arr = [];
@@ -96,6 +99,10 @@ const Hotels = (props) => {
                   }).then(() => {
                     //navigationprops.setSearchParams('Hotels')
                     //setSearchState('Hotels')
+                    
+                    if(!SearchState){
+                      setSearchState('Hotels')
+                    }
                   })
                 }
               })

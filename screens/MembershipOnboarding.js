@@ -35,7 +35,7 @@ const MembershipOnboarding = ({ navigation }) => {
             console.log(data.message)
         })
         postData(url + '/getData',{
-            tableName: 'top_brands',
+            tableName: 'brands',
         }).then((data) =>{
             if (Array.isArray(data)) {
                 return setBrands(data)

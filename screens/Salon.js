@@ -57,7 +57,7 @@ const Salon = (props) => {
             })
             postData(url + '/getData',{
                 tableName: 'brands',
-                condition: condition
+                condition: `${condition} OR type='${props.search}'`
             }).then(data =>{
                 if(Array.isArray(data)){
                     setData(data)
@@ -79,7 +79,7 @@ const Salon = (props) => {
                     ):(<Text style={{
                         textAlign: 'center',
                         fontFamily: 'PlusJakartaSans'
-                    }}>No data available</Text>)
+                    }}>No brands available at this moment</Text>)
                 ) : (
                     <ActivityIndicator size="large" color="#FA454B" />
                 )

@@ -35,7 +35,7 @@ const SearchBottom = (props) => {
                 flexDirection: 'row',
                 justifyContent: 'center',
             }}>
-                <TouchableOpacity onPress={() => {
+                {/* <TouchableOpacity onPress={() => {
                     dispatch(setBottomSheet('shortBy'))
                 }} style={{
                     borderColor: '#D8D8D8',
@@ -48,7 +48,7 @@ const SearchBottom = (props) => {
                     alignItems: 'center'
                 }}>
                     <SvgXml xml={short} height="20" width="20" />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity onPress={() => {
                     dispatch(setBottomSheet('filter'))
                 }} style={{

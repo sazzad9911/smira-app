@@ -12,23 +12,23 @@ LogBox.ignoreAllLogs();
 
 const window = Dimensions.get('window')
 const Onboarding = (props) => {
-    const [index, setIndex] = React.useState(0.0000003)
+    const [index, setIndex] = React.useState(0)
     const [user, setUser] = React.useState(null)
     const navigation = props.navigation
     const [data, setData] = React.useState([
-        0, 1, 2,9
+        0, 1, 2
     ])
     
 
     return (
         <ScrollView style={{ backgroundColor: 'white' }}>
             <View style={{
-                backgroundColor: 'black'
+                backgroundColor: 'white'
             }}>
                 <SideSwipe
                     index={index}
                     itemWidth={window.width}
-                    style={{}}
+                    style={{width:window.width}}
                     data={data}
                     contentOffset={window.width}
                     onIndexChange={index => {
@@ -40,6 +40,7 @@ const Onboarding = (props) => {
                             index={itemIndex}
                             currentIndex={currentIndex}
                             animatedValue={animatedValue}
+                            i={index}
                         />
                     )} />
             </View>
@@ -70,16 +71,16 @@ const Onboarding = (props) => {
                         flexDirection: 'row',
                     }}>
 
+                        <View style={[styles.view, { backgroundColor: index == 0 ? 'black' : '#0000008e' }]}></View>
                         <View style={[styles.view, { backgroundColor: index == 1 ? 'black' : '#0000008e' }]}></View>
                         <View style={[styles.view, { backgroundColor: index == 2 ? 'black' : '#0000008e' }]}></View>
-                        <View style={[styles.view, { backgroundColor: index == 3 ? 'black' : '#0000008e' }]}></View>
                     </View>
                     <TouchableOpacity onPress={() => {
                         if(index<1){
                             setIndex(1)
                             return
                         }
-                        if (index < 3) {
+                        if (index < 2) {
                             setIndex(index + 1)
                         } else {
                             navigation.navigate('SignUp')
@@ -116,15 +117,16 @@ import two from '../assets/two.png'
 import three from '../assets/three.png'
 
 const Slider = (props) => {
-    const index = props.index;
+    const index = props.i;
+    console.log(index)
     return (
         <View style={{
             width: window.width,
             height: window.height - 180,
             backgroundColor: 'white',
         }}>
-            <Image source={index == 0 ? one
-                : index == 1 ? two: index==2? three: three} style={{
+            <Image source={props.i== 0 ? one:
+                 index ==1 ? two: three} style={{
                     width: window.width,
                     height: '70%',
                 }} />

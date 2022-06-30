@@ -229,10 +229,10 @@ export const DetailsCart = (props) => {
                                     alignItems: 'center',
                                 }}>
                                     <Text style={[style.subText,{color: '#FA454B',fontFamily: 'PlusJakartaSansBold', }]} numberOfLines={1}>
-                                {Outlets?Outlets.length : '0'}  Outlets</Text>
+                                {Outlets?Outlets.length : '0'}  Address</Text>
                                 <AntDesign style={{
-                                    marginTop:5
-                                }} name="right" size={20} color="#FA454B" />
+                                    marginTop:5,marginLeft:5
+                                }} name="right" size={18} color="#FA454B" />
                                 </TouchableOpacity>
                             </View>
                             <View style={{
@@ -510,10 +510,10 @@ export const Cart = (props) => {
                     <ScrollView style={{
                         padding: 20
                     }}>
-                        <Text style={[style.headline, {
+                        {/* <Text style={[style.headline, {
                             color: 'black',
                             marginVertical: 10
-                        }]}>Description</Text>
+                        }]}>Description</Text> */}
                         <Text style={style.subText}>{data.deal.description}</Text>
                         {/* <Text style={[style.headline, {
                             color: 'black',

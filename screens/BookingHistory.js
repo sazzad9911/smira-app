@@ -5,7 +5,7 @@ import {
     Dimensions, ScrollView, Text,
     TouchableOpacity, TextInput
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons'; 
 import { postData, url } from '../action';
 import { useSelector } from 'react-redux';
 
@@ -40,6 +40,7 @@ const BookingHistory = (props) => {
         return data = date.getDate() + ' ' + Months[date.getMonth()] + ' ' + date.getFullYear()
     }
     const handleHotels = (id) => {
+
         hotels.forEach(element => {
             if (element.id == id) {
                 setHotel(element)
@@ -181,6 +182,44 @@ const BookingHistory = (props) => {
                                     fontSize: 14,
                                     fontFamily: 'PlusJakartaSans'
                                 }}>{data ? data.room : ''}</Text>
+                            </View>
+                        </View>
+                        <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20 }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>Veg</Text>
+                                <Text style={{
+                                    fontSize: 12,
+                                    color: 'rgb(100,100,100)',
+                                    fontFamily: 'PlusJakartaSans'
+                                }}></Text>
+                            </View>
+                            <View style={style.view4}>
+                                <Text style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>{data ? data.veg : ''}</Text>
+                            </View>
+                        </View>
+                        <View style={{ alignItems: 'center', flexDirection: 'row', marginLeft: 20 }}>
+                            <View style={{ flex: 2 }}>
+                                <Text style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>Non Veg</Text>
+                                <Text style={{
+                                    fontSize: 12,
+                                    color: 'rgb(100,100,100)',
+                                    fontFamily: 'PlusJakartaSans'
+                                }}></Text>
+                            </View>
+                            <View style={style.view4}>
+                                <Text style={{
+                                    fontSize: 14,
+                                    fontFamily: 'PlusJakartaSans'
+                                }}>{data ? data.non_veg : ''}</Text>
                             </View>
                         </View>
                         <TouchableOpacity>

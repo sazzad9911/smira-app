@@ -45,7 +45,7 @@ const PopularOnlineRestaurants = ({navigation}) => {
                 paddingVertical: 15,
                 paddingLeft: 16,
                 color: textColor(darkMode)
-              }}>Popular Online Restaurants</Text>
+              }}>Doorstep Deals</Text>
   
             </View>
             <ScrollView style={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false}

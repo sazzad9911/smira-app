@@ -48,10 +48,15 @@ const NotificationBar = (props) => {
     }
     return (
         <View style={{
-            height: height / 2.3, padding: 20, backgroundColor: 'white', marginTop: 120,
+            height: height,
+            justifyContent:'center', alignItems: 'center',backgroundColor:'rgba(0, 0, 0, 0.74)'
+        }}>
+        <View style={{
+            height: height -200, padding: 20, backgroundColor: 'white', 
             marginLeft: 15, marginRight: 15, borderRadius: 20, shadowColor: 'gray', shadowOffset: {
                 height: 3, width: 0
             }, shadowOpacity: '0.5', shadowRadius: 50, elevation: 40,
+            width:'95%'
         }}>
 
             <View style={{ alignItems: 'flex-end' }}>
@@ -61,17 +66,17 @@ const NotificationBar = (props) => {
                     <MaterialIcons name='close' size={24} />
                 </TouchableOpacity>
             </View>
-            <View style={{ alignItems: 'center', }}>
+            <View style={{ alignItems: 'center',marginTop:10,marginBottom: 10}}>
                 <View style={{
-                    flexDirection: 'row', justifyContent: 'space-between', width: '100%',
-                    paddingLeft: 5, paddingRight: 5, alignItems: 'center'
+                    flexDirection: 'row', justifyContent: 'space-between', 
+                    paddingLeft: 5, paddingRight: 5, alignItems: 'center',width: '100%'
                 }}>
-                    <Text style={{ margin: 10, fontSize: 18, fontFamily: 'PlusJakartaSans', fontWeight: 'bold' }}>Notifications</Text>
+                    <Text style={{ margin: 0, fontSize: 18, fontFamily: 'PlusJakartaSans', fontWeight: 'bold' }}>Notifications</Text>
                     <TouchableOpacity onPress={() =>{
                         readNotification()
-                    }}><Text style={{ margin: 10, fontSize: 12, color: 'red' }}>Mark as all read</Text></TouchableOpacity>
+                    }}><Text style={{ margin: 0, fontSize: 12, color: 'red' }}>Mark as all read</Text></TouchableOpacity>
                 </View>
-                <View style={{ borderWidth: 0.5, borderColor: 'rgb(220,220,220)', width: '90%' }}></View>
+                <View style={{ borderWidth: 0.5, borderColor: 'rgb(220,220,220)', width: '100%',marginTop:5 }}></View>
             </View>
             {
                 Notifications ? (
@@ -80,7 +85,7 @@ const NotificationBar = (props) => {
                             {
                                 Notifications.map((notification, i) => {
                                     return (
-                                        <View key={i} style={{ padding: 10, alignItems: 'center', paddingHorizontal: 20, opacity: notification.visible ? .3 : 1 }}>
+                                        <View key={i} style={{  alignItems: 'center', paddingVertical: 10, opacity: notification.visible ? .3 : 1 }}>
                                             <Text style={{ fontWeight: 'bold', margin: 2, width: '100%' }}>{notification.name}</Text>
                                             <Text style={{ color: 'gray', margin: 2, width: '100%' }}>{notification.description}</Text>
                                             <View style={{ borderWidth: 0.5, width: '100%', borderColor: 'rgb(220,220,220)', marginTop: 10 }}></View>
@@ -104,6 +109,7 @@ const NotificationBar = (props) => {
                     <ActivityIndicator size="large" color="#FA454B" />
                 )
             }
+        </View>
         </View>
     );
 };

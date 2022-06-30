@@ -83,7 +83,7 @@ const RedeemHistory = () => {
                             <RedeemHistoryCart
                                 type={doc.purches_type == 'deals' ? "coupon" : "hotel"}
                                 data={doc} />
-                        </View>
+                         </View>
 
                     ))
                 ) : (

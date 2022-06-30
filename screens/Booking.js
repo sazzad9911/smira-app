@@ -336,7 +336,7 @@ const Booking = (props) => {
                     }}>
                         <View style={{
                             alignItems: 'center', flexDirection: 'row',
-                            marginLeft: 20, marginTop: 20
+                            marginLeft: 0, marginTop: 20
                         }}>
                             <View style={{ flex: 2 }}>
                                 <Text style={{ fontSize: 18,
@@ -393,7 +393,7 @@ const Booking = (props) => {
 
                         <View style={{
                             alignItems: 'center', flexDirection: 'row',
-                            marginLeft: 20, marginTop: 20
+                            marginLeft: 0, marginTop: 20
                            }}>
                             <View style={{ flex: 2 }}>
                                 <Text style={{ fontSize: 18, color: '#585858',
@@ -450,7 +450,7 @@ const Booking = (props) => {
 
                         <View style={{
                             alignItems: 'center', flexDirection: 'row',
-                            marginLeft: 20, marginTop: 20
+                            marginLeft: 0, marginTop: 20
                           }}>
                             <View style={{ flex: 2 }}>
                                 <Text style={{ fontSize: 18, color: '#585858' }}>Rooms</Text>
@@ -503,7 +503,7 @@ const Booking = (props) => {
                         </View>
                         <View style={{
                             alignItems: 'center', flexDirection: 'row',
-                            marginLeft: 20, marginTop: 20
+                            marginLeft: 0, marginTop: 20
                            }}>
                             <View style={{ flex: 2 }}>
                                 <Text style={{ fontSize: 18, color: '#585858',
@@ -559,7 +559,7 @@ const Booking = (props) => {
                         </View>
                         <View style={{
                             alignItems: 'center', flexDirection: 'row',
-                            marginLeft: 20, marginTop: 20
+                            marginLeft: 0, marginTop: 20
                            }}>
                             <View style={{ flex: 2 }}>
                                 <Text style={{ fontSize: 18, color: '#585858',
@@ -614,7 +614,7 @@ const Booking = (props) => {
                             </View>
                         </View>
                         <View style={{
-                            marginLeft: 20, marginTop: 20
+                            marginLeft: 0, marginTop: 40
                           }}>
                            <Text style={{
                             fontSize: 18, color: '#585858',
@@ -627,7 +627,7 @@ const Booking = (props) => {
                             marginBottom: 20,
                             borderRadius: 10,
                             padding: 10,
-                        }} placeholderTextColor="#585858" placeholder="We need two extra mattress"/>
+                        }} placeholderTextColor="#585858" placeholder=""/>
                         </View>
                         
                         {

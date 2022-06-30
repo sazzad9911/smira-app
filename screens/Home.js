@@ -327,7 +327,7 @@ const Home = ({ navigation }) => {
           <View style={{
             flexDirection: 'row', flexWrap: 'wrap',
             alignItems: 'center', padding: 10, marginHorizontal: 10,
-          }}>
+            }}>
             {
               //icon set
             }
@@ -415,19 +415,24 @@ const Home = ({ navigation }) => {
 
           </View>
         </View>
-        <PopularDeals navigation={navigation}/>
         <TopBrands navigation={navigation}/>
-        <ActivitiesNearYou navigation={navigation}/>
-
-        { 
-          ////  
-        }
+        <DestinationToGo navigation={navigation}/>
+        <PopularDeals navigation={navigation}/>
+        <PopularOnlineRestaurants navigation={navigation}/>
         <View style={{
           width: '100%',
           paddingTop: 10, paddingBottom: 10,
           backgroundColor: 'white',
           marginTop: 10
         }}>
+         <Text style={{
+                fontFamily: 'PlusJakartaSansBold',
+                fontSize: 16,
+                paddingHorizontal: 5,
+                paddingVertical: 15,
+                paddingLeft: 16,
+                color: textColor(darkMode)
+              }}>Adventure Special Offers</Text>
           {
             First ? (
               <Banner onPress={()=>{
@@ -439,9 +444,11 @@ const Home = ({ navigation }) => {
             )
           }
         </View>
-       <DestinationToGo navigation={navigation}/>
-       <FeaturedHotel navigation={navigation}/>
-       <PopularOnlineRestaurants navigation={navigation}/>
+        <ActivitiesNearYou navigation={navigation}/>
+        { 
+          ////  
+        }
+        
         {
           /*
           <ScrollView style={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false}
@@ -483,7 +490,15 @@ const Home = ({ navigation }) => {
           paddingBottom: 10,
           backgroundColor: 'white',
           marginTop: 10, paddingTop: 10,
-        }}>
+           }}>
+           <Text style={{
+                fontFamily: 'PlusJakartaSansBold',
+                fontSize: 16,
+                paddingHorizontal: 5,
+                paddingVertical: 15,
+                paddingLeft: 16,
+                color: textColor(darkMode)
+              }}>One Day Picnic Deals</Text>
           {
             secondBanner ? (
               <Banner onPress={()=>{
@@ -495,6 +510,7 @@ const Home = ({ navigation }) => {
             )
           }
         </View>
+        <FeaturedHotel navigation={navigation}/>
         <View style={{ height: 100 }}></View>
         <FamilyCode />
         <Modal visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>

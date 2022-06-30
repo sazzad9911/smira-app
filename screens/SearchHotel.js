@@ -27,17 +27,9 @@ const SearchHotel = (props) => {
     }, [])
     React.useEffect(() => {
         //console.log(recentSearch)
-        postData(url + '/searchData', {
+        postData(url + '/getData', {
             tableName: 'hotels',
-            searchColumn: 'address',
-            searchData: props.search,
-            orderColumn: recentSearch.shortBy,
-            filterColumn: 'categories',
-            filterValue: recentSearch.category,
-            betweenColumn: 'ratings',
-            betweenB: recentSearch.rating,
-            betweenA: recentSearch.rating - 1,
-
+            condition:`name LIKE '${props.search}%' OR address LIKE '${props.search}%'`
         }).then(data => {
             if (Array.isArray(data)) {
                 setHotelData(data)
@@ -48,7 +40,7 @@ const SearchHotel = (props) => {
         }).catch(err => {
             console.log('Error: SearchHotel.js->' + err.message)
         })
-    }, [SearchParam + recentSearch.shortBy + recentSearch.rating + recentSearch.category+props.search])
+    }, [props.search])
     return (
         <ScrollView>
             <View style={{

@@ -127,7 +127,7 @@ const WishList = ({ navigation }) => {
             </ScrollView>
             {
                 Route == 'all' ? (
-                    Hotels && Hotels.length == 0 && Deals && Deals.length == 0 ? (
+                    Hotels && Hotels.length == 0 && Deals && Deals.length == 0 && Brands && Brands.length == 0 ? (
                         <ScrollView>
                             <View style={{
                                 justifyContent: 'center',

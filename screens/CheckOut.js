@@ -474,10 +474,10 @@ const CheckOut = (props) => {
                     ):(<></>)
                    }
                    
-                   <Text style={{
+                   {/* <Text style={{
                     marginTop:15,
                     color: Membership? Membership.color:'gray'
-                   }}>Apply coupon code for get extra discount!!!</Text>
+                   }}>Apply coupon code for get extra discount!!!</Text> */}
                    <View style={{ marginBottom: 0 }}>
                         <TextInput value={CouponCode} onChangeText={(value) =>{
                             setError('')
@@ -705,14 +705,16 @@ const CouponAlert=(props)=>{
             justifyContent: 'center',
             alignItems: "center",
         }}>
+        
         <View style={{
             width:'90%',
-            height:200,
+            height:250,
             backgroundColor: 'white',
             borderRadius:10,
             justifyContent: 'center',
             alignItems: 'center',
         }}>
+        <Lottie source={require('../assets/Discount.json')} autoPlay loop />
             <AntDesign onPress={()=>{
                 props.close(false)
             }} style={{
@@ -720,10 +722,16 @@ const CouponAlert=(props)=>{
                 right:10,
                 top:10,
             }} name="close" size={30} color="black" />
+           <Text style={{
+                fontFamily: 'PlusJakartaSansBold',
+                fontSize: 30,
+                marginBottom:5,
+                color: '#FC444B'
+            }}>Congratulations!</Text>
             <Text style={{
                 fontFamily: 'PlusJakartaSans',
                 fontSize: 20,
-            }}>Hooray!You got a discount!</Text>
+            }}>You've unlocked a bonus discount!</Text>
             <View style={{
                 flexDirection: 'row',
                 margin:10
@@ -742,12 +750,13 @@ const CouponAlert=(props)=>{
                 color:'#FC444B',
                 marginLeft: 15
             }}>
-            ₹{props.Membership.price-(props.Membership.price*props.CouponDetails.offer)/100}
+            ₹{(props.Membership.price-(props.Membership.price*props.CouponDetails.offer)/100).toFixed(1)}
             </Text>
             </View>
             <TouchableOpacity onPress={props.onPress} style={{
                 backgroundColor:'#fc444b',
-                borderRadius:20            
+                borderRadius:20,
+                marginTop:10           
                 }}>
               <Text style={{
                 color:'white',
@@ -760,6 +769,7 @@ const CouponAlert=(props)=>{
               }}>PAY NOW</Text>
             </TouchableOpacity>
         </View>
+        
         </View>
     )
 }
@@ -799,6 +809,7 @@ const PromoAlert=(props)=>{
             justifyContent: 'center',
             alignItems: 'center',
         }}>
+        <Lottie source={require('../assets/Discount.json')} autoPlay loop />
             <AntDesign onPress={()=>{
                 props.close({visible:false});
             }} style={{
@@ -836,7 +847,7 @@ const PromoAlert=(props)=>{
                            color:'#FC444B',
                            marginLeft: 15
                        }}>
-                     ₹{Price-(offer*Price/100)}
+                     ₹{(Price-(offer*Price/100)).toFixed(1)}
             </Text>
             </View>
                 ):(

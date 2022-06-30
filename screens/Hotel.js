@@ -538,7 +538,7 @@ const Hotel = (props) => {
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
-                    <SvgXml xml={call} height="30" width="30" />
+                    <SvgXml xml={call} height="25" width="25" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     setVisible(true)

@@ -35,7 +35,7 @@ const PopularDeals = ({ navigation}) => {
               paddingVertical: 15,
               paddingLeft: 18,
               color: textColor(darkMode)
-            }}>Popular Deals</Text>
+            }}>Favorite Categories</Text>
 
           </View>
           <ScrollView showsVerticalScrollIndicator={false}

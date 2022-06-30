@@ -218,7 +218,7 @@ const Settings = ({ navigation }) => {
                 */
                }
 
-                <View style={{ flexDirection: 'row', marginTop: 25 }}>
+                {/* <View style={{ flexDirection: 'row', marginTop: 25 }}>
                     <View style={{ flex: 1 }}>
                         <Ionicons name="notifications-outline" size={24} color="black" style={{ color: '#D8D8D8' }} />
                     </View>
@@ -236,7 +236,7 @@ const Settings = ({ navigation }) => {
                             onValueChange={(value) => dispatch(setNotification(!pageSettings.notification))}
                         />
                     </View>
-                </View>
+                </View> */}
                 {/* <View style={{ flexDirection: 'row', marginTop: 10 }}>
                     <View style={{ flex: 1 }}>
                         <FontAwesome name="moon-o" size={24} color="black" style={{ color: '#D8D8D8' }} />
@@ -258,7 +258,7 @@ const Settings = ({ navigation }) => {
                         />
                     </View>
                 </View> */}
-
+                <View style={{height: 20}}/>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('Talk To Us');
                 }} style={{ flexDirection: 'row', marginTop: 10 }}>
