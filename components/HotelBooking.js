@@ -727,7 +727,7 @@ const HotelBooking = (props) => {
                             marginBottom: 20,
                             borderRadius: 10,
                             padding: 10,
-                        }} placeholderTextColor="#585858" placeholder="We need two extra mattress"/>
+                        }} placeholderTextColor="#585858" placeholder=""/>
                         </View>
                         {Error?(<Text style={{
                             color:'red',

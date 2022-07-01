@@ -228,11 +228,11 @@ const CheckOut = (props) => {
        }
        return result;
     }
-    const confirm=(type)=>{
+    const confirm=(membership)=>{
         dispatch(setAnimatedLoader(true))
         let codes=null;
-        if(Membership.account!='no'){
-            let account=parseInt(Membership.account)
+        if(membership.account!='no'){
+            let account=parseInt(membership.account)
             let index=0;
             while(index<account){
                 let id=makeid(16)
@@ -261,7 +261,7 @@ const CheckOut = (props) => {
                 dispatch(setAnimatedLoader(false))
                 let msg=codes?codes+" are you family access code.":""
                 postData(url + '/sendMessage',{
-                    title: `You're ${type} Member of Smira Club!`,
+                    title: `You're ${membership.type} Member of Smira Club!`,
                     body:`Please check your email for your membership details`,
                     uid: user[0].uid
                 }).then(response => {
@@ -271,7 +271,7 @@ const CheckOut = (props) => {
                     from:'info@smira.club',
                     to:auth.currentUser.email,
                     subject:'Your Membership Purchase Request has been received - Smira Club',
-                    text: "<p>Dear <strong>"+user[0].name.split(' ')[0]+"</strong>,</p><p>Your membership is activated - membership type <strong>"+Membership.name+"</strong> membership from date <strong>"+convertDate(new Date())+"</strong> your product time period "+Membership.time+" year."+msg+" Enjoy with our best hotels and deals plan .If you have any inquiries, please do not hesitate to contact us.</p><p>Best Regards</p><p>Smira Club</p><p>Ranjit Studio Compound,</p><p> Ground & 1st Floor, </p><p>C-Block, Plot No. 115, </p><p>Dada Saheb Phalke Marg, </p><p>Opp. Bharatkshetra, Hindmata, </p><p>Dadar East, Mumbai, </p><p>Maharashtra 400014 </p><p>Contact No. </p><p>9819812456</p><p>9833733477</p><p>9820342389</p><p> Email - support@smira.club</p>"
+                    text: "<p>Dear <strong>"+user[0].name.split(' ')[0]+"</strong>,</p><p>Your membership is activated - membership type <strong>"+membership.name+"</strong> membership from date <strong>"+convertDate(new Date())+"</strong> your product time period "+membership.time+" year."+msg+" Enjoy with our best hotels and deals plan .If you have any inquiries, please do not hesitate to contact us.</p><p>Best Regards</p><p>Smira Club</p><p>Ranjit Studio Compound,</p><p> Ground & 1st Floor, </p><p>C-Block, Plot No. 115, </p><p>Dada Saheb Phalke Marg, </p><p>Opp. Bharatkshetra, Hindmata, </p><p>Dadar East, Mumbai, </p><p>Maharashtra 400014 </p><p>Contact No. </p><p>9819812456</p><p>9833733477</p><p>9820342389</p><p> Email - support@smira.club</p>"
                 }).then(data=>{
                     console.log(data)
                 })
@@ -344,7 +344,7 @@ const CheckOut = (props) => {
             }).then(data=>{
                 if(data.affectedRows){
                     dispatch(setAnimatedLoader(false))
-                   return confirm(Membership.type)
+                   return confirm(Membership)
                 }
                 console.log(data.message)
             })           
@@ -360,7 +360,7 @@ const CheckOut = (props) => {
         }).then(data=>{
             if(data.affectedRows){
                 dispatch(setAnimatedLoader(false))
-               return confirm(membership.type)
+               return confirm(membership)
             }
             console.log(data.message)
         })           
@@ -376,7 +376,7 @@ const CheckOut = (props) => {
             }).then(data=>{
                 if(data.affectedRows){
                     
-                   return confirm(Membership.type)
+                   return confirm(Membership)
                 }
                 dispatch(setAnimatedLoader(false))
                 console.log(data.message)

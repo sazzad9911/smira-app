@@ -33,10 +33,9 @@ import {
     }, [])
     React.useEffect(() => {
       //console.log(recentSearch)
-      postData(url + '/searchData', {
+      postData(url + '/getData', {
         tableName: 'brands',
-        searchColumn: 'address',
-        searchData: props.search,
+        condition:`address LIKE '${props.search}%' OR name LIKE '${props.search}%'`
       }).then(data => {
         if (Array.isArray(data)) {
           setDealData(data)
