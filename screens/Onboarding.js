@@ -12,7 +12,7 @@ LogBox.ignoreAllLogs();
 
 const window = Dimensions.get('window')
 const Onboarding = (props) => {
-    const [index, setIndex] = React.useState(0)
+    const [index, setIndex] = React.useState(1)
     const [user, setUser] = React.useState(null)
     const navigation = props.navigation
     const [data, setData] = React.useState([

@@ -228,7 +228,7 @@ const CheckOut = (props) => {
        }
        return result;
     }
-    const confirm=()=>{
+    const confirm=(type)=>{
         dispatch(setAnimatedLoader(true))
         let codes=null;
         if(Membership.account!='no'){
@@ -261,8 +261,8 @@ const CheckOut = (props) => {
                 dispatch(setAnimatedLoader(false))
                 let msg=codes?codes+" are you family access code.":""
                 postData(url + '/sendMessage',{
-                    title: 'Your Membership Purchase Request has been received',
-                    body:`We have received your request for purchase membership. Now you can book hotels, deals and many others.`,
+                    title: `You're ${type} Member of Smira Club!`,
+                    body:`Please check your email for your membership details`,
                     uid: user[0].uid
                 }).then(response => {
                     console.log(response)
@@ -344,7 +344,7 @@ const CheckOut = (props) => {
             }).then(data=>{
                 if(data.affectedRows){
                     dispatch(setAnimatedLoader(false))
-                   return confirm()
+                   return confirm(Membership.type)
                 }
                 console.log(data.message)
             })           
@@ -360,7 +360,7 @@ const CheckOut = (props) => {
         }).then(data=>{
             if(data.affectedRows){
                 dispatch(setAnimatedLoader(false))
-               return confirm()
+               return confirm(membership.type)
             }
             console.log(data.message)
         })           
@@ -376,7 +376,7 @@ const CheckOut = (props) => {
             }).then(data=>{
                 if(data.affectedRows){
                     
-                   return confirm()
+                   return confirm(Membership.type)
                 }
                 dispatch(setAnimatedLoader(false))
                 console.log(data.message)
