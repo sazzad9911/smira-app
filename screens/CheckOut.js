@@ -361,6 +361,49 @@ const CheckOut = (props) => {
                     }).then(data=>{
                         console.log(data)
                     })
+                }else{
+                    postData(url +'/sendEmail',{ 
+                        from:'info@smira.club',
+                        to:auth.currentUser.email,
+                        subject:`You’re now officially a member of our family - Smira Club`,
+                        text: `
+                        <p>Dear <strong>${user[0].name}</strong>,</p>
+
+                        <p>Welcome to Smira Club. We’re thrilled to see you here!</p>
+
+
+                        <p>Congratulations! </p>
+                        <p>Original Price: <strong>${membership.price} ₹</strong></p>
+            
+                        <p>We’re confident that membership will help you save more money while enjoying the luxuries of our services. </p>
+
+
+                        <p>${msg}</p>
+
+
+                        <p>Best regards, </p>
+                        <p>Smira Club</p>
+ 
+                        <b>Smira Services - ‘A sweet memory is really affordable’ </b>
+ 
+ 
+                        <b>Smira Sevices Pvt. Ltd. </b>
+                        <p>Ranjit Studio Compound, </p>
+                        <p>Ground & 1st Floor, </p>
+                        <p>M-Block, Plot No. 115, </p>
+                        <p>Dada Saheb Phalke Marg, </p>
+                        <p>Opp. Bharatkshetra, Hindmata, </p>
+                        <p>Dadar East, Mumbai, </p>
+                        <p>Maharashtra 400014 </p>
+ 
+                        <b>Contact No. </b>
+                        <p>9833733477</p>
+                        <p>9833733977</p>
+                        <p>Email - support@smira.club</p>
+                        `
+                    }).then(data=>{
+                        console.log(data)
+                    })
                 }
                 
                 return navigation.navigate('Confirm Message', {

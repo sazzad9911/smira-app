@@ -122,7 +122,7 @@ import Booking from './../screens/Booking';
 import Hotel from './../screens/Hotel';
 import Outlets from './../screens/Outlets';
 import { AntDesign } from '@expo/vector-icons';
-import {postData, url} from '../action'
+import {postData, url,dateDifference} from '../action'
 
 const Dashboard = ({ navigation }) => {
     const bottomSheetRef = React.useRef();
@@ -156,7 +156,11 @@ const Dashboard = ({ navigation }) => {
                 if(Array.isArray(res) && res.length >0){
                     setFlashVisible(false)
                 }else{
-                    setFlashVisible(true)
+                    if(FlashBanner.validity && dateDifference(new Date(),FlashBanner.validity)>0){
+                        setFlashVisible(true)
+                    }else{
+                        setFlashVisible(false) 
+                    }
                 }
               })
         }
