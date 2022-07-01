@@ -80,7 +80,40 @@ const Booking = (props) => {
             from:'info@smira.club',
             to:auth.currentUser.email,
             subject:'Your Booking Request has been received - Smira Club',
-            text:"<p>Dear <strong>"+user[0].name.split(' ')[0]+"</strong>,</p><p>We have received your request for a booking on <strong>"+convertDate(new Date(CheckIn))+"</strong> for <strong>"+count2+"</strong> room at the "+params.name+".Please wait for a booking confirmation email to know about your booking status.If you have any inquiries, please do not hesitate to contact us.</p><p>Best Regards</p><p>Smira Club</p><p>Ranjit Studio Compound,</p><p> Ground & 1st Floor, </p><p>C-Block, Plot No. 115, </p><p>Dada Saheb Phalke Marg, </p><p>Opp. Bharatkshetra, Hindmata, </p><p>Dadar East, Mumbai, </p><p>Maharashtra 400014 </p><p>Contact No. </p><p>9819812456</p><p>9833733477</p><p>9820342389</p><p> Email - support@smira.club</p>"
+            text:`
+           <p> Dear <b>${user[0].name}</b>,</p>
+
+           <p> We have received your request for a booking at -</p>
+           <p> Hotel location: ${params.address}</p>
+           <p>Total number of guests: ${count}</p>
+           <p> Number of kids below 5 years: ${count1}</p>
+           <p> Number of rooms: ${count2} </p>
+           <p> Check-in date: ${convertDate(CheckIn)}</p>
+           <p> Check-out date: ${convertDate(CheckOut)}</p>
+
+           <p> Please wait for a booking confirmation email to know about your booking status.</p>
+
+           <p> If you have any inquiries, please do not hesitate to contact us.</p>
+
+
+           <p> Best regards, </p>
+           <p> Smira Club</p>
+ 
+           <b> Smira Services - ‘A sweet memory is really affordable’ </b>
+           <b>Smira Services Pvt. Ltd. </b>
+            <p>Ranjit Studio Compound, </p>
+           <p> Ground & 1st Floor, </p>
+           <p> M-Block, Plot No. 115, </p>
+           <p> Dada Saheb Phalke Marg, </p>
+           <p> Opp. Bharatkshetra, Hindmata, </p>
+           <p> Dadar East, Mumbai, </p>
+           <p> Maharashtra 400014 </p>
+ 
+           <p> Contact No. </p>
+           <p> 9833733477</p>
+           <p> 9833733977</p>
+           <p> Email - support@smira.club</p>
+            `
         }).then(data=>{
             console.log(data)
         })

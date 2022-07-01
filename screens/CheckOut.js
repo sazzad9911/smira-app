@@ -259,7 +259,7 @@ const CheckOut = (props) => {
             if (Array.isArray(response)) {
                 dispatch(setUser(response))
                 dispatch(setAnimatedLoader(false))
-                let msg=codes?codes+" are you family access code.":""
+                let msg=codes?`Your Family Access Code is ${codes} (If applicable)`:""
                 postData(url + '/sendMessage',{
                     title: `You're ${membership.type} Member of Smira Club!`,
                     body:`Please check your email for your membership details`,
@@ -267,14 +267,102 @@ const CheckOut = (props) => {
                 }).then(response => {
                     console.log(response)
                 })
-                postData(url +'/sendEmail',{ 
-                    from:'info@smira.club',
-                    to:auth.currentUser.email,
-                    subject:'Your Membership Purchase Request has been received - Smira Club',
-                    text: "<p>Dear <strong>"+user[0].name.split(' ')[0]+"</strong>,</p><p>Your membership is activated - membership type <strong>"+membership.name+"</strong> membership from date <strong>"+convertDate(new Date())+"</strong> your product time period "+membership.time+" year."+msg+" Enjoy with our best hotels and deals plan .If you have any inquiries, please do not hesitate to contact us.</p><p>Best Regards</p><p>Smira Club</p><p>Ranjit Studio Compound,</p><p> Ground & 1st Floor, </p><p>C-Block, Plot No. 115, </p><p>Dada Saheb Phalke Marg, </p><p>Opp. Bharatkshetra, Hindmata, </p><p>Dadar East, Mumbai, </p><p>Maharashtra 400014 </p><p>Contact No. </p><p>9819812456</p><p>9833733477</p><p>9820342389</p><p> Email - support@smira.club</p>"
-                }).then(data=>{
-                    console.log(data)
-                })
+                if(CouponDetails){
+                    let discount=(CouponDetails.offer*Membership.price)/100
+                    postData(url +'/sendEmail',{ 
+                        from:'info@smira.club',
+                        to:auth.currentUser.email,
+                        subject:`You’re now officially a member of our family - Smira Club`,
+                        text: `
+                        <p>Dear <strong>${user[0].name}</strong>,</p>
+
+                        <p>Welcome to Smira Club. We’re thrilled to see you here!</p>
+
+
+                        <p>Congratulations! </p>
+                        <p>On Saving:<strong> ${discount} ₹</strong></p>
+                        <p>Original Price: <strong>${membership.price} ₹</strong></p>
+                        <p>With flat: <strong>${CouponDetails.offer}% DISCOUNT</strong> </p>
+                        <p>Membership price:<strong> ${membership.price-discount} ₹</strong></p>
+
+                        <p>We’re confident that membership will help you save more money while enjoying the luxuries of our services. </p>
+
+
+                        <p>${msg}</p>
+
+
+                        <p>Best regards, </p>
+                        <p>Smira Club</p>
+ 
+                        <b>Smira Services - ‘A sweet memory is really affordable’ </b>
+ 
+ 
+                        <b>Smira Sevices Pvt. Ltd. </b>
+                        <p>Ranjit Studio Compound, </p>
+                        <p>Ground & 1st Floor, </p>
+                        <p>M-Block, Plot No. 115, </p>
+                        <p>Dada Saheb Phalke Marg, </p>
+                        <p>Opp. Bharatkshetra, Hindmata, </p>
+                        <p>Dadar East, Mumbai, </p>
+                        <p>Maharashtra 400014 </p>
+ 
+                        <b>Contact No. </b>
+                        <p>9833733477</p>
+                        <p>9833733977</p>
+                        <p>Email - support@smira.club</p>
+                        `
+                    }).then(data=>{
+                        console.log(data)
+                    })
+                }else if(PromoCode){
+                    let month=1
+                    let year=0
+                    if(!PromoData.type){
+                        month=2
+                    }else{
+                        year=membership.time
+                    }
+                    let newDate =new Date()
+                    newDate=(newDate.getFullYear()+year) +'-' + (newDate.getMonth() + month) + '-' + (newDate.getDate())
+                    postData(url +'/sendEmail',{ 
+                        from:'info@smira.club',
+                        to:auth.currentUser.email,
+                        subject:`Your Free Trial of Membership has Activated - Smira Club`,
+                        text: `
+                        <p>Dear <strong>${user[0].name}</strong>,</p>
+
+                        <p>Welcome to Smira Club. We’re thrilled to see you here!</p>
+
+
+                        <p>We’re confident that membership will help you save more money while enjoying the luxuries of our services.
+                        </p>
+                        <p>Your free trial will end on <strong> End Date ${newDate}</strong></p>
+                        
+                        <p>Best regards, </p>
+                        <p>Smira Club</p>
+ 
+                        <b>Smira Services - ‘A sweet memory is really affordable’ </b>
+ 
+ 
+                        <b>Smira Sevices Pvt. Ltd. </b>
+                        <p>Ranjit Studio Compound, </p>
+                        <p>Ground & 1st Floor, </p>
+                        <p>M-Block, Plot No. 115, </p>
+                        <p>Dada Saheb Phalke Marg, </p>
+                        <p>Opp. Bharatkshetra, Hindmata, </p>
+                        <p>Dadar East, Mumbai, </p>
+                        <p>Maharashtra 400014 </p>
+ 
+                        <b>Contact No. </b>
+                        <p>9833733477</p>
+                        <p>9833733977</p>
+                        <p>Email - support@smira.club</p>
+                        `
+                    }).then(data=>{
+                        console.log(data)
+                    })
+                }
+                
                 return navigation.navigate('Confirm Message', {
                     text1: 'You are now a member',
                     text2: 'Your plan has been activated',
