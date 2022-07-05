@@ -115,7 +115,7 @@ const TellToUs = ({ navigation}) => {
                             color: '#000000',
                         }}>Didn't got the reply?</Text>
                         <TouchableOpacity onPress={() =>{
-                            Linking.openURL(`tel:+919821116669`)
+                            Linking.openURL(`tel:+919833733477`)
                         }}>
                             <Text style={{ 
                                 fontSize: 14,

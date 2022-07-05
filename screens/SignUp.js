@@ -525,7 +525,7 @@ export const SignUpWithOtp = (props) => {
                             marginLeft: 20,
                             marginTop: 30,
                         }}></View>
-                        <TouchableOpacity >
+                        {/* <TouchableOpacity >
                             <View style={{
                                 height: 60,
                                 margin: 20,
@@ -547,7 +547,7 @@ export const SignUpWithOtp = (props) => {
                                     fontFamily: 'PlusJakartaSans',
                                 }}>Continue with Google</Text>
                             </View>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         <View style={{
                             flexDirection: 'row',
                             justifyContent: 'center',
