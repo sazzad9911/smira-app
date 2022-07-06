@@ -83,7 +83,7 @@ const SalonCart = (props) => {
                         fontSize: 18,
                         fontFamily: 'PlusJakartaSansBold'
                     }}>{data ? data.name : ''}</Text>
-                    <Text style={[style.subText, { width: 200 }]} numberOfLines={1}>{data ? data.address : ''}</Text>
+                    <Text style={[style.subText, { width: 200 }]} numberOfLines={1}>{data ? data.outlets : ''} Outlets</Text>
                     <Text style={style.subText} numberOfLines={1}>{total.length} Offers</Text>
                 </View>
                 <TouchableOpacity onPress={()=>{

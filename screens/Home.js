@@ -212,18 +212,20 @@ const Home = ({ navigation }) => {
   
   React.useEffect(() => {
     postData(url + '/getData', {
-      tableName:'banner',
+      tableName:'offer',
     }).then(data => {
-      if(Array.isArray(data)){
-        let first = data.filter(e => e.number == 1)
-        if(first&&first.length > 0){
-          setFirst(first[0])
-        }
-        let second=data.filter(e => e.number==2)
-        if(second&&second.length > 0){
-            setSecondBanner(second[0])
-        }
-        return setBanner(data)
+      if(Array.isArray(data) && data.length!= 0){
+        setFirst(data[0])
+        setSecondBanner(data[1])
+        // let first = data.filter(e => e.number == 1)
+        // if(first&&first.length > 0){
+          
+        // }
+        // let second=data.filter(e => e.number==2)
+        // if(second&&second.length > 0){
+            
+        // }
+        //return setBanner(data)
       }
       console.log(data.message)
     })

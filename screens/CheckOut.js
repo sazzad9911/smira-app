@@ -279,11 +279,11 @@ const CheckOut = (props) => {
                         <p>Welcome to Smira Club. We’re thrilled to see you here!</p>
 
 
-                        <p>Congratulations! </p>
-                        <p>On Saving:<strong> ${discount} ₹</strong></p>
-                        <p>Original Price: <strong>${membership.price} ₹</strong></p>
-                        <p>With flat: <strong>${CouponDetails.offer}% DISCOUNT</strong> </p>
-                        <p>Membership price:<strong> ${membership.price-discount} ₹</strong></p>
+                        <p>Congratulations! <br>
+                        On Saving:<strong> ${discount} ₹</strong><br>
+                        Original Price: <strong>${membership.price} ₹</strong><br>
+                        With flat: <strong>${CouponDetails.offer}% DISCOUNT</strong> <br>
+                        Membership price:<strong> ${membership.price-discount} ₹</strong></p>
 
                         <p>We’re confident that membership will help you save more money while enjoying the luxuries of our services. </p>
 
@@ -291,25 +291,25 @@ const CheckOut = (props) => {
                         <p>${msg}</p>
 
 
-                        <p>Best regards, </p>
-                        <p>Smira Club</p>
+                        <p>Best regards, <br>
+                          Smira Club</p>
  
                         <b>Smira Services - ‘A sweet memory is really affordable’ </b>
  
  
-                        <b>Smira Sevices Pvt. Ltd. </b>
-                        <p>Ranjit Studio Compound, </p>
-                        <p>Ground & 1st Floor, </p>
-                        <p>M-Block, Plot No. 115, </p>
-                        <p>Dada Saheb Phalke Marg, </p>
-                        <p>Opp. Bharatkshetra, Hindmata, </p>
-                        <p>Dadar East, Mumbai, </p>
-                        <p>Maharashtra 400014 </p>
+                        <p><b>Smira Sevices Pvt. Ltd. </b><br>
+                       Ranjit Studio Compound, <br>
+                        Ground & 1st Floor, <br>
+                        M-Block, Plot No. 115, <br>
+                        Dada Saheb Phalke Marg, <br>
+                        Opp. Bharatkshetra, Hindmata, <br>
+                        Dadar East, Mumbai, <br>
+                        Maharashtra 400014 </p>
  
-                        <b>Contact No. </b>
-                        <p>9833733477</p>
-                        <p>9833733977</p>
-                        <p>Email - support@smira.club</p>
+                        <p><b>Contact No. </b><br>
+                        9833733477<br>
+                        9833733977<br>
+                        Email - support@smira.club</p>
                         `
                     }).then(data=>{
                         console.log(data)
@@ -338,25 +338,25 @@ const CheckOut = (props) => {
                         </p>
                         <p>Your free trial will end on <strong> End Date ${newDate}</strong></p>
                         
-                        <p>Best regards, </p>
-                        <p>Smira Club</p>
+                        <p>Best regards, <br>
+                      Smira Club</p>
  
                         <b>Smira Services - ‘A sweet memory is really affordable’ </b>
  
  
-                        <b>Smira Sevices Pvt. Ltd. </b>
-                        <p>Ranjit Studio Compound, </p>
-                        <p>Ground & 1st Floor, </p>
-                        <p>M-Block, Plot No. 115, </p>
-                        <p>Dada Saheb Phalke Marg, </p>
-                        <p>Opp. Bharatkshetra, Hindmata, </p>
-                        <p>Dadar East, Mumbai, </p>
-                        <p>Maharashtra 400014 </p>
+                        <p> <b>Smira Sevices Pvt. Ltd. </b><br>
+                       Ranjit Studio Compound, <br>
+                       Ground & 1st Floor, <br>
+                        M-Block, Plot No. 115, <br>
+                        Dada Saheb Phalke Marg, <br>
+                        Opp. Bharatkshetra, Hindmata, <br>
+                        Dadar East, Mumbai, <br>
+                        Maharashtra 400014 </p>
  
                         <b>Contact No. </b>
-                        <p>9833733477</p>
-                        <p>9833733977</p>
-                        <p>Email - support@smira.club</p>
+                        <p>9833733477<br>
+                        9833733977<br>
+                        Email - support@smira.club</p>
                         `
                     }).then(data=>{
                         console.log(data)
@@ -372,8 +372,8 @@ const CheckOut = (props) => {
                         <p>Welcome to Smira Club. We’re thrilled to see you here!</p>
 
 
-                        <p>Congratulations! </p>
-                        <p>Original Price: <strong>${membership.price} ₹</strong></p>
+                        <p>Congratulations! <br>
+                        Original Price: <strong>${membership.price} ₹</strong></p>
             
                         <p>We’re confident that membership will help you save more money while enjoying the luxuries of our services. </p>
 
@@ -381,25 +381,25 @@ const CheckOut = (props) => {
                         <p>${msg}</p>
 
 
-                        <p>Best regards, </p>
-                        <p>Smira Club</p>
+                        <p>Best regards, <br>
+                        Smira Club</p>
  
                         <b>Smira Services - ‘A sweet memory is really affordable’ </b>
  
  
                         <b>Smira Sevices Pvt. Ltd. </b>
-                        <p>Ranjit Studio Compound, </p>
-                        <p>Ground & 1st Floor, </p>
-                        <p>M-Block, Plot No. 115, </p>
-                        <p>Dada Saheb Phalke Marg, </p>
-                        <p>Opp. Bharatkshetra, Hindmata, </p>
-                        <p>Dadar East, Mumbai, </p>
-                        <p>Maharashtra 400014 </p>
+                        <p>Ranjit Studio Compound, <br>
+                       Ground & 1st Floor, <br>
+                        M-Block, Plot No. 115, <br>
+                       Dada Saheb Phalke Marg, <br>
+                        Opp. Bharatkshetra, Hindmata, <br>
+                       Dadar East, Mumbai, <br>
+                       Maharashtra 400014 </p>
  
                         <b>Contact No. </b>
-                        <p>9833733477</p>
-                        <p>9833733977</p>
-                        <p>Email - support@smira.club</p>
+                        <p>9833733477<br>
+                        9833733977<br>
+                        Email - support@smira.club</p>
                         `
                     }).then(data=>{
                         console.log(data)

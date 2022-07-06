@@ -83,36 +83,37 @@ const Booking = (props) => {
             text:`
            <p> Dear <b>${user[0].name}</b>,</p>
 
-           <p> We have received your request for a booking at -</p>
-           <p> Hotel location: ${params.address}</p>
-           <p>Total number of guests: ${count}</p>
-           <p> Number of kids below 5 years: ${count1}</p>
-           <p> Number of rooms: ${count2} </p>
-           <p> Check-in date: ${convertDate(CheckIn)}</p>
-           <p> Check-out date: ${convertDate(CheckOut)}</p>
+           <p> We have received your request for a booking at -<br>
+            Hotel Name: <strong>${params.name}</strong><br>
+            Hotel location:<strong> ${params.address}</strong><br>
+            Total number of guests:<strong> ${count}</strong><br>
+            Number of kids below 5 years:<strong> ${count1}</strong><br>
+            Number of rooms:<strong> ${count2}</strong> <br>
+            Check-in date:<strong> ${convertDate(CheckIn)}</strong><br>
+            Check-out date:<strong> ${convertDate(CheckOut)}</strong></p>
 
            <p> Please wait for a booking confirmation email to know about your booking status.</p>
 
            <p> If you have any inquiries, please do not hesitate to contact us.</p>
 
 
-           <p> Best regards, </p>
-           <p> Smira Club</p>
+           <p> Best regards,<br>
+          Smira Club</p>
  
-           <b> Smira Services - ‘A sweet memory is really affordable’ </b>
-           <b>Smira Services Pvt. Ltd. </b>
-            <p>Ranjit Studio Compound, </p>
-           <p> Ground & 1st Floor, </p>
-           <p> M-Block, Plot No. 115, </p>
-           <p> Dada Saheb Phalke Marg, </p>
-           <p> Opp. Bharatkshetra, Hindmata, </p>
-           <p> Dadar East, Mumbai, </p>
-           <p> Maharashtra 400014 </p>
+           <b> Smira Services - ‘A sweet memory is really affordable’ 
+         Smira Services Pvt. Ltd. </b>
+            <p>Ranjit Studio Compound, <br>
+           Ground & 1st Floor, <br>
+            M-Block, Plot No. 115, <br>
+           Dada Saheb Phalke Marg, <br>
+           Opp. Bharatkshetra, Hindmata,<br>
+           Dadar East, Mumbai,<br>
+           Maharashtra 400014 </p>
  
-           <p> Contact No. </p>
-           <p> 9833733477</p>
-           <p> 9833733977</p>
-           <p> Email - support@smira.club</p>
+           <p> Contact No. <br>
+            9833733477<br>
+           9833733977<br>
+            Email - support@smira.club</p>
             `
         }).then(data=>{
             console.log(data)

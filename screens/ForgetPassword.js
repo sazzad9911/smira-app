@@ -8,6 +8,7 @@ import { AntDesign } from '@expo/vector-icons';
 const window = Dimensions.get('window')
 import { SvgXml } from 'react-native-svg';
 import { tick } from '../components/Icon'
+import AnimatedLoader from "react-native-animated-loader";
 
 const ForgetPassword = (props) => {
     const [text, onChangeText] = React.useState(null);
@@ -78,18 +79,19 @@ const GetInstruction = (props) => {
     const [text, setText] = React.useState('')
     const auth = getAuth(app);
     const dispatch = useDispatch()
+    const [visibility, setVisibility]= React.useState(false);
 
     const send = () => {
         if (!Email) {
             setText("!Invalid Email")
             return
         }
-        dispatch(setAnimatedLoader(true))
+        setVisibility(true)
         sendPasswordResetEmail(auth, Email).then(() => {
-            dispatch(setAnimatedLoader(false))
+            setVisibility(false)
             props.setConfirm(true)
         }).catch(err => {
-            dispatch(setAnimatedLoader(false))
+            setVisibility(false)
             if (err.code == 'auth/user-not-found') {
                 setText('Email address doesn’t exist.')
             } else {
@@ -144,6 +146,18 @@ const GetInstruction = (props) => {
                     { color: Email ? '#FFFF' : '#FC444B' }]}>SEND INSTRUCTIONS</Text>
                 </View>
             </TouchableOpacity>
+            <AnimatedLoader
+                    visible={visibility}
+                    overlayColor="rgba(255,255,255,0.75)"
+                    source={require("../assets/Loading.json")}
+                    animationStyle={{
+                        width: 100,
+                        height: 100
+                    }}
+                    speed={1}
+                >
+                    <Text>Loading...</Text>
+            </AnimatedLoader>
         </View>
     )
 }

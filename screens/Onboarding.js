@@ -8,7 +8,12 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import AnimatedLoader from "react-native-animated-loader";
 import { LogBox } from 'react-native';
 import app from './../firebase';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 LogBox.ignoreAllLogs();
+import one from '../assets/one.png'
+import two from '../assets/two.png'
+import three from '../assets/three.png'
+
 //import { Swiper, SwiperSlide } from 'swiper/react';
 //import 'swiper/css';
 
@@ -21,13 +26,64 @@ const Onboarding = (props) => {
         0, 1, 2
     ])
     
-
+    const swipeFromRightOpen=()=>{
+        console.log('right')
+        if(index!=2){
+            setIndex(index+1)
+        }
+    }
+    const swipeFromLeftOpen=()=>{
+        if(index!=0){
+            setIndex(index-1)
+        }
+    }
+    const Slider = () => {
+       
+        return (
+            <View style={{
+                width: window.width,
+                height: window.height - 180,
+                backgroundColor: 'white',
+            }}>
+                <Image source={index== 0 ? one:
+                     index ==1 ? two: three} style={{
+                        width: window.width,
+                        height: '70%',
+                    }} />
+                <View style={{
+                    width: '100%',
+                    height: '30%',
+                    justifyContent: 'center',
+                    padding: 30,
+                    
+                }}>
+                    <Text style={{
+                        fontSize: 24,
+                        fontWeight: '500',
+                        lineHeight: 30,
+                        fontFamily: 'PlusJakartaSans'
+                    }}>{index == 0 ? 'Exclusive discounts on your favourite brands'
+                        : index == 1 ? 'Enjoy deals on large range of categories  ' : 'Book executive hotels for FREE '}</Text>
+                    <Text style={{
+                        fontSize: 14,
+                        marginTop: 5,
+                        opacity: 0.4,
+                        color: '#000000',
+                        fontWeight: '400',
+                        lineHeight: 19,
+                        fontFamily: 'PlusJakartaSans'
+                    }}>{index == 0 ? 'Get an overview of how you are performing and motivate yourself to achieve even moew.'
+                        : index == 1 ? 'Choose from a range of categories and double your savings. ' : 'Spend your vacation in executive hotels while saving money.'}</Text>
+                </View>
+            </View>
+        )
+    }
     return (
         <ScrollView style={{ backgroundColor: 'white' }}>
             <View style={{
                 backgroundColor: 'white'
             }}>
-                <SideSwipe
+                {/* <SideSwipe
                     index={index}
                     itemWidth={window.width}
                     style={{width:window.width}}
@@ -44,7 +100,14 @@ const Onboarding = (props) => {
                             animatedValue={animatedValue}
                             i={index}
                         />
-                    )} />
+                    )} /> */}
+                    <Swipeable
+                      
+                       onSwipeableRightOpen={swipeFromRightOpen}
+                       onSwipeableLeftOpen={swipeFromLeftOpen}
+                     >
+                     <Slider/>
+                     </Swipeable>
             </View>
             <View style={{
                 padding: 30,
@@ -114,49 +177,4 @@ const styles = StyleSheet.create({
         borderRadius: 1
     }
 })
-import one from '../assets/one.png'
-import two from '../assets/two.png'
-import three from '../assets/three.png'
 
-const Slider = (props) => {
-    const index = props.i;
-    console.log(index)
-    return (
-        <View style={{
-            width: window.width,
-            height: window.height - 180,
-            backgroundColor: 'white',
-        }}>
-            <Image source={props.i== 0 ? one:
-                 index ==1 ? two: three} style={{
-                    width: window.width,
-                    height: '70%',
-                }} />
-            <View style={{
-                width: '100%',
-                height: '30%',
-                justifyContent: 'center',
-                padding: 30,
-                
-            }}>
-                <Text style={{
-                    fontSize: 24,
-                    fontWeight: '500',
-                    lineHeight: 30,
-                    fontFamily: 'PlusJakartaSans'
-                }}>{index == 0 ? 'Exclusive discounts on your favourite brands'
-                    : index == 1 ? 'Enjoy deals on large range of categories  ' : 'Book executive hotels for FREE '}</Text>
-                <Text style={{
-                    fontSize: 14,
-                    marginTop: 5,
-                    opacity: 0.4,
-                    color: '#000000',
-                    fontWeight: '400',
-                    lineHeight: 19,
-                    fontFamily: 'PlusJakartaSans'
-                }}>{index == 0 ? 'Get an overview of how you are performing and motivate yourself to achieve even moew.'
-                    : index == 1 ? 'Choose from a range of categories and double your savings. ' : 'Spend your vacation in executive hotels while saving money.'}</Text>
-            </View>
-        </View>
-    )
-}

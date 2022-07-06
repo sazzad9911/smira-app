@@ -25,7 +25,7 @@ const HotelBooking = (props) => {
     const [count, setCount] = React.useState(0)
     const [count1, setCount1] = React.useState(0)
     const [count2, setCount2] = React.useState(0)
-    const [selectedItem, setSelectedItem] = useState(null)
+    const [selectedItem, setSelectedItem] = useState(22)
     const [data, setData] = useState(null)
     const auth = getAuth(app);
     const [loader, setLoader] = React.useState(false)
@@ -76,8 +76,8 @@ const HotelBooking = (props) => {
         postData(url + '/setData', {
             auth: auth.currentUser,
             tableName: 'booking_enquiry',
-            columns: ['check_in', 'check_out', 'adults', 'children', 'room', 'uid', 'hotel_id','type','veg','non_veg','note'],
-            values: [convertDate(CheckIn), convertDate(CheckOut), count, count1, count2, auth.currentUser.uid, selectedItem,Select,Veg,NonVeg,Note?Note:'']
+            columns: ['check_in', 'check_out', 'adults', 'children', 'room', 'uid', 'hotel_id','type','veg','non_veg','note','address'],
+            values: [convertDate(CheckIn), convertDate(CheckOut), count, count1, count2, auth.currentUser.uid, selectedItem,Select,Veg,NonVeg,Note?Note:'',text]
         }).then(data => {
             if (data.insertId) {
                 setLoader(false)
@@ -246,6 +246,7 @@ const HotelBooking = (props) => {
             height: 50,
             zIndex: 1,
             marginLeft: 25,
+            marginRight: 25,
             backgroundColor: 'white',
             justifyContent: 'center',
             padding: 5,
@@ -332,22 +333,28 @@ const HotelBooking = (props) => {
                     color: subTextColor(darkMode),
                     fontFamily: 'PlusJakartaSans',
                     marginTop: 50,
-                    marginLeft: 40,
+                    marginLeft: 20,
                 }}>Where?</Text>
 
                 <TextInput value={text} onChangeText={(val) => {
+                    // if(!val) {
+                    //     setData([])
+
+                    // }
                     setText(val);
-                    postData(url + '/searchData', {
-                        tableName: 'hotels',
-                        searchColumn: 'address',
-                        searchData: val
-                    }).then(data => {
-                        if (Array.isArray(data)) {
-                            setData(data)
-                        }
-                    })
+                    // postData(url + '/getData', {
+                    //     tableName: 'hotels',
+                    //     condition:`address like '${val}%'`,
+                    //     limit:10
+                    // }).then(data => {
+                    //     if (Array.isArray(data)) {
+                    //         setData(data)
+                    //     }else{
+                    //         setData([])
+                    //     }
+                    // })
                 }} style={[style.inputT]} />
-                {
+                {/* {
                     data ? (
                         data.map((data, i) => (
                             <TouchableOpacity onPress={() => {
@@ -362,7 +369,7 @@ const HotelBooking = (props) => {
                     ) : (
                         <View></View>
                     )
-                }
+                } */}
             </View>
             <View>
                 <Text style={{
@@ -370,7 +377,7 @@ const HotelBooking = (props) => {
                     color: subTextColor(darkMode),
                     fontFamily: 'PlusJakartaSans',
                     marginTop: 20,
-                    marginLeft: 40,
+                    marginLeft: 20,
                 }}>Check-in</Text>
                 <TouchableOpacity onPress={() => {
                     setIn(true)
@@ -399,7 +406,7 @@ const HotelBooking = (props) => {
                     color: subTextColor(darkMode),
                     fontFamily: 'PlusJakartaSans',
                     marginTop: 20,
-                    marginLeft: 40,
+                    marginLeft: 20,
                 }}>Check-out</Text>
                 <TouchableOpacity onPress={() => {
                     setOut(true)
@@ -429,7 +436,7 @@ const HotelBooking = (props) => {
             }}>
                 <View style={{
                     alignItems: 'center', flexDirection: 'row',
-                    marginLeft: 20, marginTop: 20
+                    marginLeft: 0, marginTop: 20
                 }}>
                     <View style={{ flex: 2, }}>
                         <Text style={{ fontSize: 18, 
@@ -488,7 +495,7 @@ const HotelBooking = (props) => {
 
                 <View style={{
                     alignItems: 'center', flexDirection: 'row',
-                    marginLeft: 20, marginTop: 20
+                    marginLeft: 0, marginTop: 20
                 }}>
                     <View style={{ flex: 2 }}>
                         <Text style={{ fontSize: 18,
@@ -547,7 +554,7 @@ const HotelBooking = (props) => {
 
                 <View style={{
                     alignItems: 'center', flexDirection: 'row',
-                    marginLeft: 20, marginTop: 20
+                    marginLeft: 0, marginTop: 20
                 }}>
                     <View style={{ flex: 2 }}>
                         <Text style={{ fontSize: 18,
@@ -603,7 +610,7 @@ const HotelBooking = (props) => {
                 </View>
                 <View style={{
                             alignItems: 'center', flexDirection: 'row',
-                            marginLeft: 20, marginTop: 20
+                            marginLeft: 0, marginTop: 20
                            }}>
                             <View style={{ flex: 2 }}>
                                 <Text style={{ fontSize: 18, color: '#585858',
@@ -659,7 +666,7 @@ const HotelBooking = (props) => {
                         </View>
                         <View style={{
                             alignItems: 'center', flexDirection: 'row',
-                            marginLeft: 20, marginTop: 20
+                            marginLeft: 0, marginTop: 20
                            }}>
                             <View style={{ flex: 2 }}>
                                 <Text style={{ fontSize: 18, color: '#585858',
@@ -714,7 +721,7 @@ const HotelBooking = (props) => {
                             </View>
                         </View>
                         <View style={{
-                            marginLeft: 20, marginTop: 20
+                            marginLeft: 0, marginTop: 20
                           }}>
                            <Text style={{
                             fontSize: 18, color: '#585858',

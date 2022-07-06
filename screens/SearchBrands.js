@@ -33,15 +33,14 @@ import {
     }, [])
     React.useEffect(() => {
       //console.log(recentSearch)
-      postData(url + '/getData', {
-        tableName: 'brands',
-        condition:`address LIKE '${props.search}%' OR name LIKE '${props.search}%'`
+      postData(url + '/query', {
+        query:`select * from brands inner join outlets on brands.id=outlets.brand_id where name like '${props.search}%' OR address like '${props.search}%'`
       }).then(data => {
         if (Array.isArray(data)) {
           setDealData(data)
           return
         }
-        console.log(data.message)
+        console.log(data.message) 
       }).catch(err => {
         console.log('Error: SearchHotel.js->' + err.message)
       })
