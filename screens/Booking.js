@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import { postData, url,dateDifference } from '../action';
+import { postData, url,dateDifference,visualDate } from '../action';
 import { getAuth } from 'firebase/auth';
 import AnimatedLoader from "react-native-animated-loader";
 import app from '../firebase'
@@ -86,11 +86,11 @@ const Booking = (props) => {
            <p> We have received your request for a booking at -<br>
             Hotel Name: <strong>${params.name}</strong><br>
             Hotel location:<strong> ${params.address}</strong><br>
-            Total number of guests:<strong> ${count}</strong><br>
+            Total number of guests:<strong> ${count+count1}</strong><br>
             Number of kids below 5 years:<strong> ${count1}</strong><br>
             Number of rooms:<strong> ${count2}</strong> <br>
-            Check-in date:<strong> ${convertDate(CheckIn)}</strong><br>
-            Check-out date:<strong> ${convertDate(CheckOut)}</strong></p>
+            Check-in date:<strong> ${visualDate(CheckIn)}</strong><br>
+            Check-out date:<strong> ${visualDate(CheckOut)}</strong></p>
 
            <p> Please wait for a booking confirmation email to know about your booking status.</p>
 

@@ -17,7 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 import {getData, storeData} from '../screens/WishList'
 
 
-const SalonCart = (props) => {
+const SalonCart2 = (props) => {
     const darkMode = useSelector(state => state.pageSettings.darkMode)
     const [ModalVisible, setModalVisible] = React.useState(false)
     const data = props.data
@@ -27,9 +27,9 @@ const SalonCart = (props) => {
     const [newBrand,setNewBrand]= React.useState()
 
     React.useEffect(() => {
-        //console.log(data)
+        console.log(data)
         if (deals) {
-            let arr = deals.filter(deals => deals.deal.brand_id == data.id)
+            let arr = deals.filter(deals => deals.deal.brand_id == data.brand_id)
             setTotal(arr)
         }
         
@@ -38,7 +38,7 @@ const SalonCart = (props) => {
         getData('brands').then((res) => {
             if(res){
                 setNewBrand(res) 
-                let newId=res.filter(d=>d.id==data.id);
+                let newId=res.filter(d=>d.id==data.brand_id);
                 //console.log(newId) 
                 if(newId && newId.length>0){
                     setLove(true)
@@ -116,7 +116,7 @@ const SalonCart = (props) => {
     );
 };
 
-export default SalonCart;
+export default SalonCart2;
 
 export const DetailsCart = (props) => {
     const [Confirm, setConfirm] = React.useState(false);
@@ -132,7 +132,7 @@ export const DetailsCart = (props) => {
     React.useEffect(() => {
         postData(url + '/getData',{
             tableName: 'outlets',
-            condition: `brand_id=${data.id}`
+            condition: `brand_id=${data.brand_id}`
         }).then((response) => {
             if(Array.isArray(response)){
               return  setOutlets(response)
@@ -143,7 +143,7 @@ export const DetailsCart = (props) => {
 
     React.useEffect(() => {
         if (deals) {
-            let arr = deals.filter(deals => deals.deal.brand_id == data.id)
+            let arr = deals.filter(deals => deals.deal.brand_id == data.brand_id)
             setTotal(arr)
         }
 
@@ -224,7 +224,7 @@ export const DetailsCart = (props) => {
                                 }}>{data.name}</Text>
                                 <TouchableOpacity disabled={Outlets&&Outlets.length>0?false : true} onPress={()=>{
                                     props.setModalVisible(false);
-                                    navigation.navigate('Outlets',{id:data.id})
+                                    navigation.navigate('Outlets',{id:data.brand_id})
                                 }} style={{
                                     flexDirection: 'row',
                                     alignItems: 'center',

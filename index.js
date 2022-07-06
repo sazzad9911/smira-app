@@ -5,15 +5,15 @@ import app from './firebase';
 import { getAuth } from 'firebase/auth';
 messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Message handled in the background!', remoteMessage);
-    const auth= getAuth(app)
-    postData(url + '/setData',{
-        auth: auth.currentUser,
-        tableName:'notification',
-        columns:['name','description','uid'],
-        values: [remoteMessage.notification.title,remoteMessage.notification.body,auth.currentUser.uid]
-    }).then(response =>{
-        console.log(response)
-    })
+    // const auth= getAuth(app)
+    // postData(url + '/setData',{
+    //     auth: auth.currentUser,
+    //     tableName:'notification',
+    //     columns:['name','description','uid'],
+    //     values: [remoteMessage.notification.title,remoteMessage.notification.body,auth.currentUser.uid]
+    // }).then(response =>{
+    //     console.log(response)
+    // })
   });
   
 

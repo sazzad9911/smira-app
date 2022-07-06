@@ -22,7 +22,7 @@ const BookingHistory = (props) => {
         if (props.data) {
             postData(url + '/getData', {
                 tableName: 'hotel_booking',
-                conditions: "id =" + "'" + props.data.purches_id + "'"
+                condition: `id=${props.data.purches_id}`
             }).then(result => {
                 if (Array.isArray(result)) {
                     setData(result[0])
@@ -32,7 +32,7 @@ const BookingHistory = (props) => {
                 }
             })
         }
-    }, [])
+    }, [props.data])
     const convertDate = (date) => {
         date = new Date(date)
         let Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

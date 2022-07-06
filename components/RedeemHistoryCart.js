@@ -70,6 +70,6 @@ const RedeemHistoryCart = (props) => {
             }
             </Modal>
         </View>
-    )
+    ) 
 }
 export default RedeemHistoryCart;

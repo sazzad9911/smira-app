@@ -84,7 +84,7 @@ const RedeemHistory = () => {
                                 type={doc.purches_type == 'deals' ? "coupon" : "hotel"}
                                 data={doc} />
                          </View>
-
+ 
                     ))
                 ) : (
                     <ActivityIndicator size="large" color="#FA454B" />

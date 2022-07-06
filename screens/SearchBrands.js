@@ -15,7 +15,8 @@ import {
   import { Picker } from '@react-native-picker/picker';
   import SalonCart from '../components/SalonCart';
   // import ActionSheet from '../components/ActionSheet';
-  const window = Dimensions.get('window')
+import SalonCart2 from './../components/SalonCart2';
+const window = Dimensions.get('window')
   
   const SearchBrands = (props) => {
     const navigation = props.navigation
@@ -37,7 +38,9 @@ import {
         query:`select * from brands inner join outlets on brands.id=outlets.brand_id where name like '${props.search}%' OR address like '${props.search}%'`
       }).then(data => {
         if (Array.isArray(data)) {
-          setDealData(data)
+          let d=data.filter((v,i,a)=>a.findIndex(v2=>['name'].every(k=>v2[k] ===v[k]))===i)
+          setDealData(d)
+          
           return
         }
         console.log(data.message) 
@@ -67,7 +70,7 @@ import {
               DealData ? (
                 DealData.map((doc,i) => (
                   <View key={doc.id} style={{width:'100%'}}>
-                  <SalonCart data={doc} key={i}/>
+                  <SalonCart2 type='search' data={doc} key={i}/>
                   </View>
                 ))
               ) : (

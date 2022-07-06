@@ -327,7 +327,7 @@ const CheckOut = (props) => {
                     postData(url +'/sendEmail',{ 
                         from:'info@smira.club',
                         to:auth.currentUser.email,
-                        subject:`Your Free Trial of Membership has Activated - Smira Club`,
+                        subject:`Your Free Trial of ${membership.name} Membership has Activated - Smira Club`,
                         text: `
                         <p>Dear <strong>${user[0].name}</strong>,</p>
 
