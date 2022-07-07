@@ -230,7 +230,7 @@ export const DetailsCart = (props) => {
                                     alignItems: 'center',
                                 }}>
                                     <Text style={[style.subText,{color: '#FA454B',fontFamily: 'PlusJakartaSansBold', }]} numberOfLines={1}>
-                                {Outlets?Outlets.length : '0'}  Address</Text>
+                                {Outlets?Outlets.length : '0'}  Outlets</Text>
                                 <AntDesign style={{
                                     marginTop:5,marginLeft:5
                                 }} name="right" size={18} color="#FA454B" />

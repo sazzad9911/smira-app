@@ -133,7 +133,7 @@ const HotelBooking = (props) => {
             }
             setLoader(false)
             Alert.alert('Opps!', data.message)
-        }).catch(err => {
+        }).catch(err => { 
             setLoader(false)
             Alert.alert('Error', err.code)
         })
@@ -272,6 +272,27 @@ const HotelBooking = (props) => {
         })
     }
     const checkHotelBooking= () =>{
+        if(user[0].link){
+            console.log('Family access granted')
+            setLoader(true)
+            postData(url + '/getData',{
+                tableName: 'user',
+                condition: "uid=" + "'" +user[0].link + "'"
+            }).then(data=>{
+                if(Array.isArray(data) && data.length == 0){
+                    setError('Your linking account not found.');
+                    setLoader(false);
+                    return
+                }
+                if(Array.isArray(data) && data.length > 0){
+                    getFamilyAccess(data[0])
+                    setLoader(false)
+                }
+                setError(data.message)
+                setLoader(false)
+            })
+            return
+        }
         if(user && parseInt(dateDifference(new Date(), user[0].ending_date))<0 || !user[0].membership_type){
             setError('Your membership plan has expired. Please renew your membership plan.')
             return
@@ -766,7 +787,7 @@ const HotelBooking = (props) => {
                 <Text>Loading...</Text>
             </AnimatedLoader>
             <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(!modalVisible)}>
-                <NewAlert title={user && user[0].membership_type?'Confirm your booking enquiry?':'Buy membership to unlock this offer'} 
+                <NewAlert title={user && user[0].membership_type || user[0].link?'Confirm your booking enquiry?':'Buy membership to unlock this offer'} 
                 close={setModalVisible} onPress={() =>{
                     Confirm()
                 }}/>

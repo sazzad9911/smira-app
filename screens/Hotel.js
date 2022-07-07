@@ -579,11 +579,11 @@ const Hotel = (props) => {
                 }
             </Modal>
             <Modal transparent={true} visible={Visible} onRequestClose={() =>setVisible(!Visible)}>
-            <NewAlert title={user && user[0].membership_type?'Confirm your booking?':'Buy membership to unlock this offer'} 
+            <NewAlert title={user && user[0].membership_type || user[0].link?'Confirm your booking?':'Buy membership to unlock this offer'} 
                 close={setVisible} onPress={() =>{
                     setModalVisible(false)
                     setVisible(!Visible)
-                    if(user&& !user[0].membership_type){
+                    if(user&& !user[0].membership_type && !user[0].link){
                         //props.close(false)
                         navigation.navigate('Choose Your Membership')
                         return

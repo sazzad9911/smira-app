@@ -42,6 +42,7 @@ function Account({ navigation }) {
   const storage = getStorage(app);
   const [DateOpen, setDateOpen] = useState(false)
   const Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const [Links,setLinks]= React.useState(null)
 
 
 
@@ -49,6 +50,16 @@ function Account({ navigation }) {
   useEffect(() => {
     if (user && user[0].image) {
       setProfileImage(user[0].image)
+    }
+    if(user && user[0].link) {
+      postData(url+'/getData',{
+        tableName: 'user',
+        condition:`uid='${user[0].link}'`
+      }).then(response => {
+        if(Array.isArray(response) && response.length!=0) {
+          setLinks(response[0].email)
+        }
+      })
     }
     if (user && user[0].name) {
       setName(user[0].name)
@@ -300,7 +311,25 @@ function Account({ navigation }) {
         }} value={MembershipFamilyCode} placeholderTextColor='rgb(130,130,130)'
           placeholder={MembershipFamilyCode === "" ? "Membership Family Code" : ""}
           onChangeText={e => { }} style={[styles.formInput, MembershipFamilyCode === "" ? styles.fontEmptyStyle : '']} />
+          
       </View>
+      {
+        Links?(
+          <View style={{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Text style={{
+        fontFamily:'PlusJakartaSans'
+      }}>Member of :</Text>
+      <Text style={{
+        fontFamily:'PlusJakartaSansBold',
+        marginLeft:5
+      }}>{Links}</Text>
+      </View>
+        ):(<></>)
+      }
       <View style={[{ backgroundColor: 'white' }]}>
         <TouchableOpacity style={[styles.logoutButton]} onPress={() => {
           auth.signOut().then(() => {

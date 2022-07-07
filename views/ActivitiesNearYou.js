@@ -44,11 +44,11 @@ const ActivitiesNearYou = ({ navigation}) => {
                 dispatch(setLoader('Games'))
   
               }}>
-                <Text style={{
+                {/* <Text style={{
                   fontFamily: 'PlusJakartaSans',
                   color: '#FC444B',
                   fontSize: 14
-                }}>See more</Text>
+                }}>See more</Text> */}
               </TouchableOpacity>
             </View>
             <ScrollView showsVerticalScrollIndicator={false}

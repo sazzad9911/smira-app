@@ -71,15 +71,17 @@ const BookingHistory = (props) => {
                         <Text style={style.Text1}>{Hotel ? Hotel.address : ''}</Text>
                     </View>
                     <View style={style.view1}>
-                        <View style={style.view3}>
+                        <View style={[style.view3]}>
                             <Text style={{
                                 fontSize: 12,
                                 color: 'rgb(100,100,100)',
                                 fontFamily: 'PlusJakartaSans',
+                                marginLeft:10
                             }}>Check-in</Text>
                             <Text style={{
                                 fontSize: 18,
                                 fontFamily: 'PlusJakartaSansBold',
+                                marginLeft:10
                             }}>{Hotel ? Hotel.check_in : ''}</Text>
                         </View>
                         <View style={style.view2}></View>
@@ -224,7 +226,7 @@ const BookingHistory = (props) => {
                         </View>
                         <TouchableOpacity>
                             <View style={style.viewEnd}>
-                                <Text style={style.viewtext}>BOOKING ID #{data ? data.id : ''}</Text>
+                                <Text style={style.viewtext}>BOOKED </Text>
                             </View>
                         </TouchableOpacity>
 
