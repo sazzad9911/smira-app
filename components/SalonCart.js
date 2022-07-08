@@ -15,6 +15,7 @@ import { call, location, leftArrow, upArrow, rightArrow } from './Icon';
 import NewAlert from './NewAlert'
 import { useNavigation } from '@react-navigation/native';
 import {getData, storeData} from '../screens/WishList'
+import HTMLViewer from 'react-native-htmlviewer';
 
 
 const SalonCart = (props) => {
@@ -515,7 +516,8 @@ export const Cart = (props) => {
                             color: 'black',
                             marginVertical: 10
                         }]}>Description</Text> */}
-                        <Text style={style.subText}>{data.deal.description}</Text>
+                        <HTMLViewer html={data.deal.description}/>
+                        {/* <Text style={style.subText}>{data.deal.description}</Text> */}
                         {/* <Text style={[style.headline, {
                             color: 'black',
                             marginVertical: 10

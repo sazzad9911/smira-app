@@ -78,7 +78,7 @@ const Booking = (props) => {
         })
         postData(url +'/sendEmail',{
             from:'info@smira.club',
-            to:auth.currentUser.email,
+            to:user[0].email,
             subject:'Your Booking Request has been received - Smira Club',
             text:`
            <p> Dear <b>${user[0].name}</b>,</p>

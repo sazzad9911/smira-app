@@ -34,6 +34,10 @@ export const dateDifference =(newDate, oldDate)=>{
   const reminding = (new Date(oldDate).getTime() - new Date(newDate).getTime()) / (1000 * 3600 * 24);
   return reminding.toFixed(0)
 }
+export const convertDate = (date) => {
+  let data = '';
+  return data = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate())
+}
 
 export const setDeals=(doc)=>{
   return{

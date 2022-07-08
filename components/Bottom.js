@@ -29,7 +29,7 @@ const Bottom = (props) => {
             <View style={[styles.center_view]}>
             </View>
             <TouchableOpacity onPress={() => {
-                //setActive('calendar')
+                //setActive('calendar') 
                 dispatch(setBottomSheet('calendar'))
             }} style={styles.center}>
                 <SvgXml xml={active == 'category' ? calender : calender} height="30" width="30" />

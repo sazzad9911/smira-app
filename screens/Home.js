@@ -22,7 +22,7 @@ import {
   Restaurant, Services, Shopping, Spa_Salons, Travel, Villas
 } from '../components/Icon';
 import { FamilyCode } from './Account';
-import { setLoader } from '../action'
+import { setLoader,convertDate } from '../action'
 import { backgroundColor, textColor } from './../assets/color';
 import { useSelector } from 'react-redux';
 import SliderCoupon from './SliderCoupon';
@@ -248,7 +248,17 @@ const Home = ({ navigation }) => {
       backAction
     );
   }, []);
-
+React.useEffect(() => {
+  const signupDate = new Date(auth.currentUser.metadata.creationTime);
+  postData(url + '/updateData',{
+    tableName: 'user',
+    columns: ['creationTime'],
+    values:[convertDate(signupDate)],
+    condition:`uid='${auth.currentUser.uid}'`
+  }).then(res=>{
+    console.log(`Home js:${res}`)
+  })
+},[])
   return (
     <View style={{
       height: '100%',

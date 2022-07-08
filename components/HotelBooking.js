@@ -363,19 +363,19 @@ const HotelBooking = (props) => {
 
                     // }
                     setText(val);
-                    // postData(url + '/getData', {
-                    //     tableName: 'hotels',
-                    //     condition:`address like '${val}%'`,
-                    //     limit:10
-                    // }).then(data => {
-                    //     if (Array.isArray(data)) {
-                    //         setData(data)
-                    //     }else{
-                    //         setData([])
-                    //     }
-                    // })
+                    postData(url + '/getData', {
+                        tableName: 'hotels',
+                        condition:`address like '${val}%'`,
+                        limit:10
+                    }).then(data => {
+                        if (Array.isArray(data)) {
+                            setData(data)
+                        }else{
+                            setData([])
+                        }
+                    })
                 }} style={[style.inputT]} />
-                {/* {
+                {
                     data ? (
                         data.map((data, i) => (
                             <TouchableOpacity onPress={() => {
@@ -390,7 +390,7 @@ const HotelBooking = (props) => {
                     ) : (
                         <View></View>
                     )
-                } */}
+                }
             </View>
             <View>
                 <Text style={{

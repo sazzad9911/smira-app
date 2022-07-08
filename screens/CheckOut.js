@@ -271,7 +271,7 @@ const CheckOut = (props) => {
                     let discount=(CouponDetails.offer*Membership.price)/100
                     postData(url +'/sendEmail',{ 
                         from:'info@smira.club',
-                        to:auth.currentUser.email,
+                        to:user[0].email,
                         subject:`You’re now officially a member of our family - Smira Club`,
                         text: `
                         <p>Dear <strong>${user[0].name}</strong>,</p>
@@ -323,7 +323,7 @@ const CheckOut = (props) => {
                     newDate=(newDate.getFullYear()+year) +'-' + (newDate.getMonth() + month) + '-' + (newDate.getDate())
                     postData(url +'/sendEmail',{ 
                         from:'info@smira.club',
-                        to:auth.currentUser.email,
+                        to:user[0].email,
                         subject:`Your Free Trial of ${membership.name} Membership has Activated - Smira Club`,
                         text: `
                         <p>Dear <strong>${user[0].name}</strong>,</p>
@@ -362,7 +362,7 @@ const CheckOut = (props) => {
                         year=membership.time;
                         postData(url +'/sendEmail',{ 
                             from:'info@smira.club',
-                            to:auth.currentUser.email,
+                            to:user[0].email,
                             subject:`You’re now officially a member of our family - Smira Club`,
                             text: `
                             <p>Dear <strong>${user[0].name}</strong>,</p>
@@ -406,7 +406,7 @@ const CheckOut = (props) => {
                 }else{
                     postData(url +'/sendEmail',{ 
                         from:'info@smira.club',
-                        to:auth.currentUser.email,
+                        to:user[0].email,
                         subject:`You’re now officially a member of our family - Smira Club`,
                         text: `
                         <p>Dear <strong>${user[0].name}</strong>,</p>
