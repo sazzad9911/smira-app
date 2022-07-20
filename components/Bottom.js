@@ -49,7 +49,7 @@ const Bottom = (props) => {
                    navigation.navigate('WishList')
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginRight: 20 }}>
                     <SvgXml xml={active == 'category' ? fullHeart : fullHeart} height="25" width="25" />
-                    <Text style={{ color: active == 'category' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Wishlist</Text>
+                    <Text style={{ color: active == 'category' ? textColor(darkMode) : '#808080', fontSize: 12 }}>Wishlist</Text>
                 </TouchableOpacity>
             </View>
             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }}>
@@ -62,18 +62,18 @@ const Bottom = (props) => {
                     }
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginLeft: 10 }}>
                     <SvgXml xml={active == 'membership' ? activeMembership : inactiveMembership} height="25" width="25" />
-                    <Text style={{ color: active == 'membership' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Membership</Text>
+                    <Text style={{ color: active == 'membership' ? textColor(darkMode) : '#808080', fontSize: 12 }}>Membership</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     //setActive('call')
                     Linking.openURL(`tel:+919821116669`)
                 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <SvgXml xml={active == 'call' ? activeCall : inactiveCall} height="25" width="25" />
-                    <Text style={{ color: active == 'call' ? textColor(darkMode) : '#D8D8D8', fontSize: 12 }}>Call Us</Text>
+                    <Text style={{ color: active == 'call' ? textColor(darkMode) : '#808080', fontSize: 12 }}>Call Us</Text>
                 </TouchableOpacity>
             </View>
         </View>
-    );
+    ); 
 };
 
 export default Bottom;
