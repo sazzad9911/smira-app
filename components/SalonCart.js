@@ -516,13 +516,13 @@ export const Cart = (props) => {
                             color: 'black',
                             marginVertical: 10
                         }]}>Description</Text> */}
-                        <HTMLViewer html={data.deal.description}/>
+                        {/* <HTMLViewer html={data.deal.description}/> */}
                         {/* <Text style={style.subText}>{data.deal.description}</Text> */}
-                        {/* <Text style={[style.headline, {
+                        <Text style={[style.headline, {
                             color: 'black',
                             marginVertical: 10
-                        }]}>Timings</Text> */}
-                        {/* <View style={{ flexDirection: 'row' }}>
+                        }]}>Timings</Text>
+                        <View style={{ flexDirection: 'row' }}>
                             <View style={{
                                 width: '40%'
                             }}>
@@ -545,18 +545,23 @@ export const Cart = (props) => {
                         <Text style={[style.headline, {
                             color: 'black',
                             marginVertical: 10
+                        }]}>Application for</Text>
+                        <Text style={[style.subText]}>{data.deal.application}</Text>
+                        <Text style={[style.headline, {
+                            color: 'black',
+                            marginVertical: 10
+                        }]}>Valid for</Text>
+                        <Text style={[style.subText]}>{data.deal.valid}</Text>
+                        <Text style={[style.headline, {
+                            color: 'black',
+                            marginVertical: 10
                         }]}>How to use</Text>
-                        <Text style={[style.subText]}>1.Carry your email voucher on phone or access it under the 'purchases' section of the app.</Text>
-                        <Text style={[style.subText]}>2. Make prior reservation before you visit the merchant.</Text>
-                        <Text style={[style.subText]}>3. Merchant verifies the voucher or you can redeem it yourself using the app.</Text>
+                        <Text style={[style.subText]}>{data.deal.used}</Text>
                         <Text style={[style.headline, {
                             color: 'black',
                             marginVertical: 10
                         }]}>Things to remember</Text>
-                        <Text style={[style.subText]}>1. Prior reservation is mandatory</Text>
-                        <Text style={[style.subText]}>2. All offers are inclusive of all applicable taxes and service charges</Text>
-                        <Text style={[style.subText]}>3. It is highly recommended that the customer wear masks while visiting the outlet to prevent infection.</Text>
-                        <Text style={[style.subText]}>4. Right of admission reserved</Text> */}
+                        <Text style={[style.subText]}>{data.deal.remember}</Text>
                     </ScrollView>
                 </View>
                     ):(
