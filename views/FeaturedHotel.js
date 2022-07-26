@@ -15,7 +15,7 @@ const FeaturedHotel = ({ navigation}) => {
         postData(url + "/getData", {
           tableName: 'hotels',
           orderColumn: 'popularity',
-          limit:30
+          limit:10
         }).then(data => {
           if (Array.isArray(data)) {
             dispatch(setHotels(data));

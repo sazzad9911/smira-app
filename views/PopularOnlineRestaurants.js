@@ -24,7 +24,7 @@ const PopularOnlineRestaurants = ({navigation}) => {
             
           }
         })
-      },[loader])
+      },[])
     return (
         <View style={{
             width: '100%',

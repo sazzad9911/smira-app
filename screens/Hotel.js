@@ -318,7 +318,7 @@ const Hotel = (props) => {
                     marginBottom: 20
                    }}>
                     <Text style={styles.lineHead}>Things to Remember</Text>
-                    <Text numberOfLines={!Read?4:1000} style={[styles.lineText, {
+                    <Text numberOfLines={!Read2?4:1000} style={[styles.lineText, {
                         textAlign: 'justify',
                         marginBottom: 7,
                         marginTop: 7

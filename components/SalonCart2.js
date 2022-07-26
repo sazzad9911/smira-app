@@ -520,46 +520,52 @@ export const Cart = (props) => {
                             color: 'black',
                             marginVertical: 10
                         }]}>Timings</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{
-                                width: '40%'
-                            }}>
-                                {
-                                    day.map((doc, i) => (
-                                        <Text key={i} style={style.dateText}>{doc}</Text>
-                                    ))
-                                }
-
+                        <View>
+                        {
+                            day.map((doc, i) => (
+                            <View key={i} style={{
+                                width: '100%',
+                                flexDirection: 'row',
+                              }}>
+                                <Text key={i} style={[style.dateText,{
+                                    flex:1
+                                }]}>{doc}</Text>
+                                <View style={{flex:1}}>
+                                <Text key={i} style={[style.dateText,{
+                                    width:130,
+                                }]}>{times[i]}</Text>
+                                </View>
+                               
                             </View>
-                            <View>
-
-                                {
-                                    times.map((time, i) => (
-                                        <Text key={i} style={style.dateText}>{time}</Text>
-                                    ))
-                                }
-                            </View>
+                            ))
+                          }
                         </View>
                         <Text style={[style.headline, {
                             color: 'black',
-                            marginVertical: 10
+                            marginVertical: 10,
+                            marginTop:30
                         }]}>Application for</Text>
                         <Text style={[style.subText]}>{data.deal.application}</Text>
                         <Text style={[style.headline, {
                             color: 'black',
-                            marginVertical: 10
+                            marginVertical: 10,
+                            marginTop:30
                         }]}>Valid for</Text>
                         <Text style={[style.subText]}>{data.deal.valid}</Text>
                         <Text style={[style.headline, {
                             color: 'black',
-                            marginVertical: 10
+                            marginVertical: 10,
+                            marginTop:30
                         }]}>How to use</Text>
                         <Text style={[style.subText]}>{data.deal.used}</Text>
                         <Text style={[style.headline, {
                             color: 'black',
-                            marginVertical: 10
+                            marginVertical: 10,
+                            marginTop:30
                         }]}>Things to remember</Text>
-                        <Text style={[style.subText]}>{data.deal.remember}</Text>
+                        <Text style={[style.subText,{
+                            marginBottom:50
+                        }]}>{data.deal.remember}</Text>
                     </ScrollView>
                 </View>
                     ):(
