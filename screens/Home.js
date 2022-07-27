@@ -425,7 +425,7 @@ React.useEffect(() => {
             </TouchableOpacity>
 
 
-          </View>
+          </View> 
         </View>
         <TopBrands navigation={navigation}/>
         <DestinationToGo navigation={navigation}/>

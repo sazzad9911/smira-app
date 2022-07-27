@@ -13,7 +13,7 @@ import {
     isSecurityCodeValid,
     getCreditCardNameByNumber,
 } from 'creditcard.js';
-import { postData, url, setUser, setAnimatedLoader } from '../action';
+import { postData, url, setUser, setAnimatedLoader,visualDate } from '../action';
 import { getAuth } from 'firebase/auth';
 import app from '../firebase';
 import RadioButtonRN from 'radio-buttons-react-native';
@@ -21,6 +21,7 @@ import Membership from './Membership';
 import RazorpayCheckout from 'react-native-razorpay';
 import NewAlert from './../components/NewAlert';
 import Lottie from 'lottie-react-native';
+import {membership as Message} from './../components/EmailTemplate'
 
 
 const CheckOut = (props) => {
@@ -57,6 +58,7 @@ const CheckOut = (props) => {
     })
 
     React.useEffect(() => {
+        
         postData(url + '/getData', {
             tableName: 'cuppon_code',
         }).then((data) =>{
@@ -77,6 +79,11 @@ const CheckOut = (props) => {
                 setMemberships(data[0])
             let arr=data[0].plans.split(',')
             setPlans(arr)
+            // let newDate =new Date()
+            // newDate=(newDate.getFullYear()+data[0].time) +'-' + ((newDate.getMonth()+1)>9?(newDate.getMonth()+1):("0"+(newDate.getMonth()+1)) + '-' + (newDate.getDate()))
+            // newDate = visualDate(newDate)
+        //console.log(newDate)
+        //return
             }
         })
     }, [membership+params])
@@ -229,8 +236,10 @@ const CheckOut = (props) => {
        return result;
     }
     const confirm=(membership)=>{
+        
         dispatch(setAnimatedLoader(true))
         let codes=null;
+        let color=(membership.type=='silver'?"#fc444b":membership.type=='platinum'?'#737373':membership.type=='gold'?'#ffc107':membership.type=='diamond'?'#0d6efd':'#f6f6f6')
         if(membership.account!='no'){
             let account=parseInt(membership.account)
             let index=0;
@@ -269,48 +278,15 @@ const CheckOut = (props) => {
                 })
                 if(CouponDetails){
                     let discount=(CouponDetails.offer*Membership.price)/100
+                    let newDate =new Date()
+                    newDate=(newDate.getFullYear()+membership.time) +'-' + ((newDate.getMonth()+1)>9?(newDate.getMonth()+1):("0"+(newDate.getMonth()+1)) + '-' + (newDate.getDate()))
+                    newDate = visualDate(newDate)
+                    let text=Message(membership.name,newDate,user[0].name,membership.price,0,color,msg)
                     postData(url +'/sendEmail',{ 
                         from:'info@smira.club',
                         to:user[0].email,
                         subject:`You’re now officially a member of our family - Smira Club`,
-                        text: `
-                        <p>Dear <strong>${user[0].name}</strong>,</p>
-
-                        <p>Welcome to Smira Club. We’re thrilled to see you here!</p>
-
-
-                        <p>Congratulations! <br>
-                        On Saving:<strong> ${discount} ₹</strong><br>
-                        Original Price: <strong>${membership.price} ₹</strong><br>
-                        With flat: <strong>${CouponDetails.offer}% DISCOUNT</strong> <br>
-                        Membership price:<strong> ${membership.price-discount} ₹</strong></p>
-
-                        <p>We’re confident that membership will help you save more money while enjoying the luxuries of our services. </p>
-
-
-                        <p>${msg}</p>
-
-
-                        <p>Best regards, <br>
-                          Smira Club</p>
- 
-                        <b>Smira Services - ‘A sweet memory is really affordable’ </b>
- 
- 
-                        <p><b>Smira Sevices Pvt. Ltd. </b><br>
-                       Ranjit Studio Compound, <br>
-                        Ground & 1st Floor, <br>
-                        M-Block, Plot No. 115, <br>
-                        Dada Saheb Phalke Marg, <br>
-                        Opp. Bharatkshetra, Hindmata, <br>
-                        Dadar East, Mumbai, <br>
-                        Maharashtra 400014 </p>
- 
-                        <p><b>Contact No. </b><br>
-                        9833733477<br>
-                        9833733977<br>
-                        Email - support@smira.club</p>
-                        `
+                        text: text
                     }).then(data=>{
                         console.log(data)
                     })
@@ -320,129 +296,42 @@ const CheckOut = (props) => {
                     if(!PromoData.type){
                         month=2
                         let newDate =new Date()
-                    newDate=(newDate.getFullYear()+year) +'-' + (newDate.getMonth() + month) + '-' + (newDate.getDate())
+                        newDate=(newDate.getFullYear()+membership.time) +'-' + ((newDate.getMonth()+1)>9?(newDate.getMonth()+1):("0"+(newDate.getMonth()+1)) + '-' + (newDate.getDate()))
+                        newDate = visualDate(newDate)
+                    let text=Message(membership.name,newDate,user[0].name,membership.price,0,color,msg)
                     postData(url +'/sendEmail',{ 
                         from:'info@smira.club',
                         to:user[0].email,
                         subject:`Your Free Trial of ${membership.name} Membership has Activated - Smira Club`,
-                        text: `
-                        <p>Dear <strong>${user[0].name}</strong>,</p>
-
-                        <p>Welcome to Smira Club. We’re thrilled to see you here!</p>
-
-
-                        <p>We’re confident that membership will help you save more money while enjoying the luxuries of our services.
-                        </p>
-                        <p>Your free trial will end on <strong> End Date ${newDate}</strong></p>
-                        
-                        <p>Best regards, <br>
-                      Smira Club</p>
- 
-                        <b>Smira Services - ‘A sweet memory is really affordable’ </b>
- 
- 
-                        <p> <b>Smira Sevices Pvt. Ltd. </b><br>
-                       Ranjit Studio Compound, <br>
-                       Ground & 1st Floor, <br>
-                        M-Block, Plot No. 115, <br>
-                        Dada Saheb Phalke Marg, <br>
-                        Opp. Bharatkshetra, Hindmata, <br>
-                        Dadar East, Mumbai, <br>
-                        Maharashtra 400014 </p>
- 
-                        <b>Contact No. </b>
-                        <p>9833733477<br>
-                        9833733977<br>
-                        Email - support@smira.club</p>
-                        `
+                        text: text
                     }).then(data=>{
                         console.log(data)
                     })
                     }else{
                         year=membership.time;
+                        let newDate =new Date()
+                    newDate=(newDate.getFullYear()+membership.time) +'-' + ((newDate.getMonth()+1)>9?(newDate.getMonth()+1):("0"+(newDate.getMonth()+1)) + '-' + (newDate.getDate()))
+                    newDate = visualDate(newDate)
+                        let text=Message(membership.name,newDate,user[0].name,membership.price,0,color,msg)
                         postData(url +'/sendEmail',{ 
                             from:'info@smira.club',
                             to:user[0].email,
                             subject:`You’re now officially a member of our family - Smira Club`,
-                            text: `
-                            <p>Dear <strong>${user[0].name}</strong>,</p>
-    
-                            <p>Welcome to Smira Club. We’re thrilled to see you here!</p>
-    
-    
-                            <p>Congratulations! <br>
-                            Original Price: <strong>${membership.price} ₹</strong></p>
-                
-                            <p>We’re confident that membership will help you save more money while enjoying the luxuries of our services. </p>
-    
-    
-                            <p>${msg}</p>
-     
-    
-                            <p>Best regards, <br>
-                            Smira Club</p>
-     
-                            <b>Smira Services - ‘A sweet memory is really affordable’ </b>
-     
-     
-                            <b>Smira Sevices Pvt. Ltd. </b>
-                            <p>Ranjit Studio Compound, <br>
-                           Ground & 1st Floor, <br>
-                            M-Block, Plot No. 115, <br>
-                           Dada Saheb Phalke Marg, <br>
-                            Opp. Bharatkshetra, Hindmata, <br>
-                           Dadar East, Mumbai, <br>
-                           Maharashtra 400014 </p>
-     
-                            <b>Contact No. </b>
-                            <p>9833733477<br>
-                            9833733977<br>
-                            Email - support@smira.club</p>
-                            `
+                            text: text
                         }).then(data=>{
                             console.log(data)
                         })
                     }                    
                 }else{
+                    let newDate =new Date()
+                    newDate=(newDate.getFullYear()+membership.time) +'-' + ((newDate.getMonth()+1)>9?(newDate.getMonth()+1):("0"+(newDate.getMonth()+1)) + '-' + (newDate.getDate()))
+                    newDate = visualDate(newDate)
+                    let text=Message(membership.name,newDate,user[0].name,membership.price,0,color,msg)
                     postData(url +'/sendEmail',{ 
                         from:'info@smira.club',
                         to:user[0].email,
                         subject:`You’re now officially a member of our family - Smira Club`,
-                        text: `
-                        <p>Dear <strong>${user[0].name}</strong>,</p>
-
-                        <p>Welcome to Smira Club. We’re thrilled to see you here!</p>
-
-
-                        <p>Congratulations! <br>
-                        Original Price: <strong>${membership.price} ₹</strong></p>
-            
-                        <p>We’re confident that membership will help you save more money while enjoying the luxuries of our services. </p>
-
-
-                        <p>${msg}</p>
- 
-
-                        <p>Best regards, <br>
-                        Smira Club</p>
- 
-                        <b>Smira Services - ‘A sweet memory is really affordable’ </b>
- 
- 
-                        <b>Smira Sevices Pvt. Ltd. </b>
-                        <p>Ranjit Studio Compound, <br>
-                       Ground & 1st Floor, <br>
-                        M-Block, Plot No. 115, <br>
-                       Dada Saheb Phalke Marg, <br>
-                        Opp. Bharatkshetra, Hindmata, <br>
-                       Dadar East, Mumbai, <br>
-                       Maharashtra 400014 </p>
- 
-                        <b>Contact No. </b>
-                        <p>9833733477<br>
-                        9833733977<br>
-                        Email - support@smira.club</p>
-                        `
+                        text: text
                     }).then(data=>{
                         console.log(data)
                     })

@@ -14,6 +14,7 @@ import { backgroundColor, textColor } from './../assets/color';
 import { useSelector } from 'react-redux'
 import LottieView from 'lottie-react-native';
 import NewAlert from './../components/NewAlert';
+import {bookingRequest} from './../components/EmailTemplate'
 
 const Booking = (props) => {
     const [CheckIn, setCheckIn] = React.useState(new Date());
@@ -80,41 +81,7 @@ const Booking = (props) => {
             from:'info@smira.club',
             to:user[0].email,
             subject:'Your Booking Request has been received - Smira Club',
-            text:`
-           <p> Dear <b>${user[0].name}</b>,</p>
-
-           <p> We have received your request for a booking at -<br>
-            Hotel Name: <strong>${params.name}</strong><br>
-            Hotel location:<strong> ${params.address}</strong><br>
-            Total number of guests:<strong> ${count+count1}</strong><br>
-            Number of kids below 5 years:<strong> ${count1}</strong><br>
-            Number of rooms:<strong> ${count2}</strong> <br>
-            Check-in date:<strong> ${visualDate(CheckIn)}</strong><br>
-            Check-out date:<strong> ${visualDate(CheckOut)}</strong></p>
-
-           <p> Please wait for a booking confirmation email to know about your booking status.</p>
-
-           <p> If you have any inquiries, please do not hesitate to contact us.</p>
-
-
-           <p> Best regards,<br>
-          Smira Club</p>
- 
-           <b> Smira Services - ‘A sweet memory is really affordable’ 
-         Smira Services Pvt. Ltd. </b>
-            <p>Ranjit Studio Compound, <br>
-           Ground & 1st Floor, <br>
-            M-Block, Plot No. 115, <br>
-           Dada Saheb Phalke Marg, <br>
-           Opp. Bharatkshetra, Hindmata,<br>
-           Dadar East, Mumbai,<br>
-           Maharashtra 400014 </p>
- 
-           <p> Contact No. <br>
-            9833733477<br>
-           9833733977<br>
-            Email - support@smira.club</p>
-            `
+            text:bookingRequest(params.name,params.address,count2,count+count1,count1,visualDate(CheckIn),visualDate(CheckOut),Veg,NonVeg),
         }).then(data=>{
             console.log(data)
         })
