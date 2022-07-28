@@ -30,12 +30,12 @@ const DestinationCart = (props) => {
                 top: 0,
                 left: 0,
                 justifyContent: 'flex-end',
-                padding: 20,
+                padding: 10,
                 borderRadius: 10,
             }} colors={['rgba(0, 0, 0, 0.183)', 'rgba(0, 0, 0, 0.836)']}>
                 <Text style={{
                     color: 'white',
-                    fontSize: 20,
+                    fontSize: 18,
                     fontFamily: 'PlusJakartaSansBold',
                     textAlign: 'center',
                     marginBottom: 10
