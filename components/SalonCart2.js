@@ -566,6 +566,9 @@ export const Cart = (props) => {
                         <Text style={[style.subText,{
                             marginBottom:50
                         }]}>{data.deal.remember}</Text>
+                            <View style={{
+                            height:30
+                        }}></View>
                     </ScrollView>
                 </View>
                     ):(

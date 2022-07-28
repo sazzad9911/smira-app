@@ -513,7 +513,7 @@ export const Cart = (props) => {
                         </View>
                     </View>
                     <ScrollView style={{
-                        padding: 20
+                        padding: 20,
                     }}>
                         {/* <Text style={[style.headline, {
                             color: 'black',
@@ -572,6 +572,9 @@ export const Cart = (props) => {
                         <Text style={[style.subText,{
                             marginBottom:50
                         }]}>{data.deal.remember}</Text>
+                        <View style={{
+                            height:30
+                        }}></View>
                     </ScrollView>
                 </View>
                     ):(
