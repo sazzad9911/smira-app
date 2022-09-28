@@ -17,7 +17,11 @@
     <key>CFBundlePackageType</key>
     <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
+<<<<<<< Updated upstream
     <string>1.0.0</string>
+=======
+    <string>6.4.0</string>
+>>>>>>> Stashed changes
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleURLTypes</key>
@@ -25,7 +29,11 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
+<<<<<<< Updated upstream
           <string>com.example.app</string>
+=======
+          <string>com.scientistx.smira</string>
+>>>>>>> Stashed changes
         </array>
       </dict>
       <dict>
@@ -41,7 +49,11 @@
         <string>OAuthRedirect</string>
         <key>CFBundleURLSchemes</key>
         <array>
+<<<<<<< Updated upstream
           <string>com.example.app</string>
+=======
+          <string>com.scientistx.smira</string>
+>>>>>>> Stashed changes
         </array>
       </dict>
     </array>

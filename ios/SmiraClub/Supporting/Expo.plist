@@ -9,7 +9,11 @@
     <key>EXUpdatesLaunchWaitMs</key>
     <integer>0</integer>
     <key>EXUpdatesSDKVersion</key>
+<<<<<<< Updated upstream
     <string>44.0.0</string>
+=======
+    <string>46.0.0</string>
+>>>>>>> Stashed changes
     <key>EXUpdatesURL</key>
     <string>https://exp.host/@anonymous/hotelbookingapp</string>
   </dict>
